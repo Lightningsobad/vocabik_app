@@ -1,0 +1,81 @@
+import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
+
+import '../../features/main_shell/presentation/screens/main_shell_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/discover/presentation/screens/discover_screen.dart';
+import '../../features/progress/presentation/screens/progress_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
+
+// TODO: Thay thế bằng các màn hình thật trong tương lai
+class PlaceholderScreen extends StatelessWidget {
+  final String title;
+  const PlaceholderScreen({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(child: Text(title)),
+    );
+  }
+}
+
+final GoRouter appRouter = GoRouter(
+  initialLocation: '/home',
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const PlaceholderScreen(title: 'Splash Screen'),
+      // Redirect to /home from splash for now to see the navigation bar
+      redirect: (context, state) => '/home',
+    ),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => const PlaceholderScreen(title: 'Login Screen'),
+    ),
+    GoRoute(
+      path: '/player',
+      builder: (context, state) => const PlaceholderScreen(title: 'Player Screen'),
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return MainShellScreen(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/home',
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/discover',
+              builder: (context, state) => const DiscoverScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/progress',
+              builder: (context, state) => const ProgressScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/profile',
+              builder: (context, state) => const ProfileScreen(),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ],
+);

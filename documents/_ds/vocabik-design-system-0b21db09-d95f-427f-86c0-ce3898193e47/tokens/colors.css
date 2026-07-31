@@ -1,0 +1,171 @@
+/* ============================================================
+   VOCABIK — COLOR TOKENS
+   Dual theme: Dark ("Music Night", default) + Light ("Study Day").
+   Base palette (raw values) → semantic aliases (use these in UI).
+   Theme is switched via [data-theme="light"] on <html> or <body>.
+   ============================================================ */
+
+:root {
+  /* ---- Brand primitives (theme-independent hues) ---- */
+  --teal-300: #5CF2E2;
+  --teal-400: #00E5CC;   /* electric teal — primary action (dark) */
+  --teal-500: #00C9B3;
+  --teal-600: #0891B2;   /* deep teal — primary action (light, AA-safe) */
+  --teal-700: #0E7490;
+
+  --purple-300: #C792FB;
+  --purple-400: #A855F7;  /* premium tier — reserved use only */
+  --purple-500: #9333EA;
+  --purple-600: #7E22CE;
+
+  /* ---- Feedback hues ---- */
+  --green-400: #22D98C;   /* correct answer */
+  --green-500: #16B877;
+  --red-400:   #FF5C72;   /* wrong answer / destructive */
+  --red-500:   #E23E54;
+  --amber-400: #FFB23E;   /* streak / warning */
+  --amber-500: #F59E0B;
+  --blue-400:  #4D9FFF;   /* info */
+
+  /* ---- CEFR level scale (A1 easiest → C1 hardest) ---- */
+  --cefr-a1: #22D98C;   /* green  */
+  --cefr-a2: #3DD5C4;   /* teal-green */
+  --cefr-b1: #4D9FFF;   /* blue   */
+  --cefr-b2: #A855F7;   /* purple */
+  --cefr-c1: #FF7A59;   /* coral  */
+
+  /* ---- Neutral ink ramp (near-black blue-tinted) ---- */
+  --ink-950: #0D0D1A;
+  --ink-900: #13131F;
+  --ink-850: #1A1A2E;
+  --ink-800: #20203A;
+  --ink-700: #2C2C44;
+  --ink-600: #3A3A52;
+  --ink-500: #5A5A72;
+  --ink-400: #8585A0;
+  --ink-300: #A8A8C0;
+  --ink-200: #C8C8DC;
+  --ink-100: #E6E6F0;
+  --ink-50:  #F4F4F9;
+  --white:   #FFFFFF;
+}
+
+/* ============================================================
+   DARK THEME — "Music Night" (default)
+   ============================================================ */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --surface-base:    var(--ink-950);  /* page background */
+  --surface-raised:  var(--ink-900);  /* sticky bars, sheets */
+  --surface-card:    var(--ink-850);  /* cards, panels */
+  --surface-card-2:  var(--ink-800);  /* nested / hovered cards */
+  --surface-overlay: rgba(7, 7, 16, 0.72); /* scrim behind modals */
+  --surface-inset:   var(--ink-900);  /* inputs, wells */
+
+  /* Text */
+  --text-primary:   #F4F4F9;
+  --text-secondary: var(--ink-300);
+  --text-tertiary:  var(--ink-400);
+  --text-disabled:  var(--ink-500);
+  --text-inverse:   var(--ink-950);
+  --text-on-accent: var(--ink-950);  /* dark ink on teal buttons */
+
+  /* Primary action */
+  --accent:         var(--teal-400);
+  --accent-hover:   var(--teal-300);
+  --accent-press:   var(--teal-500);
+  --accent-soft:    rgba(0, 229, 204, 0.14);  /* tints, glows */
+  --accent-border:  rgba(0, 229, 204, 0.30);
+
+  /* Premium */
+  --premium:        var(--purple-400);
+  --premium-hover:  var(--purple-300);
+  --premium-soft:   rgba(168, 85, 247, 0.16);
+  --premium-border: rgba(168, 85, 247, 0.40);
+
+  /* Feedback */
+  --success:      var(--green-400);
+  --success-soft: rgba(34, 217, 140, 0.16);
+  --danger:       var(--red-400);
+  --danger-soft:  rgba(255, 92, 114, 0.16);
+  --warning:      var(--amber-400);
+  --warning-soft: rgba(255, 178, 62, 0.16);
+  --info:         var(--blue-400);
+  --info-soft:    rgba(77, 159, 255, 0.16);
+
+  /* Lines & borders */
+  --border-subtle:  rgba(255, 255, 255, 0.07);
+  --border-default: rgba(255, 255, 255, 0.12);
+  --border-strong:  rgba(255, 255, 255, 0.20);
+  --border-focus:   var(--teal-400);
+
+  /* Gamification */
+  --streak:  var(--amber-400);
+  --xp:      var(--teal-300);
+  --gold:    #FFD24D;  /* leaderboard crown / 5-star */
+
+  /* Score Card genre gradients */
+  --grad-pop:  linear-gradient(135deg, #FF6FB5 0%, #FFA84D 100%); /* @kind other */
+  --grad-rap:  linear-gradient(135deg, #0E3B3A 0%, #00C9B3 100%); /* @kind other */
+  --grad-news: linear-gradient(135deg, #16234A 0%, #2C4A8A 100%); /* @kind other */
+}
+
+/* ============================================================
+   LIGHT THEME — "Study Day"
+   ============================================================ */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --surface-base:    #F4F4F9;
+  --surface-raised:  #FFFFFF;
+  --surface-card:    #FFFFFF;
+  --surface-card-2:  #F4F4F9;
+  --surface-overlay: rgba(13, 13, 26, 0.45);
+  --surface-inset:   #EEEEF5;
+
+  --text-primary:   #13131F;
+  --text-secondary: #4A4A63;
+  --text-tertiary:  #6E6E88;
+  --text-disabled:  #A8A8C0;
+  --text-inverse:   #FFFFFF;
+  --text-on-accent: #FFFFFF;  /* white on deep teal */
+
+  --accent:        var(--teal-600);  /* deeper teal — AA on light */
+  --accent-hover:  var(--teal-700);
+  --accent-press:  var(--teal-700);
+  --accent-soft:   rgba(8, 145, 178, 0.10);
+  --accent-border: rgba(8, 145, 178, 0.28);
+
+  --premium:        var(--purple-500);
+  --premium-hover:  var(--purple-600);
+  --premium-soft:   rgba(147, 51, 234, 0.10);
+  --premium-border: rgba(147, 51, 234, 0.32);
+
+  --success:      var(--green-500);
+  --success-soft: rgba(22, 184, 119, 0.12);
+  --danger:       var(--red-500);
+  --danger-soft:  rgba(226, 62, 84, 0.10);
+  --warning:      var(--amber-500);
+  --warning-soft: rgba(245, 158, 11, 0.12);
+  --info:         #2B7FFF;
+  --info-soft:    rgba(43, 127, 255, 0.10);
+
+  --border-subtle:  rgba(13, 13, 26, 0.06);
+  --border-default: rgba(13, 13, 26, 0.12);
+  --border-strong:  rgba(13, 13, 26, 0.20);
+  --border-focus:   var(--teal-600);
+
+  --streak:  #F0890B;
+  --xp:      var(--teal-600);
+  --gold:    #E5A800;
+
+  /* CEFR — slightly deepened for contrast on light surfaces */
+  --cefr-a1: #16B877;
+  --cefr-a2: #0FA999;
+  --cefr-b1: #2B7FFF;
+  --cefr-b2: #9333EA;
+  --cefr-c1: #EA5A33;
+}

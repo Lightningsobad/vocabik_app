@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/tokens/colors.css">
+<link rel="stylesheet" href="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/tokens/typography.css">
+<link rel="stylesheet" href="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/tokens/effects.css">
+<link rel="stylesheet" href="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/tokens/motion.css">
+<link rel="stylesheet" href="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/tokens/base.css">
+<link rel="stylesheet" href="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/styles.css">
+<script src="_ds/vocabik-design-system-0b21db09-d95f-427f-86c0-ce3898193e47/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  html, body { height: 100%; margin: 0; }
+  #vbScroll::-webkit-scrollbar { width: 10px; height: 10px; }
+  #vbScroll::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 99px; }
+  .vb-shelf::-webkit-scrollbar { height: 0; }
+  @keyframes vb-float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-7px); } }
+  @keyframes vb-confetti-fall { 0%{ transform: translateY(-20px) rotate(0); opacity:1; } 100%{ transform: translateY(420px) rotate(540deg); opacity:0; } }
+  .vb-page { }
+  [data-lucide] { width: 1em; height: 1em; }
+  @keyframes vb-sheet-up { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  /* ===== Android device frame ===== */
+  .vb-device-stage { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 50% 18%, #17172c 0%, #08080f 68%); padding:20px; box-sizing:border-box; }
+  .vb-phone { position:relative; width:400px; max-width:calc(100vw - 24px); height:min(880px, calc(100vh - 34px)); border-radius:48px; background:#050509; padding:5px; box-sizing:border-box; box-shadow:0 0 0 2px #26263a, 0 0 0 6px #101018, 0 34px 90px rgba(0,0,0,0.65); }
+  .vb-screen { position:relative; width:100%; height:100%; border-radius:43px; overflow:hidden; display:flex; flex-direction:column; background:var(--surface-base); --safe-bottom:16px; }
+  .vb-statusbar { position:absolute; top:0; left:0; right:0; height:36px; z-index:400; display:flex; align-items:center; justify-content:space-between; padding:0 24px 0 26px; font-size:13px; font-weight:800; font-family:var(--font-display); color:var(--text-primary); pointer-events:none; letter-spacing:0.01em; }
+  .vb-statusbar .vb-sb-icons { display:flex; align-items:center; gap:7px; }
+  .vb-statusbar .vb-sb-icons i { width:15px; height:15px; }
+  .vb-app { flex:1; min-height:0; display:flex; flex-direction:column; padding-top:36px; background:var(--surface-base); color:var(--text-primary); font-family:var(--font-body); }
+  .vb-gesture { position:absolute; left:50%; transform:translateX(-50%); bottom:8px; width:132px; height:5px; border-radius:999px; background:var(--text-primary); opacity:0.3; z-index:420; pointer-events:none; }
+  * { -webkit-tap-highlight-color: transparent; }
+  .vb-app button:active { transform: scale(0.97); }
+</style>
+</helmet>
+
+<div class="vb-device-stage">
+<div class="vb-phone">
+<div class="vb-screen" data-theme="{{ theme }}">
+  <div class="vb-statusbar">
+    <span>{{ clock }}</span>
+    <span class="vb-sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span>
+  </div>
+  <div class="vb-app">
+
+  <!-- ===== DESKTOP TOP NAV ===== -->
+  <sc-if value="{{ showTopNav }}" hint-placeholder-val="{{ true }}">
+    <header style="position:sticky; top:0; z-index:100; height:var(--topnav-h); display:flex; align-items:center; gap:var(--space-6); padding:0 var(--space-8); background:var(--glass-fill); backdrop-filter:var(--blur-md); border-bottom:1px solid var(--border-subtle);">
+      <div onClick="{{ nav.home }}" style="cursor:pointer; display:flex; align-items:center; gap:10px; margin-right:var(--space-4);">
+        <span style="width:34px; height:34px; border-radius:11px; background:var(--ink-950); border:1px solid var(--accent-border); display:flex; align-items:center; justify-content:center; position:relative;">
+          <span style="color:var(--accent); font-size:15px;">▶</span>
+          <span style="position:absolute; bottom:6px; width:15px; height:2.6px; border-radius:2px; background:var(--premium);"></span>
+        </span>
+        <span style="font-family:var(--font-display); font-weight:900; font-size:20px; letter-spacing:-0.02em;">Vocab<span style="color:var(--accent);">ik</span></span>
+      </div>
+      <nav style="display:flex; align-items:center; gap:var(--space-1);">
+        <button onClick="{{ nav.home }}" style="{{ topLinkHome }}">Thư viện</button>
+        <button onClick="{{ nav.discover }}" style="{{ topLinkDiscover }}">Khám phá</button>
+        <sc-if value="{{ isAuthed }}" hint-placeholder-val="{{ true }}"><button onClick="{{ nav.progress }}" style="{{ topLinkProgress }}">Tiến độ</button></sc-if>
+        <sc-if value="{{ isAnon }}" hint-placeholder-val="{{ true }}"><button onClick="{{ nav.pricing }}" style="{{ topLinkPricing }}">Bảng giá</button></sc-if>
+      </nav>
+      <div style="margin-left:auto; display:flex; align-items:center; gap:var(--space-3);">
+        <button onClick="{{ toggleTheme }}" title="Đổi giao diện" style="width:40px; height:40px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-secondary); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:17px;">{{ themeIcon }}</button>
+        <button onClick="{{ openSitemap }}" title="Tất cả trang" style="width:40px; height:40px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-secondary); cursor:pointer; display:flex; align-items:center; justify-content:center;"><i data-lucide="layout-grid"></i></button>
+        <sc-if value="{{ isAuthed }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; align-items:center; gap:14px; padding:0 6px 0 12px; border-left:1px solid var(--border-subtle);">
+            <span style="display:flex; align-items:center; gap:5px; font-weight:800; font-family:var(--font-display); color:var(--streak);">🔥 {{ streak }}</span>
+            <span style="display:flex; align-items:center; gap:5px; font-weight:800; font-family:var(--font-display); color:var(--xp);">⚡ {{ xp }}</span>
+            <div style="position:relative;">
+              <div onClick="{{ toggleAvatarMenu }}" style="cursor:pointer; position:relative;"><span style="width:38px; height:38px; border-radius:50%; background:var(--surface-card-2); border:1px solid var(--border-default); color:var(--text-secondary); display:inline-flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:800; font-size:14px;">AN</span><sc-if value="{{ isPremium }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; bottom:-2px; right:-2px; width:16px; height:16px; border-radius:50%; background:var(--premium); border:2px solid var(--surface-base); display:flex; align-items:center; justify-content:center; color:#fff; font-size:9px;">★</span></sc-if></div>
+              <sc-if value="{{ avatarMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ closeAvatarMenu }}" style="position:fixed; inset:0; z-index:110;"></div>
+                <div style="position:absolute; top:48px; right:0; z-index:120; width:240px; background:var(--surface-card); border:1px solid var(--border-default); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); padding:8px; display:flex; flex-direction:column;">
+                  <div style="padding:10px 12px 12px; border-bottom:1px solid var(--border-subtle); margin-bottom:6px;"><div style="font-weight:800; font-family:var(--font-display);">An Nguyễn</div><div style="font-size:12px; color:var(--text-tertiary);">an.nguyen@gmail.com</div></div>
+                  <button onClick="{{ nav.settings }}" style="{{ menuItem }}"><i data-lucide="user"></i> Hồ sơ & Cài đặt</button>
+                  <button onClick="{{ nav.achievements }}" style="{{ menuItem }}">🏅 Thành tích</button>
+                  <button onClick="{{ nav.notebook }}" style="{{ menuItem }}">📖 Sổ từ vựng</button>
+                  <button onClick="{{ nav.leaderboard }}" style="{{ menuItem }}">🏆 Bảng xếp hạng</button>
+                  <button onClick="{{ nav.classroom }}" style="{{ menuItem }}"><i data-lucide="graduation-cap"></i> Lớp học</button>
+                  <button onClick="{{ navSub }}" style="{{ menuItem }}">💎 Subscription</button>
+                  <div style="height:1px; background:var(--border-subtle); margin:6px 4px;"></div>
+                  <button onClick="{{ doLogout }}" style="{{ menuItemDanger }}"><i data-lucide="log-out"></i> Đăng xuất</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isAnon }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button onClick="{{ nav.login }}" style="height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--border-default); background:transparent; color:var(--text-primary); font-family:var(--font-display); font-weight:700; cursor:pointer;">Đăng nhập</button>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" on-click="{{ nav.register }}" hint-size="120px,44px">Đăng ký →</x-import>
+          </div>
+        </sc-if>
+      </div>
+    </header>
+  </sc-if>
+
+  <!-- ===== MOBILE HEADER ===== -->
+  <sc-if value="{{ showMobileHeader }}" hint-placeholder-val="{{ true }}">
+    <header style="position:sticky; top:0; z-index:100; height:56px; display:flex; align-items:center; gap:var(--space-3); padding:0 var(--space-4); background:var(--glass-fill); backdrop-filter:var(--blur-md); border-bottom:1px solid var(--border-subtle);">
+      <div onClick="{{ nav.home }}" style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+        <span style="width:30px; height:30px; border-radius:9px; background:var(--ink-950); border:1px solid var(--accent-border); display:flex; align-items:center; justify-content:center; position:relative;">
+          <span style="color:var(--accent); font-size:13px;">▶</span>
+          <span style="position:absolute; bottom:5px; width:13px; height:2.4px; border-radius:2px; background:var(--premium);"></span>
+        </span>
+        <span style="font-family:var(--font-display); font-weight:900; font-size:17px; letter-spacing:-0.02em;">Vocab<span style="color:var(--accent);">ik</span></span>
+      </div>
+      <div style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+        <sc-if value="{{ isAuthed }}" hint-placeholder-val="{{ true }}">
+          <span style="display:flex; align-items:center; gap:3px; font-weight:800; font-size:13px; font-family:var(--font-display); color:var(--streak);">🔥 {{ streak }}</span>
+          <span style="display:flex; align-items:center; gap:3px; font-weight:800; font-size:13px; font-family:var(--font-display); color:var(--xp);">⚡ {{ xp }}</span>
+        </sc-if>
+        <button onClick="{{ toggleLang }}" title="Language" style="height:34px; min-width:38px; padding:0 10px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-secondary); cursor:pointer; font-size:12px; font-weight:800; font-family:var(--font-display);">{{ langLabel }}</button>
+        <button onClick="{{ toggleTheme }}" style="width:34px; height:34px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-secondary); cursor:pointer; font-size:15px;">{{ themeIcon }}</button>
+        <button onClick="{{ openSitemap }}" style="width:34px; height:34px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-secondary); cursor:pointer; display:flex; align-items:center; justify-content:center;"><i data-lucide="layout-grid"></i></button>
+      </div>
+    </header>
+  </sc-if>
+
+  <!-- ===== CONTENT ===== -->
+  <main id="vbScroll" style="flex:1; overflow-y:auto; min-height:0;">
+
+    <!-- ============ HOME ============ -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div class="vb-page" style="max-width:1120px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 40px);">
+
+        <!-- Daily Picks -->
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:var(--space-3);">
+          <h1 style="font-size:var(--text-2xl);">☀️ Tuyển chọn cho bạn hôm nay</h1>
+        </div>
+        <div style="display:grid; grid-template-columns:{{ heroCols }}; gap:16px; align-items:stretch;">
+          <!-- Featured pick -->
+          <div onClick="{{ dailyFeatured.open }}" style="position:relative; aspect-ratio:16/10; min-height:240px; border-radius:var(--radius-xl); overflow:hidden; cursor:pointer; background:{{ dailyFeatured.thumbColor }}; box-shadow:var(--shadow-md);">
+            <div style="position:absolute; inset:0; background:radial-gradient(120% 90% at 30% 15%, rgba(255,255,255,0.22), transparent 55%);"></div>
+            <div style="position:absolute; inset:0; background:var(--scrim-bottom);"></div>
+            <span style="position:absolute; top:14px; left:14px; display:inline-flex; align-items:center; gap:6px; height:26px; padding:0 11px; border-radius:999px; background:rgba(7,7,16,0.55); backdrop-filter:blur(6px); color:#fff; font-size:12px; font-weight:800; letter-spacing:0.04em;"><span style="width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:var(--glow-accent);"></span> DAILY PICK</span>
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+              <span style="width:62px; height:62px; border-radius:50%; background:var(--accent); color:var(--text-on-accent); box-shadow:var(--glow-accent); display:flex; align-items:center; justify-content:center; font-size:24px; padding-left:4px;">▶</span>
+            </div>
+            <div style="position:absolute; left:0; right:0; bottom:0; padding:var(--space-5); color:#fff;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <x-import component-from-global-scope="VocabikDesignSystem_0b21db.LevelBadge" level="{{ dailyFeatured.level }}" size="md" hint-size="34px,22px"></x-import>
+                <span style="height:22px; padding:0 9px; border-radius:999px; background:rgba(255,255,255,0.18); backdrop-filter:blur(6px); font-size:12px; font-weight:700; display:inline-flex; align-items:center;">🎵 {{ dailyFeatured.genre }}</span>
+                <span style="font-size:12px; opacity:0.9;">⏱ {{ dailyFeatured.duration }}</span>
+              </div>
+              <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-2xl); line-height:1.05;">{{ dailyFeatured.title }}</div>
+              <div style="font-size:14px; opacity:0.9; margin-top:2px;">{{ dailyFeatured.artist }} · 👥 {{ dailyFeatured.practiced }} đã luyện</div>
+            </div>
+          </div>
+          <!-- Daily list -->
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="font-size:11px; font-weight:800; letter-spacing:0.08em; color:var(--text-tertiary); text-transform:uppercase;">Cũng dành cho bạn</div>
+            <sc-for list="{{ dailyList }}" as="p" hint-placeholder-count="3">
+              <div onClick="{{ p.open }}" style="flex:1; display:flex; align-items:center; gap:12px; padding:10px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-md); cursor:pointer;">
+                <div style="position:relative; width:96px; height:58px; flex:0 0 auto; border-radius:var(--radius-sm); overflow:hidden; background:{{ p.thumbColor }};">
+                  <span style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:26px; height:26px; border-radius:50%; background:rgba(7,7,16,0.5); backdrop-filter:blur(4px); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; padding-left:2px;">▶</span>
+                </div>
+                <div style="flex:1; min-width:0;">
+                  <div style="font-family:var(--font-display); font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ p.title }}</div>
+                  <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
+                    <x-import component-from-global-scope="VocabikDesignSystem_0b21db.LevelBadge" level="{{ p.level }}" size="sm" hint-size="30px,18px"></x-import>
+                    <span style="font-size:12px; color:var(--text-tertiary);">{{ p.genre }} · {{ p.duration }}</span>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- Daily counter (free) / Premium URL field -->
+        <sc-if value="{{ isFree }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:var(--space-4); display:flex; align-items:center; gap:var(--space-4); padding:var(--space-4) var(--space-5); background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-weight:700; font-family:var(--font-display);">Hôm nay</span>
+                <span style="font-size:13px; color:var(--text-tertiary);">2 / 5 bài</span>
+              </div>
+              <x-import component-from-global-scope="VocabikDesignSystem_0b21db.ProgressBar" value="40" hint-size="100%,8px"></x-import>
+            </div>
+            <button onClick="{{ nav.pricing }}" style="flex:0 0 auto; height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--premium-border); background:var(--premium-soft); color:var(--premium); font-family:var(--font-display); font-weight:800; cursor:pointer; font-size:13px;">⚡ Không giới hạn</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isPremium }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:var(--space-4); padding:var(--space-5); background:var(--surface-card); border:1px solid var(--premium-border); border-radius:var(--radius-lg); box-shadow:var(--glow-premium);">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;"><span style="font-size:18px;">🎬</span><span style="font-family:var(--font-display); font-weight:800;">Luyện video YouTube bất kỳ</span><span style="margin-left:auto; font-size:11px; font-weight:800; letter-spacing:0.08em; color:var(--premium);">PREMIUM</span></div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <div style="flex:1; min-width:220px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" placeholder="Dán link YouTube..." hint-size="100%,44px"></x-import></div>
+              <button style="height:44px; padding:0 16px; border-radius:14px; border:1px solid var(--border-default); background:var(--surface-inset); color:var(--text-primary); font-weight:700; cursor:pointer;">B1 ▼</button>
+              <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="premium" on-click="{{ heroPlay }}" hint-size="140px,44px">Tạo bài tập →</x-import>
+            </div>
+            <button onClick="{{ nav.suggest }}" style="margin-top:12px; background:none; border:none; color:var(--premium); font-weight:700; cursor:pointer; font-size:13px;">⭐ Gợi ý video cho thư viện →</button>
+          </div>
+        </sc-if>
+
+        <!-- Level filter -->
+        <div class="vb-shelf" style="margin-top:var(--space-6); display:flex; gap:8px; overflow-x:auto; padding-bottom:2px;">
+          <sc-for list="{{ levelChips }}" as="c" hint-placeholder-count="6">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.FilterChip" selected="{{ c.selected }}" on-click="{{ c.onClick }}" hint-size="60px,36px">{{ c.label }}</x-import>
+          </sc-for>
+        </div>
+
+        <!-- Daily Challenge widget (v2.0) -->
+        <sc-if value="{{ isAuthed }}" hint-placeholder-val="{{ true }}">
+          <div onClick="{{ nav.daily }}" style="margin-top:var(--space-6); cursor:pointer; display:flex; align-items:center; gap:14px; padding:16px 18px; border-radius:var(--radius-lg); background:linear-gradient(120deg, var(--accent-soft), transparent); border:1px solid var(--accent-border);">
+            <span style="font-size:26px;">🏆</span>
+            <div style="flex:1; min-width:0;"><div style="font-weight:800; font-family:var(--font-display);">Daily Challenge hôm nay</div><div style="font-size:13px; color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Blinding Lights · 1,247 người đang tham gia</div></div>
+            <span style="font-family:var(--font-display); font-weight:800; color:var(--warning); font-size:13px; white-space:nowrap;">⏱ 08:42</span>
+            <i data-lucide="chevron-right" style="color:var(--text-tertiary);"></i>
+          </div>
+        </sc-if>
+
+        <!-- Trending shelf -->
+        <div style="margin-top:var(--space-6); display:flex; align-items:center; justify-content:space-between;">
+          <h2 style="font-size:var(--text-xl);">Trending tuần này 🔥</h2>
+          <button onClick="{{ nav.discover }}" style="background:none; border:none; color:var(--accent); font-weight:700; cursor:pointer; font-size:14px;">Xem tất cả →</button>
+        </div>
+        <div class="vb-shelf" style="margin-top:var(--space-3); display:flex; gap:14px; overflow-x:auto; padding-bottom:6px; scroll-snap-type:x mandatory;">
+          <sc-for list="{{ trending }}" as="v" hint-placeholder-count="4">
+            <div style="flex:0 0 250px; scroll-snap-align:start;">
+              <x-import component-from-global-scope="VocabikDesignSystem_0b21db.VideoCard" title="{{ v.title }}" artist="{{ v.artist }}" level="{{ v.level }}" genre="{{ v.genre }}" duration="{{ v.duration }}" practiced="{{ v.practiced }}" thumb-color="{{ v.thumbColor }}" is-new="{{ v.isNew }}" state="{{ v.state }}" progress="{{ v.progress }}" on-click="{{ v.open }}" hint-size="250px,230px"></x-import>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- New additions -->
+        <div style="margin-top:var(--space-6);"><h2 style="font-size:var(--text-xl);">Mới thêm ✨</h2></div>
+        <div class="vb-shelf" style="margin-top:var(--space-3); display:flex; gap:14px; overflow-x:auto; padding-bottom:6px; scroll-snap-type:x mandatory;">
+          <sc-for list="{{ newAdds }}" as="v" hint-placeholder-count="4">
+            <div style="flex:0 0 250px; scroll-snap-align:start;">
+              <x-import component-from-global-scope="VocabikDesignSystem_0b21db.VideoCard" title="{{ v.title }}" artist="{{ v.artist }}" level="{{ v.level }}" genre="{{ v.genre }}" duration="{{ v.duration }}" practiced="{{ v.practiced }}" thumb-color="{{ v.thumbColor }}" is-new="{{ v.isNew }}" state="{{ v.state }}" progress="{{ v.progress }}" on-click="{{ v.open }}" hint-size="250px,230px"></x-import>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- Library grid -->
+        <div style="margin-top:var(--space-8); display:flex; align-items:center; justify-content:space-between;">
+          <h2 style="font-size:var(--text-xl);">Thư viện</h2>
+          <span style="font-size:13px; color:var(--text-tertiary);">{{ libraryCount }} video</span>
+        </div>
+        <div style="margin-top:var(--space-3); display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:14px;">
+          <sc-for list="{{ library }}" as="v" hint-placeholder-count="8">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.VideoCard" title="{{ v.title }}" artist="{{ v.artist }}" level="{{ v.level }}" genre="{{ v.genre }}" duration="{{ v.duration }}" practiced="{{ v.practiced }}" thumb-color="{{ v.thumbColor }}" is-new="{{ v.isNew }}" state="{{ v.state }}" progress="{{ v.progress }}" on-click="{{ v.open }}" hint-size="100%,230px"></x-import>
+          </sc-for>
+        </div>
+
+        <!-- Footer -->
+        <div style="margin-top:var(--space-10); padding-top:var(--space-5); border-top:1px solid var(--border-subtle); display:flex; flex-wrap:wrap; align-items:center; gap:16px;">
+          <span style="font-family:var(--font-display); font-weight:900; font-size:15px;">Vocab<span style="color:var(--accent);">ik</span></span>
+          <button onClick="{{ nav.pricing }}" style="{{ footLink }}">Bảng giá</button>
+          <button onClick="{{ nav.privacy }}" style="{{ footLink }}">Chính sách bảo mật</button>
+          <button onClick="{{ nav.terms }}" style="{{ footLink }}">Điều khoản</button>
+          <span style="margin-left:auto; font-size:12px; color:var(--text-tertiary);">© 2026 Vocabik</span>
+        </div>
+      </div>
+
+      <!-- Anon sticky CTA -->
+      <sc-if value="{{ isAnon }}" hint-placeholder-val="{{ true }}">
+        <div style="position:sticky; bottom:0; z-index:90; padding:var(--space-3) var(--space-4) calc(var(--space-3) + var(--safe-bottom)); background:var(--glass-fill); backdrop-filter:var(--blur-md); border-top:1px solid var(--border-subtle); display:flex; align-items:center; gap:var(--space-3);">
+          <span style="flex:1; font-size:14px; color:var(--text-secondary);">Tạo tài khoản miễn phí để lưu tiến độ.</span>
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" on-click="{{ nav.register }}" hint-size="150px,44px">Đăng ký miễn phí →</x-import>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <!-- ============ EXERCISE PRE-PLAY ============ -->
+    <sc-if value="{{ isExercise }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:660px; margin:0 auto; padding:var(--space-4) var(--space-4) calc(var(--space-16) + 30px);">
+        <button onClick="{{ nav.home }}" style="display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--text-secondary); font-weight:600; cursor:pointer; padding:6px 0; margin-bottom:6px;"><i data-lucide="arrow-left"></i> Quay lại</button>
+
+        <div onClick="{{ startPlayer }}" style="position:relative; aspect-ratio:16/9; border-radius:var(--radius-xl); overflow:hidden; cursor:pointer; background:{{ exThumb }}; box-shadow:var(--shadow-md);">
+          <div style="position:absolute; inset:0; background:radial-gradient(120% 90% at 30% 20%, rgba(255,255,255,0.22), transparent 60%);"></div>
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+            <span style="width:72px; height:72px; border-radius:50%; background:var(--accent); color:var(--text-on-accent); box-shadow:var(--glow-accent); display:flex; align-items:center; justify-content:center; font-size:28px; padding-left:5px;">▶</span>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin-top:var(--space-4);">
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.LevelBadge" level="{{ exLevel }}" size="lg" hint-size="40px,28px"></x-import>
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Tag" hint-size="54px,22px">🎵 {{ exGenre }}</x-import>
+          <span style="font-size:13px; color:var(--text-tertiary);">⏱ {{ exDuration }}</span>
+        </div>
+        <h1 style="font-size:var(--text-2xl); margin-top:8px;">{{ exTitle }}</h1>
+        <p style="color:var(--text-secondary); margin-top:2px;">{{ exArtist }}</p>
+
+        <div style="margin-top:var(--space-5); display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div style="padding:14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); display:flex; align-items:center; gap:10px;">
+            <span style="font-size:20px;">📝</span><div><div style="font-weight:700; font-family:var(--font-display);">{{ exModeLabel }}</div><div style="font-size:12px; color:var(--text-tertiary);">Dạng bài</div></div>
+          </div>
+          <div style="padding:14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); display:flex; align-items:center; gap:10px;">
+            <span style="font-size:20px;">🔲</span><div><div style="font-weight:700; font-family:var(--font-display);">20 chỗ trống</div><div style="font-size:12px; color:var(--text-tertiary);">Độ dài</div></div>
+          </div>
+        </div>
+
+        <!-- Mode toggle -->
+        <div style="margin-top:var(--space-4); display:flex; gap:8px; padding:5px; background:var(--surface-inset); border-radius:999px; width:fit-content;">
+          <button onClick="{{ setModeMC }}" style="{{ modeMCStyle }}">Fill-blank</button>
+          <button onClick="{{ setModeFree }}" style="{{ modeFreeStyle }}">Tự gõ đáp án</button>
+        </div>
+
+        <!-- Version selector -->
+        <div style="margin-top:var(--space-5); font-size:12px; font-weight:800; letter-spacing:0.06em; color:var(--text-tertiary); text-transform:uppercase; margin-bottom:10px;">Phiên bản</div>
+        <div class="vb-shelf" style="display:flex; gap:10px; overflow-x:auto;">
+          <sc-for list="{{ exVersions }}" as="v" hint-placeholder-count="3">
+            <button onClick="{{ v.onClick }}" style="{{ v.style }}">
+              <span style="display:flex; align-items:center; gap:6px; font-family:var(--font-display); font-weight:800; font-size:14px;">{{ v.label }} <sc-if value="{{ v.locked }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;">🔒</span></sc-if></span>
+              <span style="font-size:11px; color:var(--text-tertiary);">{{ v.sub }}</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <!-- Community reactions -->
+        <div style="margin-top:var(--space-5); display:flex; gap:8px; flex-wrap:wrap;">
+          <span style="display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 14px; border-radius:999px; background:var(--surface-card-2); border:1px solid var(--border-subtle); font-weight:600; font-size:14px;">💪 <b style="font-family:var(--font-display);">{{ exReactCh }}</b></span>
+          <span style="display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 14px; border-radius:999px; background:var(--surface-card-2); border:1px solid var(--border-subtle); font-weight:600; font-size:14px;">🎵 <b style="font-family:var(--font-display);">{{ exReactEn }}</b></span>
+          <span style="display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 14px; border-radius:999px; background:var(--surface-card-2); border:1px solid var(--border-subtle); font-weight:600; font-size:14px;">📚 <b style="font-family:var(--font-display);">{{ exReactVo }}</b></span>
+        </div>
+
+        <!-- Last attempt -->
+        <div style="margin-top:var(--space-5); display:flex; align-items:center; gap:10px; padding:14px 16px; background:var(--success-soft); border:1px solid color-mix(in srgb, var(--success) 30%, transparent); border-radius:var(--radius-md);">
+          <span style="font-size:18px;">✅</span><span style="font-size:14px; color:var(--text-secondary);">Lần trước: <b style="color:var(--text-primary);">85%</b> · 15/03/2026</span>
+        </div>
+
+        <div style="margin-top:var(--space-6);">
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" size="xl" full-width="{{ true }}" on-click="{{ startPlayer }}" hint-size="100%,60px">Bắt đầu luyện →</x-import>
+        </div>
+        <button style="width:100%; margin-top:12px; height:44px; border-radius:999px; background:transparent; border:1px solid var(--border-default); color:var(--text-secondary); font-weight:600; cursor:pointer;">🔗 Chia sẻ bài này</button>
+      </div>
+    </sc-if>
+
+    <!-- ============ PLAYER (active) ============ -->
+    <sc-if value="{{ isPlayer }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100vh; display:flex; flex-direction:column; background:var(--surface-base);">
+        <!-- top bar -->
+        <div style="display:flex; align-items:center; gap:14px; padding:14px var(--space-5); position:sticky; top:0; background:var(--glass-fill); backdrop-filter:var(--blur-md); z-index:20;">
+          <div style="flex:1; height:8px; background:var(--surface-inset); border-radius:999px; overflow:hidden;">
+            <div style="height:100%; width:{{ playerProgressW }}; background:var(--accent); border-radius:999px; transition:width var(--dur-slow) var(--ease-out);"></div>
+          </div>
+          <span style="font-size:13px; font-weight:800; font-family:var(--font-display); color:var(--text-secondary); white-space:nowrap;">{{ blankNum }}/{{ blankTotal }}</span>
+          <button onClick="{{ exitPlayer }}" style="width:36px; height:36px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-secondary); cursor:pointer;">✕</button>
+        </div>
+
+        <div style="flex:1; display:flex; flex-direction:{{ playerColDir }}; gap:0; align-items:{{ playerRowAlign }};">
+          <!-- left: video stage -->
+          <div style="flex:{{ playerVideoFlex }}; align-self:{{ playerVideoAlign }}; display:flex; flex-direction:column; justify-content:center; gap:16px; padding:{{ playerStagePad }}; min-width:0;">
+
+            <!-- now playing header (desktop) -->
+            <sc-if value="{{ playerShowMeta }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                <x-import component-from-global-scope="VocabikDesignSystem_0b21db.LevelBadge" level="{{ exLevel }}" size="lg" hint-size="40px,28px"></x-import>
+                <div style="min-width:0; flex:1;">
+                  <div style="font-size:11px; font-weight:800; letter-spacing:0.1em; color:var(--accent);">ĐANG LUYỆN</div>
+                  <div style="font-family:var(--font-display); font-weight:800; font-size:var(--text-lg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ exTitle }}</div>
+                  <div style="font-size:13px; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ exArtist }}</div>
+                </div>
+                <span style="font-size:12px; color:var(--text-tertiary); white-space:nowrap;">🎵 {{ exGenre }} · ⏱ {{ exDuration }}</span>
+              </div>
+            </sc-if>
+
+            <!-- video 16:9 -->
+            <div style="width:100%; aspect-ratio:16/9; position:relative; border-radius:{{ playerVideoRadius }}; overflow:hidden; background:{{ exThumb }}; background-size:cover; background-position:center; display:flex; align-items:flex-end; box-shadow:var(--shadow-lg);">
+              <div style="position:absolute; inset:0; background:rgba(7,7,16,0.30);"></div>
+              <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:60px; height:60px; border-radius:50%; background:var(--glass-fill); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px;">❚❚</div>
+              <!-- seekbar with dots -->
+              <div style="position:relative; width:100%; padding:0 18px 18px; z-index:2;">
+                <div style="position:relative; height:6px; background:rgba(255,255,255,0.25); border-radius:999px;">
+                  <div style="position:absolute; left:0; top:0; bottom:0; width:{{ playerProgressW }}; background:#fff; border-radius:999px;"></div>
+                  <sc-for list="{{ dots }}" as="d" hint-placeholder-count="6">
+                    <span style="position:absolute; top:50%; left:{{ d.left }}; transform:translate(-50%,-50%); width:11px; height:11px; border-radius:50%; background:{{ d.color }}; border:2px solid rgba(7,7,16,0.5);"></span>
+                  </sc-for>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:12px;">
+                  <button style="width:36px; height:36px; border-radius:999px; border:none; background:var(--glass-fill); backdrop-filter:blur(8px); color:#fff; cursor:pointer;">🔊</button>
+                  <span style="font-size:12px; color:rgba(255,255,255,0.85); font-weight:600;">{{ exTitle }} · {{ exLevel }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- info dock (desktop) -->
+            <sc-if value="{{ playerShowMeta }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                <div style="display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 14px; border-radius:999px; background:var(--surface-card); border:1px solid var(--border-subtle);">
+                  <span style="font-size:13px; color:var(--text-tertiary);">Chỗ trống</span>
+                  <span style="font-family:var(--font-display); font-weight:900; font-size:14px;">{{ blankNum }}/{{ blankTotal }}</span>
+                </div>
+                <div style="display:inline-flex; align-items:center; gap:6px; height:34px; padding:0 14px; border-radius:999px; background:var(--accent-soft); border:1px solid var(--accent-border);">
+                  <span>⚡</span><span style="font-family:var(--font-display); font-weight:900; font-size:14px; color:var(--xp);">{{ playerXp }} XP</span>
+                </div>
+                <div style="display:inline-flex; align-items:center; gap:6px; height:34px; padding:0 14px; border-radius:999px; background:var(--warning-soft); border:1px solid color-mix(in srgb, var(--streak) 30%, transparent);">
+                  <span>🔥</span><span style="font-family:var(--font-display); font-weight:900; font-size:14px; color:var(--streak);">5 ngày</span>
+                </div>
+                <div style="flex:1;"></div>
+                <div style="display:inline-flex; align-items:center; gap:4px;">
+                  <span style="font-size:12px; color:var(--text-tertiary); margin-right:4px;">Cảm nhận:</span>
+                  <sc-for list="{{ playerReactions }}" as="rx" hint-placeholder-count="3">
+                    <button onClick="{{ rx.onClick }}" style="{{ rx.style }}">{{ rx.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- panel -->
+          <div style="flex:{{ playerPanelFlex }}; display:flex; flex-direction:column; gap:var(--space-4); padding:var(--space-6) var(--space-5); background:var(--surface-raised); border-radius:{{ panelRadius }}; margin-top:{{ panelMt }}; max-width:{{ panelMaxW }}; width:100%; margin-left:auto; margin-right:auto;">
+            <div style="width:44px; height:5px; border-radius:999px; background:var(--border-strong); align-self:center;"></div>
+
+            <div style="font-size:var(--text-lg); line-height:1.7; color:var(--text-primary); text-align:center; padding:8px 0;">
+              {{ blankPre }} <span style="{{ blankStyle }}">{{ blankDisplay }}</span> {{ blankPost }}
+            </div>
+
+            <button onClick="{{ toggleTranslation }}" style="align-self:center; display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--accent); font-weight:600; cursor:pointer; font-size:14px;">🌐 {{ translationLabel }}</button>
+            <sc-if value="{{ showTranslation }}" hint-placeholder-val="{{ false }}">
+              <div style="text-align:center; color:var(--text-tertiary); font-size:14px; margin-top:-8px; font-style:italic;">{{ blankVi }}</div>
+            </sc-if>
+
+            <!-- MC options -->
+            <sc-if value="{{ exModeMC }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:4px;">
+                <sc-for list="{{ mcOptions }}" as="o" hint-placeholder-count="4">
+                  <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <!-- Free text -->
+            <sc-if value="{{ exModeFree }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; flex-direction:column; gap:10px; margin-top:4px;">
+                <input value="{{ freeInput }}" onChange="{{ onFreeInput }}" onKeyDown="{{ onFreeKey }}" placeholder="Gõ đáp án..." style="height:52px; padding:0 16px; border-radius:var(--radius-md); border:1.5px solid var(--border-default); background:var(--surface-inset); color:var(--text-primary); font-size:18px; font-family:var(--font-body); outline:none; text-align:center;">
+              </div>
+            </sc-if>
+
+            <!-- feedback -->
+            <sc-if value="{{ revealed }}" hint-placeholder-val="{{ false }}">
+              <div style="text-align:center; font-weight:700; font-family:var(--font-display); color:{{ feedbackColor }};">{{ feedbackMsg }}</div>
+            </sc-if>
+
+            <!-- actions -->
+            <div style="display:flex; gap:12px; align-items:center; margin-top:4px;">
+              <sc-if value="{{ revealed }}" hint-placeholder-val="{{ false }}">
+                <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" full-width="{{ true }}" on-click="{{ nextBlank }}" hint-size="100%,44px">{{ nextLabel }}</x-import>
+              </sc-if>
+              <sc-if value="{{ notRevealed }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ useHint }}" style="flex:0 0 auto; height:44px; padding:0 16px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--warning); font-weight:700; cursor:pointer; font-size:13px; opacity:{{ hintOpacity }};">💡 Gợi ý</button>
+                <sc-if value="{{ exModeFree }}" hint-placeholder-val="{{ false }}">
+                  <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" full-width="{{ true }}" on-click="{{ submitFree }}" hint-size="100%,44px">Kiểm tra</x-import>
+                </sc-if>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ RESULT / SCORE CARD ============ -->
+    <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:560px; margin:0 auto; padding:var(--space-6) var(--space-4) calc(var(--space-16) + 30px); position:relative;">
+        <sc-if value="{{ resultGreat }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute; inset:0 0 auto 0; height:340px; overflow:hidden; pointer-events:none;">
+            <sc-for list="{{ confetti }}" as="c" hint-placeholder-count="14">
+              <span style="position:absolute; top:0; left:{{ c.left }}; width:9px; height:9px; background:{{ c.color }}; border-radius:2px; animation:vb-confetti-fall {{ c.dur }} var(--ease-out) {{ c.delay }} forwards;"></span>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <div style="text-align:center; position:relative;">
+          <div style="font-size:42px;">{{ resultEmoji }}</div>
+          <div style="margin-top:8px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.StarRating" value="{{ scoreStars }}" size="30" hint-size="170px,30px"></x-import></div>
+          <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-5xl); line-height:1; margin-top:14px; color:var(--accent);">{{ finalPct }}%</div>
+          <div style="display:flex; justify-content:center; gap:18px; margin-top:14px; font-size:14px; color:var(--text-secondary);">
+            <span>✅ {{ correctCount }} đúng</span><span>❌ {{ wrongCount }} sai</span><span>⏱ 4:23</span>
+          </div>
+        </div>
+
+        <!-- gamification -->
+        <div style="margin-top:var(--space-6); display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:120px; padding:14px; border-radius:var(--radius-lg); background:var(--accent-soft); border:1px solid var(--accent-border); text-align:center;">
+            <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-2xl); color:var(--xp);">+20</div><div style="font-size:12px; color:var(--text-tertiary);">⚡ XP nhận được</div>
+          </div>
+          <div style="flex:1; min-width:120px; padding:14px; border-radius:var(--radius-lg); background:var(--warning-soft); border:1px solid color-mix(in srgb, var(--streak) 30%, transparent); text-align:center;">
+            <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-2xl); color:var(--streak);">🔥 5</div><div style="font-size:12px; color:var(--text-tertiary);">ngày liên tiếp</div>
+          </div>
+        </div>
+        <div style="margin-top:12px; padding:14px 16px; border-radius:var(--radius-lg); background:var(--surface-card); border:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px;">
+          <span style="font-size:26px;">🏅</span><div><div style="font-weight:800; font-family:var(--font-display);">Badge mới: First B2!</div><div style="font-size:12px; color:var(--text-tertiary);">Hoàn thành bài B2 đầu tiên</div></div>
+        </div>
+
+        <!-- wrong review -->
+        <sc-if value="{{ hasWrong }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-6); font-weight:800; font-family:var(--font-display); margin-bottom:10px;">Sai ở đâu?</div>
+          <sc-for list="{{ wrongList }}" as="w" hint-placeholder-count="2">
+            <div style="padding:12px 14px; margin-bottom:8px; border-radius:var(--radius-md); background:var(--surface-card); border:1px solid var(--border-subtle);">
+              <div style="font-size:12px; color:var(--text-tertiary); margin-bottom:4px;">Chỗ trống {{ w.idx }}</div>
+              <div style="font-size:15px;">{{ w.pre }} <b style="color:var(--success);">{{ w.answer }}</b> {{ w.post }}</div>
+            </div>
+          </sc-for>
+        </sc-if>
+
+        <!-- share card -->
+        <div style="margin-top:var(--space-6); font-weight:800; font-family:var(--font-display); margin-bottom:10px;">Chia sẻ</div>
+        <div style="border-radius:var(--radius-xl); overflow:hidden; background:{{ exThumb }}; padding:var(--space-5); box-shadow:var(--shadow-lg); position:relative;">
+          <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(7,7,16,0.55), rgba(7,7,16,0.25));"></div>
+          <div style="position:relative; color:#fff;">
+            <div style="display:flex; align-items:center; gap:8px; font-family:var(--font-display); font-weight:900;"><span>🎵</span> VOCABIK</div>
+            <div style="margin-top:18px; font-family:var(--font-display); font-weight:800; font-size:20px;">{{ exTitle }}</div>
+            <div style="font-size:13px; opacity:0.85;">{{ exLevel }} · {{ exGenre }}</div>
+            <div style="font-family:var(--font-display); font-weight:900; font-size:48px; margin-top:14px;">⭐ {{ finalPct }}%</div>
+            <div style="font-size:12px; opacity:0.8; margin-top:14px;">vocabik.com/exercise/{{ exSlug }}</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:14px;">
+          <button style="flex:1; height:44px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; cursor:pointer;">📸 Instagram</button>
+          <button style="flex:1; height:44px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; cursor:pointer;">🔗 Copy</button>
+        </div>
+
+        <!-- next -->
+        <div style="margin-top:var(--space-6); display:flex; flex-direction:column; gap:10px;">
+          <button onClick="{{ nav.challenge }}" style="height:44px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; font-family:var(--font-display); cursor:pointer;">⚔️ Thách bạn bè</button>
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="secondary" full-width="{{ true }}" on-click="{{ nav.home }}" hint-size="100%,44px">Bài tiếp theo gợi ý →</x-import>
+          <button onClick="{{ retryExercise }}" style="height:44px; border-radius:999px; border:1px solid var(--border-default); background:transparent; color:var(--text-secondary); font-weight:700; cursor:pointer;">Luyện lại</button>
+          <button onClick="{{ nav.home }}" style="height:44px; border:none; background:none; color:var(--text-tertiary); font-weight:600; cursor:pointer;">Về thư viện</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ DISCOVER ============ -->
+    <sc-if value="{{ isDiscover }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:1120px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <div style="display:flex; align-items:center; gap:10px; height:50px; padding:0 16px; background:var(--surface-inset); border:1px solid var(--border-default); border-radius:var(--radius-lg);">
+          <i data-lucide="search" style="color:var(--text-tertiary); font-size:20px;"></i>
+          <input value="{{ searchQuery }}" onChange="{{ onSearch }}" placeholder="Tìm theo bài hát, nghệ sĩ..." style="flex:1; min-width:0; height:100%; border:none; outline:none; background:transparent; color:var(--text-primary); font-size:16px; font-family:var(--font-body);">
+        </div>
+
+        <div class="vb-shelf" style="margin-top:var(--space-4); display:flex; gap:8px; overflow-x:auto;">
+          <sc-for list="{{ levelChips }}" as="c" hint-placeholder-count="6"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.FilterChip" selected="{{ c.selected }}" on-click="{{ c.onClick }}" hint-size="60px,36px">{{ c.label }}</x-import></sc-for>
+        </div>
+        <div class="vb-shelf" style="margin-top:10px; display:flex; gap:8px; overflow-x:auto;">
+          <sc-for list="{{ genreChips }}" as="c" hint-placeholder-count="5"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.FilterChip" selected="{{ c.selected }}" on-click="{{ c.onClick }}" hint-size="60px,36px">{{ c.label }}</x-import></sc-for>
+        </div>
+        <div class="vb-shelf" style="margin-top:10px; display:flex; gap:8px; overflow-x:auto;">
+          <sc-for list="{{ durationChips }}" as="c" hint-placeholder-count="3"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.FilterChip" selected="{{ c.selected }}" on-click="{{ c.onClick }}" hint-size="80px,36px">{{ c.label }}</x-import></sc-for>
+          <span style="width:1px; background:var(--border-default); margin:4px 4px;"></span>
+          <sc-for list="{{ typeChips }}" as="c" hint-placeholder-count="2"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.FilterChip" selected="{{ c.selected }}" on-click="{{ c.onClick }}" hint-size="64px,36px">{{ c.label }}</x-import></sc-for>
+        </div>
+
+        <!-- no query: shelves -->
+        <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-6); color:var(--text-secondary); font-size:14px;">Tìm thấy <b style="color:var(--text-primary);">{{ discoverResultCount }}</b> kết quả cho “{{ searchQuery }}”</div>
+          <div style="margin-top:var(--space-3); display:grid; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); gap:14px;">
+            <sc-for list="{{ discoverList }}" as="v" hint-placeholder-count="6"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.VideoCard" title="{{ v.title }}" artist="{{ v.artist }}" level="{{ v.level }}" genre="{{ v.genre }}" duration="{{ v.duration }}" practiced="{{ v.practiced }}" thumb-color="{{ v.thumbColor }}" is-new="{{ v.isNew }}" state="{{ v.state }}" progress="{{ v.progress }}" on-click="{{ v.open }}" hint-size="100%,230px"></x-import></sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noQuery }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:var(--space-6); display:flex; align-items:center; justify-content:space-between;"><h2 style="font-size:var(--text-xl);">Trending 🔥</h2></div>
+          <div class="vb-shelf" style="margin-top:var(--space-3); display:flex; gap:14px; overflow-x:auto; padding-bottom:6px;">
+            <sc-for list="{{ trending }}" as="v" hint-placeholder-count="4"><div style="flex:0 0 240px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.VideoCard" title="{{ v.title }}" artist="{{ v.artist }}" level="{{ v.level }}" genre="{{ v.genre }}" duration="{{ v.duration }}" practiced="{{ v.practiced }}" thumb-color="{{ v.thumbColor }}" is-new="{{ v.isNew }}" state="{{ v.state }}" progress="{{ v.progress }}" on-click="{{ v.open }}" hint-size="240px,230px"></x-import></div></sc-for>
+          </div>
+          <div style="margin-top:var(--space-6);"><h2 style="font-size:var(--text-xl);">Pop · B1</h2></div>
+          <div class="vb-shelf" style="margin-top:var(--space-3); display:flex; gap:14px; overflow-x:auto; padding-bottom:6px;">
+            <sc-for list="{{ popB1 }}" as="v" hint-placeholder-count="3"><div style="flex:0 0 240px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.VideoCard" title="{{ v.title }}" artist="{{ v.artist }}" level="{{ v.level }}" genre="{{ v.genre }}" duration="{{ v.duration }}" practiced="{{ v.practiced }}" thumb-color="{{ v.thumbColor }}" is-new="{{ v.isNew }}" state="{{ v.state }}" progress="{{ v.progress }}" on-click="{{ v.open }}" hint-size="240px,230px"></x-import></div></sc-for>
+          </div>
+          <div style="margin-top:var(--space-6); display:flex; align-items:center; justify-content:space-between;"><h2 style="font-size:var(--text-xl);">Playlist tuyển chọn</h2></div>
+          <div onClick="{{ nav.playlist }}" style="margin-top:var(--space-3); cursor:pointer; display:flex; gap:16px; align-items:center; padding:14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+            <div style="width:120px; height:68px; border-radius:var(--radius-md); background:linear-gradient(135deg,#FF6FB5,#A855F7); flex:0 0 auto;"></div>
+            <div><div style="font-family:var(--font-display); font-weight:800;">Pop Hits A2–B1</div><div style="font-size:13px; color:var(--text-tertiary);">15 videos · ~60 phút</div></div>
+            <i data-lucide="chevron-right" style="margin-left:auto; color:var(--text-tertiary);"></i>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ============ PLAYLIST ============ -->
+    <sc-if value="{{ isPlaylist }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:780px; margin:0 auto; padding:var(--space-4) var(--space-4) calc(var(--space-16) + 30px);">
+        <button onClick="{{ nav.discover }}" style="display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--text-secondary); font-weight:600; cursor:pointer; padding:6px 0;"><i data-lucide="arrow-left"></i> Quay lại</button>
+        <div style="position:relative; aspect-ratio:21/9; border-radius:var(--radius-xl); overflow:hidden; background:linear-gradient(135deg,#FF6FB5 0%, #A855F7 60%, #4D9FFF 100%); box-shadow:var(--shadow-md); display:flex; align-items:flex-end; padding:18px;">
+          <span style="position:absolute; top:14px; left:14px; display:inline-flex; align-items:center; gap:6px; height:26px; padding:0 11px; border-radius:999px; background:rgba(7,7,16,0.5); backdrop-filter:blur(6px); color:#fff; font-size:12px; font-weight:700;">✓ Admin Curated</span>
+        </div>
+        <h1 style="font-size:var(--text-2xl); margin-top:var(--space-4);">Pop Hits A2–B1</h1>
+        <p style="color:var(--text-secondary); margin-top:6px;">Những bài nhạc Pop phổ biến, phù hợp learner A2–B1.</p>
+        <div style="display:flex; gap:14px; margin-top:10px; font-size:13px; color:var(--text-tertiary);"><span>📹 15 videos</span><span>⏱ ~60 phút</span><span>Level: A2–B1</span></div>
+        <div style="margin-top:var(--space-5); display:grid; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); gap:14px;">
+          <sc-for list="{{ playlistVideos }}" as="v" hint-placeholder-count="6"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.VideoCard" title="{{ v.title }}" artist="{{ v.artist }}" level="{{ v.level }}" genre="{{ v.genre }}" duration="{{ v.duration }}" practiced="{{ v.practiced }}" thumb-color="{{ v.thumbColor }}" state="{{ v.state }}" progress="{{ v.progress }}" on-click="{{ v.open }}" hint-size="100%,230px"></x-import></sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ PROGRESS ============ -->
+    <sc-if value="{{ isProgress }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:840px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <h1 style="font-size:var(--text-2xl);">Tiến độ của bạn</h1>
+        <div style="margin-top:var(--space-4); display:flex; gap:10px; flex-wrap:wrap;">
+          <button onClick="{{ nav.achievements }}" style="flex:1; min-width:150px; display:flex; align-items:center; gap:10px; padding:14px 16px; border:1px solid var(--border-subtle); background:var(--surface-card); border-radius:var(--radius-lg); color:var(--text-primary); font-weight:700; font-family:var(--font-display); cursor:pointer;">🏅 Thành tích <i data-lucide="chevron-right" style="margin-left:auto; color:var(--text-tertiary);"></i></button>
+          <button onClick="{{ nav.leaderboard }}" style="flex:1; min-width:150px; display:flex; align-items:center; gap:10px; padding:14px 16px; border:1px solid var(--border-subtle); background:var(--surface-card); border-radius:var(--radius-lg); color:var(--text-primary); font-weight:700; font-family:var(--font-display); cursor:pointer;">🏆 Xếp hạng <i data-lucide="chevron-right" style="margin-left:auto; color:var(--text-tertiary);"></i></button>
+        </div>
+        <div style="margin-top:var(--space-4); display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px;">
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.StatCard" icon="🔥" value="12" label="ngày streak" tone="streak" hint-size="100%,120px"></x-import>
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.StatCard" icon="⚡" value="1,240" label="XP" tone="xp" hint-size="100%,120px"></x-import>
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.StatCard" icon="📚" value="47" label="bài đã làm" tone="accent" hint-size="100%,120px"></x-import>
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.StatCard" icon="🎯" value="78%" label="độ chính xác" tone="success" hint-size="100%,120px"></x-import>
+        </div>
+
+        <div style="margin-top:var(--space-6); padding:var(--space-5); background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;"><span style="font-weight:800; font-family:var(--font-display);">Streak 30 ngày</span><span style="font-size:12px; color:var(--premium); font-weight:700;">❄️ Streak Freeze: 1 còn lại</span></div>
+          <div style="display:grid; grid-template-columns:repeat(15, 1fr); gap:6px;">
+            <sc-for list="{{ streakCells }}" as="c" hint-placeholder-count="30"><span style="aspect-ratio:1; border-radius:5px; background:{{ c.bg }};"></span></sc-for>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-4); padding:var(--space-5); background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;"><span style="font-weight:800; font-family:var(--font-display); font-size:var(--text-lg);">Fluent Challenger</span><span style="font-size:13px; color:var(--text-tertiary);">240 / 500 XP</span></div>
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.ProgressBar" value="48" tone="xp" hint-size="100%,8px"></x-import>
+          <div style="font-size:13px; color:var(--text-tertiary); margin-top:8px;">→ Tiếp theo: <b style="color:var(--text-secondary);">Master Listener</b></div>
+        </div>
+
+        <div style="margin-top:var(--space-4); padding:var(--space-5); background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+          <span style="font-weight:800; font-family:var(--font-display);">XP theo tuần</span>
+          <div style="margin-top:18px; display:flex; align-items:flex-end; gap:18px; height:120px;">
+            <sc-for list="{{ weeklyXp }}" as="b" hint-placeholder-count="4">
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end;">
+                <span style="font-size:12px; font-weight:800; font-family:var(--font-display); color:var(--accent);">{{ b.v }}</span>
+                <div style="width:100%; max-width:48px; height:{{ b.h }}%; background:linear-gradient(180deg, var(--teal-300), var(--teal-500)); border-radius:8px 8px 0 0;"></div>
+                <span style="font-size:12px; color:var(--text-tertiary);">{{ b.l }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-4); padding:var(--space-5); background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+          <span style="font-weight:800; font-family:var(--font-display);">Điểm cần cải thiện</span>
+          <div style="margin-top:14px; display:flex; flex-direction:column; gap:12px;">
+            <sc-for list="{{ weakPoints }}" as="w" hint-placeholder-count="3">
+              <div style="display:flex; align-items:center; gap:14px;"><span style="width:120px; font-size:14px; color:var(--text-secondary);">{{ w.label }}</span><div style="flex:1; height:8px; background:var(--surface-inset); border-radius:999px; overflow:hidden;"><div style="height:100%; width:{{ w.pct }}%; background:{{ w.tone }}; border-radius:999px;"></div></div><span style="font-size:13px; font-weight:800; font-family:var(--font-display); width:40px; text-align:right;">{{ w.pct }}%</span></div>
+            </sc-for>
+          </div>
+          <button onClick="{{ nav.discover }}" style="margin-top:16px; height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--accent); font-weight:700; cursor:pointer;">Luyện Prepositions →</button>
+        </div>
+
+        <div style="margin-top:var(--space-4);"><span style="font-weight:800; font-family:var(--font-display);">Lịch sử học</span></div>
+        <div style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ history }}" as="h" hint-placeholder-count="3">
+            <div onClick="{{ nav.exercise }}" style="cursor:pointer; display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-md);">
+              <x-import component-from-global-scope="VocabikDesignSystem_0b21db.LevelBadge" level="{{ h.level }}" size="sm" hint-size="30px,18px"></x-import>
+              <span style="font-weight:600; flex:1;">{{ h.title }}</span>
+              <span style="font-family:var(--font-display); font-weight:800; color:var(--success);">{{ h.pct }}%</span>
+              <span style="font-size:12px; color:var(--text-tertiary); width:64px; text-align:right;">{{ h.when }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ ACHIEVEMENTS ============ -->
+    <sc-if value="{{ isAchievements }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:840px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <h1 style="font-size:var(--text-2xl);">Thành tích của bạn</h1>
+        <p style="color:var(--text-secondary); margin-top:4px;">{{ badgeProgress }} badges đã mở khóa</p>
+        <div class="vb-shelf" style="margin-top:var(--space-4); display:flex; gap:8px; overflow-x:auto;">
+          <sc-for list="{{ achFilters }}" as="c" hint-placeholder-count="5"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.FilterChip" selected="{{ c.selected }}" on-click="{{ c.onClick }}" hint-size="70px,36px">{{ c.label }}</x-import></sc-for>
+        </div>
+        <div style="margin-top:var(--space-5); font-size:12px; font-weight:800; letter-spacing:0.06em; color:var(--text-tertiary); text-transform:uppercase;">Đã mở khóa</div>
+        <div style="margin-top:12px; display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:12px;">
+          <sc-for list="{{ badgesUnlocked }}" as="b" hint-placeholder-count="5">
+            <div style="padding:18px 14px; background:var(--surface-card); border:1px solid var(--accent-border); border-radius:var(--radius-lg); text-align:center; box-shadow:var(--glow-accent);">
+              <div style="font-size:36px;">{{ b.icon }}</div>
+              <div style="font-weight:800; font-family:var(--font-display); font-size:14px; margin-top:8px;">{{ b.name }}</div>
+              <div style="font-size:11px; color:var(--text-tertiary); margin-top:3px;">{{ b.date }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:var(--space-6); font-size:12px; font-weight:800; letter-spacing:0.06em; color:var(--text-tertiary); text-transform:uppercase;">Chưa mở khóa</div>
+        <div style="margin-top:12px; display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:12px;">
+          <sc-for list="{{ badgesLocked }}" as="b" hint-placeholder-count="3">
+            <div style="padding:18px 14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); text-align:center; opacity:0.85;">
+              <div style="font-size:36px; filter:grayscale(1); opacity:0.6;">{{ b.icon }}</div>
+              <div style="font-weight:800; font-family:var(--font-display); font-size:14px; margin-top:8px;">{{ b.name }}</div>
+              <div style="margin-top:10px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.ProgressBar" value="{{ b.pct }}" hint-size="100%,6px"></x-import></div>
+              <div style="font-size:11px; color:var(--text-tertiary); margin-top:6px;">{{ b.progress }} / {{ b.total }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ LEADERBOARD ============ -->
+    <sc-if value="{{ isLeaderboard }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:620px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <div style="display:flex; align-items:center; justify-content:space-between;"><h1 style="font-size:var(--text-2xl);">Bảng xếp hạng XP</h1><span style="font-size:12px; color:var(--text-tertiary);">Reset sau: 2 ngày</span></div>
+        <div style="margin-top:var(--space-4); display:flex; gap:8px;">
+          <sc-for list="{{ lbPeriodTabs }}" as="c" hint-placeholder-count="3"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.FilterChip" selected="{{ c.selected }}" on-click="{{ c.onClick }}" hint-size="80px,36px">{{ c.label }}</x-import></sc-for>
+        </div>
+        <div style="margin-top:10px; display:flex; gap:8px;">
+          <sc-for list="{{ lbScopeTabs }}" as="c" hint-placeholder-count="2"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.FilterChip" selected="{{ c.selected }}" on-click="{{ c.onClick }}" hint-size="100px,36px">{{ c.label }}</x-import></sc-for>
+        </div>
+
+        <div style="margin-top:var(--space-5); padding:16px 18px; background:var(--accent-soft); border:1px solid var(--accent-border); border-radius:var(--radius-lg); display:flex; align-items:center; gap:14px;">
+          <span style="font-size:13px; color:var(--text-secondary);">Hạng của bạn</span>
+          <span style="font-family:var(--font-display); font-weight:900; font-size:var(--text-2xl); color:var(--accent);">#47</span>
+          <span style="font-size:13px; color:var(--text-tertiary);">/ 1,234</span>
+          <span style="margin-left:auto; font-family:var(--font-display); font-weight:800; color:var(--xp);">⚡ 340 XP</span>
+        </div>
+
+        <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ leaders }}" as="l" hint-placeholder-count="10">
+            <div style="display:flex; align-items:center; gap:12px; padding:10px 14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-md);">
+              <span style="width:34px; font-family:var(--font-display); font-weight:900; font-size:16px; color:var(--text-secondary);">{{ l.medal }}</span>
+              <span style="width:32px; height:32px; flex:0 0 auto; border-radius:50%; background:var(--surface-card-2); color:var(--text-secondary); display:inline-flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:800; font-size:12px;">{{ l.initials }}</span>
+              <span style="flex:1; font-weight:600;">{{ l.name }}</span>
+              <span style="font-family:var(--font-display); font-weight:800; color:var(--xp);">{{ l.xp }} XP</span>
+            </div>
+          </sc-for>
+          <div style="text-align:center; color:var(--text-tertiary); font-size:18px; letter-spacing:4px;">···</div>
+          <sc-for list="{{ lbNeighbors }}" as="l" hint-placeholder-count="3">
+            <div style="display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:var(--radius-md); background:{{ l.bg }}; border:1px solid {{ l.border }};">
+              <span style="width:34px; font-family:var(--font-display); font-weight:900; font-size:14px; color:var(--text-secondary);">#{{ l.rank }}</span>
+              <span style="width:32px; height:32px; flex:0 0 auto; border-radius:50%; background:var(--surface-card-2); color:var(--text-secondary); display:inline-flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:800; font-size:12px;">{{ l.initials }}</span>
+              <span style="flex:1; font-weight:{{ l.weight }}; color:{{ l.fg }};">{{ l.name }}</span>
+              <span style="font-family:var(--font-display); font-weight:800; color:var(--xp);">{{ l.xp }} XP</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ NOTEBOOK ============ -->
+    <sc-if value="{{ isNotebook }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:680px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <div style="display:flex; align-items:baseline; gap:10px;"><h1 style="font-size:var(--text-2xl);">Sổ từ vựng</h1><span style="color:var(--text-tertiary); font-size:14px;">{{ wordCount }} từ</span></div>
+        <div style="display:flex; align-items:center; gap:10px; height:46px; padding:0 14px; margin-top:var(--space-4); background:var(--surface-inset); border:1px solid var(--border-default); border-radius:var(--radius-md);">
+          <i data-lucide="search" style="color:var(--text-tertiary);"></i><input placeholder="Tìm từ..." style="flex:1; border:none; outline:none; background:transparent; color:var(--text-primary); font-size:15px;">
+        </div>
+        <div style="margin-top:var(--space-4); display:flex; gap:8px; padding:5px; background:var(--surface-inset); border-radius:999px; width:fit-content;">
+          <button onClick="{{ setNbList }}" style="{{ nbListStyle }}">📋 List</button>
+          <button onClick="{{ setNbCard }}" style="{{ nbCardStyle }}">🃏 Flashcard</button>
+        </div>
+
+        <sc-if value="{{ nbIsList }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:var(--space-4); display:flex; flex-direction:column; gap:10px;">
+            <sc-for list="{{ words }}" as="w" hint-placeholder-count="5">
+              <div style="padding:14px 16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+                <div style="display:flex; align-items:center; gap:10px;"><span style="font-family:var(--font-display); font-weight:800; font-size:18px;">{{ w.word }}</span><span class="vb-ipa" style="color:var(--text-tertiary); font-size:13px;">{{ w.ipa }}</span><x-import component-from-global-scope="VocabikDesignSystem_0b21db.LevelBadge" level="{{ w.level }}" size="sm" hint-size="30px,18px"></x-import></div>
+                <div style="color:var(--text-secondary); margin-top:4px;">{{ w.vi }}</div>
+                <div style="color:var(--text-tertiary); font-size:13px; margin-top:6px; font-style:italic;">“{{ w.ex }}”</div>
+                <div style="font-size:12px; color:var(--text-tertiary); margin-top:8px;">📹 {{ w.video }} · {{ w.date }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ nbIsCard }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-5); text-align:center;">
+            <div style="font-size:13px; color:var(--text-tertiary); margin-bottom:12px;">3 / 247</div>
+            <div onClick="{{ flipCard }}" style="cursor:pointer; min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:30px; background:var(--surface-card); border:1px solid var(--border-default); border-radius:var(--radius-xl); box-shadow:var(--shadow-md);">
+              <sc-if value="{{ nbNotFlipped }}" hint-placeholder-val="{{ true }}"><div style="font-family:var(--font-display); font-weight:900; font-size:32px;">magnificent</div><div style="font-size:13px; color:var(--text-tertiary);">Chạm để lật ↺</div></sc-if>
+              <sc-if value="{{ nbFlipped }}" hint-placeholder-val="{{ false }}"><div class="vb-ipa" style="color:var(--accent); font-size:18px;">/mæɡˈnɪfɪsnt/</div><div style="font-family:var(--font-display); font-weight:800; font-size:22px;">tráng lệ, kỳ vĩ</div><div style="color:var(--text-tertiary); font-style:italic;">“What a magnificent view!”</div></sc-if>
+            </div>
+            <div style="display:flex; gap:12px; margin-top:18px;">
+              <button style="flex:1; height:48px; border-radius:999px; border:1px solid var(--danger); background:var(--danger-soft); color:var(--danger); font-weight:800; font-family:var(--font-display); cursor:pointer;">👎 Cần ôn lại</button>
+              <button style="flex:1; height:48px; border-radius:999px; border:1px solid var(--success); background:var(--success-soft); color:var(--success); font-weight:800; font-family:var(--font-display); cursor:pointer;">👍 Nhớ rồi</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ============ LOGIN ============ -->
+    <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%; display:flex; align-items:center; justify-content:center; padding:var(--space-6) var(--space-4); background:var(--wash-brand);">
+        <div class="vb-page" style="width:100%; max-width:400px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); padding:var(--space-8) var(--space-6);">
+          <div style="display:flex; justify-content:center; margin-bottom:var(--space-5);">
+            <span style="width:44px; height:44px; border-radius:13px; background:var(--ink-950); border:1px solid var(--accent-border); display:flex; align-items:center; justify-content:center; position:relative;"><span style="color:var(--accent); font-size:18px;">▶</span><span style="position:absolute; bottom:8px; width:18px; height:3px; border-radius:2px; background:var(--premium);"></span></span>
+          </div>
+          <h1 style="text-align:center; font-size:var(--text-xl);">Đăng nhập vào Vocabik</h1>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:var(--space-5);">
+            <button style="height:48px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; font-family:var(--font-display); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><b style="color:#4285F4;">G</b> Tiếp tục với Google</button>
+            <button style="height:48px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; font-family:var(--font-display); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><b style="color:#1877F2;">f</b> Tiếp tục với Facebook</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; margin:var(--space-5) 0; color:var(--text-tertiary); font-size:12px;"><span style="flex:1; height:1px; background:var(--border-subtle);"></span> hoặc <span style="flex:1; height:1px; background:var(--border-subtle);"></span></div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" placeholder="Email của bạn" hint-size="100%,44px"></x-import>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" type="password" placeholder="Mật khẩu" hint-size="100%,44px"></x-import>
+            <button onClick="{{ nav.forgot }}" style="align-self:flex-end; background:none; border:none; color:var(--accent); font-size:13px; font-weight:600; cursor:pointer;">Quên mật khẩu? →</button>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" size="lg" full-width="{{ true }}" on-click="{{ doLogin }}" hint-size="100%,52px">Đăng nhập</x-import>
+          </div>
+          <div style="text-align:center; margin-top:var(--space-5); font-size:14px; color:var(--text-secondary);">Chưa có tài khoản? <button onClick="{{ nav.register }}" style="background:none; border:none; color:var(--accent); font-weight:700; cursor:pointer;">Đăng ký miễn phí →</button></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ REGISTER ============ -->
+    <sc-if value="{{ isRegister }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%; display:flex; align-items:center; justify-content:center; padding:var(--space-6) var(--space-4); background:var(--wash-brand);">
+        <div class="vb-page" style="width:100%; max-width:400px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); padding:var(--space-8) var(--space-6);">
+          <div style="display:flex; justify-content:center; margin-bottom:var(--space-4);">
+            <span style="width:44px; height:44px; border-radius:13px; background:var(--ink-950); border:1px solid var(--accent-border); display:flex; align-items:center; justify-content:center; position:relative;"><span style="color:var(--accent); font-size:18px;">▶</span><span style="position:absolute; bottom:8px; width:18px; height:3px; border-radius:2px; background:var(--premium);"></span></span>
+          </div>
+          <h1 style="text-align:center; font-size:var(--text-xl);">Tạo tài khoản miễn phí</h1>
+          <p style="text-align:center; color:var(--text-secondary); font-size:14px; margin-top:4px;">Bắt đầu học ngay hôm nay</p>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:var(--space-5);">
+            <button style="height:48px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; font-family:var(--font-display); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><b style="color:#4285F4;">G</b> Đăng ký với Google</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; margin:var(--space-4) 0; color:var(--text-tertiary); font-size:12px;"><span style="flex:1; height:1px; background:var(--border-subtle);"></span> hoặc <span style="flex:1; height:1px; background:var(--border-subtle);"></span></div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" placeholder="Tên của bạn" hint-size="100%,44px"></x-import>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" placeholder="Email" hint-size="100%,44px"></x-import>
+            <div>
+              <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" type="password" placeholder="Mật khẩu" hint-size="100%,44px"></x-import>
+              <div style="display:flex; gap:5px; margin-top:8px;"><span style="flex:1; height:4px; border-radius:2px; background:var(--success);"></span><span style="flex:1; height:4px; border-radius:2px; background:var(--success);"></span><span style="flex:1; height:4px; border-radius:2px; background:var(--accent);"></span><span style="flex:1; height:4px; border-radius:2px; background:var(--surface-inset);"></span></div>
+              <div style="font-size:12px; color:var(--success); margin-top:4px;">Mạnh</div>
+            </div>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" size="lg" full-width="{{ true }}" on-click="{{ doRegister }}" hint-size="100%,52px">Đăng ký</x-import>
+          </div>
+          <p style="text-align:center; font-size:12px; color:var(--text-tertiary); margin-top:14px;">Bằng cách đăng ký, bạn đồng ý <button onClick="{{ nav.terms }}" style="background:none;border:none;padding:0;color:var(--accent);font-weight:600;cursor:pointer;font-size:12px;">Điều khoản</button> & <button onClick="{{ nav.privacy }}" style="background:none;border:none;padding:0;color:var(--accent);font-weight:600;cursor:pointer;font-size:12px;">Bảo mật</button></p>
+          <div style="text-align:center; margin-top:12px; font-size:14px; color:var(--text-secondary);">Đã có tài khoản? <button onClick="{{ nav.login }}" style="background:none; border:none; color:var(--accent); font-weight:700; cursor:pointer;">Đăng nhập →</button></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ VERIFY EMAIL ============ -->
+    <sc-if value="{{ isVerify }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%; display:flex; align-items:center; justify-content:center; padding:var(--space-6) var(--space-4); background:var(--wash-brand);">
+        <div class="vb-page" style="width:100%; max-width:400px; text-align:center; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); padding:var(--space-10) var(--space-6);">
+          <div style="font-size:52px; animation:vb-float 3s var(--ease-standard) infinite;">📬</div>
+          <h1 style="font-size:var(--text-xl); margin-top:var(--space-4);">Kiểm tra email của bạn</h1>
+          <p style="color:var(--text-secondary); margin-top:8px;">Chúng tôi đã gửi đến:</p>
+          <p style="font-weight:700; font-family:var(--font-display); color:var(--accent); margin-top:2px;">an.nguyen@gmail.com</p>
+          <div style="margin-top:var(--space-6);"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="secondary" full-width="{{ true }}" hint-size="100%,44px">Gửi lại sau 45 giây</x-import></div>
+          <button onClick="{{ nav.onboarding }}" style="margin-top:12px; background:none; border:none; color:var(--accent); font-weight:700; cursor:pointer;">Tôi đã xác thực → tiếp tục</button>
+          <div style="margin-top:var(--space-5); padding:12px; background:var(--info-soft); border-radius:var(--radius-md); font-size:13px; color:var(--text-secondary);">💡 Không thấy email? Kiểm tra thư mục Spam.</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ FORGOT PASSWORD ============ -->
+    <sc-if value="{{ isForgot }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%; display:flex; align-items:center; justify-content:center; padding:var(--space-6) var(--space-4); background:var(--wash-brand);">
+        <div class="vb-page" style="width:100%; max-width:400px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); padding:var(--space-8) var(--space-6);">
+          <button onClick="{{ nav.login }}" style="display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--text-secondary); font-weight:600; cursor:pointer; margin-bottom:var(--space-4);"><i data-lucide="arrow-left"></i> Quay lại đăng nhập</button>
+          <h1 style="font-size:var(--text-xl);">Quên mật khẩu?</h1>
+          <p style="color:var(--text-secondary); font-size:14px; margin-top:6px;">Nhập email, chúng tôi sẽ gửi link đặt lại.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:var(--space-5);">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" placeholder="Email" hint-size="100%,44px"></x-import>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" size="lg" full-width="{{ true }}" on-click="{{ nav.reset }}" hint-size="100%,52px">Gửi link đặt lại →</x-import>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ RESET PASSWORD ============ -->
+    <sc-if value="{{ isReset }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%; display:flex; align-items:center; justify-content:center; padding:var(--space-6) var(--space-4); background:var(--wash-brand);">
+        <div class="vb-page" style="width:100%; max-width:400px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); padding:var(--space-8) var(--space-6);">
+          <h1 style="font-size:var(--text-xl);">Đặt mật khẩu mới</h1>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:var(--space-5);">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" type="password" placeholder="Mật khẩu mới" hint-size="100%,44px"></x-import>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" type="password" placeholder="Xác nhận mật khẩu" hint-size="100%,44px"></x-import>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" size="lg" full-width="{{ true }}" on-click="{{ nav.login }}" hint-size="100%,52px">Đặt lại mật khẩu →</x-import>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ ONBOARDING ============ -->
+    <sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%; display:flex; align-items:center; justify-content:center; padding:var(--space-6) var(--space-4); background:var(--wash-brand);">
+        <div class="vb-page" style="width:100%; max-width:460px; text-align:center;">
+          <h1 style="font-size:var(--text-3xl); line-height:1.1;">Tiếng Anh của bạn<br>hiện ở đâu?</h1>
+          <p style="color:var(--text-secondary); margin-top:10px;">Chúng tôi sẽ gợi ý bài phù hợp nhất với bạn.</p>
+          <div style="margin-top:var(--space-6); display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <sc-for list="{{ onbCards }}" as="c" hint-placeholder-count="4">
+              <div onClick="{{ c.onClick }}" style="{{ c.style }}">
+                <div style="font-size:32px;">{{ c.emoji }}</div>
+                <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-xl); margin-top:6px;">{{ c.lv }}</div>
+                <div style="font-size:13px; color:var(--text-tertiary); margin-top:2px;">{{ c.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:var(--space-6);">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" size="xl" full-width="{{ true }}" disabled="{{ onbNotChosen }}" on-click="{{ finishOnboarding }}" hint-size="100%,60px">Bắt đầu học →</x-import>
+          </div>
+          <button onClick="{{ finishOnboarding }}" style="margin-top:14px; background:none; border:none; color:var(--text-tertiary); font-weight:600; cursor:pointer;">Bỏ qua, tôi tự chọn sau</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ PRICING ============ -->
+    <sc-if value="{{ isPricing }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:840px; margin:0 auto; padding:var(--space-6) var(--space-4) calc(var(--space-16) + 30px);">
+        <div style="text-align:center;">
+          <h1 style="font-size:var(--text-3xl); line-height:1.1;">Học tiếng Anh không giới hạn</h1>
+          <p style="color:var(--text-secondary); margin-top:8px;">Mở khóa Vocabik Premium từ $5/tháng.</p>
+        </div>
+        <div style="display:flex; gap:6px; padding:5px; background:var(--surface-inset); border-radius:999px; max-width:380px; margin:var(--space-6) auto 0; position:relative;">
+          <button onClick="{{ setMonthly }}" style="{{ billMonthlyStyle }}">Hàng tháng</button>
+          <button onClick="{{ setAnnual }}" style="{{ billAnnualStyle }}">Hàng năm · -33%</button>
+        </div>
+
+        <div style="margin-top:var(--space-6); display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:18px; align-items:start;">
+          <!-- Free -->
+          <div style="padding:var(--space-6); background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-xl);">
+            <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:var(--text-tertiary); text-transform:uppercase;">Free</div>
+            <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-3xl); margin-top:6px;">Miễn phí</div>
+            <div style="font-size:13px; color:var(--text-tertiary);">mãi mãi</div>
+            <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{ freeFeatures }}" as="f" hint-placeholder-count="5"><div style="display:flex; gap:10px; align-items:center; font-size:14px;"><span style="color:var(--success);">✓</span> {{ f }}</div></sc-for>
+            </div>
+            <div style="margin-top:var(--space-6);"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="secondary" full-width="{{ true }}" on-click="{{ nav.register }}" hint-size="100%,44px">Dùng miễn phí</x-import></div>
+          </div>
+          <!-- Premium -->
+          <div style="padding:var(--space-6); background:var(--surface-card); border:1.5px solid var(--premium-border); border-radius:var(--radius-xl); box-shadow:var(--glow-premium); position:relative;">
+            <span style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); height:24px; padding:0 12px; border-radius:999px; background:var(--premium); color:#fff; font-size:11px; font-weight:800; letter-spacing:0.06em; display:flex; align-items:center;">PHỔ BIẾN NHẤT</span>
+            <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:var(--premium); text-transform:uppercase;">Premium</div>
+            <div style="display:flex; align-items:baseline; gap:6px; margin-top:6px;"><span style="font-family:var(--font-display); font-weight:900; font-size:var(--text-3xl);">{{ premiumPrice }}</span><span style="color:var(--text-tertiary);">{{ premiumPer }}</span></div>
+            <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{ premiumFeatures }}" as="f" hint-placeholder-count="7"><div style="display:flex; gap:10px; align-items:center; font-size:14px;"><span style="color:var(--premium);">✓</span> {{ f }}</div></sc-for>
+            </div>
+            <div style="margin-top:var(--space-6);"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="premium" full-width="{{ true }}" hint-size="100%,44px">Bắt đầu Premium →</x-import></div>
+            <p style="text-align:center; font-size:12px; color:var(--text-tertiary); margin-top:10px;">Hủy bất cứ lúc nào</p>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-6); display:flex; flex-wrap:wrap; gap:16px; justify-content:center; font-size:13px; color:var(--text-secondary);">
+          <span>🔒 Thanh toán bảo mật</span><span>↩️ Hủy bất cứ lúc nào</span><span>🌍 Visa/Mastercard</span><span>📧 Hỗ trợ 24h</span>
+        </div>
+
+        <div style="margin-top:var(--space-8); font-weight:800; font-family:var(--font-display); font-size:var(--text-xl);">Câu hỏi thường gặp</div>
+        <div style="margin-top:var(--space-4); display:flex; flex-direction:column; gap:10px;">
+          <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="4">
+            <div style="padding:16px 18px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+              <div style="font-weight:700; font-family:var(--font-display);">{{ f.q }}</div>
+              <div style="color:var(--text-secondary); font-size:14px; margin-top:6px;">{{ f.a }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ SETTINGS ============ -->
+    <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:720px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <h1 style="font-size:var(--text-2xl);">Hồ sơ & Cài đặt</h1>
+        <div class="vb-shelf" style="margin-top:var(--space-4); display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;">
+          <sc-for list="{{ settingsTabs }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button></sc-for>
+        </div>
+
+        <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-4); display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <button onClick="{{ nav.achievements }}" style="{{ hubItem }}">🏅 Thành tích</button>
+            <button onClick="{{ nav.notebook }}" style="{{ hubItem }}">📖 Sổ từ vựng</button>
+            <button onClick="{{ nav.leaderboard }}" style="{{ hubItem }}">🏆 Xếp hạng</button>
+            <button onClick="{{ nav.classroom }}" style="{{ hubItem }}">🎓 Lớp học</button>
+            <button onClick="{{ nav.daily }}" style="{{ hubItem }}">🔥 Daily Challenge</button>
+            <button onClick="{{ nav.integrations }}" style="{{ hubItem }}">✈️ Tích hợp Bot</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ stProfile }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <span style="width:64px; height:64px; border-radius:50%; background:var(--surface-card-2); border:1px solid var(--border-default); color:var(--text-secondary); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:900; font-size:22px;">AN</span>
+              <button style="height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; cursor:pointer;">Đổi ảnh</button>
+            </div>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" label="Tên của bạn" placeholder="An Nguyễn" hint-size="100%,68px"></x-import>
+            <div style="font-size:14px; color:var(--text-secondary);">Email: <b style="color:var(--text-primary);">an.nguyen@gmail.com</b> <span style="font-size:12px; color:var(--text-tertiary);">(readonly)</span></div>
+            <div style="font-size:14px; color:var(--text-secondary);">Thành viên từ: 15/05/2026</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ stPrefs }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:8px;">
+            <div style="padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+              <div style="font-weight:700; font-family:var(--font-display); margin-bottom:12px;">Giao diện</div>
+              <div style="display:flex; gap:10px;"><button onClick="{{ setDark }}" style="{{ themeDarkBtn }}">🌙 Dark</button><button onClick="{{ setLight }}" style="{{ themeLightBtn }}">☀️ Light</button></div>
+            </div>
+            <div style="padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+              <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Switch" label="Âm thanh khi làm bài" checked="{{ soundOn }}" on-change="{{ toggleSound }}" hint-size="100%,44px"></x-import>
+            </div>
+            <div style="padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+              <div style="font-weight:700; font-family:var(--font-display); margin-bottom:12px;">Ngôn ngữ giao diện</div>
+              <div style="display:flex; gap:10px;"><button onClick="{{ setViLang }}" style="{{ langViStyle }}">🇻🇳 Tiếng Việt</button><button onClick="{{ setEnLang }}" style="{{ langEnStyle }}">🇬🇧 English</button></div>
+            </div>
+            <button onClick="{{ nav.integrations }}" style="display:flex; align-items:center; gap:12px; padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); color:var(--text-primary); font-weight:600; cursor:pointer; text-align:left;"><span style="font-size:18px;">✈️</span> Tích hợp Bot (Telegram / Zalo) <i data-lucide="chevron-right" style="margin-left:auto; color:var(--text-tertiary);"></i></button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ stSub }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-5);">
+            <sc-if value="{{ isPremium }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:20px; background:var(--surface-card); border:1px solid var(--premium-border); border-radius:var(--radius-lg); box-shadow:var(--glow-premium);">
+                <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-xl); color:var(--premium);">💎 Gói Premium</div>
+                <div style="color:var(--text-secondary); margin-top:8px; font-size:14px;">Loại: Monthly · $5/tháng · Gia hạn: 15/07/2026</div>
+                <button style="margin-top:16px; height:44px; padding:0 18px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; cursor:pointer;">Quản lý subscription →</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ notPremium }}" hint-placeholder-val="{{ true }}">
+              <div style="padding:20px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+                <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-xl);">🆓 Gói Free</div>
+                <p style="color:var(--text-secondary); margin-top:8px; font-size:14px;">Học phong phú hơn với Premium.</p>
+                <div style="margin-top:16px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="premium" on-click="{{ nav.pricing }}" hint-size="200px,44px">Nâng lên Premium →</x-import></div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-if value="{{ stSecurity }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:14px;">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" type="password" label="Mật khẩu hiện tại" placeholder="••••••••" hint-size="100%,68px"></x-import>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" type="password" label="Mật khẩu mới" placeholder="••••••••" hint-size="100%,68px"></x-import>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" hint-size="160px,44px">Cập nhật</x-import>
+            <div style="margin-top:10px; padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+              <div style="font-weight:700; font-family:var(--font-display); margin-bottom:10px;">Phiên đăng nhập</div>
+              <div style="font-size:13px; color:var(--text-secondary);">🌐 Chrome · macOS · Now</div>
+              <div style="font-size:13px; color:var(--text-secondary); margin-top:4px;">📱 Mobile Safari · iOS · 2h trước</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ stAccount }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:12px;">
+            <button style="text-align:left; padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); color:var(--text-primary); font-weight:600; cursor:pointer;">Xuất dữ liệu của tôi →</button>
+            <button onClick="{{ doLogout }}" style="text-align:left; padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); color:var(--text-primary); font-weight:600; cursor:pointer;">Đăng xuất</button>
+            <button style="text-align:left; padding:16px; background:var(--danger-soft); border:1px solid color-mix(in srgb, var(--danger) 30%, transparent); border-radius:var(--radius-lg); color:var(--danger); font-weight:700; cursor:pointer;">Xóa tài khoản vĩnh viễn</button>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ============ SUGGEST VIDEO ============ -->
+    <sc-if value="{{ isSuggest }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:620px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <h1 style="font-size:var(--text-2xl);">Gợi ý video cho thư viện</h1>
+        <p style="color:var(--text-secondary); margin-top:6px; font-size:14px;">Video được approve sẽ vào thư viện chung. Bạn nhận Contributor badge ⭐</p>
+        <div style="margin-top:var(--space-5); padding:18px; background:var(--surface-card); border:1px solid var(--premium-border); border-radius:var(--radius-lg);">
+          <span style="font-size:11px; font-weight:800; letter-spacing:0.08em; color:var(--premium);">PREMIUM</span>
+          <div style="margin-top:10px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Input" placeholder="Dán link YouTube..." hint-size="100%,44px"></x-import></div>
+          <div style="margin-top:14px; font-size:13px; color:var(--text-secondary);">Level gợi ý cho video này:</div>
+          <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span style="height:34px; padding:0 14px; border-radius:999px; background:var(--surface-card-2); border:1px solid var(--border-subtle); color:var(--text-secondary); font-weight:700; display:flex; align-items:center;">A1</span>
+            <span style="height:34px; padding:0 14px; border-radius:999px; background:var(--surface-card-2); border:1px solid var(--border-subtle); color:var(--text-secondary); font-weight:700; display:flex; align-items:center;">A2</span>
+            <span style="height:34px; padding:0 14px; border-radius:999px; background:var(--accent); color:var(--text-on-accent); font-weight:700; display:flex; align-items:center;">B1</span>
+            <span style="height:34px; padding:0 14px; border-radius:999px; background:var(--surface-card-2); border:1px solid var(--border-subtle); color:var(--text-secondary); font-weight:700; display:flex; align-items:center;">B2</span>
+            <span style="height:34px; padding:0 14px; border-radius:999px; background:var(--surface-card-2); border:1px solid var(--border-subtle); color:var(--text-secondary); font-weight:700; display:flex; align-items:center;">C1</span>
+          </div>
+          <textarea placeholder="Ghi chú cho admin (optional)..." style="width:100%; margin-top:14px; min-height:70px; padding:12px 14px; border-radius:var(--radius-md); border:1px solid var(--border-default); background:var(--surface-inset); color:var(--text-primary); font-family:var(--font-body); font-size:14px; resize:vertical; outline:none;"></textarea>
+          <div style="margin-top:14px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="premium" full-width="{{ true }}" hint-size="100%,44px">Gửi gợi ý →</x-import></div>
+        </div>
+        <div style="margin-top:var(--space-6); font-weight:800; font-family:var(--font-display);">Gợi ý của tôi</div>
+        <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
+          <sc-for list="{{ suggestions }}" as="g" hint-placeholder-count="3">
+            <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+              <x-import component-from-global-scope="VocabikDesignSystem_0b21db.LevelBadge" level="{{ g.level }}" size="sm" hint-size="30px,18px"></x-import>
+              <div style="flex:1;"><div style="font-weight:600;">{{ g.title }}</div><div style="font-size:12px; color:var(--text-tertiary);">{{ g.date }}</div></div>
+              <span style="font-size:13px; font-weight:700; color:{{ g.color }};">{{ g.icon }} {{ g.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CHALLENGE ============ -->
+    <sc-if value="{{ isChallenge }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:560px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px); text-align:center;">
+        <div style="font-size:40px;">⚔️</div>
+        <h1 style="font-size:var(--text-2xl); margin-top:6px;">Bạn được thách đấu!</h1>
+        <div style="margin-top:var(--space-4); display:flex; align-items:center; justify-content:center; gap:10px;">
+          <span style="width:40px; height:40px; border-radius:50%; background:var(--surface-card-2); color:var(--text-secondary); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:900;">MK</span>
+          <span style="color:var(--text-secondary);"><b style="color:var(--text-primary);">Minh Khôi</b> thách bạn luyện:</span>
+        </div>
+        <div style="margin-top:var(--space-4); max-width:280px; margin-left:auto; margin-right:auto;">
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.VideoCard" title="Shape of You" artist="Ed Sheeran" level="B1" genre="Pop" duration="3:53" thumb-color="{{ challengeThumb }}" on-click="{{ nav.exercise }}" hint-size="100%,230px"></x-import>
+        </div>
+        <div style="margin-top:var(--space-4); padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+          <div style="font-size:13px; color:var(--text-tertiary);">Score của Minh Khôi</div>
+          <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-3xl); color:var(--success); margin-top:4px;">92% <span style="font-size:14px; color:var(--text-tertiary); font-weight:600;">· 4:12</span></div>
+        </div>
+        <div style="margin-top:var(--space-5);"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" size="xl" full-width="{{ true }}" on-click="{{ startPlayer }}" hint-size="100%,60px">Chấp nhận thử thách! →</x-import></div>
+        <button style="margin-top:12px; background:none; border:none; color:var(--text-tertiary); font-weight:600; cursor:pointer;">🔗 Copy challenge link</button>
+      </div>
+    </sc-if>
+
+    <!-- ============ DAILY CHALLENGE ============ -->
+    <sc-if value="{{ isDaily }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:620px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <div style="display:flex; align-items:center; justify-content:space-between;"><h1 style="font-size:var(--text-2xl);">Daily Challenge 🏆</h1><span style="font-family:var(--font-display); font-weight:800; color:var(--warning); font-size:14px;">⏱ 08:42:17</span></div>
+        <div style="margin-top:var(--space-4); position:relative; aspect-ratio:16/9; border-radius:var(--radius-xl); overflow:hidden; background:var(--challengeThumb, linear-gradient(135deg,#16234A,#2C4A8A)); box-shadow:var(--shadow-md); display:flex; align-items:flex-end; padding:18px;">
+          <div style="position:absolute; inset:0; background:linear-gradient(135deg,#16234A,#2C4A8A);"></div>
+          <div style="position:absolute; inset:0; background:var(--scrim-bottom);"></div>
+          <div style="position:relative; color:#fff;">
+            <div style="display:flex; gap:8px; align-items:center;"><span style="height:22px; padding:0 8px; border-radius:6px; background:var(--cefr-b2); color:#0A0A12; font-weight:800; font-size:12px; display:flex; align-items:center;">B2</span><span style="font-size:13px; opacity:0.9;">Pop · 3:22</span></div>
+            <div style="font-family:var(--font-display); font-weight:900; font-size:20px; margin-top:8px;">Blinding Lights</div>
+            <div style="font-size:13px; opacity:0.85;">The Weeknd · 👥 1,247 đang tham gia</div>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-5);"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" size="lg" full-width="{{ true }}" on-click="{{ startPlayer }}" hint-size="100%,52px">Tham gia ngay! →</x-import></div>
+        <div style="margin-top:var(--space-5); font-weight:800; font-family:var(--font-display);">Top hôm nay</div>
+        <div style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ dailyTop }}" as="l" hint-placeholder-count="5">
+            <div style="display:flex; align-items:center; gap:12px; padding:10px 14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-md);">
+              <span style="width:30px; font-family:var(--font-display); font-weight:900;">{{ l.medal }}</span>
+              <span style="width:30px; height:30px; border-radius:50%; background:var(--surface-card-2); color:var(--text-secondary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; font-family:var(--font-display);">{{ l.initials }}</span>
+              <span style="flex:1; font-weight:600;">{{ l.name }}</span>
+              <span style="font-size:13px; color:var(--text-tertiary);">{{ l.time }}</span>
+              <span style="font-family:var(--font-display); font-weight:800; color:var(--success);">{{ l.xp }}%</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:var(--space-5); padding:16px; background:var(--warning-soft); border:1px solid color-mix(in srgb, var(--streak) 30%, transparent); border-radius:var(--radius-lg); text-align:center; font-weight:700;">🔥 Bạn đã tham gia 12 ngày liên tiếp!</div>
+      </div>
+    </sc-if>
+
+    <!-- ============ BOT INTEGRATION ============ -->
+    <sc-if value="{{ isIntegrations }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:620px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <h1 style="font-size:var(--text-2xl);">Tích hợp</h1>
+        <div style="margin-top:var(--space-5); padding:20px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+          <div style="display:flex; align-items:center; gap:12px;"><span style="width:44px; height:44px; border-radius:12px; background:#229ED9; display:flex; align-items:center; justify-content:center; font-size:22px;">✈️</span><div><div style="font-family:var(--font-display); font-weight:800;">Telegram Bot</div><div style="font-size:13px; color:var(--text-tertiary);">Nhận bài tập mỗi sáng qua Telegram</div></div><span style="margin-left:auto; font-size:12px; color:var(--text-tertiary);">⚫ Chưa kết nối</span></div>
+          <div style="margin-top:16px; padding:14px; background:var(--surface-inset); border-radius:var(--radius-md); font-size:13px; color:var(--text-secondary);">
+            <div>1. Nhấn “Kết nối” bên dưới</div><div>2. Nhấn Start trong Telegram</div><div>3. Bot tự kết nối tài khoản</div>
+          </div>
+          <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px;">
+            <div style="flex:1; min-width:120px;"><div style="font-size:12px; color:var(--text-tertiary); margin-bottom:6px;">Thời gian nhận bài</div><button style="width:100%; height:44px; border-radius:14px; border:1px solid var(--border-default); background:var(--surface-inset); color:var(--text-primary); font-weight:700; cursor:pointer;">07:00 ▼</button></div>
+            <div style="flex:1; min-width:120px;"><div style="font-size:12px; color:var(--text-tertiary); margin-bottom:6px;">Level</div><button style="width:100%; height:44px; border-radius:14px; border:1px solid var(--border-default); background:var(--surface-inset); color:var(--text-primary); font-weight:700; cursor:pointer;">Theo profile (B1) ▼</button></div>
+          </div>
+          <div style="margin-top:16px;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" full-width="{{ true }}" hint-size="100%,44px">Kết nối Telegram Bot →</x-import></div>
+        </div>
+        <div style="margin-top:var(--space-4); padding:20px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); opacity:0.85;">
+          <div style="display:flex; align-items:center; gap:12px;"><span style="width:44px; height:44px; border-radius:12px; background:#0068FF; display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; font-weight:900;">Z</span><div><div style="font-family:var(--font-display); font-weight:800;">Zalo OA</div><div style="font-size:13px; color:var(--text-tertiary);">Cấu trúc tương tự Telegram</div></div><span style="margin-left:auto; font-size:12px; color:var(--text-tertiary);">⚫ Chưa kết nối</span></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CLASSROOM HOME ============ -->
+    <sc-if value="{{ isClassroom }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:720px; margin:0 auto; padding:var(--space-5) var(--space-4) calc(var(--space-16) + 30px);">
+        <div style="display:flex; align-items:center; justify-content:space-between;"><h1 style="font-size:var(--text-2xl);">Lớp học của tôi</h1><x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" on-click="{{ nav.classroomDetail }}" hint-size="130px,44px">+ Tạo lớp mới</x-import></div>
+        <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:14px;">
+          <sc-for list="{{ classes }}" as="c" hint-placeholder-count="2">
+            <div onClick="{{ nav.classroomDetail }}" style="cursor:pointer; padding:18px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+              <div style="display:flex; align-items:center; justify-content:space-between;"><div style="font-family:var(--font-display); font-weight:800; font-size:var(--text-lg);">{{ c.name }}</div><span style="font-size:13px; color:var(--text-tertiary);">{{ c.count }} học sinh</span></div>
+              <div style="font-size:14px; color:var(--text-secondary); margin-top:8px;">Bài: {{ c.assignment }}</div>
+              <sc-if value="{{ c.pct }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; align-items:center; gap:12px; margin-top:10px;"><div style="flex:1;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.ProgressBar" value="{{ c.pct }}" hint-size="100%,8px"></x-import></div><span style="font-size:12px; color:var(--text-tertiary);">{{ c.done }}/{{ c.total }} · Due {{ c.due }}</span></div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CLASSROOM DETAIL ============ -->
+    <sc-if value="{{ isClassroomDetail }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:760px; margin:0 auto; padding:var(--space-4) var(--space-4) calc(var(--space-16) + 30px);">
+        <button onClick="{{ nav.classroom }}" style="display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--text-secondary); font-weight:600; cursor:pointer; padding:6px 0;"><i data-lucide="arrow-left"></i> Lớp học của tôi</button>
+        <div style="display:flex; align-items:center; gap:12px;"><h1 style="font-size:var(--text-2xl);">Lớp 10A2</h1></div>
+        <div style="margin-top:14px; display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--accent-soft); border:1px solid var(--accent-border); border-radius:var(--radius-lg);">
+          <span style="font-size:13px; color:var(--text-secondary);">Mã tham gia</span>
+          <span style="font-family:var(--font-display); font-weight:900; font-size:var(--text-lg); letter-spacing:0.08em; color:var(--accent);">VOCA-4829</span>
+          <button style="margin-left:auto; height:34px; padding:0 14px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-primary); font-weight:700; cursor:pointer;">Copy</button>
+        </div>
+        <div class="vb-shelf" style="margin-top:var(--space-4); display:flex; gap:8px; overflow-x:auto;">
+          <sc-for list="{{ classTabs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button></sc-for>
+        </div>
+        <sc-if value="{{ ctStudents }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:var(--space-4); display:flex; flex-direction:column; gap:8px;">
+            <sc-for list="{{ classStudents }}" as="st" hint-placeholder-count="4">
+              <div style="display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-md);">
+                <span style="width:34px; height:34px; border-radius:50%; background:var(--surface-card-2); color:var(--text-secondary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; font-family:var(--font-display);">{{ st.initials }}</span>
+                <div style="flex:1;"><div style="font-weight:600;">{{ st.name }}</div><div style="font-size:12px; color:var(--text-tertiary);">{{ st.ex }} bài · {{ st.xp }} XP · {{ st.acc }}% acc.</div></div>
+                <span style="font-size:12px; color:var(--text-tertiary);">{{ st.active }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ ctAssignments }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-4);">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" on-click="{{ nav.assignment }}" hint-size="160px,44px">+ Giao bài mới</x-import>
+            <div onClick="{{ nav.assignment }}" style="cursor:pointer; margin-top:14px; padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+              <div style="font-family:var(--font-display); font-weight:800;">Shape of You – B1</div>
+              <div style="display:flex; align-items:center; gap:12px; margin-top:10px;"><div style="flex:1;"><x-import component-from-global-scope="VocabikDesignSystem_0b21db.ProgressBar" value="75" hint-size="100%,8px"></x-import></div><span style="font-size:12px; color:var(--text-tertiary);">24/32 · Avg 78%</span></div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ ctStats }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-4); display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; gap:12px;">
+              <div style="flex:1; padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); text-align:center;"><div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-2xl); color:var(--accent);">78%</div><div style="font-size:12px; color:var(--text-tertiary);">Accuracy TB</div></div>
+              <div style="flex:1; padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); text-align:center;"><div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-2xl); color:var(--success);">28/32</div><div style="font-size:12px; color:var(--text-tertiary);">Active tuần này</div></div>
+            </div>
+            <div style="padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);"><div style="font-weight:700; font-family:var(--font-display); margin-bottom:10px;">Từ sai nhiều nhất</div><sc-for list="{{ topWrong }}" as="w" hint-placeholder-count="3"><div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px;"><span>{{ w.word }}</span><span style="color:var(--danger);">{{ w.n }}/32 sai</span></div></sc-for></div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ============ ASSIGNMENT DETAIL ============ -->
+    <sc-if value="{{ isAssignment }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:680px; margin:0 auto; padding:var(--space-4) var(--space-4) calc(var(--space-16) + 30px);">
+        <button onClick="{{ nav.classroomDetail }}" style="display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--text-secondary); font-weight:600; cursor:pointer; padding:6px 0;"><i data-lucide="arrow-left"></i> Lớp 10A2</button>
+        <h1 style="font-size:var(--text-2xl);">Shape of You – B1</h1>
+        <div style="font-size:14px; color:var(--text-tertiary); margin-top:2px;">Due: 20/06/2026</div>
+        <div style="margin-top:var(--space-4); padding:18px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);">
+          <x-import component-from-global-scope="VocabikDesignSystem_0b21db.ProgressBar" value="75" show-label="{{ true }}" hint-size="100%,8px"></x-import>
+          <div style="display:flex; gap:18px; margin-top:12px; font-size:14px; color:var(--text-secondary);"><span>24/32 đã làm</span><span>Điểm TB: <b style="color:var(--text-primary);">78%</b></span></div>
+        </div>
+        <button style="margin-top:14px; height:44px; padding:0 16px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--accent); font-weight:700; cursor:pointer;">Nhắc học sinh chưa làm 📧</button>
+        <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ assignmentStudents }}" as="st" hint-placeholder-count="4">
+            <div style="display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-md);">
+              <span style="font-size:16px;">{{ st.icon }}</span>
+              <span style="flex:1; font-weight:600;">{{ st.name }}</span>
+              <span style="font-family:var(--font-display); font-weight:800; color:{{ st.color }};">{{ st.scoreLabel }}</span>
+              <span style="font-size:12px; color:var(--text-tertiary); width:70px; text-align:right;">{{ st.date }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:var(--space-5); padding:16px; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg);"><div style="font-weight:700; font-family:var(--font-display); margin-bottom:10px;">Phân tích bài tập</div><sc-for list="{{ topWrong }}" as="w" hint-placeholder-count="3"><div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px;"><span>{{ w.word }}</span><span style="color:var(--danger);">{{ w.n }}/32 sai</span></div></sc-for></div>
+      </div>
+    </sc-if>
+
+    <!-- ============ PRIVACY ============ -->
+    <sc-if value="{{ isPrivacy }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:720px; margin:0 auto; padding:var(--space-6) var(--space-4) calc(var(--space-16) + 30px);">
+        <h1 style="font-size:var(--text-2xl);">Chính sách bảo mật</h1>
+        <div style="font-size:13px; color:var(--text-tertiary); margin-top:4px;">Cập nhật lần cuối: 15/06/2026</div>
+        <div style="margin-top:var(--space-4); padding:16px 18px; background:var(--accent-soft); border:1px solid var(--accent-border); border-radius:var(--radius-lg); font-size:14px; color:var(--text-secondary);"><b style="color:var(--text-primary);">Tóm tắt:</b> Chúng tôi thu thập email và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.</div>
+        <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:18px;">
+          <sc-for list="{{ privacySections }}" as="p" hint-placeholder-count="6">
+            <div><div style="font-weight:800; font-family:var(--font-display);">{{ p.h }}</div><p style="color:var(--text-secondary); font-size:14px; margin-top:6px; line-height:1.6;">{{ p.b }}</p></div>
+          </sc-for>
+        </div>
+        <div style="margin-top:var(--space-5); font-size:14px; color:var(--text-tertiary);">Liên hệ: privacy@vocabik.com</div>
+      </div>
+    </sc-if>
+
+    <!-- ============ TERMS ============ -->
+    <sc-if value="{{ isTerms }}" hint-placeholder-val="{{ false }}">
+      <div class="vb-page" style="max-width:720px; margin:0 auto; padding:var(--space-6) var(--space-4) calc(var(--space-16) + 30px);">
+        <h1 style="font-size:var(--text-2xl);">Điều khoản dịch vụ</h1>
+        <div style="font-size:13px; color:var(--text-tertiary); margin-top:4px;">Cập nhật lần cuối: 15/06/2026</div>
+        <div style="margin-top:var(--space-5); display:flex; flex-direction:column; gap:18px;">
+          <sc-for list="{{ termsSections }}" as="p" hint-placeholder-count="6">
+            <div><div style="font-weight:800; font-family:var(--font-display);">{{ p.h }}</div><p style="color:var(--text-secondary); font-size:14px; margin-top:6px; line-height:1.6;">{{ p.b }}</p></div>
+          </sc-for>
+        </div>
+        <div style="margin-top:var(--space-5); font-size:14px; color:var(--text-tertiary);">Liên hệ: support@vocabik.com</div>
+      </div>
+    </sc-if>
+
+    <!-- ============ 404 ============ -->
+    <sc-if value="{{ isNotFound }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%; display:flex; align-items:center; justify-content:center; padding:var(--space-6); background:var(--wash-brand);">
+        <div class="vb-page" style="text-align:center; max-width:380px;">
+          <div style="font-size:64px;">🎧</div>
+          <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-5xl); color:var(--accent);">404</div>
+          <h1 style="font-size:var(--text-xl); margin-top:8px;">Trang này không tồn tại</h1>
+          <p style="color:var(--text-secondary); margin-top:8px; font-size:14px;">Có thể link đã hết hạn, bài tập đã bị xóa, hoặc URL bị gõ sai.</p>
+          <div style="margin-top:var(--space-5); display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" on-click="{{ nav.home }}" hint-size="140px,44px">Về trang chủ →</x-import>
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="secondary" on-click="{{ nav.discover }}" hint-size="150px,44px">Tìm bài tập khác →</x-import>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ 500 ============ -->
+    <sc-if value="{{ isServerError }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%; display:flex; align-items:center; justify-content:center; padding:var(--space-6); background:var(--wash-brand);">
+        <div class="vb-page" style="text-align:center; max-width:380px;">
+          <div style="font-size:64px;">🔌</div>
+          <div style="font-family:var(--font-display); font-weight:900; font-size:var(--text-5xl); color:var(--danger);">500</div>
+          <h1 style="font-size:var(--text-xl); margin-top:8px;">Có lỗi xảy ra</h1>
+          <p style="color:var(--text-secondary); margin-top:8px; font-size:14px;">Chúng tôi đang khắc phục. Vui lòng thử lại sau vài phút.</p>
+          <div style="margin-top:var(--space-5); display:flex; gap:10px; justify-content:center;">
+            <x-import component-from-global-scope="VocabikDesignSystem_0b21db.Button" variant="primary" on-click="{{ nav.home }}" hint-size="120px,44px">Thử lại →</x-import>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- PAGES-END -->
+  </main>
+
+  <!-- ===== MOBILE BOTTOM NAV ===== -->
+  <sc-if value="{{ showBottomNav }}" hint-placeholder-val="{{ true }}">
+    <nav style="position:sticky; bottom:0; z-index:200; height:calc(var(--tabbar-h) + var(--safe-bottom)); padding-bottom:var(--safe-bottom); display:flex; background:var(--glass-fill); backdrop-filter:var(--blur-md); border-top:1px solid var(--border-subtle);">
+      <button onClick="{{ nav.home }}" style="{{ tabHomeStyle }}"><i data-lucide="home" style="font-size:20px;"></i><span style="font-size:10px; font-weight:700;">Trang chủ</span></button>
+      <button onClick="{{ nav.discover }}" style="{{ tabDiscoverStyle }}"><i data-lucide="compass" style="font-size:20px;"></i><span style="font-size:10px; font-weight:700;">Khám phá</span></button>
+      <button onClick="{{ nav.progress }}" style="{{ tabProgressStyle }}"><i data-lucide="bar-chart-3" style="font-size:20px;"></i><span style="font-size:10px; font-weight:700;">Tiến độ</span></button>
+      <button onClick="{{ nav.settings }}" style="{{ tabProfileStyle }}"><i data-lucide="user" style="font-size:20px;"></i><span style="font-size:10px; font-weight:700;">Hồ sơ</span></button>
+    </nav>
+  </sc-if>
+
+  </div><!-- /vb-app -->
+
+  <!-- ===== PERSONA SWITCHER (prototype control) ===== -->
+  <div style="position:absolute; right:14px; bottom:{{ personaBottom }}; z-index:560; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+    <sc-if value="{{ personaOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="background:var(--surface-card); border:1px solid var(--border-default); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); padding:12px; width:200px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:11px; font-weight:800; letter-spacing:0.08em; color:var(--text-tertiary); text-transform:uppercase;">Xem với vai trò</span>
+        <div style="display:flex; gap:6px;">
+          <button onClick="{{ setAnon }}" style="{{ personaAnonStyle }}">Khách</button>
+          <button onClick="{{ setFree }}" style="{{ personaFreeStyle }}">Free</button>
+          <button onClick="{{ setPremium }}" style="{{ personaPremiumStyle }}">Premium</button>
+        </div>
+      </div>
+    </sc-if>
+    <button onClick="{{ togglePersona }}" title="Đổi vai trò" style="width:48px; height:48px; border-radius:50%; border:1px solid var(--border-strong); background:var(--surface-card); color:var(--text-primary); box-shadow:var(--shadow-md); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px;">{{ personaIcon }}</button>
+  </div>
+
+  <!-- ===== SITEMAP OVERLAY ===== -->
+  <sc-if value="{{ sitemapOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSitemap }}" style="position:absolute; inset:0; z-index:500; background:var(--surface-overlay); backdrop-filter:blur(4px); display:flex; align-items:flex-start; justify-content:center; padding:5vh 16px; overflow-y:auto;">
+      <div onClick="{{ stop }}" style="width:100%; max-width:760px; background:var(--surface-card); border:1px solid var(--border-default); border-radius:var(--radius-xl); box-shadow:var(--shadow-xl); padding:var(--space-6);">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-4);">
+          <h2 style="font-size:var(--text-xl);">Tất cả trang · {{ sitemapTotal }}</h2>
+          <button onClick="{{ closeSitemap }}" style="width:36px; height:36px; border-radius:999px; border:1px solid var(--border-default); background:var(--surface-card-2); color:var(--text-secondary); cursor:pointer;">✕</button>
+        </div>
+        <sc-for list="{{ sitemap }}" as="grp" hint-placeholder-count="6">
+          <div style="margin-bottom:var(--space-5);">
+            <div style="font-size:11px; font-weight:800; letter-spacing:0.08em; color:var(--text-tertiary); text-transform:uppercase; margin-bottom:10px;">{{ grp.title }}</div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:8px;">
+              <sc-for list="{{ grp.items }}" as="it" hint-placeholder-count="4">
+                <button onClick="{{ it.open }}" style="text-align:left; padding:10px 12px; border-radius:var(--radius-md); border:1px solid var(--border-subtle); background:var(--surface-card-2); color:var(--text-primary); cursor:pointer; display:flex; flex-direction:column; gap:2px;">
+                  <span style="font-weight:700; font-size:13px; font-family:var(--font-display);">{{ it.label }}</span>
+                  <span style="font-size:11px; color:var(--text-tertiary);">{{ it.meta }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <div class="vb-gesture"></div>
+</div><!-- /vb-screen -->
+</div><!-- /vb-phone -->
+</div><!-- /vb-device-stage -->
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:940}}">
+class Component extends DCLogic {
+  state = {
+    route: 'home', theme: 'dark', auth: 'free', isMobile: true, lang: 'vi',
+    level: 'all', sitemapOpen: false, personaOpen: false,
+    // exercise
+    exVersion: 'v1', exMode: 'mc', blankIndex: 0, results: [], selected: null,
+    revealed: false, showTranslation: false, hintUsed: false,
+    // settings
+    soundOn: true, billing: 'annual', settingsTab: 'profile', notebookView: 'list',
+    classTab: 'students', lbScope: 'global', lbPeriod: 'week', achFilter: 'all',
+  };
+
+  GENRE = {
+    Pop: 'linear-gradient(135deg,#FF6FB5 0%,#FFA84D 100%)',
+    Rap: 'linear-gradient(135deg,#0E3B3A 0%,#00C9B3 100%)',
+    News: 'linear-gradient(135deg,#16234A 0%,#2C4A8A 100%)',
+    Vlog: 'linear-gradient(135deg,#7E22CE 0%,#4D9FFF 100%)',
+    Talk: 'linear-gradient(135deg,#1E3A5F 0%,#0FA999 100%)',
+    Acoustic: 'linear-gradient(135deg,#3A3A52 0%,#5A5A72 100%)',
+  };
+
+  VIDEOS = [
+    { id:'shape-of-you', title:'Shape of You', artist:'Ed Sheeran', level:'B1', genre:'Pop', duration:'3:53', practiced:'1.2k', state:'in-progress', progress:40 },
+    { id:'blinding-lights', title:'Blinding Lights', artist:'The Weeknd', level:'B2', genre:'Pop', duration:'3:22', practiced:'980' },
+    { id:'flowers', title:'Flowers', artist:'Miley Cyrus', level:'B1', genre:'Pop', duration:'3:20', practiced:'1.5k', state:'completed' },
+    { id:'as-it-was', title:'As It Was', artist:'Harry Styles', level:'B1', genre:'Pop', duration:'2:47', practiced:'870', isNew:true },
+    { id:'someone-like-you', title:'Someone Like You', artist:'Adele', level:'A2', genre:'Acoustic', duration:'4:45', practiced:'2.1k' },
+    { id:'lose-yourself', title:'Lose Yourself', artist:'Eminem', level:'C1', genre:'Rap', duration:'5:26', practiced:'640' },
+    { id:'counting-stars', title:'Counting Stars', artist:'OneRepublic', level:'B1', genre:'Pop', duration:'4:17', practiced:'760' },
+    { id:'perfect', title:'Perfect', artist:'Ed Sheeran', level:'A2', genre:'Acoustic', duration:'4:23', practiced:'1.1k', state:'completed' },
+    { id:'believer', title:'Believer', artist:'Imagine Dragons', level:'B1', genre:'Pop', duration:'3:24', practiced:'920', isNew:true },
+    { id:'happy', title:'Happy', artist:'Pharrell Williams', level:'A2', genre:'Pop', duration:'3:53', practiced:'1.3k' },
+    { id:'bad-guy', title:'Bad Guy', artist:'Billie Eilish', level:'B2', genre:'Pop', duration:'3:14', practiced:'700' },
+    { id:'vulnerability', title:'The power of vulnerability', artist:'Brené Brown · TED', level:'C1', genre:'Talk', duration:'20:19', practiced:'410' },
+  ];
+
+  EX = {
+    total: 6,
+    blanks: [
+      { pre:'We can stay up late and', answer:'dance', post:'until the morning light', options:['dance','drive','dream','draw'], vi:'Chúng ta có thể thức khuya và nhảy đến khi trời sáng.' },
+      { pre:'I really', answer:'enjoy', post:'the way you sing along', options:['enjoy','expect','explain','escape'], vi:'Anh thực sự thích cách em hát theo.' },
+      { pre:'Every little', answer:'moment', post:'feels brand new', options:['moment','mountain','message','machine'], vi:'Mỗi khoảnh khắc nhỏ đều mới mẻ.' },
+      { pre:'You make my heart', answer:'beat', post:'a little faster', options:['beat','beam','bend','blink'], vi:'Em làm tim anh đập nhanh hơn một chút.' },
+      { pre:"Let's find a quiet", answer:'place', post:'to talk all night', options:['place','plane','plate','plan'], vi:'Hãy tìm một nơi yên tĩnh để trò chuyện cả đêm.' },
+      { pre:'This could be the', answer:'start', post:'of something good', options:['start','storm','story','stack'], vi:'Đây có thể là khởi đầu của điều gì đó tốt đẹp.' },
+    ],
+  };
+
+  BADGES = [
+    { name:'First Exercise', icon:'🎯', desc:'Hoàn thành bài đầu tiên', unlocked:true, date:'12/05/2026' },
+    { name:'7-Day Streak', icon:'🔥', desc:'7 ngày liên tiếp', unlocked:true, date:'19/05/2026' },
+    { name:'First B2', icon:'📈', desc:'Hoàn thành bài B2 đầu tiên', unlocked:true, date:'02/06/2026' },
+    { name:'Genre Master: Pop', icon:'🎵', desc:'20 bài Pop', unlocked:true, date:'08/06/2026' },
+    { name:'Speed Demon', icon:'⚡', desc:'Hoàn thành 1 speed version', unlocked:true, date:'10/06/2026' },
+    { name:'Vocab Hunter', icon:'📖', desc:'Lưu 100 từ', unlocked:false, progress:12, total:100 },
+    { name:'Centurion', icon:'💯', desc:'Hoàn thành 100 bài', unlocked:false, progress:47, total:100 },
+    { name:'Version Master', icon:'🏆', desc:'3 versions của 1 bài', unlocked:false, progress:0, total:3 },
+  ];
+  LEADERS = [
+    { rank:1, name:'Minh Khôi', xp:1240 }, { rank:2, name:'Thu Hà', xp:1180 }, { rank:3, name:'Quốc Anh', xp:980 },
+    { rank:4, name:'Bảo Ngọc', xp:860 }, { rank:5, name:'Hải Đăng', xp:740 }, { rank:6, name:'Lan Phương', xp:690 },
+    { rank:7, name:'Tuấn Kiệt', xp:610 }, { rank:8, name:'Mai Chi', xp:560 }, { rank:9, name:'Đức Huy', xp:540 }, { rank:10, name:'Khánh Vy', xp:520 },
+  ];
+  WORDS = [
+    { word:'magnificent', ipa:'/mæɡˈnɪfɪsnt/', vi:'tráng lệ, kỳ vĩ', ex:'What a magnificent view!', video:'Bohemian Rhapsody', level:'B2', date:'10/06/2026' },
+    { word:'whisper', ipa:'/ˈwɪspə(r)/', vi:'thì thầm', ex:'She whispered a secret.', video:'As It Was', level:'B1', date:'09/06/2026' },
+    { word:'fascinated', ipa:'/ˈfæsɪneɪtɪd/', vi:'bị mê hoặc', ex:'I was fascinated by the story.', video:'Counting Stars', level:'B2', date:'08/06/2026' },
+    { word:'eloquent', ipa:'/ˈeləkwənt/', vi:'hùng hồn, lưu loát', ex:'An eloquent speaker.', video:'TED · Vulnerability', level:'C1', date:'07/06/2026' },
+    { word:'gentle', ipa:'/ˈdʒentl/', vi:'dịu dàng, nhẹ nhàng', ex:'A gentle breeze.', video:'Perfect', level:'A2', date:'06/06/2026' },
+  ];
+
+  DICT = {
+    // nav & shell
+    'Thư viện':'Library', 'Khám phá':'Discover', 'Tiến độ':'Progress', 'Bảng giá':'Pricing',
+    'Trang chủ':'Home', 'Hồ sơ':'Profile', 'Đăng nhập':'Log in', 'Đăng ký →':'Sign up →',
+    'Đăng ký miễn phí →':'Sign up free →', 'Tất cả trang':'All pages', 'Xem với vai trò':'View as',
+    'Khách':'Guest',
+    // home
+    '☀️ Tuyển chọn cho bạn hôm nay':'☀️ Handpicked for you today', 'Đổi mới mỗi ngày':'Refreshed daily',
+    'Cũng dành cho bạn':'Also for you', 'Hôm nay':'Today', '⚡ Không giới hạn':'⚡ Go unlimited',
+    '🎬 Luyện video YouTube bất kỳ':'🎬 Practice any YouTube video', 'Tạo bài tập →':'Create exercise →',
+    '⭐ Gợi ý video cho thư viện →':'⭐ Suggest a video for the library →',
+    'Daily Challenge hôm nay':"Today's Daily Challenge", 'Trending tuần này 🔥':'Trending this week 🔥',
+    'Xem tất cả →':'See all →', 'Mới thêm ✨':'Newly added ✨', 'Chính sách bảo mật':'Privacy Policy',
+    'Điều khoản':'Terms', 'Tạo tài khoản miễn phí để lưu tiến độ.':'Create a free account to save your progress.',
+    // exercise pre-play
+    'Quay lại':'Back', 'Dạng bài':'Exercise type', 'Độ dài':'Length', '20 chỗ trống':'20 blanks',
+    'Fill-blank':'Fill-blank', 'Tự gõ đáp án':'Type the answer', 'Phiên bản':'Version',
+    'Bắt đầu luyện →':'Start practice →', '🔗 Chia sẻ bài này':'🔗 Share this exercise',
+    // player
+    'ĐANG LUYỆN':'NOW PRACTICING', 'Chỗ trống':'Blank', 'Xem dịch tiếng Việt':'Show Vietnamese',
+    'Ẩn dịch':'Hide translation', '💡 Gợi ý':'💡 Hint', 'Kiểm tra':'Check', 'Tiếp tục →':'Continue →',
+    'Xem kết quả →':'See results →', 'Cảm nhận:':'Reaction:', 'ngày':'days',
+    // result
+    'Sai ở đâu?':'What went wrong?', 'Chia sẻ':'Share', '⚔️ Thách bạn bè':'⚔️ Challenge a friend',
+    'Bài tiếp theo gợi ý →':'Next suggested exercise →', 'Luyện lại':'Practice again', 'Về thư viện':'Back to library',
+    'ngày liên tiếp':'day streak', 'Badge mới: First B2!':'New badge: First B2!',
+    'Hoàn thành bài B2 đầu tiên':'Completed your first B2 exercise',
+    // discover
+    'Trending 🔥':'Trending 🔥', 'Playlist tuyển chọn':'Curated playlist', 'Pop · B1':'Pop · B1',
+    // progress
+    'Tiến độ của bạn':'Your progress', '🏅 Thành tích':'🏅 Achievements', '🏆 Xếp hạng':'🏆 Leaderboard',
+    'ngày streak':'day streak', 'bài đã làm':'exercises done', 'độ chính xác':'accuracy',
+    'Streak 30 ngày':'30-day streak', 'XP theo tuần':'Weekly XP', 'Điểm cần cải thiện':'Areas to improve',
+    'Luyện Prepositions →':'Practice Prepositions →', 'Lịch sử học':'Learning history',
+    // achievements / leaderboard / notebook
+    'Thành tích của bạn':'Your achievements', 'Đã mở khóa':'Unlocked', 'Chưa mở khóa':'Locked',
+    'Bảng xếp hạng XP':'XP Leaderboard', 'Hạng của bạn':'Your rank', 'Sổ từ vựng':'Notebook',
+    'Tìm từ...':'Search words...', 'Chạm để lật ↺':'Tap to flip ↺', '👎 Cần ôn lại':'👎 Review again',
+    '👍 Nhớ rồi':'👍 Got it', 'Bạn':'You',
+    // settings
+    'Hồ sơ & Cài đặt':'Profile & Settings', 'Tùy chỉnh':'Preferences', 'Bảo mật':'Security',
+    'Tài khoản':'Account', 'Đổi ảnh':'Change photo', 'Giao diện':'Appearance',
+    'Âm thanh khi làm bài':'Sound during exercises', 'Ngôn ngữ giao diện':'Interface language',
+    '🌙 Dark':'🌙 Dark', '☀️ Light':'☀️ Light', '🇻🇳 Tiếng Việt':'🇻🇳 Vietnamese', '🇬🇧 English':'🇬🇧 English',
+    'Đăng xuất':'Log out', '🎓 Lớp học':'🎓 Classroom', '🔥 Daily Challenge':'🔥 Daily Challenge',
+    '✈️ Tích hợp Bot':'✈️ Bot integration', '📖 Sổ từ vựng':'📖 Notebook',
+    // pricing
+    'Học tiếng Anh không giới hạn':'Learn English without limits', 'Hàng tháng':'Monthly',
+    'Hàng năm · -33%':'Yearly · -33%', 'Miễn phí':'Free', 'mãi mãi':'forever',
+    'Dùng miễn phí':'Use for free', 'Bắt đầu Premium →':'Start Premium →', 'Hủy bất cứ lúc nào':'Cancel anytime',
+    'Câu hỏi thường gặp':'Frequently asked questions',
+    // auth
+    'Đăng nhập vào Vocabik':'Log in to Vocabik', 'Quên mật khẩu? →':'Forgot password? →',
+    'Tạo tài khoản miễn phí':'Create a free account', 'Bắt đầu học ngay hôm nay':'Start learning today',
+    'Kiểm tra email của bạn':'Check your email', 'Bắt đầu học →':'Start learning →',
+    'Bỏ qua, tôi tự chọn sau':'Skip, I\u2019ll choose later',
+    // placeholders
+    'Dán link YouTube...':'Paste a YouTube link...', 'Tìm theo bài hát, nghệ sĩ...':'Search by song, artist...',
+    'Gõ đáp án...':'Type your answer...', 'Email của bạn':'Your email', 'Mật khẩu':'Password',
+    'Tên của bạn':'Your name', 'Email':'Email',
+    // ===== full coverage =====
+    // shell / sitemap
+    'Tất cả trang':'All pages', 'Tất cả trang ·':'All pages ·',
+    'Public & Marketing':'Public & Marketing', 'Học tập':'Learning', 'Tiện ích':'Utility',
+    'Mở rộng (v2.0)':'Extensions (v2.0)', 'Chính sách':'Policy', 'Xác thực email':'Verify email',
+    'Quên mật khẩu':'Forgot password', 'Đặt lại mật khẩu':'Reset password', 'Chọn trình độ':'Choose level',
+    'Playlist':'Playlist', 'Bài tập (Info)':'Exercise (Info)', 'Đang luyện':'Now practicing',
+    'Bảng điểm':'Score Card', 'Cài đặt':'Settings', 'Gợi ý video':'Suggest video', 'Xếp hạng':'Leaderboard',
+    'Thử thách':'Challenge', 'Tích hợp Bot':'Bot integration', 'Lớp học':'Classroom',
+    'Chi tiết lớp':'Class detail', 'Chi tiết bài giao':'Assignment detail',
+    // home fragments
+    'đã luyện':'practiced', '2 / 5 bài':'2 of 5', 'video':'videos',
+    // discover
+    'Tìm thấy':'Found', 'Playlist tuyển chọn':'Curated playlist', 'Pop Hits A2–B1':'Pop Hits A2–B1',
+    'Những bài nhạc Pop phổ biến, phù hợp learner A2–B1.':'Popular Pop songs, great for A2–B1 learners.',
+    '15 videos · ~60 phút':'15 videos · ~60 min', '⏱ ~60 phút':'⏱ ~60 min', 'Level: A2–B1':'Level: A2–B1',
+    '✓ Admin Curated':'✓ Admin Curated',
+    // progress
+    '❄️ Streak Freeze: 1 còn lại':'❄️ Streak Freeze: 1 left', 'Fluent Challenger':'Fluent Challenger',
+    '→ Tiếp theo:':'→ Next:', 'Hôm nay':'Today', 'Hôm qua':'Yesterday',
+    'T1':'W1', 'T2':'W2', 'T3':'W3', 'T4':'W4',
+    // achievements
+    'badges đã mở khóa':'badges unlocked', 'Tất cả':'All', 'Mốc học':'Milestones', 'Thể loại':'Genre', 'Từ vựng':'Vocabulary',
+    // leaderboard
+    'Reset sau: 2 ngày':'Resets in: 2 days', 'Tuần này':'This week', 'Tuần trước':'Last week', 'Tháng này':'This month',
+    '🌍 Toàn cầu':'🌍 Global', '👥 Bạn bè':'👥 Friends',
+    // notebook
+    'từ':'words', '📋 List':'📋 List', '🃏 Flashcard':'🃏 Flashcard',
+    // auth
+    'Tiếp tục với Google':'Continue with Google', 'Tiếp tục với Facebook':'Continue with Facebook', 'hoặc':'or',
+    'Đăng ký với Google':'Sign up with Google', 'Mạnh':'Strong',
+    'Đã có tài khoản?':'Already have an account?', 'Chưa có tài khoản?':'No account yet?',
+    'Đăng nhập →':'Log in →', 'Chúng tôi đã gửi đến:':'We sent it to:', 'Gửi lại sau 45 giây':'Resend in 45s',
+    'Tôi đã xác thực → tiếp tục':"I've verified → continue", '💡 Không thấy email? Kiểm tra thư mục Spam.':"💡 Don't see it? Check your Spam folder.",
+    'Quên mật khẩu?':'Forgot password?', 'Nhập email, chúng tôi sẽ gửi link đặt lại.':"Enter your email and we'll send a reset link.",
+    'Gửi link đặt lại →':'Send reset link →', 'Quay lại đăng nhập':'Back to login', 'Đặt mật khẩu mới':'Set a new password',
+    'Mật khẩu mới':'New password', 'Xác nhận mật khẩu':'Confirm password', 'Đặt lại mật khẩu →':'Reset password →',
+    'Tiếng Anh của bạn':'Where is your English', 'hiện ở đâu?':'right now?',
+    'Chúng tôi sẽ gợi ý bài phù hợp nhất với bạn.':"We'll suggest the exercises that fit you best.",
+    'Mới bắt đầu':'Beginner', 'Cơ bản':'Basic', 'Khá':'Intermediate', 'Nâng cao':'Advanced',
+    // pricing
+    'Mở khóa Vocabik Premium từ $5/tháng.':'Unlock Vocabik Premium from $5/mo.', 'PHỔ BIẾN NHẤT':'MOST POPULAR',
+    '/năm':'/yr', '/tháng':'/mo', 'Thư viện curated':'Curated library', '5 bài / ngày':'5 exercises / day',
+    'Theo dõi tiến độ':'Progress tracking', 'Tất cả tính năng Free':'Everything in Free',
+    'Paste bất kỳ URL YouTube':'Paste any YouTube URL', 'Học không giới hạn':'Unlimited learning',
+    'Tất cả exercise versions':'All exercise versions', 'Hint không giới hạn':'Unlimited hints',
+    'Gợi ý video cho thư viện':'Suggest videos for the library',
+    '🔒 Thanh toán bảo mật':'🔒 Secure payment', '↩️ Hủy bất cứ lúc nào':'↩️ Cancel anytime', '📧 Hỗ trợ 24h':'📧 24h support',
+    'Tôi có thể hủy không?':'Can I cancel?', 'Có, bất cứ lúc nào, không mất phí.':'Yes, anytime, at no cost.',
+    'Dùng thẻ Việt Nam được không?':'Can I use a Vietnamese card?', 'Có, chấp nhận Visa/Mastercard quốc tế.':'Yes, we accept international Visa/Mastercard.',
+    'Có trial miễn phí không?':'Is there a free trial?', 'Gói Free đã là trial vĩnh viễn.':'The Free plan is a permanent trial.',
+    'Annual refund được không?':'Can I get an annual refund?', 'Trong 7 ngày kể từ ngày thanh toán.':'Within 7 days of payment.',
+    // settings
+    'Thành viên từ: 15/05/2026':'Member since: 15/05/2026', '💎 Gói Premium':'💎 Premium plan',
+    'Loại: Monthly · $5/tháng · Gia hạn: 15/07/2026':'Type: Monthly · $5/mo · Renews: 15/07/2026',
+    'Quản lý subscription →':'Manage subscription →', '🆓 Gói Free':'🆓 Free plan',
+    'Học phong phú hơn với Premium.':'Learn more richly with Premium.', 'Nâng lên Premium →':'Upgrade to Premium →',
+    'Mật khẩu hiện tại':'Current password', 'Cập nhật':'Update', 'Phiên đăng nhập':'Active sessions',
+    '📱 Mobile Safari · iOS · 2h trước':'📱 Mobile Safari · iOS · 2h ago',
+    'Xuất dữ liệu của tôi →':'Export my data →', 'Xóa tài khoản vĩnh viễn':'Delete account permanently',
+    'Tích hợp Bot (Telegram / Zalo)':'Bot integration (Telegram / Zalo)',
+    // suggest
+    'Gợi ý video cho thư viện':'Suggest a video for the library',
+    'Video được approve sẽ vào thư viện chung. Bạn nhận Contributor badge ⭐':'Approved videos join the shared library. You earn a Contributor badge ⭐',
+    'Level gợi ý cho video này:':'Suggested level for this video:', 'Ghi chú cho admin (optional)...':'Note for admin (optional)...',
+    'Gửi gợi ý →':'Submit suggestion →', 'Gợi ý của tôi':'My suggestions',
+    'Đang xem xét':'Under review', 'Đã approve!':'Approved!', 'Không phù hợp':'Not a fit',
+    // challenge / daily
+    'Bạn được thách đấu!':"You've been challenged!", 'thách bạn luyện:':'challenges you to practice:',
+    'Chấp nhận thử thách! →':'Accept the challenge! →', 'Tham gia ngay! →':'Join now! →', 'Top hôm nay':'Top today',
+    '🔥 Bạn đã tham gia 12 ngày liên tiếp!':"🔥 You've joined 12 days in a row!", 'đang tham gia':'joining',
+    // integrations
+    'Tích hợp':'Integrations', 'Nhận bài tập mỗi sáng qua Telegram':'Get exercises every morning via Telegram',
+    '⚫ Chưa kết nối':'⚫ Not connected', 'Thời gian nhận bài':'Delivery time',
+    'Kết nối Telegram Bot →':'Connect Telegram Bot →', 'Cấu trúc tương tự Telegram':'Same setup as Telegram',
+    // classroom
+    'Lớp học của tôi':'My classrooms', '+ Tạo lớp mới':'+ New class', 'học sinh':'students',
+    'Chưa có bài tập':'No assignment yet', 'Mã tham gia':'Join code', 'Bài tập':'Assignments', 'Thống kê':'Statistics',
+    '+ Giao bài mới':'+ New assignment', 'Accuracy TB':'Avg accuracy', 'Active tuần này':'Active this week',
+    'Từ sai nhiều nhất':'Most-missed words', '2 ngày trước':'2 days ago',
+    'Nhắc học sinh chưa làm 📧':'Remind students who haven\u2019t done it 📧', 'Chưa làm':'Not done',
+    'Phân tích bài tập':'Assignment analysis', 'Điểm TB:':'Avg score:', 'đã làm':'done',
+    // privacy / terms
+    'Cập nhật lần cuối: 15/06/2026':'Last updated: 15/06/2026', 'Liên hệ: privacy@vocabik.com':'Contact: privacy@vocabik.com',
+    'Liên hệ: support@vocabik.com':'Contact: support@vocabik.com', 'Điều khoản dịch vụ':'Terms of Service',
+    // 404 / 500
+    'Trang này không tồn tại':"This page doesn't exist",
+    'Có thể link đã hết hạn, bài tập đã bị xóa, hoặc URL bị gõ sai.':'The link may have expired, the exercise was removed, or the URL is mistyped.',
+    'Về trang chủ →':'Back to home →', 'Tìm bài tập khác →':'Find another exercise →',
+    'Có lỗi xảy ra':'Something went wrong', 'Chúng tôi đang khắc phục. Vui lòng thử lại sau vài phút.':"We're fixing it. Please try again in a few minutes.",
+    'Thử lại →':'Try again →',
+  };
+
+  startPlayer = () => { this.setState({ route:'player', blankIndex:0, results:[], selected:null, revealed:false, hintUsed:false, freeInput:'', showTranslation:false }, () => { const el=document.getElementById('vbScroll'); if(el) el.scrollTop=0; }); };
+  chooseMC = (opt) => { if (this.state.revealed) return; const b=this.EX.blanks[this.state.blankIndex]; this.setState({ selected:opt, revealed:true, results:[...this.state.results, opt===b.answer] }); };
+  submitFree = () => { if (this.state.revealed) return; const b=this.EX.blanks[this.state.blankIndex]; const val=(this.state.freeInput||'').trim().toLowerCase(); if(!val) return; this.setState({ selected:this.state.freeInput, revealed:true, results:[...this.state.results, val===b.answer.toLowerCase()] }); };
+  useHint = () => { if (!this.state.hintUsed) this.setState({ hintUsed:true }); };
+  nextBlank = () => { const i=this.state.blankIndex+1; if (i>=this.EX.total) { this.setState({ route:'result' }, ()=>{ const el=document.getElementById('vbScroll'); if(el) el.scrollTop=0; }); } else { this.setState({ blankIndex:i, selected:null, revealed:false, hintUsed:false, freeInput:'', showTranslation:false }); } };
+  exitPlayer = () => { this.setState({ route:'exercise' }); };
+
+  componentDidMount() {
+    if (!this.state.isMobile) this.setState({ isMobile: true });
+    this.icons(); this.applyLang();
+  }
+  componentWillUnmount() {}
+  componentDidUpdate() { this.icons(); this.applyLang(); }
+  icons() { try { window.requestAnimationFrame(() => window.lucide && window.lucide.createIcons()); } catch (e) {} }
+  applyLang() {
+    try {
+      const root = document.querySelector('.vb-app'); if (!root) return;
+      const en = this.state.lang === 'en';
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(n => {
+        const raw = n.nodeValue; const key = (raw || '').trim(); if (!key) return;
+        if (en) { const t = this.DICT[key]; if (t !== undefined) { if (n.__vi == null) n.__vi = raw; n.nodeValue = raw.replace(key, t); } }
+        else if (n.__vi != null) { n.nodeValue = n.__vi; n.__vi = null; }
+      });
+      root.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+        const key = (el.getAttribute('placeholder') || '').trim(); if (!key) return;
+        if (en) { const t = this.DICT[key]; if (t !== undefined) { if (el.__vi == null) el.__vi = el.getAttribute('placeholder'); el.setAttribute('placeholder', t); } }
+        else if (el.__vi != null) { el.setAttribute('placeholder', el.__vi); el.__vi = null; }
+      });
+    } catch (e) {}
+  }
+
+  go = (route) => { this.setState({ route, sitemapOpen: false, avatarMenu: false, personaOpen: false }, () => { const el = document.getElementById('vbScroll'); if (el) el.scrollTop = 0; }); };
+  withThumb(v) { return { ...v, thumbColor: this.GENRE[v.genre] || this.GENRE.Acoustic, open: () => this.openVideo(v) }; }
+  openVideo = (v) => { this._active = v; this.setState({ route: 'exercise', exVersion: 'v1', blankIndex: 0, results: [], selected: null, revealed: false, showTranslation: false, hintUsed: false }, () => { const el = document.getElementById('vbScroll'); if (el) el.scrollTop = 0; }); };
+
+  renderVals() {
+    const s = this.state;
+    const fullscreen = ['onboarding','login','register','verify','forgot','reset','player','notFound','serverError'].includes(s.route);
+    const isAuthed = s.auth === 'free' || s.auth === 'premium';
+    const r = s.route;
+    const navBtn = (active) => `display:flex;align-items:center;height:40px;padding:0 14px;border-radius:999px;border:none;cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:14px;background:${active?'var(--accent-soft)':'transparent'};color:${active?'var(--accent)':'var(--text-secondary)'};`;
+    const tabBtn = (active) => `flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;cursor:pointer;color:${active?'var(--accent)':'var(--text-tertiary)'};`;
+    const personaBtn = (on) => `flex:1;height:32px;border-radius:999px;border:1px solid ${on?'var(--accent)':'var(--border-default)'};background:${on?'var(--accent-soft)':'transparent'};color:${on?'var(--accent)':'var(--text-secondary)'};font-weight:700;font-size:12px;cursor:pointer;`;
+    const tabRoute = (set) => set.includes(r);
+
+    const routes = ['home','discover','progress','settings','pricing','login','register','verify','forgot','reset','onboarding','playlist','exercise','result','achievements','suggest','notebook','leaderboard','challenge','daily','integrations','classroom','classroomDetail','assignment','privacy','terms','notFound','serverError'];
+    const nav = {}; routes.forEach(rt => { nav[rt] = () => this.go(rt); });
+
+    const levels = ['all','A1','A2','B1','B2','C1'];
+    const levelChips = levels.map(l => ({ label: l === 'all' ? 'Tất cả' : l, selected: s.level === l, onClick: () => this.setState({ level: l }) }));
+    const lib = this.VIDEOS.filter(v => s.level === 'all' || v.level === s.level).map(v => this.withThumb(v));
+
+    const smGo = (route) => () => this.go(route);
+    const sitemap = [
+      { title: 'Public & Marketing', items: [
+        { label:'Trang chủ', meta:'/', open:smGo('home') }, { label:'Bảng giá', meta:'/pricing', open:smGo('pricing') },
+        { label:'Chính sách', meta:'/privacy', open:smGo('privacy') }, { label:'Điều khoản', meta:'/terms', open:smGo('terms') } ] },
+      { title: 'Tài khoản', items: [
+        { label:'Đăng nhập', meta:'/login', open:smGo('login') }, { label:'Đăng ký', meta:'/register', open:smGo('register') },
+        { label:'Xác thực email', meta:'/verify', open:smGo('verify') }, { label:'Quên mật khẩu', meta:'/forgot', open:smGo('forgot') },
+        { label:'Đặt lại mật khẩu', meta:'/reset', open:smGo('reset') }, { label:'Chọn trình độ', meta:'/onboarding', open:smGo('onboarding') } ] },
+      { title: 'Học tập', items: [
+        { label:'Khám phá', meta:'/discover', open:smGo('discover') }, { label:'Playlist', meta:'/playlist', open:smGo('playlist') },
+        { label:'Bài tập (Info)', meta:'/exercise', open:smGo('exercise') }, { label:'Đang luyện', meta:'/player', open:smGo('player') },
+        { label:'Bảng điểm', meta:'/result', open:smGo('result') }, { label:'Tiến độ', meta:'/progress', open:smGo('progress') },
+        { label:'Cài đặt', meta:'/settings', open:smGo('settings') } ] },
+      { title: 'Gamification & Depth', items: [
+        { label:'Thành tích', meta:'/achievements', open:smGo('achievements') }, { label:'Gợi ý video', meta:'/suggest', open:smGo('suggest') },
+        { label:'Sổ từ vựng', meta:'/notebook', open:smGo('notebook') }, { label:'Xếp hạng', meta:'/leaderboard', open:smGo('leaderboard') } ] },
+      { title: 'Mở rộng (v2.0)', items: [
+        { label:'Thử thách', meta:'/challenge', open:smGo('challenge') }, { label:'Daily Challenge', meta:'/daily-challenge', open:smGo('daily') },
+        { label:'Tích hợp Bot', meta:'/integrations', open:smGo('integrations') }, { label:'Lớp học', meta:'/classroom', open:smGo('classroom') },
+        { label:'Chi tiết lớp', meta:'/classroom/:id', open:smGo('classroomDetail') }, { label:'Chi tiết bài giao', meta:'/assignment', open:smGo('assignment') } ] },
+      { title: 'Tiện ích', items: [
+        { label:'404', meta:'/404', open:smGo('notFound') }, { label:'500', meta:'/500', open:smGo('serverError') } ] },
+    ];
+    const sitemapTotal = sitemap.reduce((a, g) => a + g.items.length, 0) + (s.lang === 'en' ? ' pages' : ' trang');
+
+    // ===== Exercise / Player =====
+    const av = this._active || this.VIDEOS[0];
+    const avThumb = this.GENRE[av.genre] || this.GENRE.Acoustic;
+    const bi = s.blankIndex; const blank = this.EX.blanks[bi];
+    const isFree = s.exMode === 'free';
+    const correctCount = s.results.filter(Boolean).length;
+    const total = this.EX.total;
+    const scorePct = s.results.length ? Math.round((correctCount / s.results.length) * 100) : 0;
+    const finalPct = Math.round((correctCount / total) * 100);
+    const dots = Array.from({ length: total }).map((_, i) => {
+      let st = 'pending';
+      if (i < s.results.length) st = s.results[i] ? 'correct' : 'wrong';
+      else if (i === bi) st = 'current';
+      const color = st === 'correct' ? 'var(--accent)' : st === 'wrong' ? 'var(--danger)' : st === 'current' ? '#fff' : 'rgba(0,229,204,0.30)';
+      return { color, pulse: st === 'current', left: (8 + i * (84 / (total - 1))) + '%' };
+    });
+    const mcOptions = blank.options.map((o) => {
+      let bg = 'var(--surface-card-2)', bd = 'var(--border-default)', fg = 'var(--text-primary)';
+      if (s.revealed) {
+        if (o === blank.answer) { bg = 'var(--success-soft)'; bd = 'var(--success)'; fg = 'var(--success)'; }
+        else if (o === s.selected) { bg = 'var(--danger-soft)'; bd = 'var(--danger)'; fg = 'var(--danger)'; }
+      }
+      const style = `display:flex;align-items:center;justify-content:center;min-height:52px;padding:12px 16px;border-radius:999px;cursor:${s.revealed?'default':'pointer'};font-family:var(--font-display);font-weight:700;font-size:16px;background:${bg};border:1.5px solid ${bd};color:${fg};transition:all var(--dur-fast) var(--ease-standard);${(s.revealed&&o===s.selected&&o!==blank.answer)?'animation:vb-shake 0.3s var(--ease-standard);':''}`;
+      return { label: o, onClick: () => this.chooseMC(o), style };
+    });
+    const blankDisplay = s.revealed ? blank.answer : (s.hintUsed ? blank.answer[0] + '_____' : '_____');
+    const feedbackMsg = s.revealed ? (s.results[s.results.length - 1] ? (s.lang === 'en' ? ['Correct! 🎉','Awesome!','Spot on!'] : ['Chính xác! 🎉','Tuyệt vời!','Quá đúng!'])[bi % 3] : (s.lang === 'en' ? ('Almost — the answer was “' + blank.answer + '”.') : ('Gần đúng — đáp án là “' + blank.answer + '”.'))) : '';
+
+    return {
+      theme: s.theme, themeIcon: s.theme === 'dark' ? '🌙' : '☀️',
+      clock: (() => { try { return new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); } catch (e) { return '9:41'; } })(),
+      lang: s.lang, langLabel: s.lang === 'vi' ? 'VN' : 'EN',
+      toggleLang: () => this.setState({ lang: s.lang === 'vi' ? 'en' : 'vi' }),
+      setViLang: () => this.setState({ lang: 'vi' }), setEnLang: () => this.setState({ lang: 'en' }),
+      langViStyle: `height:40px;padding:0 16px;border-radius:999px;cursor:pointer;font-weight:700;font-family:var(--font-display);display:flex;align-items:center;background:${s.lang==='vi'?'var(--accent-soft)':'var(--surface-card-2)'};border:1px solid ${s.lang==='vi'?'var(--accent-border)':'var(--border-subtle)'};color:${s.lang==='vi'?'var(--accent)':'var(--text-tertiary)'};`,
+      langEnStyle: `height:40px;padding:0 16px;border-radius:999px;cursor:pointer;font-weight:700;font-family:var(--font-display);display:flex;align-items:center;background:${s.lang==='en'?'var(--accent-soft)':'var(--surface-card-2)'};border:1px solid ${s.lang==='en'?'var(--accent-border)':'var(--border-subtle)'};color:${s.lang==='en'?'var(--accent)':'var(--text-tertiary)'};`,
+      isMobile: s.isMobile,
+      showTopNav: !s.isMobile && !fullscreen,
+      showMobileHeader: s.isMobile && !fullscreen,
+      showBottomNav: s.isMobile && !fullscreen,
+      isAuthed, isAnon: s.auth === 'anon', isFree: s.auth === 'free', isPremium: s.auth === 'premium',
+      streak: 12, xp: '1,240',
+      heroCols: s.isMobile ? '1fr' : '1.1fr 1fr',
+
+      // route flags
+      isHome: r === 'home', isDiscover: r === 'discover', isProgress: r === 'progress', isSettings: r === 'settings',
+      isPricing: r === 'pricing', isPrivacy: r === 'privacy', isTerms: r === 'terms', isLogin: r === 'login',
+      isRegister: r === 'register', isVerify: r === 'verify', isForgot: r === 'forgot', isReset: r === 'reset',
+      isOnboarding: r === 'onboarding', isExercise: r === 'exercise', isPlayer: r === 'player', isResult: r === 'result',
+      isAchievements: r === 'achievements', isSuggest: r === 'suggest', isNotebook: r === 'notebook', isLeaderboard: r === 'leaderboard',
+      isChallenge: r === 'challenge', isDaily: r === 'daily', isIntegrations: r === 'integrations', isClassroom: r === 'classroom',
+      isClassroomDetail: r === 'classroomDetail', isAssignment: r === 'assignment', isPlaylist: r === 'playlist',
+      isNotFound: r === 'notFound', isServerError: r === 'serverError',
+
+      // nav styles
+      topLinkHome: navBtn(r === 'home'), topLinkDiscover: navBtn(r === 'discover'), topLinkProgress: navBtn(r === 'progress'), topLinkPricing: navBtn(r === 'pricing'),
+      tabHomeStyle: tabBtn(r === 'home'), tabDiscoverStyle: tabBtn(r === 'discover'), tabProgressStyle: tabBtn(r === 'progress'),
+      tabProfileStyle: tabBtn(tabRoute(['settings','achievements','notebook'])),
+
+      nav,
+      toggleTheme: () => this.setState({ theme: s.theme === 'dark' ? 'light' : 'dark' }),
+      openSitemap: () => this.setState({ sitemapOpen: true }), closeSitemap: () => this.setState({ sitemapOpen: false }),
+      sitemapOpen: s.sitemapOpen, sitemap, sitemapTotal, stop: (e) => e.stopPropagation(),
+
+      // persona
+      personaOpen: s.personaOpen, togglePersona: () => this.setState({ personaOpen: !s.personaOpen }),
+      personaIcon: s.auth === 'anon' ? '👤' : (s.auth === 'premium' ? '💎' : '🙂'),
+      personaBottom: s.isMobile && !fullscreen ? 'calc(var(--tabbar-h) + 14px)' : '14px',
+      setAnon: () => this.setState({ auth: 'anon', personaOpen: false }), setFree: () => this.setState({ auth: 'free', personaOpen: false }), setPremium: () => this.setState({ auth: 'premium', personaOpen: false }),
+      personaAnonStyle: personaBtn(s.auth === 'anon'), personaFreeStyle: personaBtn(s.auth === 'free'), personaPremiumStyle: personaBtn(s.auth === 'premium'),
+
+      // home data
+      heroPlay: () => this.openVideo(this.VIDEOS[0]),
+      dailyFeatured: this.withThumb(this.VIDEOS[0]),
+      dailyList: [this.VIDEOS[8], this.VIDEOS[6], this.VIDEOS[4]].map(v => this.withThumb(v)),
+      levelChips,
+      trending: [this.VIDEOS[2], this.VIDEOS[1], this.VIDEOS[9], this.VIDEOS[6]].map(v => this.withThumb(v)),
+      newAdds: [this.VIDEOS[3], this.VIDEOS[8], this.VIDEOS[10], this.VIDEOS[5]].map(v => this.withThumb(v)),
+      library: lib, libraryCount: lib.length,
+
+      // discover
+      searchQuery: s.searchQuery || '', onSearch: (e) => this.setState({ searchQuery: e.target.value }),
+      hasQuery: !!(s.searchQuery && s.searchQuery.trim()), noQuery: !(s.searchQuery && s.searchQuery.trim()),
+      genreChips: ['Tất cả','Pop','Rap','Acoustic','Talk'].map(g => ({ label:g, selected:(s.dGenre||'Tất cả')===g, onClick:()=>this.setState({dGenre:g}) })),
+      durationChips: ['< 3 phút','3–7 phút','> 7 phút'].map(d => ({ label:d, selected:s.dDur===d, onClick:()=>this.setState({dDur:s.dDur===d?null:d}) })),
+      typeChips: ['MC','Free-text'].map(t => ({ label:t, selected:s.dType===t, onClick:()=>this.setState({dType:s.dType===t?null:t}) })),
+      discoverList: (() => { const q=(s.searchQuery||'').trim().toLowerCase(); const g=s.dGenre||'Tất cả'; return this.VIDEOS.filter(v => (g==='Tất cả'||v.genre===g) && (!q || (v.title+v.artist).toLowerCase().includes(q))).map(v=>this.withThumb(v)); })(),
+      popB1: this.VIDEOS.filter(v=>v.genre==='Pop'&&v.level==='B1').map(v=>this.withThumb(v)),
+      discoverResultCount: (() => { const q=(s.searchQuery||'').trim().toLowerCase(); return this.VIDEOS.filter(v=>!q||(v.title+v.artist).toLowerCase().includes(q)).length; })(),
+      // playlist
+      playlistVideos: [
+        {...this.VIDEOS[7], state:'completed'}, {...this.VIDEOS[0], state:'in-progress', progress:40}, this.VIDEOS[9], this.VIDEOS[4], this.VIDEOS[2], this.VIDEOS[8],
+      ].map(v=>this.withThumb(v)),
+
+      // progress
+      streakCells: Array.from({length:30}).map((_,i)=>({ on: ![2,3,8,15,16,22].includes(i), level: ([5,6,12,13,18,25,26,27].includes(i))?2:1 })).map(c=>({ bg: !c.on ? 'var(--surface-inset)' : (c.level===2 ? 'var(--streak)' : 'color-mix(in srgb, var(--streak) 45%, transparent)') })),
+      weeklyXp: [{l:'T1',v:120,h:24},{l:'T2',v:280,h:56},{l:'T3',v:340,h:68},{l:'T4',v:500,h:100}],
+      weakPoints: [{label:'Prepositions',pct:45,tone:'var(--danger)'},{label:'Articles',pct:62,tone:'var(--warning)'},{label:'Phrasal verbs',pct:71,tone:'var(--accent)'}],
+      history: [{title:'Shape of You',level:'B1',pct:85,when:'Hôm nay'},{title:'Blinding Lights',level:'B2',pct:72,when:'Hôm qua'},{title:'Flowers',level:'B1',pct:94,when:'13/06'}],
+      // achievements
+      achFilters: ['Tất cả','Mốc học','Streak','Thể loại','Từ vựng'].map(f=>({label:f, selected:(s.achFilter||'Tất cả')===f, onClick:()=>this.setState({achFilter:f})})),
+      badgesUnlocked: this.BADGES.filter(b=>b.unlocked),
+      badgesLocked: this.BADGES.filter(b=>!b.unlocked).map(b=>({...b, pct: Math.round((b.progress/b.total)*100)})),
+      badgeProgress: this.BADGES.filter(b=>b.unlocked).length + ' / ' + this.BADGES.length,
+      // leaderboard
+      lbPeriodTabs: [['week','Tuần này'],['lastweek','Tuần trước'],['month','Tháng này']].map(([k,l])=>({label:l, selected:(s.lbPeriod||'week')===k, onClick:()=>this.setState({lbPeriod:k})})),
+      lbScopeTabs: [['global','🌍 Toàn cầu'],['friends','👥 Bạn bè']].map(([k,l])=>({label:l, selected:(s.lbScope||'global')===k, onClick:()=>this.setState({lbScope:k})})),
+      leaders: this.LEADERS.map(l=>({...l, medal: l.rank===1?'🥇':l.rank===2?'🥈':l.rank===3?'🥉':'#'+l.rank, initials: l.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase() })),
+      lbNeighbors: [{rank:46,name:'Hoàng Nam',xp:345,you:false},{rank:47,name:'Bạn',xp:340,you:true},{rank:48,name:'Phương Thảo',xp:335,you:false}].map(n=>({...n, bg: n.you?'var(--accent-soft)':'var(--surface-card)', border: n.you?'var(--accent-border)':'var(--border-subtle)', weight: n.you?800:600, fg: n.you?'var(--accent)':'var(--text-primary)', initials: n.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase() })),
+      // notebook
+      notebookView: s.notebookView||'list', setNbList:()=>this.setState({notebookView:'list'}), setNbCard:()=>this.setState({notebookView:'flashcard'}),
+      nbIsList: (s.notebookView||'list')==='list', nbIsCard: (s.notebookView||'list')==='flashcard',
+      words: this.WORDS, wordCount: 247, nbFlipped: !!s.nbFlipped, nbNotFlipped: !s.nbFlipped, flipCard: ()=>this.setState({nbFlipped:!s.nbFlipped}),
+      nbListStyle: `height:34px;padding:0 16px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:13px;font-family:var(--font-display);background:${(s.notebookView||'list')==='list'?'var(--surface-card)':'transparent'};color:${(s.notebookView||'list')==='list'?'var(--text-primary)':'var(--text-tertiary)'};box-shadow:${(s.notebookView||'list')==='list'?'var(--shadow-xs)':'none'};`,
+      nbCardStyle: `height:34px;padding:0 16px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:13px;font-family:var(--font-display);background:${(s.notebookView||'list')==='flashcard'?'var(--surface-card)':'transparent'};color:${(s.notebookView||'list')==='flashcard'?'var(--text-primary)':'var(--text-tertiary)'};box-shadow:${(s.notebookView||'list')==='flashcard'?'var(--shadow-xs)':'none'};`,
+
+      // exercise / player
+      exTitle: av.title, exArtist: av.artist, exLevel: av.level, exGenre: av.genre, exDuration: av.duration, exThumb: avThumb,
+      exMode: s.exMode, exModeMC: !isFree, exModeFree: isFree,
+      setModeMC: () => this.setState({ exMode: 'mc' }), setModeFree: () => this.setState({ exMode: 'free' }),
+      exVersions: [
+        { id:'v1', label:'v1', sub:'Vocabulary', locked:false },
+        { id:'v2', label:'v2', sub:'Grammar', locked:s.auth!=='premium' },
+        { id:'v3', label:'v3', sub:'Speed', locked:s.auth!=='premium' },
+      ].map(v => ({ ...v, onClick: () => { if (v.locked) return; this.setState({ exVersion: v.id }); }, style: `display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:104px;padding:10px 14px;text-align:left;border-radius:var(--radius-md);cursor:${v.locked?'not-allowed':'pointer'};background:${s.exVersion===v.id?'var(--accent-soft)':'var(--surface-card-2)'};border:1px solid ${s.exVersion===v.id?'var(--accent-border)':'var(--border-subtle)'};opacity:${v.locked?0.55:1};` })),
+      startPlayer: this.startPlayer, exitPlayer: this.exitPlayer, backToExercise: () => this.setState({ route:'exercise' }),
+      playerProgress: Math.round((bi / total) * 100), blankNum: bi + 1, blankTotal: total,
+      blankPre: blank.pre, blankPost: blank.post, blankDisplay, blankVi: blank.vi,
+      mcOptions, dots, revealed: s.revealed, hintUsed: s.hintUsed,
+      showTranslation: s.showTranslation, toggleTranslation: () => this.setState({ showTranslation: !s.showTranslation }),
+      useHint: this.useHint, nextBlank: this.nextBlank, submitFree: this.submitFree,
+      freeInput: s.freeInput || '', onFreeInput: (e) => this.setState({ freeInput: e.target.value }),
+      onFreeKey: (e) => { if (e.key === 'Enter') { if (s.revealed) this.nextBlank(); else this.submitFree(); } },
+      feedbackMsg, feedbackCorrect: s.revealed && s.results[s.results.length-1],
+      nextLabel: bi + 1 >= total ? 'Xem kết quả →' : 'Tiếp tục →',
+      playerColDir: s.isMobile ? 'column' : 'row',
+      // result
+      finalPct, correctCount, wrongCount: total - correctCount, scoreStars: Math.max(1, Math.round(finalPct / 20)),
+      resultGreat: finalPct >= 80,
+      wrongList: this.EX.blanks.map((b,i)=>({...b, idx:i+1, ok: s.results[i]})).filter((b,i)=> s.results[i]===false),
+      retryExercise: this.startPlayer, replayResult: () => this.setState({ route:'exercise' }),
+      blankStyle: (() => {
+        let c = 'var(--accent)', bg = 'var(--accent-soft)';
+        if (s.revealed) { const ok = s.results[s.results.length-1]; c = ok ? 'var(--success)' : 'var(--danger)'; bg = ok ? 'var(--success-soft)' : 'var(--danger-soft)'; }
+        return `display:inline-flex;align-items:center;justify-content:center;min-width:84px;padding:2px 14px;margin:0 4px;border-radius:999px;font-family:var(--font-display);font-weight:800;color:${c};background:${bg};border:1.5px solid ${c};vertical-align:baseline;`;
+      })(),
+      exReactCh: 42, exReactEn: 128, exReactVo: 67,
+      // auth
+      doLogin: () => this.setState({ auth:'free' }, () => this.go('home')),
+      doRegister: () => this.setState({ auth:'free' }, () => this.go('verify')),
+      onbCards: [
+        { lv:'A1–A2', emoji:'🌱', label:'Mới bắt đầu', key:'A1' },
+        { lv:'B1', emoji:'📖', label:'Cơ bản', key:'B1' },
+        { lv:'B2', emoji:'🎯', label:'Khá', key:'B2' },
+        { lv:'C1', emoji:'🚀', label:'Nâng cao', key:'C1' },
+      ].map(c => ({ ...c, selected: (s.onbLevel) === c.key, onClick: () => this.setState({ onbLevel: c.key }),
+        style: `cursor:pointer;padding:20px 16px;border-radius:var(--radius-lg);text-align:center;background:${s.onbLevel===c.key?'var(--accent-soft)':'var(--surface-card)'};border:2px solid ${s.onbLevel===c.key?'var(--accent)':'var(--border-subtle)'};transition:all var(--dur-fast) var(--ease-standard);` })),
+      onbChosen: !!s.onbLevel, onbNotChosen: !s.onbLevel,
+      // pricing
+      billingAnnual: (s.billing||'annual')==='annual',
+      setMonthly: ()=>this.setState({billing:'monthly'}), setAnnual: ()=>this.setState({billing:'annual'}),
+      billMonthlyStyle: `flex:1;height:42px;border-radius:999px;border:none;cursor:pointer;font-weight:800;font-family:var(--font-display);font-size:14px;background:${(s.billing||'annual')==='monthly'?'var(--surface-card)':'transparent'};color:${(s.billing||'annual')==='monthly'?'var(--text-primary)':'var(--text-tertiary)'};box-shadow:${(s.billing||'annual')==='monthly'?'var(--shadow-sm)':'none'};`,
+      billAnnualStyle: `flex:1;height:42px;border-radius:999px;border:none;cursor:pointer;font-weight:800;font-family:var(--font-display);font-size:14px;background:${(s.billing||'annual')==='annual'?'var(--surface-card)':'transparent'};color:${(s.billing||'annual')==='annual'?'var(--text-primary)':'var(--text-tertiary)'};box-shadow:${(s.billing||'annual')==='annual'?'var(--shadow-sm)':'none'};`,
+      premiumPrice: (s.billing||'annual')==='annual' ? '$40' : '$5', premiumPer: (s.billing||'annual')==='annual' ? '/năm' : '/tháng',
+      faqs: [
+        {q:'Tôi có thể hủy không?', a:'Có, bất cứ lúc nào, không mất phí.'},
+        {q:'Dùng thẻ Việt Nam được không?', a:'Có, chấp nhận Visa/Mastercard quốc tế.'},
+        {q:'Có trial miễn phí không?', a:'Gói Free đã là trial vĩnh viễn.'},
+        {q:'Annual refund được không?', a:'Trong 7 ngày kể từ ngày thanh toán.'},
+      ],
+      freeFeatures: ['Thư viện curated','5 bài / ngày','MC + Free-text','Theo dõi tiến độ','Score Card'],
+      premiumFeatures: ['Tất cả tính năng Free','Paste bất kỳ URL YouTube','Học không giới hạn','Tất cả exercise versions','Streak Freeze','Hint không giới hạn','Gợi ý video cho thư viện'],
+      // settings
+      settingsTabs: [['profile','Hồ sơ'],['prefs','Tùy chỉnh'],['sub','Subscription'],['security','Bảo mật'],['account','Tài khoản']].map(([k,l])=>({key:k,label:l,selected:(s.settingsTab||'profile')===k,onClick:()=>this.setState({settingsTab:k}),
+        style:`flex:0 0 auto;height:38px;padding:0 16px;border-radius:999px;border:1px solid ${(s.settingsTab||'profile')===k?'transparent':'var(--border-subtle)'};cursor:pointer;font-weight:700;font-size:13px;font-family:var(--font-display);background:${(s.settingsTab||'profile')===k?'var(--accent)':'var(--surface-card-2)'};color:${(s.settingsTab||'profile')===k?'var(--text-on-accent)':'var(--text-secondary)'};`})),
+      stProfile:(s.settingsTab||'profile')==='profile', stPrefs:(s.settingsTab||'profile')==='prefs', stSub:(s.settingsTab||'profile')==='sub', stSecurity:(s.settingsTab||'profile')==='security', stAccount:(s.settingsTab||'profile')==='account',
+      soundOn: s.soundOn, toggleSound: ()=>this.setState({soundOn:!s.soundOn}), notPremium: s.auth!=='premium',
+      themeLight: s.theme==='light', setDark: ()=>this.setState({theme:'dark'}), setLight: ()=>this.setState({theme:'light'}),
+      themeDarkBtn: `height:40px;padding:0 18px;border-radius:999px;cursor:pointer;font-weight:700;font-family:var(--font-display);background:${s.theme==='dark'?'var(--accent-soft)':'var(--surface-card-2)'};border:1px solid ${s.theme==='dark'?'var(--accent-border)':'var(--border-subtle)'};color:${s.theme==='dark'?'var(--accent)':'var(--text-tertiary)'};`,
+      themeLightBtn: `height:40px;padding:0 18px;border-radius:999px;cursor:pointer;font-weight:700;font-family:var(--font-display);background:${s.theme==='light'?'var(--accent-soft)':'var(--surface-card-2)'};border:1px solid ${s.theme==='light'?'var(--accent-border)':'var(--border-subtle)'};color:${s.theme==='light'?'var(--accent)':'var(--text-tertiary)'};`,
+      doLogout: ()=>this.setState({auth:'anon'},()=>this.go('home')),
+      avatarMenuOpen: !!s.avatarMenu, toggleAvatarMenu: ()=>this.setState({avatarMenu:!s.avatarMenu}), closeAvatarMenu: ()=>this.setState({avatarMenu:false}),
+      navSub: ()=>this.setState({settingsTab:'sub'},()=>this.go('settings')),
+      menuItem: 'display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border:none;background:transparent;color:var(--text-primary);font-weight:600;font-size:14px;font-family:var(--font-body);cursor:pointer;border-radius:var(--radius-sm);',
+      menuItemDanger: 'display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border:none;background:transparent;color:var(--danger);font-weight:600;font-size:14px;font-family:var(--font-body);cursor:pointer;border-radius:var(--radius-sm);',
+      hubItem: 'display:flex;align-items:center;gap:8px;padding:14px 12px;border:1px solid var(--border-subtle);background:var(--surface-card);color:var(--text-primary);font-weight:700;font-size:13px;font-family:var(--font-display);cursor:pointer;border-radius:var(--radius-md);',
+      footLink: 'background:none;border:none;padding:0;color:var(--text-secondary);font-weight:600;font-size:13px;cursor:pointer;font-family:var(--font-body);',
+      // suggest
+      suggestions: [
+        {title:'Shape of You', level:'B1', status:'pending', icon:'⏳', label:'Đang xem xét', date:'10/06/2026', color:'var(--warning)'},
+        {title:'Blinding Lights', level:'B2', status:'approved', icon:'✅', label:'Đã approve!', date:'08/06/2026', color:'var(--success)'},
+        {title:'Some Other Song', level:'A2', status:'rejected', icon:'❌', label:'Không phù hợp', date:'05/06/2026', color:'var(--danger)'},
+      ],
+      // v2.0 — classroom
+      classTabs: [['students','Học sinh (32)'],['assignments','Bài tập'],['stats','Thống kê']].map(([k,l])=>({key:k,label:l,selected:(s.classTab||'students')===k,onClick:()=>this.setState({classTab:k}),
+        style:`flex:0 0 auto;height:38px;padding:0 16px;border-radius:999px;border:1px solid ${(s.classTab||'students')===k?'transparent':'var(--border-subtle)'};cursor:pointer;font-weight:700;font-size:13px;font-family:var(--font-display);background:${(s.classTab||'students')===k?'var(--accent)':'var(--surface-card-2)'};color:${(s.classTab||'students')===k?'var(--text-on-accent)':'var(--text-secondary)'};`})),
+      ctStudents:(s.classTab||'students')==='students', ctAssignments:(s.classTab||'students')==='assignments', ctStats:(s.classTab||'students')==='stats',
+      classes: [
+        {name:'Lớp 10A2', count:32, assignment:'Shape of You · B1', due:'20/06', done:24, total:32, pct:75},
+        {name:'IELTS Prep Group', count:8, assignment:'Chưa có bài tập', due:'', done:0, total:8, pct:0},
+      ],
+      classStudents: [
+        {name:'Nguyễn Văn A', ex:47, xp:1240, acc:82, active:'Hôm nay'},
+        {name:'Trần Thị B', ex:38, xp:980, acc:78, active:'Hôm nay'},
+        {name:'Lê Văn C', ex:29, xp:720, acc:71, active:'2 ngày trước'},
+        {name:'Phạm Thị D', ex:41, xp:1050, acc:85, active:'Hôm qua'},
+      ].map(st=>({...st, initials: st.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase()})),
+      assignmentStudents: [
+        {name:'Nguyễn Văn A', pct:92, date:'17/06', done:true},
+        {name:'Trần Thị B', pct:85, date:'16/06', done:true},
+        {name:'Lê Văn C', pct:0, date:'Chưa làm', done:false},
+        {name:'Phạm Thị D', pct:0, date:'Chưa làm', done:false},
+      ].map(st=>({...st, initials: st.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase(), color: st.done?'var(--success)':'var(--text-tertiary)', icon: st.done?'✅':'⏳', scoreLabel: st.done? st.pct+'%' : 'Chưa làm'})),
+      topWrong: [{word:'magnificent', n:18},{word:'fascinated', n:14},{word:'eloquent', n:12}],
+      dailyTop: this.LEADERS.slice(0,5).map(l=>({...l, medal: l.rank===1?'🥇':l.rank===2?'🥈':l.rank===3?'🥉':'#'+l.rank, time:['2:58','3:01','3:12','3:20','3:25'][l.rank-1], initials:l.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase()})),
+      challengeThumb: this.GENRE.Pop,
+      privacySections: [
+        {h:'1. Thông tin chúng tôi thu thập', b:'Email, tên hiển thị, và dữ liệu học tập (tiến độ, điểm số, từ vựng đã lưu) để cá nhân hóa trải nghiệm.'},
+        {h:'2. Cách sử dụng thông tin', b:'Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ và gửi nhắc nhở streak (nếu bạn bật).'},
+        {h:'3. Dịch vụ bên thứ ba', b:'Google OAuth, Facebook, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.'},
+        {h:'4. Cookies & tracking', b:'Chúng tôi dùng cookie cần thiết cho đăng nhập và cookie phân tích ẩn danh.'},
+        {h:'5. Quyền của bạn', b:'Bạn có thể xóa, xuất, hoặc chỉnh sửa dữ liệu của mình bất cứ lúc nào trong phần Cài đặt.'},
+        {h:'6. Bảo mật dữ liệu', b:'Dữ liệu được mã hóa khi truyền tải và lưu trữ trên hạ tầng bảo mật.'},
+      ],
+      termsSections: [
+        {h:'1. Chấp nhận điều khoản', b:'Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này.'},
+        {h:'2. Tài khoản người dùng', b:'Bạn chịu trách nhiệm bảo mật thông tin đăng nhập của mình.'},
+        {h:'3. Sử dụng dịch vụ', b:'Không sử dụng dịch vụ cho mục đích bất hợp pháp hoặc vi phạm YouTube ToS.'},
+        {h:'4. Nội dung & sở hữu trí tuệ', b:'Nội dung video thuộc về chủ sở hữu gốc trên YouTube; Vocabik chỉ tạo bài tập học tập.'},
+        {h:'5. Thanh toán & hoàn tiền', b:'Gói Premium có thể hủy bất cứ lúc nào; hoàn tiền trong 7 ngày cho gói năm.'},
+        {h:'6. Chấm dứt tài khoản', b:'Bạn có thể xóa tài khoản bất cứ lúc nào; chúng tôi có thể chấm dứt nếu vi phạm điều khoản.'},
+      ],
+      finishOnboarding: () => this.setState({ level: s.onbLevel || 'all' }, () => this.go('home')),
+      exModeLabel: isFree ? 'Tự gõ đáp án' : 'Multiple choice',
+      modeMCStyle: `height:36px;padding:0 16px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:13px;font-family:var(--font-display);background:${!isFree?'var(--surface-card)':'transparent'};color:${!isFree?'var(--text-primary)':'var(--text-tertiary)'};box-shadow:${!isFree?'var(--shadow-xs)':'none'};`,
+      modeFreeStyle: `height:36px;padding:0 16px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:13px;font-family:var(--font-display);background:${isFree?'var(--surface-card)':'transparent'};color:${isFree?'var(--text-primary)':'var(--text-tertiary)'};box-shadow:${isFree?'var(--shadow-xs)':'none'};`,
+      playerProgressW: Math.round((bi / total) * 100) + '%',
+      playerColDir: s.isMobile ? 'column' : 'row',
+      playerVideoFlex: s.isMobile ? '0 0 auto' : '0 0 56%',
+      playerVideoAlign: s.isMobile ? 'stretch' : 'center',
+      playerRowAlign: s.isMobile ? 'stretch' : 'center',
+      playerShowMeta: !s.isMobile,
+      playerStagePad: s.isMobile ? '0' : '28px 0 28px 28px',
+      playerVideoRadius: s.isMobile ? '0' : 'var(--radius-xl)',
+      playerXp: bi * 20,
+      playerReactions: [
+        { key:'challenging', label:'💪' }, { key:'enjoyable', label:'🎵' }, { key:'vocab', label:'📚' },
+      ].map(rx => ({ ...rx, onClick: () => this.setState({ playerReaction: rx.key }), style: `width:34px;height:34px;border-radius:999px;cursor:pointer;font-size:15px;display:inline-flex;align-items:center;justify-content:center;border:1px solid ${s.playerReaction===rx.key?'var(--accent)':'var(--border-subtle)'};background:${s.playerReaction===rx.key?'var(--accent-soft)':'var(--surface-card)'};` })),
+      playerPanelFlex: s.isMobile ? '1 1 auto' : '1 1 44%',
+      panelRadius: s.isMobile ? 'var(--radius-xl) var(--radius-xl) 0 0' : '0',
+      panelMt: s.isMobile ? '-22px' : '0',
+      panelMaxW: s.isMobile ? '600px' : '520px',
+      translationLabel: s.showTranslation ? 'Ẩn dịch' : 'Xem dịch tiếng Việt',
+      feedbackColor: (s.revealed && s.results[s.results.length-1]) ? 'var(--success)' : 'var(--danger)',
+      notRevealed: !s.revealed,
+      hintOpacity: s.hintUsed ? 0.5 : 1,
+      resultEmoji: finalPct >= 80 ? '🎉' : (finalPct >= 50 ? '👍' : '💪'),
+      hasWrong: (total - correctCount) > 0,
+      exSlug: (av.id || 'exercise') + '-' + (av.level||'b1').toLowerCase(),
+      confetti: Array.from({length:16}).map((_,i)=>({ left:(5+i*6)+'%', color:['#FF6FB5','#FFA84D','#00E5CC','#A855F7','#FFD24D'][i%5], dur:(0.9+(i%4)*0.25)+'s', delay:((i%6)*0.08)+'s' })),
+    };
+  }
+}
+</script>
+</body>
+</html>
