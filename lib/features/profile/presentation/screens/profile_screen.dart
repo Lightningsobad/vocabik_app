@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/presentation/widgets/header/app_header.dart';
 
-import '../widgets/profile_tab_bar.dart';
+import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
 import '../widgets/profile_action_grid.dart';
 import '../widgets/user_profile_section.dart';
 
@@ -37,8 +37,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  // Thêm bottom padding lớn để tránh bị che bởi Bottom Nav Bar và FAB
-                  padding: const EdgeInsets.only(bottom: 100.0),
+                  // Dự phòng 56px cho FAB tương lai + 32px đệm + safe area dưới cùng
+                  padding: EdgeInsets.only(bottom: 88.0 + MediaQuery.paddingOf(context).bottom),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -58,7 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 24.0),
                       
                       // Tab Bar
-                      ProfileTabBar(
+                      SharedSegmentedTabBar(
+                        tabs: const ['Profile', 'Preferences', 'Subscription', 'Security', 'Account'],
                         selectedIndex: _selectedTabIndex,
                         onTabChanged: (index) {
                           setState(() {

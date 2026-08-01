@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_theme.dart';
 import 'package:vocabik_app/shared/theme/cubit/theme_cubit.dart';
@@ -12,22 +12,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   // Initialize dependency injection
-  configureDependencies();
+  await configureDependencies();
 
-  final prefs = await SharedPreferences.getInstance();
-
-  runApp(VocabikApp(prefs: prefs));
+  runApp(const VocabikApp());
 }
 
 class VocabikApp extends StatelessWidget {
-  final SharedPreferences prefs;
-
-  const VocabikApp({super.key, required this.prefs});
+  const VocabikApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ThemeCubit(prefs: prefs),
+      create: (_) => getIt<ThemeCubit>(),
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp.router(

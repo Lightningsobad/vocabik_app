@@ -15,7 +15,7 @@ class AppColors {
   static const Color borderSubtle = Color(0xFFE2E8F0);
   static const Color textSecondary = Color(0xFF64748B);
   static const Color textPrimary = Color(0xFF13131F);
-  static Color get glassFill => Colors.white.withOpacity(0.7);
+  static Color get glassFill => Colors.white.withValues(alpha: 0.7);
 }
 
 class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
