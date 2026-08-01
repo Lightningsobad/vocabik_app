@@ -3,7 +3,7 @@
 Tài liệu này định nghĩa các quy tắc chuẩn mực về UI/UX cho toàn bộ hệ thống ứng dụng Vocabik.
 
 ## 1. Typography (Kiểu chữ)
-- **Font chữ chính:** Sử dụng font **Nunito** (từ Google Fonts) cho toàn bộ hệ thống.
+- **Font chữ áp dụng mọi thành phần hiển thị chữ trong app:** Sử dụng font **Nunito** (từ Google Fonts) cho toàn bộ hệ thống.
 
 ## 2. Interactions (Hiệu ứng tương tác)
 - **Nút bấm (Buttons) & Chọn Tab:** Các hiệu ứng khi người dùng tương tác (nhấn nút, chuyển/chọn tab) phải được đồng bộ thống nhất trên toàn hệ thống.
@@ -36,5 +36,5 @@ Việc chuyển đổi giữa Light Mode và Dark Mode phải đảm bảo tính
 
 **Nguyên tắc chuyển đổi:**
 - Các thành phần có tính tương tác cao (Nút bấm chính, Progress bar, Icon nổi bật, Focus border) luôn giữ màu chủ đạo Cyan `0xFF06B6D4`.
-- Sử dụng hiệu ứng chuyển đổi mượt mà (smooth transition) giữa các theme nếu có thể.
+- Sử dụng hiệu ứng chuyển đổi mượt mà (smooth transition) giữa các theme.
 - Đảm bảo độ tương phản (contrast) của chữ trên nền ở cả hai chế độ.

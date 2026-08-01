@@ -48,3 +48,4 @@ Phân loại các nhận xét theo mức độ nghiêm trọng:
 *Lưu ý: Với mỗi vấn đề được chỉ ra, hãy trích dẫn đoạn code hiện tại và cung cấp đoạn code đề xuất (snippet) để sửa nó.*
 
 Hãy đọc các file trong thư mục tính năng này và cung cấp báo cáo đánh giá.
+Xuất thành 1 file báo cáo tại documents.

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:vocabik_app/shared/theme/app_colors.dart';
-import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
+import 'package:vocabik_app/shared/presentation/widgets/icon_action_card.dart';
 
 class ActionItemData {
   final String title;
@@ -22,17 +20,17 @@ class ActionItemData {
 class ProfileActionGrid extends StatelessWidget {
   const ProfileActionGrid({super.key});
 
+  static final List<ActionItemData> _items = [
+    ActionItemData(title: 'Achievements', emoji: '🏅', onTap: () {}),
+    ActionItemData(title: 'Notebook', emoji: '📖', onTap: () {}),
+    ActionItemData(title: 'Leaderboard', emoji: '🏆', onTap: () {}),
+    ActionItemData(title: 'Classroom', emoji: '🎓', onTap: () {}),
+    ActionItemData(title: 'Daily Challenge', emoji: '🔥', onTap: () {}),
+    ActionItemData(title: 'Bot integration', emoji: '✈️', onTap: () {}),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final List<ActionItemData> items = [
-      ActionItemData(title: 'Achievements', emoji: '🏅', onTap: () {}),
-      ActionItemData(title: 'Notebook', emoji: '📖', onTap: () {}),
-      ActionItemData(title: 'Leaderboard', emoji: '🏆', onTap: () {}),
-      ActionItemData(title: 'Classroom', emoji: '🎓', onTap: () {}),
-      ActionItemData(title: 'Daily Challenge', emoji: '🔥', onTap: () {}),
-      ActionItemData(title: 'Bot integration', emoji: '✈️', onTap: () {}),
-    ];
-
     return Padding(
       // Chỉ giữ padding ngang
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -44,93 +42,21 @@ class ProfileActionGrid extends StatelessWidget {
           return Wrap(
             spacing: 12.0,
             runSpacing: 12.0,
-            children: items.map((item) {
-              return SizedBox(
+            children: _items.map((item) {
+              return Container(
                 width: itemWidth,
-                height: 56.0, // Fixed height giống thiết kế
-                child: _ActionGridItem(data: item),
+                constraints: const BoxConstraints(minHeight: 56.0),
+                child: IconActionCard(
+                  title: item.title,
+                  emoji: item.emoji,
+                  onTap: item.onTap,
+                  badgeCount: item.badgeCount,
+                  hasNotification: item.hasNotification,
+                ),
               );
             }).toList(),
           );
         },
-      ),
-    );
-  }
-}
-
-class _ActionGridItem extends StatelessWidget {
-  final ActionItemData data;
-
-  const _ActionGridItem({required this.data});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-
-    return BounceWrapper(
-      onTap: data.onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: colors.surfaceCard,
-          borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.03),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.centerLeft, // Đảm bảo nội dung căn giữa chiều dọc
-          children: [
-            Row(
-              children: [
-                Text(
-                  data.emoji,
-                  style: const TextStyle(fontSize: 18.0),
-                ),
-                const SizedBox(width: 10.0),
-                Expanded(
-                  child: Text(
-                    data.title,
-                    style: GoogleFonts.inter( // Dùng font Inter
-                      color: colors.textPrimary,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14.0,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-            if (data.badgeCount > 0 || data.hasNotification)
-              Positioned(
-                top: -4,
-                right: -4,
-                child: Container(
-                  padding: const EdgeInsets.all(4.0),
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: data.badgeCount > 0
-                      ? Text(
-                          data.badgeCount.toString(),
-                          style: GoogleFonts.inter(
-                            color: Colors.white,
-                            fontSize: 10.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : const SizedBox(width: 4, height: 4),
-                ),
-              ),
-          ],
-        ),
       ),
     );
   }

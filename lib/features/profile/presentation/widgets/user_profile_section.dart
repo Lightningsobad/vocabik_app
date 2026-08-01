@@ -81,7 +81,9 @@ class _UserProfileSectionState extends State<UserProfileSection> {
                   // TODO: Change photo logic
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                  constraints: const BoxConstraints(minHeight: 48.0),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
                     border: Border.all(color: colors.borderSubtle, width: 1.0),
@@ -89,7 +91,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
                   ),
                   child: Text(
                     'Change photo',
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.nunito(
                       color: colors.textPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: 14.0,
@@ -104,7 +106,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
           // Name Field
           Text(
             'Your name',
-            style: GoogleFonts.inter(
+            style: GoogleFonts.nunito(
               color: colors.textSecondary,
               fontWeight: FontWeight.w600,
               fontSize: 14.0,
@@ -123,7 +125,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
             child: TextField(
               controller: _nameController,
               focusNode: _nameFocusNode,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.nunito(
                 color: colors.textPrimary,
                 fontSize: 16.0,
               ),
@@ -145,29 +147,29 @@ class _UserProfileSectionState extends State<UserProfileSection> {
               children: [
                 TextSpan(
                   text: 'Email: ',
-                  style: GoogleFonts.inter(color: colors.textSecondary),
+                  style: GoogleFonts.nunito(color: colors.textSecondary),
                 ),
                 TextSpan(
                   text: 'an.nguyen@gmail.com',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.nunito(
                     color: colors.textPrimary,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 TextSpan(
                   text: ' (readonly)',
-                  style: GoogleFonts.inter(color: colors.textSecondary, fontSize: 13.0),
+                  style: GoogleFonts.nunito(color: colors.textSecondary, fontSize: 13.0),
                 ),
               ],
             ),
-            style: GoogleFonts.inter(fontSize: 15.0),
+            style: GoogleFonts.nunito(fontSize: 15.0),
           ),
           const SizedBox(height: 12.0),
           
           // Member Since
           Text(
             'Member since: 15/05/2026',
-            style: GoogleFonts.inter(
+            style: GoogleFonts.nunito(
               color: colors.textSecondary,
               fontSize: 15.0,
             ),
