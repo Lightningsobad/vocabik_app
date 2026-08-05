@@ -13,6 +13,24 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../shared/localization/cubit/localization_cubit.dart' as _i97;
+import '../../shared/localization/data/datasources/localization_local_data_source.dart'
+    as _i729;
+import '../../shared/localization/data/repositories/localization_repository_impl.dart'
+    as _i682;
+import '../../shared/localization/domain/repositories/localization_repository.dart'
+    as _i960;
+import '../../shared/localization/domain/usecases/get_language_usecase.dart'
+    as _i738;
+import '../../shared/localization/domain/usecases/save_language_usecase.dart'
+    as _i476;
+import '../../shared/settings/cubit/sound_settings_cubit.dart' as _i521;
+import '../../shared/settings/data/datasources/settings_local_data_source.dart'
+    as _i431;
+import '../../shared/settings/data/repositories/settings_repository.dart'
+    as _i520;
+import '../../shared/settings/data/repositories/settings_repository_impl.dart'
+    as _i668;
 import '../../shared/theme/cubit/theme_cubit.dart' as _i909;
 import '../../shared/theme/data/repositories/theme_repository_impl.dart'
     as _i108;
@@ -34,8 +52,38 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i416.ThemeRepository>(
       () => _i108.ThemeRepositoryImpl(prefs: gh<_i460.SharedPreferences>()),
     );
+    gh.lazySingleton<_i431.SettingsLocalDataSource>(
+      () => _i431.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i729.LocalizationLocalDataSource>(
+      () =>
+          _i729.LocalizationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
     gh.factory<_i909.ThemeCubit>(
       () => _i909.ThemeCubit(themeRepository: gh<_i416.ThemeRepository>()),
+    );
+    gh.lazySingleton<_i520.SettingsRepository>(
+      () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
+    );
+    gh.lazySingleton<_i960.LocalizationRepository>(
+      () => _i682.LocalizationRepositoryImpl(
+        gh<_i729.LocalizationLocalDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i738.GetLanguageUseCase>(
+      () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
+    );
+    gh.lazySingleton<_i476.SaveLanguageUseCase>(
+      () => _i476.SaveLanguageUseCase(gh<_i960.LocalizationRepository>()),
+    );
+    gh.factory<_i521.SoundSettingsCubit>(
+      () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
+    );
+    gh.singleton<_i97.LocalizationCubit>(
+      () => _i97.LocalizationCubit(
+        gh<_i738.GetLanguageUseCase>(),
+        gh<_i476.SaveLanguageUseCase>(),
+      ),
     );
     return this;
   }

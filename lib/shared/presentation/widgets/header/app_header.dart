@@ -11,13 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/cubit/theme_cubit.dart';
+import 'package:vocabik_app/shared/localization/cubit/localization_cubit.dart';
+import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 
-class AppHeader extends StatelessWidget {
+class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final int streak;
   final int xp;
-  final String currentLanguageCode;
   final VoidCallback? onHomeTap;
-  final VoidCallback? onLanguageTap;
   final VoidCallback? onThemeTap;
   final VoidCallback? onMenuTap;
 
@@ -25,28 +25,43 @@ class AppHeader extends StatelessWidget {
     super.key,
     required this.streak,
     required this.xp,
-    required this.currentLanguageCode,
     this.onHomeTap,
-    this.onLanguageTap,
     this.onThemeTap,
     this.onMenuTap,
   });
 
+  static final _numberFormat = NumberFormat.decimalPattern();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(AppSpacing.headerHeight);
+
   @override
   Widget build(BuildContext context) {
-    // Sử dụng NumberFormat để định dạng số, ví dụ 1,240
-    final format = NumberFormat.decimalPattern();
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
+    final currentLang = context.select((LocalizationCubit cubit) => cubit.state.currentLocale.languageCode);
+    final displayLanguage = currentLang == 'en' ? 'EN' : 'VI';
+    
+    final topPadding = MediaQuery.paddingOf(context).top;
 
-    return SafeArea(
-      bottom: false,
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(
+        textScaler: MediaQuery.textScalerOf(context).clamp(
+          minScaleFactor: 1.0,
+          maxScaleFactor: 1.1,
+        ),
+      ),
       child: ClipRect(
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // blur-md
-          child: Container(
-            height: AppSpacing.headerHeight,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // blur-md
+        child: Container(
+          height: AppSpacing.headerHeight + topPadding,
+          padding: EdgeInsets.only(
+            top: topPadding,
+            left: AppSpacing.lg,
+            right: AppSpacing.lg,
+          ),
             decoration: BoxDecoration(
               color: colors.glassFill, // glass-fill
               border: Border(
@@ -61,9 +76,8 @@ class AppHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Left Section: Logo & Name
-                GestureDetector(
+                BounceWrapper(
                   onTap: onHomeTap,
-                  behavior: HitTestBehavior.opaque,
                   child: const Row(
                     children: [
                       VocabikLogo(),
@@ -85,12 +99,15 @@ class AppHeader extends StatelessWidget {
                     ),
                     StatBadge(
                       emoji: '⚡',
-                      valueText: format.format(xp),
+                      valueText: _numberFormat.format(xp),
                       color: AppColors.accent, // xp color
                     ),
                     HeaderCircleButton(
-                      text: currentLanguageCode.toUpperCase(),
-                      onTap: onLanguageTap ?? () {},
+                      text: displayLanguage,
+                      onTap: () {
+                        final newLang = currentLang == 'vi' ? 'en' : 'vi';
+                        context.read<LocalizationCubit>().changeLanguage(newLang);
+                      },
                     ),
                     HeaderCircleButton(
                       text: isDarkMode ? '🌙' : '☀️',

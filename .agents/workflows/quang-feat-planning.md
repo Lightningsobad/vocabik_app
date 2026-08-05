@@ -36,4 +36,4 @@ Vui lòng KHÔNG bắt đầu viết code ngay. Hãy phân tích và tạo một
 
 7. Với bất kỳ yêu cầu liên quan đến giao diện, hãy luôn luôn đọc bản thiết kế đã chốt tại documents\Vocabik Mobile.dc.html
 
-Hãy bắt đầu bằng việc đọc lướt qua mã nguồn hiện tại của dự án để nắm bối cảnh, sau đó trình bày bản kế hoạch dưới định dạng Markdown dễ nhìn.
+Hãy bắt đầu bằng việc đọc lướt qua mã nguồn hiện tại của dự án để nắm bối cảnh, sau đó trình bày bản kế hoạch dưới định dạng Markdown dễ nhìn. Tôi chưa cần triển khai gì cả.

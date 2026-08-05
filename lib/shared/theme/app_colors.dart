@@ -25,6 +25,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color textPrimary;
   final Color textSecondary;
   final Color glassFill;
+  final Color premiumBackground;
+  final Color danger;
+  final Color dangerSoft;
 
   const AppColorsExtension({
     required this.background,
@@ -33,6 +36,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.textPrimary,
     required this.textSecondary,
     required this.glassFill,
+    required this.premiumBackground,
+    required this.danger,
+    required this.dangerSoft,
   });
 
   @override
@@ -43,6 +49,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? textPrimary,
     Color? textSecondary,
     Color? glassFill,
+    Color? premiumBackground,
+    Color? danger,
+    Color? dangerSoft,
   }) {
     return AppColorsExtension(
       background: background ?? this.background,
@@ -51,6 +60,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       textPrimary: textPrimary ?? this.textPrimary,
       textSecondary: textSecondary ?? this.textSecondary,
       glassFill: glassFill ?? this.glassFill,
+      premiumBackground: premiumBackground ?? this.premiumBackground,
+      danger: danger ?? this.danger,
+      dangerSoft: dangerSoft ?? this.dangerSoft,
     );
   }
 
@@ -69,6 +81,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       glassFill: Color.lerp(glassFill, other.glassFill, t)!,
+      premiumBackground: Color.lerp(premiumBackground, other.premiumBackground, t)!,
+      danger: Color.lerp(danger, other.danger, t)!,
+      dangerSoft: Color.lerp(dangerSoft, other.dangerSoft, t)!,
     );
   }
 
@@ -79,6 +94,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     textPrimary: Color(0xFF13131F),
     textSecondary: Color(0xFF64748B),
     glassFill: Color(0xB3FFFFFF), // Colors.white.withOpacity(0.7)
+    premiumBackground: Color(0xFFA854F7),
+    danger: Color(0xFFE23E54),
+    dangerSoft: Color(0x1AE23E54), // rgba(226, 62, 84, 0.10)
   );
 
   static const dark = AppColorsExtension(
@@ -88,5 +106,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     textPrimary: Color(0xFFF8FAFC),
     textSecondary: Color(0xFF94A3B8),
     glassFill: Color(0xB30B0F19), // Color(0xFF0B0F19).withOpacity(0.7)
+    premiumBackground: Color(0xFFA854F7),
+    danger: Color(0xFFFF5C72),
+    dangerSoft: Color(0x29FF5C72), // rgba(255, 92, 114, 0.16)
   );
 }

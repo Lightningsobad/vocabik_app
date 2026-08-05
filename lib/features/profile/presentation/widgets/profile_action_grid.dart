@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/shared/presentation/widgets/icon_action_card.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
 
 class ActionItemData {
   final String title;
@@ -20,17 +22,22 @@ class ActionItemData {
 class ProfileActionGrid extends StatelessWidget {
   const ProfileActionGrid({super.key});
 
-  static final List<ActionItemData> _items = [
-    ActionItemData(title: 'Achievements', emoji: '🏅', onTap: () {}),
-    ActionItemData(title: 'Notebook', emoji: '📖', onTap: () {}),
-    ActionItemData(title: 'Leaderboard', emoji: '🏆', onTap: () {}),
-    ActionItemData(title: 'Classroom', emoji: '🎓', onTap: () {}),
-    ActionItemData(title: 'Daily Challenge', emoji: '🔥', onTap: () {}),
-    ActionItemData(title: 'Bot integration', emoji: '✈️', onTap: () {}),
+  List<ActionItemData> _getItems(BuildContext context, AppLocalizations l10n) => [
+    ActionItemData(title: l10n.actionAchievements, emoji: '🏅', onTap: () {}),
+    ActionItemData(title: l10n.actionNotebook, emoji: '📖', onTap: () {}),
+    ActionItemData(title: l10n.actionLeaderboard, emoji: '🏆', onTap: () {}),
+    ActionItemData(title: l10n.actionClassroom, emoji: '🎓', onTap: () {}),
+    ActionItemData(title: l10n.actionDailyChallenge, emoji: '🔥', onTap: () {}),
+    ActionItemData(title: l10n.actionBotIntegration, emoji: '✈️', onTap: () {
+      context.push('/profile/integration');
+    }),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final items = _getItems(context, l10n);
+    
     return Padding(
       // Chỉ giữ padding ngang
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -42,7 +49,7 @@ class ProfileActionGrid extends StatelessWidget {
           return Wrap(
             spacing: 12.0,
             runSpacing: 12.0,
-            children: _items.map((item) {
+            children: items.map((item) {
               return Container(
                 width: itemWidth,
                 constraints: const BoxConstraints(minHeight: 56.0),

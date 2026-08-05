@@ -22,4 +22,173 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get profileTitle => 'Hồ sơ';
+
+  @override
+  String get discoverScreenContent => 'Nội dung Khám phá';
+
+  @override
+  String get progressScreenContent => 'Nội dung Tiến độ';
+
+  @override
+  String get profileSettingsTitle => 'Hồ sơ & Cài đặt';
+
+  @override
+  String get profileTab => 'Hồ sơ';
+
+  @override
+  String get preferencesTab => 'Tuỳ chỉnh';
+
+  @override
+  String get subscriptionTab => 'Gói cước';
+
+  @override
+  String get securityTab => 'Bảo mật';
+
+  @override
+  String get accountTab => 'Tài khoản';
+
+  @override
+  String tabNotImplemented(int tabIndex) {
+    return 'Nội dung cho Tab $tabIndex chưa được phát triển.';
+  }
+
+  @override
+  String get actionAchievements => 'Thành tích';
+
+  @override
+  String get actionNotebook => 'Sổ từ vựng';
+
+  @override
+  String get actionLeaderboard => 'Xếp hạng';
+
+  @override
+  String get actionClassroom => 'Lớp học';
+
+  @override
+  String get actionDailyChallenge => 'Thử thách ngày';
+
+  @override
+  String get actionBotIntegration => 'Tích hợp Bot';
+
+  @override
+  String get profileChangePhoto => 'Đổi ảnh';
+
+  @override
+  String get profileYourName => 'Tên của bạn';
+
+  @override
+  String get profileEmail => 'Email: ';
+
+  @override
+  String get profileReadOnly => ' (chỉ xem)';
+
+  @override
+  String profileMemberSince(String date) {
+    return 'Thành viên từ: $date';
+  }
+
+  @override
+  String get appearance => 'Giao diện';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get soundDuringExercise => 'Âm thanh khi làm bài';
+
+  @override
+  String get interfaceLanguage => 'Ngôn ngữ giao diện';
+
+  @override
+  String get languageVietnamese => 'Tiếng Việt';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get botIntegrationTelegramZalo => 'Tích hợp Bot (Telegram / Zalo)';
+
+  @override
+  String get subscriptionFreePlanTitle => 'Gói Free';
+
+  @override
+  String get subscriptionFreePlanDesc => 'Học phong phú hơn với Premium.';
+
+  @override
+  String get subscriptionUpgradeBtn => 'Nâng lên Premium →';
+
+  @override
+  String get accountExportData => 'Xuất dữ liệu của tôi';
+
+  @override
+  String get accountLogOut => 'Đăng xuất';
+
+  @override
+  String get accountDeletePermanently => 'Xóa tài khoản vĩnh viễn';
+
+  @override
+  String get securityTab_currentPasswordLabel => 'Mật khẩu hiện tại';
+
+  @override
+  String get securityTab_newPasswordLabel => 'Mật khẩu mới';
+
+  @override
+  String get securityTab_updateButton => 'Cập nhật';
+
+  @override
+  String get securityTab_activeSessionsTitle => 'Phiên đăng nhập';
+
+  @override
+  String get action_show => 'Hiện';
+
+  @override
+  String get action_hide => 'Ẩn';
+
+  @override
+  String get integrationScreenTitle => 'Tích hợp';
+
+  @override
+  String get integrationTelegramTitle => 'Telegram Bot';
+
+  @override
+  String get integrationTelegramDesc => 'Nhận bài tập mỗi sáng qua Telegram';
+
+  @override
+  String get integrationZaloTitle => 'Zalo OA';
+
+  @override
+  String get integrationZaloDesc => 'Cấu trúc tương tự Telegram';
+
+  @override
+  String get statusNotConnected => 'Chưa kết nối';
+
+  @override
+  String get statusConnected => 'Đã kết nối';
+
+  @override
+  String get instructionConnectLabel => '1. Nhấn \"Kết nối\" bên dưới';
+
+  @override
+  String get instructionStartLabel => '2. Nhấn Start trong Telegram';
+
+  @override
+  String get instructionAutoConnectLabel => '3. Bot tự kết nối tài khoản';
+
+  @override
+  String get timeToReceiveLabel => 'Thời gian nhận bài';
+
+  @override
+  String get levelLabel => 'Level';
+
+  @override
+  String get connectTelegramBtn => 'Kết nối Telegram Bot →';
+
+  @override
+  String get connectZaloBtn => 'Kết nối Zalo OA →';
+
+  @override
+  String get disconnectBtn => 'Hủy kết nối';
 }

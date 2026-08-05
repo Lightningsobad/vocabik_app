@@ -127,6 +127,336 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Hồ sơ'**
   String get profileTitle;
+
+  /// No description provided for @discoverScreenContent.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nội dung Khám phá'**
+  String get discoverScreenContent;
+
+  /// No description provided for @progressScreenContent.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nội dung Tiến độ'**
+  String get progressScreenContent;
+
+  /// No description provided for @profileSettingsTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ & Cài đặt'**
+  String get profileSettingsTitle;
+
+  /// No description provided for @profileTab.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ'**
+  String get profileTab;
+
+  /// No description provided for @preferencesTab.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tuỳ chỉnh'**
+  String get preferencesTab;
+
+  /// No description provided for @subscriptionTab.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gói cước'**
+  String get subscriptionTab;
+
+  /// No description provided for @securityTab.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảo mật'**
+  String get securityTab;
+
+  /// No description provided for @accountTab.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài khoản'**
+  String get accountTab;
+
+  /// No description provided for @tabNotImplemented.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nội dung cho Tab {tabIndex} chưa được phát triển.'**
+  String tabNotImplemented(int tabIndex);
+
+  /// No description provided for @actionAchievements.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thành tích'**
+  String get actionAchievements;
+
+  /// No description provided for @actionNotebook.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sổ từ vựng'**
+  String get actionNotebook;
+
+  /// No description provided for @actionLeaderboard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xếp hạng'**
+  String get actionLeaderboard;
+
+  /// No description provided for @actionClassroom.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lớp học'**
+  String get actionClassroom;
+
+  /// No description provided for @actionDailyChallenge.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử thách ngày'**
+  String get actionDailyChallenge;
+
+  /// No description provided for @actionBotIntegration.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tích hợp Bot'**
+  String get actionBotIntegration;
+
+  /// No description provided for @profileChangePhoto.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đổi ảnh'**
+  String get profileChangePhoto;
+
+  /// No description provided for @profileYourName.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên của bạn'**
+  String get profileYourName;
+
+  /// No description provided for @profileEmail.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email: '**
+  String get profileEmail;
+
+  /// No description provided for @profileReadOnly.
+  ///
+  /// In vi, this message translates to:
+  /// **' (chỉ xem)'**
+  String get profileReadOnly;
+
+  /// No description provided for @profileMemberSince.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thành viên từ: {date}'**
+  String profileMemberSince(String date);
+
+  /// No description provided for @appearance.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giao diện'**
+  String get appearance;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In vi, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @soundDuringExercise.
+  ///
+  /// In vi, this message translates to:
+  /// **'Âm thanh khi làm bài'**
+  String get soundDuringExercise;
+
+  /// No description provided for @interfaceLanguage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngôn ngữ giao diện'**
+  String get interfaceLanguage;
+
+  /// No description provided for @languageVietnamese.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếng Việt'**
+  String get languageVietnamese;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In vi, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// No description provided for @botIntegrationTelegramZalo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tích hợp Bot (Telegram / Zalo)'**
+  String get botIntegrationTelegramZalo;
+
+  /// No description provided for @subscriptionFreePlanTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gói Free'**
+  String get subscriptionFreePlanTitle;
+
+  /// No description provided for @subscriptionFreePlanDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Học phong phú hơn với Premium.'**
+  String get subscriptionFreePlanDesc;
+
+  /// No description provided for @subscriptionUpgradeBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nâng lên Premium →'**
+  String get subscriptionUpgradeBtn;
+
+  /// No description provided for @accountExportData.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xuất dữ liệu của tôi'**
+  String get accountExportData;
+
+  /// No description provided for @accountLogOut.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng xuất'**
+  String get accountLogOut;
+
+  /// No description provided for @accountDeletePermanently.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xóa tài khoản vĩnh viễn'**
+  String get accountDeletePermanently;
+
+  /// No description provided for @securityTab_currentPasswordLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu hiện tại'**
+  String get securityTab_currentPasswordLabel;
+
+  /// No description provided for @securityTab_newPasswordLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu mới'**
+  String get securityTab_newPasswordLabel;
+
+  /// No description provided for @securityTab_updateButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật'**
+  String get securityTab_updateButton;
+
+  /// No description provided for @securityTab_activeSessionsTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiên đăng nhập'**
+  String get securityTab_activeSessionsTitle;
+
+  /// No description provided for @action_show.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hiện'**
+  String get action_show;
+
+  /// No description provided for @action_hide.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ẩn'**
+  String get action_hide;
+
+  /// No description provided for @integrationScreenTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tích hợp'**
+  String get integrationScreenTitle;
+
+  /// No description provided for @integrationTelegramTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Telegram Bot'**
+  String get integrationTelegramTitle;
+
+  /// No description provided for @integrationTelegramDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhận bài tập mỗi sáng qua Telegram'**
+  String get integrationTelegramDesc;
+
+  /// No description provided for @integrationZaloTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Zalo OA'**
+  String get integrationZaloTitle;
+
+  /// No description provided for @integrationZaloDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cấu trúc tương tự Telegram'**
+  String get integrationZaloDesc;
+
+  /// No description provided for @statusNotConnected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa kết nối'**
+  String get statusNotConnected;
+
+  /// No description provided for @statusConnected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã kết nối'**
+  String get statusConnected;
+
+  /// No description provided for @instructionConnectLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'1. Nhấn \"Kết nối\" bên dưới'**
+  String get instructionConnectLabel;
+
+  /// No description provided for @instructionStartLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'2. Nhấn Start trong Telegram'**
+  String get instructionStartLabel;
+
+  /// No description provided for @instructionAutoConnectLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'3. Bot tự kết nối tài khoản'**
+  String get instructionAutoConnectLabel;
+
+  /// No description provided for @timeToReceiveLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thời gian nhận bài'**
+  String get timeToReceiveLabel;
+
+  /// No description provided for @levelLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Level'**
+  String get levelLabel;
+
+  /// No description provided for @connectTelegramBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kết nối Telegram Bot →'**
+  String get connectTelegramBtn;
+
+  /// No description provided for @connectZaloBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kết nối Zalo OA →'**
+  String get connectZaloBtn;
+
+  /// No description provided for @disconnectBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hủy kết nối'**
+  String get disconnectBtn;
 }
 
 class _AppLocalizationsDelegate

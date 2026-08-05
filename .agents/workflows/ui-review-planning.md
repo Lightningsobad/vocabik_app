@@ -31,6 +31,7 @@ Vui lòng đọc các file mã nguồn giao diện được cung cấp và đán
    - Hàm `build()` có đang quá dài (God Widget) cần phải Extract ra thành các StatelessWidgets nhỏ hơn không?
    - Từ khóa `const` có được sử dụng TRIỆT ĐỂ cho các Widget không thay đổi để tối ưu hóa quá trình vẽ (render) không?
    - Các danh sách dài có sử dụng `ListView.builder` / `GridView.builder` để lazy-load UI không?
+   - Tập trung kiểm tra xem có điều gì khiến hiệu năng khởi động app (thời gian khởi động app) bị ảnh hưởng không và đề xuất cách tối ưu hơn.
 
 🚨 ĐỊNH DẠNG ĐẦU RA (OUTPUT FORMAT):
 Phân loại các nhận xét theo mức độ nghiêm trọng:
@@ -41,5 +42,3 @@ Phân loại các nhận xét theo mức độ nghiêm trọng:
 *Lưu ý: Luôn trích dẫn dòng code UI đang có vấn đề và cung cấp đoạn code (snippet) đã sửa lỗi.*
 
 Hãy đọc mã nguồn giao diện của màn hình này và cung cấp báo cáo đánh giá UI.
-
-Xuất thành 1 file báo cáo tại documents.

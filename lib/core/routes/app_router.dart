@@ -6,6 +6,7 @@ import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/discover/presentation/screens/discover_screen.dart';
 import '../../features/progress/presentation/screens/progress_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/profile/presentation/widgets/integration/integration_content_view.dart';
 
 // TODO: Thay thế bằng các màn hình thật trong tương lai
 class PlaceholderScreen extends StatelessWidget {
@@ -72,6 +73,12 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/profile',
               builder: (context, state) => const ProfileScreen(),
+              routes: [
+                GoRoute(
+                  path: 'integration',
+                  builder: (context, state) => const IntegrationContentView(),
+                ),
+              ],
             ),
           ],
         ),
