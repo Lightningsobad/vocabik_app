@@ -30,6 +30,8 @@ Hãy rà soát kỹ lưỡng các mã nguồn liên quan đến tính năng này
    - Có nguy cơ rò rỉ bộ nhớ (Memory Leaks) không? (Các Controllers, Streams, Timers có được `dispose()` đúng cách không?).
    - BlocBuilder có sử dụng `buildWhen` (hoặc `context.select`) để ngăn chặn việc render lại UI không cần thiết không?
    - Có tác vụ nặng nào đang chặn Main Thread (UI Thread) cần phải chuyển sang Isolate/compute không?
+   - Tập trung kiểm tra xem có điều gì khiến hiệu năng khởi động app (thời gian khởi động app) bị ảnh hưởng không và đề xuất cách tối ưu hơn.
+
 
 5. Xử lý Lỗi & Cạnh biên (Error Handling & Edge Cases):
    - Các ngoại lệ (Exceptions) từ Data layer có được bắt và chuyển đổi an toàn thành State lỗi (Failure State) cho UI hiển thị không?

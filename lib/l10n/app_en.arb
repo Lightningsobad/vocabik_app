@@ -4,5 +4,74 @@
   "homeScreenContent": "Home Screen Content",
   "discoverTitle": "Discover",
   "progressTitle": "Progress",
-  "profileTitle": "Profile"
+  "profileTitle": "Profile",
+  "discoverScreenContent": "Discover Screen Content",
+  "progressScreenContent": "Progress Screen Content",
+  "profileSettingsTitle": "Profile & Settings",
+  "profileTab": "Profile",
+  "preferencesTab": "Preferences",
+  "subscriptionTab": "Subscription",
+  "securityTab": "Security",
+  "accountTab": "Account",
+  "tabNotImplemented": "Content for Tab {tabIndex} is not implemented yet.",
+  "@tabNotImplemented": {
+    "placeholders": {
+      "tabIndex": {
+        "type": "int"
+      }
+    }
+  },
+  "actionAchievements": "Achievements",
+  "actionNotebook": "Notebook",
+  "actionLeaderboard": "Leaderboard",
+  "actionClassroom": "Classroom",
+  "actionDailyChallenge": "Daily Challenge",
+  "actionBotIntegration": "Bot integration",
+  "profileChangePhoto": "Change photo",
+  "profileYourName": "Your name",
+  "profileEmail": "Email: ",
+  "profileReadOnly": " (readonly)",
+  "profileMemberSince": "Member since: {date}",
+  "@profileMemberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "appearance": "Appearance",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "soundDuringExercise": "Sound during exercise",
+  "interfaceLanguage": "Interface Language",
+  "languageVietnamese": "Vietnamese",
+  "languageEnglish": "English",
+  "botIntegrationTelegramZalo": "Bot Integration (Telegram / Zalo)",
+  "subscriptionFreePlanTitle": "Free Plan",
+  "subscriptionFreePlanDesc": "Learn more richly with Premium.",
+  "subscriptionUpgradeBtn": "Upgrade to Premium →",
+  "accountExportData": "Export my data",
+  "accountLogOut": "Log out",
+  "accountDeletePermanently": "Delete account permanently",
+  "securityTab_currentPasswordLabel": "Current password",
+  "securityTab_newPasswordLabel": "New password",
+  "securityTab_updateButton": "Update",
+  "securityTab_activeSessionsTitle": "Active sessions",
+  "action_show": "Show",
+  "action_hide": "Hide",
+  "integrationScreenTitle": "Integration",
+  "integrationTelegramTitle": "Telegram Bot",
+  "integrationTelegramDesc": "Receive exercises every morning via Telegram",
+  "integrationZaloTitle": "Zalo OA",
+  "integrationZaloDesc": "Similar structure to Telegram",
+  "statusNotConnected": "Not connected",
+  "statusConnected": "Connected",
+  "instructionConnectLabel": "1. Press \"Connect\" below",
+  "instructionStartLabel": "2. Press Start in Telegram",
+  "instructionAutoConnectLabel": "3. Bot will auto connect",
+  "timeToReceiveLabel": "Time to receive",
+  "levelLabel": "Level",
+  "connectTelegramBtn": "Connect Telegram Bot →",
+  "connectZaloBtn": "Connect Zalo OA →",
+  "disconnectBtn": "Disconnect"
 }

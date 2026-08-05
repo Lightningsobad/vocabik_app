@@ -1,28 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:vocabik_app/shared/presentation/widgets/header/app_header.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            const AppHeader(
-              streak: 12,
-              xp: 1240,
-              currentLanguageCode: 'vi',
-            ),
-            Expanded(
-              child: const Center(
-                child: Text('Progress Screen Content'),
-              ),
-            ),
-          ],
-        ),
+      body: Center(
+        child: Text(l10n.progressScreenContent),
       ),
     );
   }

@@ -4,5 +4,74 @@
   "homeScreenContent": "Nội dung trang chủ",
   "discoverTitle": "Khám phá",
   "progressTitle": "Tiến độ",
-  "profileTitle": "Hồ sơ"
+  "profileTitle": "Hồ sơ",
+  "discoverScreenContent": "Nội dung Khám phá",
+  "progressScreenContent": "Nội dung Tiến độ",
+  "profileSettingsTitle": "Hồ sơ & Cài đặt",
+  "profileTab": "Hồ sơ",
+  "preferencesTab": "Tuỳ chỉnh",
+  "subscriptionTab": "Gói cước",
+  "securityTab": "Bảo mật",
+  "accountTab": "Tài khoản",
+  "tabNotImplemented": "Nội dung cho Tab {tabIndex} chưa được phát triển.",
+  "@tabNotImplemented": {
+    "placeholders": {
+      "tabIndex": {
+        "type": "int"
+      }
+    }
+  },
+  "actionAchievements": "Thành tích",
+  "actionNotebook": "Sổ từ vựng",
+  "actionLeaderboard": "Xếp hạng",
+  "actionClassroom": "Lớp học",
+  "actionDailyChallenge": "Thử thách ngày",
+  "actionBotIntegration": "Tích hợp Bot",
+  "profileChangePhoto": "Đổi ảnh",
+  "profileYourName": "Tên của bạn",
+  "profileEmail": "Email: ",
+  "profileReadOnly": " (chỉ xem)",
+  "profileMemberSince": "Thành viên từ: {date}",
+  "@profileMemberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "appearance": "Giao diện",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "soundDuringExercise": "Âm thanh khi làm bài",
+  "interfaceLanguage": "Ngôn ngữ giao diện",
+  "languageVietnamese": "Tiếng Việt",
+  "languageEnglish": "English",
+  "botIntegrationTelegramZalo": "Tích hợp Bot (Telegram / Zalo)",
+  "subscriptionFreePlanTitle": "Gói Free",
+  "subscriptionFreePlanDesc": "Học phong phú hơn với Premium.",
+  "subscriptionUpgradeBtn": "Nâng lên Premium →",
+  "accountExportData": "Xuất dữ liệu của tôi",
+  "accountLogOut": "Đăng xuất",
+  "accountDeletePermanently": "Xóa tài khoản vĩnh viễn",
+  "securityTab_currentPasswordLabel": "Mật khẩu hiện tại",
+  "securityTab_newPasswordLabel": "Mật khẩu mới",
+  "securityTab_updateButton": "Cập nhật",
+  "securityTab_activeSessionsTitle": "Phiên đăng nhập",
+  "action_show": "Hiện",
+  "action_hide": "Ẩn",
+  "integrationScreenTitle": "Tích hợp",
+  "integrationTelegramTitle": "Telegram Bot",
+  "integrationTelegramDesc": "Nhận bài tập mỗi sáng qua Telegram",
+  "integrationZaloTitle": "Zalo OA",
+  "integrationZaloDesc": "Cấu trúc tương tự Telegram",
+  "statusNotConnected": "Chưa kết nối",
+  "statusConnected": "Đã kết nối",
+  "instructionConnectLabel": "1. Nhấn \"Kết nối\" bên dưới",
+  "instructionStartLabel": "2. Nhấn Start trong Telegram",
+  "instructionAutoConnectLabel": "3. Bot tự kết nối tài khoản",
+  "timeToReceiveLabel": "Thời gian nhận bài",
+  "levelLabel": "Level",
+  "connectTelegramBtn": "Kết nối Telegram Bot →",
+  "connectZaloBtn": "Kết nối Zalo OA →",
+  "disconnectBtn": "Hủy kết nối"
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/presentation/widgets/header/app_header.dart';
 
 import '../widgets/custom_bottom_navigation_bar.dart';
 
@@ -29,6 +30,10 @@ class MainShellScreen extends StatelessWidget {
     
     return Scaffold(
       backgroundColor: colors.background,
+      appBar: const AppHeader(
+        streak: 12,
+        xp: 1240,
+      ),
       body: navigationShell,
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: navigationShell.currentIndex,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'dart:developer' as developer;
 
 class UserProfileSection extends StatefulWidget {
@@ -48,6 +49,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -90,7 +92,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
                     color: colors.surfaceCard,
                   ),
                   child: Text(
-                    'Change photo',
+                    l10n.profileChangePhoto,
                     style: GoogleFonts.nunito(
                       color: colors.textPrimary,
                       fontWeight: FontWeight.w700,
@@ -105,7 +107,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
           
           // Name Field
           Text(
-            'Your name',
+            l10n.profileYourName,
             style: GoogleFonts.nunito(
               color: colors.textSecondary,
               fontWeight: FontWeight.w600,
@@ -146,7 +148,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
             TextSpan(
               children: [
                 TextSpan(
-                  text: 'Email: ',
+                  text: l10n.profileEmail,
                   style: GoogleFonts.nunito(color: colors.textSecondary),
                 ),
                 TextSpan(
@@ -157,7 +159,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
                   ),
                 ),
                 TextSpan(
-                  text: ' (readonly)',
+                  text: l10n.profileReadOnly,
                   style: GoogleFonts.nunito(color: colors.textSecondary, fontSize: 13.0),
                 ),
               ],
@@ -168,7 +170,7 @@ class _UserProfileSectionState extends State<UserProfileSection> {
           
           // Member Since
           Text(
-            'Member since: 15/05/2026',
+            l10n.profileMemberSince('15/05/2026'),
             style: GoogleFonts.nunito(
               color: colors.textSecondary,
               fontSize: 15.0,

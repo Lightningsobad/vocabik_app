@@ -5,6 +5,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_theme.dart';
 import 'package:vocabik_app/shared/theme/cubit/theme_cubit.dart';
+import 'package:vocabik_app/shared/localization/cubit/localization_cubit.dart';
+import 'package:vocabik_app/shared/localization/cubit/localization_state.dart';
+import 'package:vocabik_app/shared/settings/cubit/sound_settings_cubit.dart';
 import 'core/di/injection.dart';
 import 'core/routes/app_router.dart';
 
@@ -22,26 +25,35 @@ class VocabikApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<ThemeCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<ThemeCubit>()),
+        BlocProvider(create: (_) => getIt<LocalizationCubit>()..initLanguage()),
+        BlocProvider(create: (_) => getIt<SoundSettingsCubit>()),
+      ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
-          return MaterialApp.router(
-            title: 'Vocabik',
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: themeMode,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('vi'),
-              Locale('en'),
-            ],
-            routerConfig: appRouter,
+          return BlocBuilder<LocalizationCubit, LocalizationState>(
+            builder: (context, localizationState) {
+              return MaterialApp.router(
+                title: 'Vocabik',
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                themeMode: themeMode,
+                locale: localizationState.currentLocale,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('vi'),
+                  Locale('en'),
+                ],
+                routerConfig: appRouter,
+              );
+            },
           );
         },
       ),
