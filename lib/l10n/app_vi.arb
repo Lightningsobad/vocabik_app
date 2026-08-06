@@ -73,5 +73,47 @@
   "levelLabel": "Level",
   "connectTelegramBtn": "Kết nối Telegram Bot →",
   "connectZaloBtn": "Kết nối Zalo OA →",
-  "disconnectBtn": "Hủy kết nối"
+  "disconnectBtn": "Hủy kết nối",
+  "homeDailyPickTitle": "☀️ Tuyển chọn cho bạn hôm nay",
+  "homeRecommendedTitle": "CŨNG DÀNH CHO BẠN",
+  "homeTodayProgress": "Hôm nay",
+  "homeUnlimited": "Không giới hạn",
+  "homeAll": "Tất cả",
+  "homeDailyChallenge": "Daily Challenge hôm nay",
+  "homeTrending": "Trending tuần này \uD83D\uDD25",
+  "homeViewAll": "Xem tất cả \u2192",
+  "homeRecentlyAdded": "Mới thêm \u2728",
+  "homeLibrary": "Thư viện",
+  "homePricing": "Bảng giá",
+  "homePrivacyPolicy": "Chính sách bảo mật",
+  "homeTerms": "Điều khoản",
+  "homePracticed": "{count} đã luyện",
+  "@homePracticed": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "homeLessons": "{current} / {total} bài",
+  "@homeLessons": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "homeDailyPickTag": "DAILY PICK",
+  "homeNewTag": "NEW",
+  "homeChallengeParticipants": "{count} người đã tham gia",
+  "@homeChallengeParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

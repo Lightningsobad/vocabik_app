@@ -73,5 +73,47 @@
   "levelLabel": "Level",
   "connectTelegramBtn": "Connect Telegram Bot →",
   "connectZaloBtn": "Connect Zalo OA →",
-  "disconnectBtn": "Disconnect"
+  "disconnectBtn": "Disconnect",
+  "homeDailyPickTitle": "☀️ Handpicked for you today",
+  "homeRecommendedTitle": "ALSO FOR YOU",
+  "homeTodayProgress": "Today",
+  "homeUnlimited": "Unlimited",
+  "homeAll": "All",
+  "homeDailyChallenge": "Today's Daily Challenge",
+  "homeTrending": "Trending this week \uD83D\uDD25",
+  "homeViewAll": "See all \u2192",
+  "homeRecentlyAdded": "Newly added \u2728",
+  "homeLibrary": "Library",
+  "homePricing": "Pricing",
+  "homePrivacyPolicy": "Privacy Policy",
+  "homeTerms": "Terms of Service",
+  "homePracticed": "{count} practiced",
+  "@homePracticed": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "homeLessons": "{current} / {total} lessons",
+  "@homeLessons": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "homeDailyPickTag": "DAILY PICK",
+  "homeNewTag": "NEW",
+  "homeChallengeParticipants": "{count} participants",
+  "@homeChallengeParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

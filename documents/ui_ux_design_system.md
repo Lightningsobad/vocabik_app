@@ -45,3 +45,7 @@ Việc chuyển đổi giữa Light Mode và Dark Mode phải đảm bảo tính
 - Các thành phần có tính tương tác cao (Nút bấm chính, Progress bar, Icon nổi bật, Focus border) luôn giữ màu chủ đạo Cyan `0xFF06B6D4`.
 - Sử dụng hiệu ứng chuyển đổi mượt mà (smooth transition) giữa các theme.
 - Đảm bảo độ tương phản (contrast) của chữ trên nền ở cả hai chế độ.
+
+## 5. Ngôn ngữ & Chế độ English/Vietnamese (Light/Dark Mode)
+  - Các tên bài hát, thể loại, tên nghệ sĩ, album, quốc gia, lời bài hát ( lyrics ) được hiển thị bằng tiếng Anh ở cả hai chế độ Ngôn ngữ. 
+  - 
