@@ -251,4 +251,40 @@ class AppLocalizationsVi extends AppLocalizations {
   String homeChallengeParticipants(String count) {
     return '$count người đã tham gia';
   }
+
+  @override
+  String get discoverSearchHint => 'Tìm theo bài hát, nghệ sĩ...';
+
+  @override
+  String get discoverFilterAll => 'Tất cả';
+
+  @override
+  String get discoverTrendingTitle => 'Trending 🔥';
+
+  @override
+  String get discoverPlaylistTitle => 'Playlist tuyển chọn';
+
+  @override
+  String get discoverTimeUnder3 => '< 3 phút';
+
+  @override
+  String get discoverTime3To7 => '3-7 phút';
+
+  @override
+  String get discoverTimeOver7 => '> 7 phút';
+
+  @override
+  String discoverSearchResultsWithQuery(int count, String query) {
+    return 'Found $count kết quả cho \"$query\"';
+  }
+
+  @override
+  String discoverSearchResults(int count) {
+    return 'Found $count kết quả';
+  }
+
+  @override
+  String discoverVideosCount(int count) {
+    return '$count videos';
+  }
 }

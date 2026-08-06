@@ -115,5 +115,39 @@
         "type": "String"
       }
     }
+  },
+  "discoverSearchHint": "Tìm theo bài hát, nghệ sĩ...",
+  "discoverFilterAll": "Tất cả",
+  "discoverTrendingTitle": "Trending 🔥",
+  "discoverPlaylistTitle": "Playlist tuyển chọn",
+  "discoverTimeUnder3": "< 3 phút",
+  "discoverTime3To7": "3-7 phút",
+  "discoverTimeOver7": "> 7 phút",
+  "discoverSearchResultsWithQuery": "Found {count} kết quả cho \"{query}\"",
+  "@discoverSearchResultsWithQuery": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverSearchResults": "Found {count} kết quả",
+  "@discoverSearchResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoverVideosCount": "{count} videos",
+  "@discoverVideosCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

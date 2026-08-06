@@ -252,4 +252,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String homeChallengeParticipants(String count) {
     return '$count participants';
   }
+
+  @override
+  String get discoverSearchHint => 'Search by song, artist...';
+
+  @override
+  String get discoverFilterAll => 'All';
+
+  @override
+  String get discoverTrendingTitle => 'Trending 🔥';
+
+  @override
+  String get discoverPlaylistTitle => 'Selected Playlists';
+
+  @override
+  String get discoverTimeUnder3 => '< 3 mins';
+
+  @override
+  String get discoverTime3To7 => '3-7 mins';
+
+  @override
+  String get discoverTimeOver7 => '> 7 mins';
+
+  @override
+  String discoverSearchResultsWithQuery(int count, String query) {
+    return 'Found $count results for \"$query\"';
+  }
+
+  @override
+  String discoverSearchResults(int count) {
+    return 'Found $count results';
+  }
+
+  @override
+  String discoverVideosCount(int count) {
+    return '$count videos';
+  }
 }

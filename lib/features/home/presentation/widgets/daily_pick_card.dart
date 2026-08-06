@@ -56,6 +56,7 @@ class DailyPickCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.lg),
               ),
               child: Stack(
+                alignment: Alignment.center,
                 children: [
                   Positioned(
                     top: AppSpacing.md,
