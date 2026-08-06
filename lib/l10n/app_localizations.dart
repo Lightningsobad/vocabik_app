@@ -565,6 +565,66 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'{count} người đã tham gia'**
   String homeChallengeParticipants(String count);
+
+  /// No description provided for @discoverSearchHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm theo bài hát, nghệ sĩ...'**
+  String get discoverSearchHint;
+
+  /// No description provided for @discoverFilterAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả'**
+  String get discoverFilterAll;
+
+  /// No description provided for @discoverTrendingTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trending 🔥'**
+  String get discoverTrendingTitle;
+
+  /// No description provided for @discoverPlaylistTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Playlist tuyển chọn'**
+  String get discoverPlaylistTitle;
+
+  /// No description provided for @discoverTimeUnder3.
+  ///
+  /// In vi, this message translates to:
+  /// **'< 3 phút'**
+  String get discoverTimeUnder3;
+
+  /// No description provided for @discoverTime3To7.
+  ///
+  /// In vi, this message translates to:
+  /// **'3-7 phút'**
+  String get discoverTime3To7;
+
+  /// No description provided for @discoverTimeOver7.
+  ///
+  /// In vi, this message translates to:
+  /// **'> 7 phút'**
+  String get discoverTimeOver7;
+
+  /// No description provided for @discoverSearchResultsWithQuery.
+  ///
+  /// In vi, this message translates to:
+  /// **'Found {count} kết quả cho \"{query}\"'**
+  String discoverSearchResultsWithQuery(int count, String query);
+
+  /// No description provided for @discoverSearchResults.
+  ///
+  /// In vi, this message translates to:
+  /// **'Found {count} kết quả'**
+  String discoverSearchResults(int count);
+
+  /// No description provided for @discoverVideosCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} videos'**
+  String discoverVideosCount(int count);
 }
 
 class _AppLocalizationsDelegate

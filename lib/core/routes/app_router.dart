@@ -7,6 +7,9 @@ import '../../features/discover/presentation/screens/discover_screen.dart';
 import '../../features/progress/presentation/screens/progress_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/profile/presentation/widgets/integration/integration_content_view.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/auth/data/data_sources/auth_local_data_source.dart';
+import '../di/injection.dart';
 
 // TODO: Thay thế bằng các màn hình thật trong tương lai
 class PlaceholderScreen extends StatelessWidget {
@@ -24,6 +27,19 @@ class PlaceholderScreen extends StatelessWidget {
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/home',
+  redirect: (context, state) {
+    final localDataSource = getIt<AuthLocalDataSource>();
+    final isLoggedIn = localDataSource.getAccessToken() != null;
+    final isGoingToLogin = state.matchedLocation == '/login';
+    
+    if (!isLoggedIn && !isGoingToLogin) {
+      return '/login';
+    }
+    if (isLoggedIn && isGoingToLogin) {
+      return '/home';
+    }
+    return null;
+  },
   routes: [
     GoRoute(
       path: '/',
@@ -33,7 +49,7 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: '/login',
-      builder: (context, state) => const PlaceholderScreen(title: 'Login Screen'),
+      builder: (context, state) => const LoginScreen(),
     ),
     GoRoute(
       path: '/player',

@@ -9,10 +9,20 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../features/auth/data/data_sources/auth_local_data_source.dart'
+    as _i606;
+import '../../features/auth/data/data_sources/auth_remote_data_source.dart'
+    as _i25;
+import '../../features/auth/data/repositories/auth_repository_impl.dart'
+    as _i153;
+import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
+import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
+import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
 import '../../shared/localization/cubit/localization_cubit.dart' as _i97;
 import '../../shared/localization/data/datasources/localization_local_data_source.dart'
     as _i729;
@@ -49,11 +59,18 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.prefs,
       preResolve: true,
     );
+    gh.lazySingleton<_i361.Dio>(() => appModule.dio);
+    gh.lazySingleton<_i25.AuthRemoteDataSource>(
+      () => _i25.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.factory<_i416.ThemeRepository>(
       () => _i108.ThemeRepositoryImpl(prefs: gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i431.SettingsLocalDataSource>(
       () => _i431.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i606.AuthLocalDataSource>(
+      () => _i606.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i729.LocalizationLocalDataSource>(
       () =>
@@ -64,6 +81,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i520.SettingsRepository>(
       () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
+    );
+    gh.lazySingleton<_i787.AuthRepository>(
+      () => _i153.AuthRepositoryImpl(
+        gh<_i25.AuthRemoteDataSource>(),
+        gh<_i606.AuthLocalDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i1038.LoginUseCase>(
+      () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
     );
     gh.lazySingleton<_i960.LocalizationRepository>(
       () => _i682.LocalizationRepositoryImpl(
@@ -79,6 +105,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i521.SoundSettingsCubit>(
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
+    gh.factory<_i797.AuthBloc>(() => _i797.AuthBloc(gh<_i1038.LoginUseCase>()));
     gh.singleton<_i97.LocalizationCubit>(
       () => _i97.LocalizationCubit(
         gh<_i738.GetLanguageUseCase>(),

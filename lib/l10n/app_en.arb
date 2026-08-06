@@ -115,5 +115,39 @@
         "type": "String"
       }
     }
+  },
+  "discoverSearchHint": "Search by song, artist...",
+  "discoverFilterAll": "All",
+  "discoverTrendingTitle": "Trending 🔥",
+  "discoverPlaylistTitle": "Selected Playlists",
+  "discoverTimeUnder3": "< 3 mins",
+  "discoverTime3To7": "3-7 mins",
+  "discoverTimeOver7": "> 7 mins",
+  "discoverSearchResultsWithQuery": "Found {count} results for \"{query}\"",
+  "@discoverSearchResultsWithQuery": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverSearchResults": "Found {count} results",
+  "@discoverSearchResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoverVideosCount": "{count} videos",
+  "@discoverVideosCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }
