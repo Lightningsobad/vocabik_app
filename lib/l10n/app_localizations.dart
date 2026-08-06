@@ -457,6 +457,114 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Hủy kết nối'**
   String get disconnectBtn;
+
+  /// No description provided for @homeDailyPickTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'☀️ Tuyển chọn cho bạn hôm nay'**
+  String get homeDailyPickTitle;
+
+  /// No description provided for @homeRecommendedTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'CŨNG DÀNH CHO BẠN'**
+  String get homeRecommendedTitle;
+
+  /// No description provided for @homeTodayProgress.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hôm nay'**
+  String get homeTodayProgress;
+
+  /// No description provided for @homeUnlimited.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không giới hạn'**
+  String get homeUnlimited;
+
+  /// No description provided for @homeAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả'**
+  String get homeAll;
+
+  /// No description provided for @homeDailyChallenge.
+  ///
+  /// In vi, this message translates to:
+  /// **'Daily Challenge hôm nay'**
+  String get homeDailyChallenge;
+
+  /// No description provided for @homeTrending.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trending tuần này 🔥'**
+  String get homeTrending;
+
+  /// No description provided for @homeViewAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem tất cả →'**
+  String get homeViewAll;
+
+  /// No description provided for @homeRecentlyAdded.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mới thêm ✨'**
+  String get homeRecentlyAdded;
+
+  /// No description provided for @homeLibrary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thư viện'**
+  String get homeLibrary;
+
+  /// No description provided for @homePricing.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảng giá'**
+  String get homePricing;
+
+  /// No description provided for @homePrivacyPolicy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chính sách bảo mật'**
+  String get homePrivacyPolicy;
+
+  /// No description provided for @homeTerms.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điều khoản'**
+  String get homeTerms;
+
+  /// No description provided for @homePracticed.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} đã luyện'**
+  String homePracticed(String count);
+
+  /// No description provided for @homeLessons.
+  ///
+  /// In vi, this message translates to:
+  /// **'{current} / {total} bài'**
+  String homeLessons(int current, int total);
+
+  /// No description provided for @homeDailyPickTag.
+  ///
+  /// In vi, this message translates to:
+  /// **'DAILY PICK'**
+  String get homeDailyPickTag;
+
+  /// No description provided for @homeNewTag.
+  ///
+  /// In vi, this message translates to:
+  /// **'NEW'**
+  String get homeNewTag;
+
+  /// No description provided for @homeChallengeParticipants.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} người đã tham gia'**
+  String homeChallengeParticipants(String count);
 }
 
 class _AppLocalizationsDelegate

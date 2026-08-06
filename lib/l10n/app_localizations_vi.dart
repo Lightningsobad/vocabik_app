@@ -191,4 +191,64 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get disconnectBtn => 'Hủy kết nối';
+
+  @override
+  String get homeDailyPickTitle => '☀️ Tuyển chọn cho bạn hôm nay';
+
+  @override
+  String get homeRecommendedTitle => 'CŨNG DÀNH CHO BẠN';
+
+  @override
+  String get homeTodayProgress => 'Hôm nay';
+
+  @override
+  String get homeUnlimited => 'Không giới hạn';
+
+  @override
+  String get homeAll => 'Tất cả';
+
+  @override
+  String get homeDailyChallenge => 'Daily Challenge hôm nay';
+
+  @override
+  String get homeTrending => 'Trending tuần này 🔥';
+
+  @override
+  String get homeViewAll => 'Xem tất cả →';
+
+  @override
+  String get homeRecentlyAdded => 'Mới thêm ✨';
+
+  @override
+  String get homeLibrary => 'Thư viện';
+
+  @override
+  String get homePricing => 'Bảng giá';
+
+  @override
+  String get homePrivacyPolicy => 'Chính sách bảo mật';
+
+  @override
+  String get homeTerms => 'Điều khoản';
+
+  @override
+  String homePracticed(String count) {
+    return '$count đã luyện';
+  }
+
+  @override
+  String homeLessons(int current, int total) {
+    return '$current / $total bài';
+  }
+
+  @override
+  String get homeDailyPickTag => 'DAILY PICK';
+
+  @override
+  String get homeNewTag => 'NEW';
+
+  @override
+  String homeChallengeParticipants(String count) {
+    return '$count người đã tham gia';
+  }
 }

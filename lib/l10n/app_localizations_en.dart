@@ -192,4 +192,64 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get disconnectBtn => 'Disconnect';
+
+  @override
+  String get homeDailyPickTitle => '☀️ Handpicked for you today';
+
+  @override
+  String get homeRecommendedTitle => 'ALSO FOR YOU';
+
+  @override
+  String get homeTodayProgress => 'Today';
+
+  @override
+  String get homeUnlimited => 'Unlimited';
+
+  @override
+  String get homeAll => 'All';
+
+  @override
+  String get homeDailyChallenge => 'Today\'s Daily Challenge';
+
+  @override
+  String get homeTrending => 'Trending this week 🔥';
+
+  @override
+  String get homeViewAll => 'See all →';
+
+  @override
+  String get homeRecentlyAdded => 'Newly added ✨';
+
+  @override
+  String get homeLibrary => 'Library';
+
+  @override
+  String get homePricing => 'Pricing';
+
+  @override
+  String get homePrivacyPolicy => 'Privacy Policy';
+
+  @override
+  String get homeTerms => 'Terms of Service';
+
+  @override
+  String homePracticed(String count) {
+    return '$count practiced';
+  }
+
+  @override
+  String homeLessons(int current, int total) {
+    return '$current / $total lessons';
+  }
+
+  @override
+  String get homeDailyPickTag => 'DAILY PICK';
+
+  @override
+  String get homeNewTag => 'NEW';
+
+  @override
+  String homeChallengeParticipants(String count) {
+    return '$count participants';
+  }
 }
