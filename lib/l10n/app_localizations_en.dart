@@ -288,4 +288,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String discoverVideosCount(int count) {
     return '$count videos';
   }
+
+  @override
+  String get logoutConfirmTitle => 'Log out';
+
+  @override
+  String get logoutConfirmMessage => 'Are you sure you want to log out?';
+
+  @override
+  String get actionCancel => 'Cancel';
+
+  @override
+  String get actionConfirm => 'Confirm';
 }

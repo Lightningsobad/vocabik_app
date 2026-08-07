@@ -78,6 +78,8 @@ dependencies:
   sign_in_with_apple: ^8.1.0
   lucide_icons_flutter: ^3.1.15
   google_fonts: ^8.2.0
+  fpdart: 1.2.0
+  formz: 0.8.0
 
 dev_dependencies:
   flutter_test:

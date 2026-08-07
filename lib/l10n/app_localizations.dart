@@ -625,6 +625,30 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'{count} videos'**
   String discoverVideosCount(int count);
+
+  /// No description provided for @logoutConfirmTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng xuất'**
+  String get logoutConfirmTitle;
+
+  /// No description provided for @logoutConfirmMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có chắc chắn muốn đăng xuất không?'**
+  String get logoutConfirmMessage;
+
+  /// No description provided for @actionCancel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hủy'**
+  String get actionCancel;
+
+  /// No description provided for @actionConfirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận'**
+  String get actionConfirm;
 }
 
 class _AppLocalizationsDelegate

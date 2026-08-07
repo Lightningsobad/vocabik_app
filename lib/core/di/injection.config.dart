@@ -22,6 +22,7 @@ import '../../features/auth/data/repositories/auth_repository_impl.dart'
     as _i153;
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
 import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
+import '../../features/auth/domain/use_cases/sign_out_use_case.dart' as _i131;
 import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
 import '../../shared/localization/cubit/localization_cubit.dart' as _i97;
 import '../../shared/localization/data/datasources/localization_local_data_source.dart'
@@ -88,8 +89,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i606.AuthLocalDataSource>(),
       ),
     );
+    gh.factory<_i131.SignOutUseCase>(
+      () => _i131.SignOutUseCase(gh<_i787.AuthRepository>()),
+    );
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.factory<_i797.AuthBloc>(
+      () =>
+          _i797.AuthBloc(gh<_i1038.LoginUseCase>(), gh<_i131.SignOutUseCase>()),
     );
     gh.lazySingleton<_i960.LocalizationRepository>(
       () => _i682.LocalizationRepositoryImpl(
@@ -105,7 +113,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i521.SoundSettingsCubit>(
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
-    gh.factory<_i797.AuthBloc>(() => _i797.AuthBloc(gh<_i1038.LoginUseCase>()));
     gh.singleton<_i97.LocalizationCubit>(
       () => _i97.LocalizationCubit(
         gh<_i738.GetLanguageUseCase>(),

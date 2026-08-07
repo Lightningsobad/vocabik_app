@@ -1,5 +1,8 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:vocabik_app/core/errors/failures.dart';
 import '../entities/user.dart';
 
 abstract class AuthRepository {
-  Future<User> login({required String email, required String password});
+  Future<Either<Failure, User>> login({required String email, required String password});
+  Future<Either<Failure, void>> signOut();
 }

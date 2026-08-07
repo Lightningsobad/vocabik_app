@@ -149,5 +149,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "logoutConfirmTitle": "Log out",
+  "logoutConfirmMessage": "Are you sure you want to log out?",
+  "actionCancel": "Cancel",
+  "actionConfirm": "Confirm"
 }

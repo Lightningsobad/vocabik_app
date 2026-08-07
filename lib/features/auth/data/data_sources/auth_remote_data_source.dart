@@ -6,6 +6,7 @@ import '../models/auth_response_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<AuthResponseModel> login(LoginRequestModel request);
+  Future<void> signOut();
 }
 
 @LazySingleton(as: AuthRemoteDataSource)
@@ -27,6 +28,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw Exception(e.response?.data['error']?['message'] ?? 'Login failed');
       }
       throw Exception('Network error');
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    try {
+      await _dio.post('/auth/sign-out');
+    } catch (e) {
+      // Ignore API errors on sign out as we will clear local tokens anyway
     }
   }
 }

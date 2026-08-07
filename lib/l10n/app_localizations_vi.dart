@@ -287,4 +287,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String discoverVideosCount(int count) {
     return '$count videos';
   }
+
+  @override
+  String get logoutConfirmTitle => 'Đăng xuất';
+
+  @override
+  String get logoutConfirmMessage => 'Bạn có chắc chắn muốn đăng xuất không?';
+
+  @override
+  String get actionCancel => 'Hủy';
+
+  @override
+  String get actionConfirm => 'Xác nhận';
 }

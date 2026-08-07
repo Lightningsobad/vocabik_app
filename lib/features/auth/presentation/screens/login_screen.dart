@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/presentation/widgets/buttons/primary_button.dart';
+import 'package:vocabik_app/shared/presentation/widgets/buttons/social_login_button.dart';
 
 import '../../../../core/di/injection.dart';
 import '../bloc/auth_bloc.dart';
+import '../widgets/email_password_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -43,16 +46,24 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       backgroundColor: colors?.background ?? Colors.white,
       body: BlocConsumer<AuthBloc, AuthState>(
+        listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          if (state is AuthSuccess) {
+          if (state.status == AuthStatus.success) {
             context.go('/home');
-          } else if (state is AuthFailure) {
+          } else if (state.status == AuthStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
+              SnackBar(content: Text(state.errorMessage ?? 'Có lỗi xảy ra')),
             );
           }
         },
         builder: (context, state) {
+          final emailError = state.email.displayError != null 
+              ? 'Email không hợp lệ' 
+              : null;
+          final passwordError = state.password.displayError != null 
+              ? 'Mật khẩu phải từ 6 ký tự' 
+              : null;
+
           return Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -102,33 +113,17 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // Social Buttons (UI only)
-                    OutlinedButton.icon(
+                    // Social Buttons
+                    SocialLoginButton(
+                      text: 'Tiếp tục với Google',
+                      icon: const Text('G', style: TextStyle(color: Color(0xFF4285F4), fontWeight: FontWeight.bold, fontSize: 18)),
                       onPressed: () {},
-                      icon: const Text('G', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                      label: Text('Tiếp tục với Google', style: TextStyle(color: colors?.textPrimary)),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        side: BorderSide(color: colors?.borderSubtle ?? Colors.grey.shade300),
-                        backgroundColor: colors?.surfaceCard,
-                      ),
                     ),
                     const SizedBox(height: 10),
-                    OutlinedButton.icon(
+                    SocialLoginButton(
+                      text: 'Tiếp tục với Facebook',
+                      icon: const Text('f', style: TextStyle(color: Color(0xFF1877F2), fontWeight: FontWeight.bold, fontSize: 18)),
                       onPressed: () {},
-                      icon: const Text('f', style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold)),
-                      label: Text('Tiếp tục với Facebook', style: TextStyle(color: colors?.textPrimary)),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        side: BorderSide(color: colors?.borderSubtle ?? Colors.grey.shade300),
-                        backgroundColor: colors?.surfaceCard,
-                      ),
                     ),
                     const SizedBox(height: 24),
                     const Row(
@@ -142,45 +137,14 @@ class _LoginViewState extends State<LoginView> {
                       ],
                     ),
                     const SizedBox(height: 24),
-                    // Email
-                    TextField(
-                      controller: _emailController,
-                      style: TextStyle(color: colors?.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Email của bạn',
-                        hintStyle: TextStyle(color: colors?.textSecondary),
-                        filled: true,
-                        fillColor: colors?.surfaceCard ?? Colors.grey.shade100,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: colors?.borderSubtle ?? Colors.grey.shade300),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: colors?.borderSubtle ?? Colors.grey.shade300),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    // Password
-                    TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      style: TextStyle(color: colors?.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Mật khẩu',
-                        hintStyle: TextStyle(color: colors?.textSecondary),
-                        filled: true,
-                        fillColor: colors?.surfaceCard ?? Colors.grey.shade100,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: colors?.borderSubtle ?? Colors.grey.shade300),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: colors?.borderSubtle ?? Colors.grey.shade300),
-                        ),
-                      ),
+                    // Form
+                    EmailPasswordForm(
+                      emailController: _emailController,
+                      passwordController: _passwordController,
+                      emailError: emailError,
+                      passwordError: passwordError,
+                      onEmailChanged: (value) => context.read<AuthBloc>().add(EmailChanged(value)),
+                      onPasswordChanged: (value) => context.read<AuthBloc>().add(PasswordChanged(value)),
                     ),
                     const SizedBox(height: 14),
                     Align(
@@ -191,35 +155,10 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     const SizedBox(height: 14),
-                    ElevatedButton(
-                      onPressed: state is AuthLoading
-                          ? null
-                          : () {
-                              context.read<AuthBloc>().add(
-                                    LoginRequested(
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
-                                    ),
-                                  );
-                            },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: state is AuthLoading
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const Text('Đăng nhập', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    PrimaryButton(
+                      text: 'Đăng nhập',
+                      isLoading: state.status == AuthStatus.loading,
+                      onPressed: () => context.read<AuthBloc>().add(const LoginSubmitted()),
                     ),
                     const SizedBox(height: 24),
                     Row(

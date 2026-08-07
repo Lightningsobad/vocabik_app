@@ -10,12 +10,16 @@ class PasswordInputWidget extends StatefulWidget {
   final String? hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
+  final String? errorText;
 
   const PasswordInputWidget({
     super.key,
     this.hintText,
     this.controller,
     this.validator,
+    this.onChanged,
+    this.errorText,
   });
 
   @override
@@ -40,6 +44,7 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
       controller: widget.controller,
       obscureText: _obscureText,
       validator: widget.validator,
+      onChanged: widget.onChanged,
       style: GoogleFonts.nunito(
         color: colors.textPrimary,
         fontSize: 16,
@@ -52,6 +57,7 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
         ),
         filled: true,
         fillColor: colors.surfaceCard,
+        errorText: widget.errorText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: BorderSide(color: colors.borderSubtle),

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class AuthLocalDataSource {
   Future<void> saveTokens(String accessToken, String refreshToken);
   String? getAccessToken();
+  Future<void> clear();
 }
 
 @LazySingleton(as: AuthLocalDataSource)
@@ -23,5 +24,11 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   String? getAccessToken() {
     return _prefs.getString(_accessTokenKey);
+  }
+
+  @override
+  Future<void> clear() async {
+    await _prefs.remove(_accessTokenKey);
+    await _prefs.remove(_refreshTokenKey);
   }
 }

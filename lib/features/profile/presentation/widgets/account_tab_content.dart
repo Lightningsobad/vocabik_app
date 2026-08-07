@@ -3,6 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 
 class AccountTabContent extends StatelessWidget {
@@ -12,35 +15,91 @@ class AccountTabContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AccountActionItem(
-            title: l10n.accountExportData,
-            hasArrow: true,
-            onTap: () {
-              // TODO: Implement export data
-            },
-          ),
-          const SizedBox(height: AppSpacing.md),
-          AccountActionItem(
-            title: l10n.accountLogOut,
-            hasArrow: false,
-            onTap: () {
-              // TODO: Implement log out
-            },
-          ),
-          const SizedBox(height: AppSpacing.md),
-          DangerActionItem(
-            title: l10n.accountDeletePermanently,
-            onTap: () {
-              // TODO: Implement delete account permanently
-            },
-          ),
-        ],
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.status == AuthStatus.unauthenticated) {
+          context.go('/login');
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AccountActionItem(
+              title: l10n.accountExportData,
+              hasArrow: true,
+              onTap: () {
+                // TODO: Implement export data
+              },
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AccountActionItem(
+              title: l10n.accountLogOut,
+              hasArrow: false,
+              onTap: () => _showLogoutConfirmationDialog(context, l10n),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            DangerActionItem(
+              title: l10n.accountDeletePermanently,
+              onTap: () {
+                // TODO: Implement delete account permanently
+              },
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  void _showLogoutConfirmationDialog(BuildContext context, AppLocalizations l10n) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor: colors.surfaceCard,
+          title: Text(
+            l10n.logoutConfirmTitle,
+            style: GoogleFonts.nunito(
+              color: colors.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            l10n.logoutConfirmMessage,
+            style: GoogleFonts.nunito(
+              color: colors.textSecondary,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(
+                l10n.actionCancel,
+                style: GoogleFonts.nunito(
+                  color: colors.textSecondary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                context.read<AuthBloc>().add(LogoutRequested());
+              },
+              child: Text(
+                l10n.actionConfirm,
+                style: GoogleFonts.nunito(
+                  color: colors.danger,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

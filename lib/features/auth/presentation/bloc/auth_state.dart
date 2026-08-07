@@ -1,30 +1,38 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthState extends Equatable {
-  const AuthState();
+enum AuthStatus { initial, loading, success, failure, unauthenticated }
+
+class AuthState extends Equatable {
+  const AuthState({
+    this.status = AuthStatus.initial,
+    this.email = const EmailInput.pure(),
+    this.password = const PasswordInput.pure(),
+    this.errorMessage,
+    this.user,
+  });
+
+  final AuthStatus status;
+  final EmailInput email;
+  final PasswordInput password;
+  final String? errorMessage;
+  final User? user;
+
+  AuthState copyWith({
+    AuthStatus? status,
+    EmailInput? email,
+    PasswordInput? password,
+    String? errorMessage,
+    User? user,
+  }) {
+    return AuthState(
+      status: status ?? this.status,
+      email: email ?? this.email,
+      password: password ?? this.password,
+      errorMessage: errorMessage ?? this.errorMessage,
+      user: user ?? this.user,
+    );
+  }
 
   @override
-  List<Object> get props => [];
-}
-
-class AuthInitial extends AuthState {}
-
-class AuthLoading extends AuthState {}
-
-class AuthSuccess extends AuthState {
-  final User user;
-
-  const AuthSuccess(this.user);
-
-  @override
-  List<Object> get props => [user];
-}
-
-class AuthFailure extends AuthState {
-  final String message;
-
-  const AuthFailure(this.message);
-
-  @override
-  List<Object> get props => [message];
+  List<Object?> get props => [status, email, password, errorMessage, user];
 }

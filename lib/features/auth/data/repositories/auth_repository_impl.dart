@@ -1,4 +1,7 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/core/errors/exceptions.dart';
 
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -14,11 +17,32 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<User> login({required String email, required String password}) async {
-    final response = await _remoteDataSource.login(
-      LoginRequestModel(email: email, password: password),
-    );
-    await _localDataSource.saveTokens(response.accessToken, response.refreshToken);
-    return response.user;
+  Future<Either<Failure, User>> login({required String email, required String password}) async {
+    try {
+      final response = await _remoteDataSource.login(
+        LoginRequestModel(email: email, password: password),
+      );
+      await _localDataSource.saveTokens(response.accessToken, response.refreshToken);
+      return right(response.user);
+    } on NetworkException {
+      return left(const NetworkFailure());
+    } on InvalidCredentialsException {
+      return left(const InvalidCredentialsFailure());
+    } on ServerException {
+      return left(const ServerFailure());
+    } catch (e) {
+      return left(const ServerFailure('Lỗi hệ thống không xác định'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      await _remoteDataSource.signOut();
+      await _localDataSource.clear();
+      return right(null);
+    } catch (e) {
+      return left(const ServerFailure('Không thể đăng xuất'));
+    }
   }
 }
