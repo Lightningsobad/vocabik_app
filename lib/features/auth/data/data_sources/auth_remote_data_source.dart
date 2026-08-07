@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/errors/exceptions.dart';
 import '../models/login_request_model.dart';
 import '../models/auth_response_model.dart';
 
@@ -24,19 +25,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return AuthResponseModel.fromJson(response.data);
     } catch (e) {
-      if (e is DioException && e.response != null) {
-        throw Exception(e.response?.data['error']?['message'] ?? 'Login failed');
+      if (e is DioException) {
+        final statusCode = e.response?.statusCode;
+        if (statusCode == 400 || statusCode == 401) {
+          throw const InvalidCredentialsException();
+        } else if (statusCode != null && statusCode >= 500) {
+          throw const ServerException();
+        }
       }
-      throw Exception('Network error');
+      throw const NetworkException();
     }
   }
 
   @override
   Future<void> signOut() async {
-    try {
-      await _dio.post('/auth/sign-out');
-    } catch (e) {
-      // Ignore API errors on sign out as we will clear local tokens anyway
-    }
+    await _dio.post(
+      '/auth/sign-out',
+      options: Options(
+        receiveTimeout: const Duration(seconds: 3),
+        sendTimeout: const Duration(seconds: 3),
+      ),
+    );
   }
 }

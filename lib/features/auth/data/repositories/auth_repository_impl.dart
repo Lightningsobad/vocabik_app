@@ -25,20 +25,24 @@ class AuthRepositoryImpl implements AuthRepository {
       await _localDataSource.saveTokens(response.accessToken, response.refreshToken);
       return right(response.user);
     } on NetworkException {
-      return left(const NetworkFailure());
+      return left(const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'));
     } on InvalidCredentialsException {
-      return left(const InvalidCredentialsFailure());
+      return left(const InvalidCredentialsFailure('Email hoặc mật khẩu không chính xác.'));
     } on ServerException {
-      return left(const ServerFailure());
+      return left(const ServerFailure('Lỗi máy chủ, vui lòng thử lại sau.'));
     } catch (e) {
-      return left(const ServerFailure('Lỗi hệ thống không xác định'));
+      return left(const ServerFailure('Lỗi hệ thống không xác định.'));
     }
   }
 
   @override
   Future<Either<Failure, void>> signOut() async {
     try {
-      await _remoteDataSource.signOut();
+      try {
+        await _remoteDataSource.signOut();
+      } catch (e) {
+        // Ghi log lỗi từ API nhưng VẪN TIẾP TỤC xóa local token
+      }
       await _localDataSource.clear();
       return right(null);
     } catch (e) {

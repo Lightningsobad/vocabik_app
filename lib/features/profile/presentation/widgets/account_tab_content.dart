@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/utils/dialog_utils.dart';
 
 class AccountTabContent extends StatelessWidget {
   const AccountTabContent({super.key});
@@ -17,8 +18,17 @@ class AccountTabContent extends StatelessWidget {
     
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.status == AuthStatus.unauthenticated) {
-          context.go('/login');
+        if (state.status == AuthStatus.loading) {
+          DialogUtils.showLoading(context);
+        } else {
+          DialogUtils.hideLoading(context);
+          if (state.status == AuthStatus.unauthenticated) {
+            context.go('/login');
+          } else if (state.status == AuthStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage ?? l10n.logoutConfirmTitle)), // Or something generic
+            );
+          }
         }
       },
       child: Padding(
@@ -37,7 +47,10 @@ class AccountTabContent extends StatelessWidget {
             AccountActionItem(
               title: l10n.accountLogOut,
               hasArrow: false,
-              onTap: () => _showLogoutConfirmationDialog(context, l10n),
+              onTap: () => showDialog(
+                context: context,
+                builder: (_) => const LogoutConfirmationDialog(),
+              ),
             ),
             const SizedBox(height: AppSpacing.md),
             DangerActionItem(
@@ -52,54 +65,56 @@ class AccountTabContent extends StatelessWidget {
     );
   }
 
-  void _showLogoutConfirmationDialog(BuildContext context, AppLocalizations l10n) {
+}
+
+class LogoutConfirmationDialog extends StatelessWidget {
+  const LogoutConfirmationDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          backgroundColor: colors.surfaceCard,
-          title: Text(
-            l10n.logoutConfirmTitle,
-            style: GoogleFonts.nunito(
-              color: colors.textPrimary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Text(
-            l10n.logoutConfirmMessage,
+    return AlertDialog(
+      backgroundColor: colors.surfaceCard,
+      title: Text(
+        l10n.logoutConfirmTitle,
+        style: GoogleFonts.nunito(
+          color: colors.textPrimary,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        l10n.logoutConfirmMessage,
+        style: GoogleFonts.nunito(
+          color: colors.textSecondary,
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(
+            l10n.actionCancel,
             style: GoogleFonts.nunito(
               color: colors.textSecondary,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(
-                l10n.actionCancel,
-                style: GoogleFonts.nunito(
-                  color: colors.textSecondary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            context.read<AuthBloc>().add(LogoutRequested());
+          },
+          child: Text(
+            l10n.actionConfirm,
+            style: GoogleFonts.nunito(
+              color: colors.danger,
+              fontWeight: FontWeight.w700,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-                context.read<AuthBloc>().add(LogoutRequested());
-              },
-              child: Text(
-                l10n.actionConfirm,
-                style: GoogleFonts.nunito(
-                  color: colors.danger,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 }

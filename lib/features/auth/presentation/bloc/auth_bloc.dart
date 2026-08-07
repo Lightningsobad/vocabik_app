@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:injectable/injectable.dart';
 
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+
 import '../../domain/entities/user.dart';
 import '../../domain/models/email_input.dart';
 import '../../domain/models/password_input.dart';
@@ -24,7 +26,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onLoginSubmitted);
-    on<LogoutRequested>(_onLogoutRequested);
+    on<LogoutRequested>(
+      _onLogoutRequested,
+      transformer: droppable(),
+    );
   }
 
   void _onEmailChanged(
