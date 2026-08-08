@@ -414,4 +414,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptySectionText => 'No video yet';
+
+  @override
+  String get videoDetailBack => 'Back';
+
+  @override
+  String get videoDetailMultipleChoice => 'Multiple choice';
+
+  @override
+  String get videoDetailExerciseType => 'Exercise type';
+
+  @override
+  String get videoDetailFillBlank => 'Fill-blank';
+
+  @override
+  String get videoDetailTypeTheAnswer => 'Type the answer';
+
+  @override
+  String get videoDetailVersion => 'VERSION';
+
+  @override
+  String get videoDetailVocabulary => 'Vocabulary';
+
+  @override
+  String get videoDetailGrammar => 'Grammar';
+
+  @override
+  String get videoDetailSpeed => 'Speed';
+
+  @override
+  String get videoDetailStartPractice => 'Start practice →';
 }

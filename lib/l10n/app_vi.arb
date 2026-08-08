@@ -203,5 +203,15 @@
   "homeVideosEmpty": "Chưa có bài tập nào.",
   "homeVideosError": "Không thể tải danh sách bài tập.",
   "homeRetry": "Thử lại",
-  "emptySectionText": "Chưa có video nào"
+  "emptySectionText": "Chưa có video nào",
+  "videoDetailBack": "Quay lại",
+  "videoDetailMultipleChoice": "Trắc nghiệm",
+  "videoDetailExerciseType": "Kiểu bài",
+  "videoDetailFillBlank": "Điền từ",
+  "videoDetailTypeTheAnswer": "Gõ đáp án",
+  "videoDetailVersion": "PHIÊN BẢN",
+  "videoDetailVocabulary": "Từ vựng",
+  "videoDetailGrammar": "Ngữ pháp",
+  "videoDetailSpeed": "Tốc độ",
+  "videoDetailStartPractice": "Bắt đầu luyện tập \u2192"
 }

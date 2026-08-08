@@ -203,5 +203,15 @@
   "homeVideosEmpty": "No exercises found.",
   "homeVideosError": "Failed to load exercises.",
   "homeRetry": "Retry",
-  "emptySectionText": "No video yet"
+  "emptySectionText": "No video yet",
+  "videoDetailBack": "Back",
+  "videoDetailMultipleChoice": "Multiple choice",
+  "videoDetailExerciseType": "Exercise type",
+  "videoDetailFillBlank": "Fill-blank",
+  "videoDetailTypeTheAnswer": "Type the answer",
+  "videoDetailVersion": "VERSION",
+  "videoDetailVocabulary": "Vocabulary",
+  "videoDetailGrammar": "Grammar",
+  "videoDetailSpeed": "Speed",
+  "videoDetailStartPractice": "Start practice \u2192"
 }

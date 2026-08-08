@@ -10,6 +10,8 @@ class VideoEntity extends Equatable {
   final String? artist;
   final DateTime publishedAt;
   final bool breakingBadge;
+  final String? canonicalVersion;
+  final Map<String, int> reactionCounts;
 
   const VideoEntity({
     required this.id,
@@ -21,6 +23,8 @@ class VideoEntity extends Equatable {
     this.artist,
     required this.publishedAt,
     required this.breakingBadge,
+    this.canonicalVersion,
+    this.reactionCounts = const {},
   });
 
   bool get isNew {
@@ -40,5 +44,7 @@ class VideoEntity extends Equatable {
         artist,
         publishedAt,
         breakingBadge,
+        canonicalVersion,
+        reactionCounts,
       ];
 }

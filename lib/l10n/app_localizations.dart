@@ -865,6 +865,66 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Chưa có video nào'**
   String get emptySectionText;
+
+  /// No description provided for @videoDetailBack.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quay lại'**
+  String get videoDetailBack;
+
+  /// No description provided for @videoDetailMultipleChoice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trắc nghiệm'**
+  String get videoDetailMultipleChoice;
+
+  /// No description provided for @videoDetailExerciseType.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kiểu bài'**
+  String get videoDetailExerciseType;
+
+  /// No description provided for @videoDetailFillBlank.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điền từ'**
+  String get videoDetailFillBlank;
+
+  /// No description provided for @videoDetailTypeTheAnswer.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gõ đáp án'**
+  String get videoDetailTypeTheAnswer;
+
+  /// No description provided for @videoDetailVersion.
+  ///
+  /// In vi, this message translates to:
+  /// **'PHIÊN BẢN'**
+  String get videoDetailVersion;
+
+  /// No description provided for @videoDetailVocabulary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ vựng'**
+  String get videoDetailVocabulary;
+
+  /// No description provided for @videoDetailGrammar.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngữ pháp'**
+  String get videoDetailGrammar;
+
+  /// No description provided for @videoDetailSpeed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tốc độ'**
+  String get videoDetailSpeed;
+
+  /// No description provided for @videoDetailStartPractice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu luyện tập →'**
+  String get videoDetailStartPractice;
 }
 
 class _AppLocalizationsDelegate

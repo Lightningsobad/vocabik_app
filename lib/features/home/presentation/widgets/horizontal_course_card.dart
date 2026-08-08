@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/features/home/presentation/models/home_mock_data.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -20,7 +21,9 @@ class HorizontalCourseCard extends StatelessWidget {
     final gradientColors = generateRandomGradient(colors);
 
     return BounceWrapper(
-      onTap: () {},
+      onTap: () {
+        context.push('/video/${course.id}');
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: AppSpacing.sm),
         padding: const EdgeInsets.all(AppSpacing.sm),

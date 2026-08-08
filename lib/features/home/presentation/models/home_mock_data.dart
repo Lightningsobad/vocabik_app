@@ -66,7 +66,7 @@ List<Color> generateRandomGradient(AppColorsExtension colors) {
 
 final List<MockCourseModel> mockDailyPick = [
   const MockCourseModel(
-    id: '1',
+    id: '76f5855e-9e44-4289-b897-52276d918661',
     title: 'Shape of You',
     subtitle: 'Ed Sheeran',
     level: 'B1',

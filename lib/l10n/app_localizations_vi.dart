@@ -412,4 +412,34 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get emptySectionText => 'Chưa có video nào';
+
+  @override
+  String get videoDetailBack => 'Quay lại';
+
+  @override
+  String get videoDetailMultipleChoice => 'Trắc nghiệm';
+
+  @override
+  String get videoDetailExerciseType => 'Kiểu bài';
+
+  @override
+  String get videoDetailFillBlank => 'Điền từ';
+
+  @override
+  String get videoDetailTypeTheAnswer => 'Gõ đáp án';
+
+  @override
+  String get videoDetailVersion => 'PHIÊN BẢN';
+
+  @override
+  String get videoDetailVocabulary => 'Từ vựng';
+
+  @override
+  String get videoDetailGrammar => 'Ngữ pháp';
+
+  @override
+  String get videoDetailSpeed => 'Tốc độ';
+
+  @override
+  String get videoDetailStartPractice => 'Bắt đầu luyện tập →';
 }

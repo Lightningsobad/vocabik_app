@@ -50,6 +50,7 @@ class VideoModel {
   final DateTime publishedAt;
   final bool breakingBadge;
   final String? canonicalVersion;
+  final Map<String, int>? reactionCounts;
 
   VideoModel({
     required this.id,
@@ -62,6 +63,7 @@ class VideoModel {
     required this.publishedAt,
     required this.breakingBadge,
     this.canonicalVersion,
+    this.reactionCounts,
   });
 
   factory VideoModel.fromJson(Map<String, dynamic> json) {
@@ -76,6 +78,9 @@ class VideoModel {
       publishedAt: DateTime.parse(json['publishedAt'] as String),
       breakingBadge: json['breakingBadge'] as bool? ?? false,
       canonicalVersion: json['canonicalVersion'] as String?,
+      reactionCounts: json['reactionCounts'] != null
+          ? Map<String, int>.from(json['reactionCounts'] as Map)
+          : null,
     );
   }
 
@@ -90,6 +95,8 @@ class VideoModel {
       artist: artist,
       publishedAt: publishedAt,
       breakingBadge: breakingBadge,
+      canonicalVersion: canonicalVersion,
+      reactionCounts: reactionCounts ?? const {},
     );
   }
 }
