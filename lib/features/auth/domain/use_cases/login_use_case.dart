@@ -1,4 +1,6 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/core/errors/failures.dart';
 
 import '../entities/user.dart';
 import '../repositories/auth_repository.dart';
@@ -9,7 +11,7 @@ class LoginUseCase {
 
   LoginUseCase(this._repository);
 
-  Future<User> call({required String email, required String password}) {
+  Future<Either<Failure, User>> call({required String email, required String password}) {
     return _repository.login(email: email, password: password);
   }
 }

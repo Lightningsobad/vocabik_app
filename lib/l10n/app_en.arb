@@ -149,5 +149,55 @@
         "type": "int"
       }
     }
-  }
+  },
+  "logoutConfirmTitle": "Log out",
+  "logoutConfirmMessage": "Are you sure you want to log out?",
+  "actionCancel": "Cancel",
+  "actionConfirm": "Confirm",
+  "signUpTitle": "Sign up",
+  "createFreeAccount": "Create a free account",
+  "startLearningToday": "Start learning today",
+  "signUpWithGoogle": "Sign up with Google",
+  "orText": "or",
+  "yourName": "Your name",
+  "emailHint": "Email",
+  "passwordHint": "Password",
+  "passwordStrengthNone": "None",
+  "passwordStrengthWeak": "Weak",
+  "passwordStrengthMedium": "Medium",
+  "passwordStrengthStrong": "Strong",
+  "signUpTerms": "By signing up, you agree to the Terms & Privacy",
+  "alreadyHaveAccount": "Already have an account? Log in →",
+  "checkYourEmail": "Check your email",
+  "checkEmailSubtitle": "We have sent it to:\n{email}",
+  "@checkEmailSubtitle": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "resendIn": "Resend in {seconds} seconds",
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "iHaveVerified": "I have verified → continue",
+  "spamCheckTip": "💡 Can't find the email? Check your Spam folder.",
+  "whereIsYourEnglish": "Where is your English at?",
+  "weWillSuggest": "We will suggest the most suitable lessons for you.",
+  "levelA1A2": "A1–A2",
+  "levelA1A2Desc": "Beginner",
+  "levelB1": "B1",
+  "levelB1Desc": "Elementary",
+  "levelB2": "B2",
+  "levelB2Desc": "Intermediate",
+  "levelC1": "C1",
+  "levelC1Desc": "Advanced",
+  "startLearning": "Start learning →",
+  "skipForNow": "Skip, I'll choose later",
+  "actionSignUp": "Sign up"
 }

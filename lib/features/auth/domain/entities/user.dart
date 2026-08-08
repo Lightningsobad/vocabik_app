@@ -6,6 +6,11 @@ class User extends Equatable {
   final String displayName;
   final String tier;
   final bool emailVerified;
+  final String? role;
+  final dynamic subscription;
+  final String? cefrLevel;
+  final String? hintMode;
+  final DateTime? createdAt;
 
   const User({
     required this.id,
@@ -13,8 +18,24 @@ class User extends Equatable {
     required this.displayName,
     required this.tier,
     required this.emailVerified,
+    this.role,
+    this.subscription,
+    this.cefrLevel,
+    this.hintMode,
+    this.createdAt,
   });
 
   @override
-  List<Object?> get props => [id, email, displayName, tier, emailVerified];
+  List<Object?> get props => [
+        id,
+        email,
+        displayName,
+        tier,
+        emailVerified,
+        role,
+        subscription,
+        cefrLevel,
+        hintMode,
+        createdAt,
+      ];
 }

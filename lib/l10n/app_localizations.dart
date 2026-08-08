@@ -625,6 +625,222 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'{count} videos'**
   String discoverVideosCount(int count);
+
+  /// No description provided for @logoutConfirmTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng xuất'**
+  String get logoutConfirmTitle;
+
+  /// No description provided for @logoutConfirmMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có chắc chắn muốn đăng xuất không?'**
+  String get logoutConfirmMessage;
+
+  /// No description provided for @actionCancel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hủy'**
+  String get actionCancel;
+
+  /// No description provided for @actionConfirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận'**
+  String get actionConfirm;
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký'**
+  String get signUpTitle;
+
+  /// No description provided for @createFreeAccount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo tài khoản miễn phí'**
+  String get createFreeAccount;
+
+  /// No description provided for @startLearningToday.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu học ngay hôm nay'**
+  String get startLearningToday;
+
+  /// No description provided for @signUpWithGoogle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký với Google'**
+  String get signUpWithGoogle;
+
+  /// No description provided for @orText.
+  ///
+  /// In vi, this message translates to:
+  /// **'hoặc'**
+  String get orText;
+
+  /// No description provided for @yourName.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên của bạn'**
+  String get yourName;
+
+  /// No description provided for @emailHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email'**
+  String get emailHint;
+
+  /// No description provided for @passwordHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu'**
+  String get passwordHint;
+
+  /// No description provided for @passwordStrengthNone.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có'**
+  String get passwordStrengthNone;
+
+  /// No description provided for @passwordStrengthWeak.
+  ///
+  /// In vi, this message translates to:
+  /// **'Yếu'**
+  String get passwordStrengthWeak;
+
+  /// No description provided for @passwordStrengthMedium.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trung bình'**
+  String get passwordStrengthMedium;
+
+  /// No description provided for @passwordStrengthStrong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mạnh'**
+  String get passwordStrengthStrong;
+
+  /// No description provided for @signUpTerms.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bằng cách đăng ký, bạn đồng ý Điều khoản & Bảo mật'**
+  String get signUpTerms;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã có tài khoản? Đăng nhập →'**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @checkYourEmail.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kiểm tra email của bạn'**
+  String get checkYourEmail;
+
+  /// No description provided for @checkEmailSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chúng tôi đã gửi đến:\n{email}'**
+  String checkEmailSubtitle(String email);
+
+  /// No description provided for @resendIn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lại sau {seconds} giây'**
+  String resendIn(int seconds);
+
+  /// No description provided for @iHaveVerified.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tôi đã xác thực → tiếp tục'**
+  String get iHaveVerified;
+
+  /// No description provided for @spamCheckTip.
+  ///
+  /// In vi, this message translates to:
+  /// **'💡 Không thấy email? Kiểm tra thư mục Spam.'**
+  String get spamCheckTip;
+
+  /// No description provided for @whereIsYourEnglish.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếng Anh của bạn hiện ở đâu?'**
+  String get whereIsYourEnglish;
+
+  /// No description provided for @weWillSuggest.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chúng tôi sẽ gợi ý bài phù hợp nhất với bạn.'**
+  String get weWillSuggest;
+
+  /// No description provided for @levelA1A2.
+  ///
+  /// In vi, this message translates to:
+  /// **'A1–A2'**
+  String get levelA1A2;
+
+  /// No description provided for @levelA1A2Desc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mới bắt đầu'**
+  String get levelA1A2Desc;
+
+  /// No description provided for @levelB1.
+  ///
+  /// In vi, this message translates to:
+  /// **'B1'**
+  String get levelB1;
+
+  /// No description provided for @levelB1Desc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cơ bản'**
+  String get levelB1Desc;
+
+  /// No description provided for @levelB2.
+  ///
+  /// In vi, this message translates to:
+  /// **'B2'**
+  String get levelB2;
+
+  /// No description provided for @levelB2Desc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khá'**
+  String get levelB2Desc;
+
+  /// No description provided for @levelC1.
+  ///
+  /// In vi, this message translates to:
+  /// **'C1'**
+  String get levelC1;
+
+  /// No description provided for @levelC1Desc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nâng cao'**
+  String get levelC1Desc;
+
+  /// No description provided for @startLearning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu học →'**
+  String get startLearning;
+
+  /// No description provided for @skipForNow.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bỏ qua, tôi tự chọn sau'**
+  String get skipForNow;
+
+  /// No description provided for @actionSignUp.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký'**
+  String get actionSignUp;
 }
 
 class _AppLocalizationsDelegate

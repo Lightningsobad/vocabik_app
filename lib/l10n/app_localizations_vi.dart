@@ -287,4 +287,117 @@ class AppLocalizationsVi extends AppLocalizations {
   String discoverVideosCount(int count) {
     return '$count videos';
   }
+
+  @override
+  String get logoutConfirmTitle => 'Đăng xuất';
+
+  @override
+  String get logoutConfirmMessage => 'Bạn có chắc chắn muốn đăng xuất không?';
+
+  @override
+  String get actionCancel => 'Hủy';
+
+  @override
+  String get actionConfirm => 'Xác nhận';
+
+  @override
+  String get signUpTitle => 'Đăng ký';
+
+  @override
+  String get createFreeAccount => 'Tạo tài khoản miễn phí';
+
+  @override
+  String get startLearningToday => 'Bắt đầu học ngay hôm nay';
+
+  @override
+  String get signUpWithGoogle => 'Đăng ký với Google';
+
+  @override
+  String get orText => 'hoặc';
+
+  @override
+  String get yourName => 'Tên của bạn';
+
+  @override
+  String get emailHint => 'Email';
+
+  @override
+  String get passwordHint => 'Mật khẩu';
+
+  @override
+  String get passwordStrengthNone => 'Chưa có';
+
+  @override
+  String get passwordStrengthWeak => 'Yếu';
+
+  @override
+  String get passwordStrengthMedium => 'Trung bình';
+
+  @override
+  String get passwordStrengthStrong => 'Mạnh';
+
+  @override
+  String get signUpTerms =>
+      'Bằng cách đăng ký, bạn đồng ý Điều khoản & Bảo mật';
+
+  @override
+  String get alreadyHaveAccount => 'Đã có tài khoản? Đăng nhập →';
+
+  @override
+  String get checkYourEmail => 'Kiểm tra email của bạn';
+
+  @override
+  String checkEmailSubtitle(String email) {
+    return 'Chúng tôi đã gửi đến:\n$email';
+  }
+
+  @override
+  String resendIn(int seconds) {
+    return 'Gửi lại sau $seconds giây';
+  }
+
+  @override
+  String get iHaveVerified => 'Tôi đã xác thực → tiếp tục';
+
+  @override
+  String get spamCheckTip => '💡 Không thấy email? Kiểm tra thư mục Spam.';
+
+  @override
+  String get whereIsYourEnglish => 'Tiếng Anh của bạn hiện ở đâu?';
+
+  @override
+  String get weWillSuggest => 'Chúng tôi sẽ gợi ý bài phù hợp nhất với bạn.';
+
+  @override
+  String get levelA1A2 => 'A1–A2';
+
+  @override
+  String get levelA1A2Desc => 'Mới bắt đầu';
+
+  @override
+  String get levelB1 => 'B1';
+
+  @override
+  String get levelB1Desc => 'Cơ bản';
+
+  @override
+  String get levelB2 => 'B2';
+
+  @override
+  String get levelB2Desc => 'Khá';
+
+  @override
+  String get levelC1 => 'C1';
+
+  @override
+  String get levelC1Desc => 'Nâng cao';
+
+  @override
+  String get startLearning => 'Bắt đầu học →';
+
+  @override
+  String get skipForNow => 'Bỏ qua, tôi tự chọn sau';
+
+  @override
+  String get actionSignUp => 'Đăng ký';
 }
