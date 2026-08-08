@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:formz/formz.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import 'register_event.dart';
@@ -42,7 +41,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     final hasLetters = password.contains(RegExp(r'[a-zA-Z]'));
     final hasNumbers = password.contains(RegExp(r'[0-9]'));
-    final hasSpecialCharacters = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    final hasSpecialCharacters = password.contains(
+      RegExp(r'[!@#$%^&*(),.?":{}|<>]'),
+    );
 
     if (hasLetters && hasNumbers && hasSpecialCharacters) {
       return PasswordStrength.strong;
