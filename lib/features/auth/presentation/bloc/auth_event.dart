@@ -30,3 +30,7 @@ class LoginSubmitted extends AuthEvent {
 }
 
 class LogoutRequested extends AuthEvent {}
+
+class GetMeRequested extends AuthEvent {
+  const GetMeRequested();
+}

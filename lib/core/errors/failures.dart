@@ -17,10 +17,22 @@ class ServerFailure extends Failure {
   const ServerFailure([super.message = 'Server error occurred']);
 }
 
+class NotVerifiedFailure extends Failure {
+  const NotVerifiedFailure([super.message = 'Account not verified']);
+}
+
 class InvalidCredentialsFailure extends Failure {
   const InvalidCredentialsFailure([super.message = 'Invalid email or password']);
 }
 
 class CacheFailure extends Failure {
   const CacheFailure([super.message = 'Cache error occurred']);
+}
+
+class UserAlreadyExistsFailure extends Failure {
+  const UserAlreadyExistsFailure([super.message = 'User already exists']);
+}
+
+class InvalidTokenFailure extends Failure {
+  const InvalidTokenFailure([super.message = 'Invalid token']);
 }

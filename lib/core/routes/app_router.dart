@@ -8,6 +8,9 @@ import '../../features/progress/presentation/screens/progress_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/profile/presentation/widgets/integration/integration_content_view.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/auth/presentation/screens/verify_email_screen.dart';
+import '../../features/profile/presentation/screens/cefr_selection_screen.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../di/injection.dart';
 
@@ -30,12 +33,15 @@ final GoRouter appRouter = GoRouter(
   redirect: (context, state) {
     final localDataSource = getIt<AuthLocalDataSource>();
     final isLoggedIn = localDataSource.getAccessToken() != null;
-    final isGoingToLogin = state.matchedLocation == '/login';
     
-    if (!isLoggedIn && !isGoingToLogin) {
+    // Allowed routes for unauthenticated users
+    final unauthRoutes = ['/login', '/register', '/verify-email'];
+    final isUnauthRoute = unauthRoutes.contains(state.matchedLocation);
+    
+    if (!isLoggedIn && !isUnauthRoute) {
       return '/login';
     }
-    if (isLoggedIn && isGoingToLogin) {
+    if (isLoggedIn && state.matchedLocation == '/login') {
       return '/home';
     }
     return null;
@@ -50,6 +56,24 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/login',
       builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      path: '/verify-email',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>? ?? {};
+        return VerifyEmailScreen(
+          email: extra['email'] as String? ?? 'an.nguyen@gmail.com',
+          password: extra['password'] as String? ?? '',
+        );
+      },
+    ),
+    GoRoute(
+      path: '/cefr-selection',
+      builder: (context, state) => const CefrSelectionScreen(),
     ),
     GoRoute(
       path: '/player',

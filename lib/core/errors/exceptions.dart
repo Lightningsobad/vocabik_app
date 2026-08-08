@@ -14,6 +14,14 @@ class ServerException implements Exception {
   String toString() => 'ServerException: $message';
 }
 
+class NotVerifiedException implements Exception {
+  final String message;
+  const NotVerifiedException([this.message = 'Account not verified']);
+
+  @override
+  String toString() => 'NotVerifiedException: $message';
+}
+
 class InvalidCredentialsException implements Exception {
   final String message;
   const InvalidCredentialsException([this.message = 'Invalid credentials']);
@@ -28,4 +36,20 @@ class CacheException implements Exception {
 
   @override
   String toString() => 'CacheException: $message';
+}
+
+class UserAlreadyExistsException implements Exception {
+  final String message;
+  const UserAlreadyExistsException([this.message = 'User already exists']);
+
+  @override
+  String toString() => 'UserAlreadyExistsException: $message';
+}
+
+class InvalidTokenException implements Exception {
+  final String message;
+  const InvalidTokenException([this.message = 'Invalid token']);
+
+  @override
+  String toString() => 'InvalidTokenException: $message';
 }

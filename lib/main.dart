@@ -11,12 +11,23 @@ import 'package:vocabik_app/shared/settings/cubit/sound_settings_cubit.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'core/di/injection.dart';
 import 'core/routes/app_router.dart';
+import 'core/services/deep_link_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   // Initialize dependency injection
   await configureDependencies();
+
+  // Initialize Deep Links
+  getIt<DeepLinkService>().init();
+  getIt<DeepLinkService>().onTokenReceived.listen((token) {
+    // Navigate to Verify Email Screen passing the token
+    // Actually the user wants to jump directly to CEFR Selection or handle it in VerifyEmailCubit.
+    // Let's navigate to the verify email screen which will trigger verifyWithToken, 
+    // or we can dispatch an event to AuthBloc/VerifyEmailCubit from here.
+    appRouter.go('/verify-email', extra: {'token': token});
+  });
 
   runApp(const VocabikApp());
 }

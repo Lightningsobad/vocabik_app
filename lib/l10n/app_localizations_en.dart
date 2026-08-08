@@ -300,4 +300,106 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionConfirm => 'Confirm';
+
+  @override
+  String get signUpTitle => 'Sign up';
+
+  @override
+  String get createFreeAccount => 'Create a free account';
+
+  @override
+  String get startLearningToday => 'Start learning today';
+
+  @override
+  String get signUpWithGoogle => 'Sign up with Google';
+
+  @override
+  String get orText => 'or';
+
+  @override
+  String get yourName => 'Your name';
+
+  @override
+  String get emailHint => 'Email';
+
+  @override
+  String get passwordHint => 'Password';
+
+  @override
+  String get passwordStrengthNone => 'None';
+
+  @override
+  String get passwordStrengthWeak => 'Weak';
+
+  @override
+  String get passwordStrengthMedium => 'Medium';
+
+  @override
+  String get passwordStrengthStrong => 'Strong';
+
+  @override
+  String get signUpTerms => 'By signing up, you agree to the Terms & Privacy';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account? Log in →';
+
+  @override
+  String get checkYourEmail => 'Check your email';
+
+  @override
+  String checkEmailSubtitle(String email) {
+    return 'We have sent it to:\n$email';
+  }
+
+  @override
+  String resendIn(int seconds) {
+    return 'Resend in $seconds seconds';
+  }
+
+  @override
+  String get iHaveVerified => 'I have verified → continue';
+
+  @override
+  String get spamCheckTip =>
+      '💡 Can\'t find the email? Check your Spam folder.';
+
+  @override
+  String get whereIsYourEnglish => 'Where is your English at?';
+
+  @override
+  String get weWillSuggest =>
+      'We will suggest the most suitable lessons for you.';
+
+  @override
+  String get levelA1A2 => 'A1–A2';
+
+  @override
+  String get levelA1A2Desc => 'Beginner';
+
+  @override
+  String get levelB1 => 'B1';
+
+  @override
+  String get levelB1Desc => 'Elementary';
+
+  @override
+  String get levelB2 => 'B2';
+
+  @override
+  String get levelB2Desc => 'Intermediate';
+
+  @override
+  String get levelC1 => 'C1';
+
+  @override
+  String get levelC1Desc => 'Advanced';
+
+  @override
+  String get startLearning => 'Start learning →';
+
+  @override
+  String get skipForNow => 'Skip, I\'ll choose later';
+
+  @override
+  String get actionSignUp => 'Sign up';
 }

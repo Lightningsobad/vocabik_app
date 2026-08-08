@@ -8,26 +8,33 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/models/email_input.dart';
 import '../../domain/models/password_input.dart';
+import '../../domain/use_cases/get_me_use_case.dart';
 import '../../domain/use_cases/login_use_case.dart';
 import '../../domain/use_cases/sign_out_use_case.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-@injectable
+@lazySingleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase _loginUseCase;
   final SignOutUseCase _signOutUseCase;
+  final GetMeUseCase _getMeUseCase;
 
   AuthBloc(
     this._loginUseCase,
     this._signOutUseCase,
+    this._getMeUseCase,
   ) : super(const AuthState()) {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onLoginSubmitted);
     on<LogoutRequested>(
       _onLogoutRequested,
+      transformer: droppable(),
+    );
+    on<GetMeRequested>(
+      _onGetMeRequested,
       transformer: droppable(),
     );
   }
@@ -104,6 +111,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         errorMessage: failure.message,
       )),
       (_) => emit(const AuthState(status: AuthStatus.unauthenticated)),
+    );
+  }
+
+  Future<void> _onGetMeRequested(
+    GetMeRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    final result = await _getMeUseCase();
+    result.fold(
+      (failure) => emit(state.copyWith(
+        status: AuthStatus.failure,
+        errorMessage: failure.message,
+      )),
+      (user) => emit(state.copyWith(
+        status: AuthStatus.success,
+        user: user,
+      )),
     );
   }
 }

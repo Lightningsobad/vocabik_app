@@ -14,8 +14,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AuthBloc>(),
+    return BlocProvider.value(
+      value: getIt<AuthBloc>(),
       child: const LoginView(),
     );
   }
@@ -166,7 +166,7 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         const Text('Chưa có tài khoản? ', style: TextStyle(color: Colors.grey)),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () => context.go('/register'),
                           child: const Text('Đăng ký miễn phí →', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
                         ),
                       ],
