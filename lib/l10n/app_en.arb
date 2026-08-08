@@ -199,5 +199,9 @@
   "levelC1Desc": "Advanced",
   "startLearning": "Start learning →",
   "skipForNow": "Skip, I'll choose later",
-  "actionSignUp": "Sign up"
+  "actionSignUp": "Sign up",
+  "homeVideosEmpty": "No exercises found.",
+  "homeVideosError": "Failed to load exercises.",
+  "homeRetry": "Retry",
+  "emptySectionText": "No video yet"
 }

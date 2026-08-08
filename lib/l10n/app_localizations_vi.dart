@@ -400,4 +400,16 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get actionSignUp => 'Đăng ký';
+
+  @override
+  String get homeVideosEmpty => 'Chưa có bài tập nào.';
+
+  @override
+  String get homeVideosError => 'Không thể tải danh sách bài tập.';
+
+  @override
+  String get homeRetry => 'Thử lại';
+
+  @override
+  String get emptySectionText => 'Chưa có video nào';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vocabik_app/features/home/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 
 class MockCourseModel {
@@ -23,6 +24,20 @@ class MockCourseModel {
     this.isCompleted = false,
     this.practicersCount = 0,
   });
+
+  VideoEntity toEntity() {
+    return VideoEntity(
+      id: id,
+      youtubeVideoId: '',
+      title: title,
+      thumbnailUrl: '',
+      category: category,
+      cefrLevel: level,
+      artist: subtitle,
+      publishedAt: isNew ? DateTime.now() : DateTime.now().subtract(const Duration(days: 30)),
+      breakingBadge: false,
+    );
+  }
 }
 
 class MockCategoryModel {

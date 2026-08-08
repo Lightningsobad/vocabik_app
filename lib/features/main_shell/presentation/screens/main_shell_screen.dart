@@ -9,10 +9,7 @@ import '../widgets/floating_chat_button.dart';
 class MainShellScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
-  const MainShellScreen({
-    super.key,
-    required this.navigationShell,
-  });
+  const MainShellScreen({super.key, required this.navigationShell});
 
   void _onTap(int index) {
     navigationShell.goBranch(
@@ -28,13 +25,10 @@ class MainShellScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    
+
     return Scaffold(
       backgroundColor: colors.background,
-      appBar: const AppHeader(
-        streak: 12,
-        xp: 1240,
-      ),
+      appBar: const AppHeader(streak: 0, xp: 0),
       body: navigationShell,
       floatingActionButton: const FloatingChatButton(),
       bottomNavigationBar: CustomBottomNavigationBar(

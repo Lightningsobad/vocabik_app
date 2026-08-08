@@ -212,7 +212,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               itemCount: courses.length,
               itemBuilder: (context, index) {
                 return SharedCourseCard(
-                  course: courses[index],
+                  video: courses[index].toEntity(),
                   isLoading: _isLoading,
                   width: double.infinity,
                 );
@@ -241,7 +241,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.md),
             itemBuilder: (context, index) {
               return SharedCourseCard(
-                course: DiscoverMockData.trendingCourses[index],
+                video: DiscoverMockData.trendingCourses[index].toEntity(),
                 isLoading: _isLoading,
               );
             },
@@ -264,7 +264,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.md),
             itemBuilder: (context, index) {
               return SharedCourseCard(
-                course: DiscoverMockData.categoryCourses[index],
+                video: DiscoverMockData.categoryCourses[index].toEntity(),
                 isLoading: _isLoading,
               );
             },

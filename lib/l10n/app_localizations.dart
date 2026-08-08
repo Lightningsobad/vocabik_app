@@ -841,6 +841,30 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đăng ký'**
   String get actionSignUp;
+
+  /// No description provided for @homeVideosEmpty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có bài tập nào.'**
+  String get homeVideosEmpty;
+
+  /// No description provided for @homeVideosError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải danh sách bài tập.'**
+  String get homeVideosError;
+
+  /// No description provided for @homeRetry.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get homeRetry;
+
+  /// No description provided for @emptySectionText.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có video nào'**
+  String get emptySectionText;
 }
 
 class _AppLocalizationsDelegate

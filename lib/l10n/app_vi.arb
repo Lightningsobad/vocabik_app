@@ -199,5 +199,9 @@
   "levelC1Desc": "Nâng cao",
   "startLearning": "Bắt đầu học →",
   "skipForNow": "Bỏ qua, tôi tự chọn sau",
-  "actionSignUp": "Đăng ký"
+  "actionSignUp": "Đăng ký",
+  "homeVideosEmpty": "Chưa có bài tập nào.",
+  "homeVideosError": "Không thể tải danh sách bài tập.",
+  "homeRetry": "Thử lại",
+  "emptySectionText": "Chưa có video nào"
 }

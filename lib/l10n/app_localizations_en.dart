@@ -402,4 +402,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionSignUp => 'Sign up';
+
+  @override
+  String get homeVideosEmpty => 'No exercises found.';
+
+  @override
+  String get homeVideosError => 'Failed to load exercises.';
+
+  @override
+  String get homeRetry => 'Retry';
+
+  @override
+  String get emptySectionText => 'No video yet';
 }

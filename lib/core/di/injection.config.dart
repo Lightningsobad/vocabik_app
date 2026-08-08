@@ -32,6 +32,13 @@ import '../../features/auth/domain/use_cases/verify_email_use_case.dart'
 import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
 import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
+import '../../features/home/data/datasources/video_remote_data_source.dart'
+    as _i706;
+import '../../features/home/data/repositories/video_repository_impl.dart'
+    as _i1051;
+import '../../features/home/domain/repositories/video_repository.dart' as _i637;
+import '../../features/home/domain/usecases/get_videos_usecase.dart' as _i694;
+import '../../features/home/presentation/bloc/home_videos_bloc.dart' as _i294;
 import '../../features/profile/data/data_sources/profile_remote_data_source.dart'
     as _i1012;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -107,8 +114,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i729.LocalizationLocalDataSource>(),
       ),
     );
+    gh.lazySingleton<_i706.VideoRemoteDataSource>(
+      () => _i706.VideoRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i25.AuthRemoteDataSource>(
       () => _i25.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i637.VideoRepository>(
+      () => _i1051.VideoRepositoryImpl(
+        remoteDataSource: gh<_i706.VideoRemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i738.GetLanguageUseCase>(
       () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
@@ -124,6 +139,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i521.SoundSettingsCubit>(
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
+    );
+    gh.factory<_i694.GetVideosUseCase>(
+      () => _i694.GetVideosUseCase(gh<_i637.VideoRepository>()),
     );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
@@ -160,6 +178,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i690.RegisterBloc>(
       () => _i690.RegisterBloc(gh<_i1010.RegisterUseCase>()),
+    );
+    gh.factory<_i294.HomeVideosBloc>(
+      () => _i294.HomeVideosBloc(gh<_i694.GetVideosUseCase>()),
     );
     gh.lazySingleton<_i797.AuthBloc>(
       () => _i797.AuthBloc(
