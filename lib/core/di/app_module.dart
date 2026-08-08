@@ -12,6 +12,8 @@ abstract class AppModule {
   Dio dio(AuthLocalDataSource authLocalDataSource) {
     final dio = Dio(BaseOptions(
       baseUrl: 'https://api.vocabik.com/api/v1',
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
       headers: {
         'x-client-type': 'mobile',
         'accept': '*/*',

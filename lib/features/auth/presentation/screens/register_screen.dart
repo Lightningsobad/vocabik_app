@@ -38,8 +38,6 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  
-  PasswordStrength _passwordStrength = PasswordStrength.none;
 
   @override
   void initState() {
@@ -53,7 +51,6 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
     _passwordController.addListener(() {
       final password = _passwordController.text;
       context.read<RegisterBloc>().add(RegisterPasswordChanged(password));
-      _evaluatePasswordStrength(password);
     });
   }
 
@@ -65,29 +62,6 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
     super.dispose();
   }
 
-  void _evaluatePasswordStrength(String password) {
-    if (password.isEmpty) {
-      setState(() => _passwordStrength = PasswordStrength.none);
-      return;
-    }
-    
-    if (password.length < 8) {
-      setState(() => _passwordStrength = PasswordStrength.weak);
-      return;
-    }
-
-    final hasLetters = password.contains(RegExp(r'[a-zA-Z]'));
-    final hasNumbers = password.contains(RegExp(r'[0-9]'));
-    final hasSpecialCharacters = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-
-    if (hasLetters && hasNumbers && hasSpecialCharacters) {
-      setState(() => _passwordStrength = PasswordStrength.strong);
-    } else if (hasLetters && hasNumbers) {
-      setState(() => _passwordStrength = PasswordStrength.medium);
-    } else {
-      setState(() => _passwordStrength = PasswordStrength.weak);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -233,10 +207,14 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                     PasswordInputWidget(
                       controller: _passwordController,
                       hintText: l10n.passwordHint,
-                      onChanged: _evaluatePasswordStrength,
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    PasswordStrengthIndicator(strength: _passwordStrength),
+                    BlocBuilder<RegisterBloc, RegisterState>(
+                      buildWhen: (previous, current) => previous.passwordStrength != current.passwordStrength,
+                      builder: (context, state) {
+                        return PasswordStrengthIndicator(strength: state.passwordStrength);
+                      },
+                    ),
                     const SizedBox(height: AppSpacing.xl),
                     
                     BlocBuilder<RegisterBloc, RegisterState>(

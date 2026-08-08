@@ -3,8 +3,10 @@ import 'package:formz/formz.dart';
 import '../models/email_input.dart';
 import '../models/password_input.dart';
 import '../models/display_name_input.dart';
+import '../widgets/password_strength_indicator.dart';
 
 enum RegisterStatus { initial, loading, success, failure }
+
 
 class RegisterState extends Equatable {
   final DisplayNameInput displayName;
@@ -12,6 +14,7 @@ class RegisterState extends Equatable {
   final PasswordInput password;
   final FormzSubmissionStatus formStatus;
   final RegisterStatus status;
+  final PasswordStrength passwordStrength;
   final String? errorMessage;
 
   const RegisterState({
@@ -20,6 +23,7 @@ class RegisterState extends Equatable {
     this.password = const PasswordInput.pure(),
     this.formStatus = FormzSubmissionStatus.initial,
     this.status = RegisterStatus.initial,
+    this.passwordStrength = PasswordStrength.none,
     this.errorMessage,
   });
 
@@ -29,6 +33,7 @@ class RegisterState extends Equatable {
     PasswordInput? password,
     FormzSubmissionStatus? formStatus,
     RegisterStatus? status,
+    PasswordStrength? passwordStrength,
     String? errorMessage,
   }) {
     return RegisterState(
@@ -37,6 +42,7 @@ class RegisterState extends Equatable {
       password: password ?? this.password,
       formStatus: formStatus ?? this.formStatus,
       status: status ?? this.status,
+      passwordStrength: passwordStrength ?? this.passwordStrength,
       errorMessage: errorMessage,
     );
   }
@@ -48,6 +54,7 @@ class RegisterState extends Equatable {
         password,
         formStatus,
         status,
+        passwordStrength,
         errorMessage,
       ];
 }

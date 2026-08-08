@@ -7,14 +7,19 @@ import '../models/register_request_model.dart';
 import '../models/auth_response_model.dart';
 import '../models/user_model.dart';
 
+import 'package:flutter/foundation.dart';
+
 abstract class AuthRemoteDataSource {
-  Future<AuthResponseModel> login(LoginRequestModel request);
-  Future<UserModel> getMe();
-  Future<void> signOut();
-  Future<void> register(RegisterRequestModel request);
-  Future<void> verifyEmail(String token);
-  Future<void> resendVerificationEmail(String email);
+  Future<AuthResponseModel> login(LoginRequestModel request, {CancelToken? cancelToken});
+  Future<UserModel> getMe({CancelToken? cancelToken});
+  Future<void> signOut({CancelToken? cancelToken});
+  Future<void> register(RegisterRequestModel request, {CancelToken? cancelToken});
+  Future<void> verifyEmail(String token, {CancelToken? cancelToken});
+  Future<void> resendVerificationEmail(String email, {CancelToken? cancelToken});
 }
+
+AuthResponseModel _parseAuthResponse(Map<String, dynamic> data) => AuthResponseModel.fromJson(data);
+UserModel _parseUserModel(Map<String, dynamic> data) => UserModel.fromJson(data);
 
 @LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -23,13 +28,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<AuthResponseModel> login(LoginRequestModel request) async {
+  Future<AuthResponseModel> login(LoginRequestModel request, {CancelToken? cancelToken}) async {
     try {
       final response = await _dio.post(
         '/auth/login',
         data: request.toJson(),
+        cancelToken: cancelToken,
       );
-      return AuthResponseModel.fromJson(response.data);
+      return await compute(_parseAuthResponse, response.data as Map<String, dynamic>);
     } catch (e) {
       if (e is DioException) {
         final statusCode = e.response?.statusCode;
@@ -46,15 +52,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> getMe() async {
+  Future<UserModel> getMe({CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
         '/auth/me',
+        cancelToken: cancelToken,
         options: Options(
           headers: {'accept': '*/*'},
         ),
       );
-      return UserModel.fromJson(response.data as Map<String, dynamic>);
+      return await compute(_parseUserModel, response.data as Map<String, dynamic>);
     } catch (e) {
       if (e is DioException) {
         final statusCode = e.response?.statusCode;
@@ -69,9 +76,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> signOut() async {
+  Future<void> signOut({CancelToken? cancelToken}) async {
     await _dio.post(
       '/auth/sign-out',
+      cancelToken: cancelToken,
       options: Options(
         receiveTimeout: const Duration(seconds: 3),
         sendTimeout: const Duration(seconds: 3),
@@ -80,11 +88,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> register(RegisterRequestModel request) async {
+  Future<void> register(RegisterRequestModel request, {CancelToken? cancelToken}) async {
     try {
       await _dio.post(
         '/auth/register',
         data: request.toJson(),
+        cancelToken: cancelToken,
       );
     } catch (e) {
       if (e is DioException) {
@@ -98,11 +107,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> verifyEmail(String token) async {
+  Future<void> verifyEmail(String token, {CancelToken? cancelToken}) async {
     try {
       await _dio.get(
         '/auth/verify-email',
         queryParameters: {'token': token},
+        cancelToken: cancelToken,
       );
     } catch (e) {
       if (e is DioException) {
@@ -116,11 +126,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> resendVerificationEmail(String email) async {
+  Future<void> resendVerificationEmail(String email, {CancelToken? cancelToken}) async {
     try {
       await _dio.post(
         '/auth/resend-verification',
         data: {'email': email},
+        cancelToken: cancelToken,
       );
     } catch (e) {
       throw const NetworkException();

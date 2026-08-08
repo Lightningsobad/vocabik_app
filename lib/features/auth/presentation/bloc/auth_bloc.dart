@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 import '../../domain/entities/user.dart';
 import '../../domain/models/email_input.dart';
@@ -14,6 +15,10 @@ import '../../domain/use_cases/sign_out_use_case.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
+
+EventTransformer<Event> debounce<Event>(Duration duration) {
+  return (events, mapper) => events.debounce(duration).switchMap(mapper);
+}
 
 @lazySingleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -26,8 +31,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this._signOutUseCase,
     this._getMeUseCase,
   ) : super(const AuthState()) {
-    on<EmailChanged>(_onEmailChanged);
-    on<PasswordChanged>(_onPasswordChanged);
+    on<EmailChanged>(
+      _onEmailChanged,
+      transformer: debounce(const Duration(milliseconds: 300)),
+    );
+    on<PasswordChanged>(
+      _onPasswordChanged,
+      transformer: debounce(const Duration(milliseconds: 300)),
+    );
     on<LoginSubmitted>(_onLoginSubmitted);
     on<LogoutRequested>(
       _onLogoutRequested,
