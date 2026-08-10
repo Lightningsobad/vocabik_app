@@ -123,6 +123,10 @@
   "discoverTimeUnder3": "< 3 phút",
   "discoverTime3To7": "3-7 phút",
   "discoverTimeOver7": "> 7 phút",
+  "discoverFilter7Days": "7 Ngày",
+  "discoverEmptyResult": "Không tìm thấy kết quả",
+  "discoverErrorLoad": "Đã có lỗi xảy ra",
+  "discoverRetryButton": "Thử lại",
   "discoverSearchResultsWithQuery": "Found {count} kết quả cho \"{query}\"",
   "@discoverSearchResultsWithQuery": {
     "placeholders": {

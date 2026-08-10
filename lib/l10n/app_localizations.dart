@@ -608,6 +608,30 @@ abstract class AppLocalizations {
   /// **'> 7 phút'**
   String get discoverTimeOver7;
 
+  /// No description provided for @discoverFilter7Days.
+  ///
+  /// In vi, this message translates to:
+  /// **'7 Ngày'**
+  String get discoverFilter7Days;
+
+  /// No description provided for @discoverEmptyResult.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy kết quả'**
+  String get discoverEmptyResult;
+
+  /// No description provided for @discoverErrorLoad.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã có lỗi xảy ra'**
+  String get discoverErrorLoad;
+
+  /// No description provided for @discoverRetryButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get discoverRetryButton;
+
   /// No description provided for @discoverSearchResultsWithQuery.
   ///
   /// In vi, this message translates to:

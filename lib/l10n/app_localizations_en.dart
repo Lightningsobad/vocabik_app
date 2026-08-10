@@ -275,6 +275,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverTimeOver7 => '> 7 mins';
 
   @override
+  String get discoverFilter7Days => '7 Days';
+
+  @override
+  String get discoverEmptyResult => 'No results found';
+
+  @override
+  String get discoverErrorLoad => 'An error occurred';
+
+  @override
+  String get discoverRetryButton => 'Retry';
+
+  @override
   String discoverSearchResultsWithQuery(int count, String query) {
     return 'Found $count results for \"$query\"';
   }

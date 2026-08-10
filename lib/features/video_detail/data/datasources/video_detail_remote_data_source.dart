@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
-import 'package:vocabik_app/features/home/data/models/video_model.dart';
+import 'package:vocabik_app/shared/data/models/video_model.dart';
 
 VideoModel _parseVideoDetail(dynamic data) {
   return VideoModel.fromJson(data);

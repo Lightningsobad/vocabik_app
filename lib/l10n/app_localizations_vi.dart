@@ -274,6 +274,18 @@ class AppLocalizationsVi extends AppLocalizations {
   String get discoverTimeOver7 => '> 7 phút';
 
   @override
+  String get discoverFilter7Days => '7 Ngày';
+
+  @override
+  String get discoverEmptyResult => 'Không tìm thấy kết quả';
+
+  @override
+  String get discoverErrorLoad => 'Đã có lỗi xảy ra';
+
+  @override
+  String get discoverRetryButton => 'Thử lại';
+
+  @override
   String discoverSearchResultsWithQuery(int count, String query) {
     return 'Found $count kết quả cho \"$query\"';
   }

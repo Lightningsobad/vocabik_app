@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:injectable/injectable.dart';
-import 'package:vocabik_app/features/home/domain/usecases/get_videos_usecase.dart';
+import 'package:vocabik_app/shared/domain/usecases/get_videos_usecase.dart';
 
 import 'home_videos_event.dart';
 import 'home_videos_state.dart';

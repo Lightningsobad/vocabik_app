@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vocabik_app/features/home/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';

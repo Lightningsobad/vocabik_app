@@ -1,5 +1,5 @@
 import 'package:vocabik_app/core/domain/entities/paginated_result.dart';
-import 'package:vocabik_app/features/home/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 
 class PaginatedVideoResponseModel {
   final List<VideoModel> items;

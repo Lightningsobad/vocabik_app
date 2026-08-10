@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:vocabik_app/features/home/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 
 abstract class VideoDetailState extends Equatable {
   const VideoDetailState();
