@@ -32,6 +32,8 @@ import '../../features/auth/domain/use_cases/verify_email_use_case.dart'
 import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
 import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
+import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
+import '../../features/home/presentation/bloc/home_videos_bloc.dart' as _i294;
 import '../../features/profile/data/data_sources/profile_remote_data_source.dart'
     as _i1012;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -42,6 +44,22 @@ import '../../features/profile/domain/use_cases/update_profile_use_case.dart'
     as _i186;
 import '../../features/profile/presentation/cubit/cefr_selection_cubit.dart'
     as _i498;
+import '../../features/video_detail/data/datasources/video_detail_remote_data_source.dart'
+    as _i268;
+import '../../features/video_detail/data/repositories/video_detail_repository_impl.dart'
+    as _i272;
+import '../../features/video_detail/domain/repositories/video_detail_repository.dart'
+    as _i291;
+import '../../features/video_detail/domain/use_cases/get_video_detail_use_case.dart'
+    as _i714;
+import '../../features/video_detail/presentation/cubit/video_detail_cubit.dart'
+    as _i483;
+import '../../shared/data/datasources/shared_video_remote_data_source.dart'
+    as _i967;
+import '../../shared/data/repositories/shared_video_repository_impl.dart'
+    as _i676;
+import '../../shared/domain/repositories/shared_video_repository.dart' as _i959;
+import '../../shared/domain/usecases/get_videos_usecase.dart' as _i552;
 import '../../shared/localization/cubit/localization_cubit.dart' as _i97;
 import '../../shared/localization/data/datasources/localization_local_data_source.dart'
     as _i729;
@@ -99,6 +117,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(
       () => appModule.dio(gh<_i606.AuthLocalDataSource>()),
     );
+    gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
+      () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i520.SettingsRepository>(
       () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
     );
@@ -107,8 +128,22 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i729.LocalizationLocalDataSource>(),
       ),
     );
+    gh.lazySingleton<_i959.SharedVideoRepository>(
+      () => _i676.SharedVideoRepositoryImpl(
+        remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i552.GetVideosUseCase>(
+      () => _i552.GetVideosUseCase(gh<_i959.SharedVideoRepository>()),
+    );
+    gh.factory<_i294.HomeVideosBloc>(
+      () => _i294.HomeVideosBloc(gh<_i552.GetVideosUseCase>()),
+    );
     gh.lazySingleton<_i25.AuthRemoteDataSource>(
       () => _i25.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i268.VideoDetailRemoteDataSource>(
+      () => _i268.VideoDetailRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i738.GetLanguageUseCase>(
       () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
@@ -122,8 +157,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(gh<_i1012.ProfileRemoteDataSource>()),
     );
+    gh.lazySingleton<_i291.VideoDetailRepository>(
+      () => _i272.VideoDetailRepositoryImpl(
+        gh<_i268.VideoDetailRemoteDataSource>(),
+      ),
+    );
     gh.factory<_i521.SoundSettingsCubit>(
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
+    );
+    gh.factory<_i987.DiscoverBloc>(
+      () => _i987.DiscoverBloc(gh<_i552.GetVideosUseCase>()),
     );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
@@ -161,6 +204,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i690.RegisterBloc>(
       () => _i690.RegisterBloc(gh<_i1010.RegisterUseCase>()),
     );
+    gh.factory<_i714.GetVideoDetailUseCase>(
+      () => _i714.GetVideoDetailUseCase(gh<_i291.VideoDetailRepository>()),
+    );
     gh.lazySingleton<_i797.AuthBloc>(
       () => _i797.AuthBloc(
         gh<_i1038.LoginUseCase>(),
@@ -178,6 +224,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i498.CefrSelectionCubit>(
       () => _i498.CefrSelectionCubit(gh<_i186.UpdateProfileUseCase>()),
+    );
+    gh.factory<_i483.VideoDetailCubit>(
+      () => _i483.VideoDetailCubit(gh<_i714.GetVideoDetailUseCase>()),
     );
     return this;
   }

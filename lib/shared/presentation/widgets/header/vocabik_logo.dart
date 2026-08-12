@@ -2,36 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 
 class VocabikLogo extends StatelessWidget {
-  const VocabikLogo({super.key});
+  final double size;
+  
+  const VocabikLogo({super.key, this.size = 30});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 30,
-      height: 30,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         color: AppColors.ink950, // Nền màu tối
-        borderRadius: BorderRadius.circular(9),
+        borderRadius: BorderRadius.circular(size * 0.3),
         border: Border.all(color: AppColors.accentBorder), // Viền nhẹ
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
           // Biểu tượng nút play màu Cyan
-          const Icon(
+          Icon(
             Icons.play_arrow_rounded,
             color: AppColors.accent, // Màu Cyan
-            size: 20,
+            size: size * 0.66,
           ),
           // Đường gạch dưới màu Tím
           Positioned(
-            bottom: 5,
+            bottom: size * 0.16,
             child: Container(
-              width: 13,
-              height: 2.4,
+              width: size * 0.43,
+              height: size * 0.08,
               decoration: BoxDecoration(
                 color: AppColors.premium, // Màu Tím
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(size * 0.06),
               ),
             ),
           ),

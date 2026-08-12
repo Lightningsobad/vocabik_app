@@ -275,6 +275,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverTimeOver7 => '> 7 mins';
 
   @override
+  String get discoverFilter7Days => '7 Days';
+
+  @override
+  String get discoverEmptyResult => 'No results found';
+
+  @override
+  String get discoverErrorLoad => 'An error occurred';
+
+  @override
+  String get discoverRetryButton => 'Retry';
+
+  @override
   String discoverSearchResultsWithQuery(int count, String query) {
     return 'Found $count results for \"$query\"';
   }
@@ -402,4 +414,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionSignUp => 'Sign up';
+
+  @override
+  String get homeVideosEmpty => 'No exercises found.';
+
+  @override
+  String get homeVideosError => 'Failed to load exercises.';
+
+  @override
+  String get homeRetry => 'Retry';
+
+  @override
+  String get emptySectionText => 'No video yet';
+
+  @override
+  String get videoDetailBack => 'Back';
+
+  @override
+  String get videoDetailMultipleChoice => 'Multiple choice';
+
+  @override
+  String get videoDetailExerciseType => 'Exercise type';
+
+  @override
+  String get videoDetailFillBlank => 'Fill-blank';
+
+  @override
+  String get videoDetailTypeTheAnswer => 'Type the answer';
+
+  @override
+  String get videoDetailVersion => 'VERSION';
+
+  @override
+  String get videoDetailVocabulary => 'Vocabulary';
+
+  @override
+  String get videoDetailGrammar => 'Grammar';
+
+  @override
+  String get videoDetailSpeed => 'Speed';
+
+  @override
+  String get videoDetailStartPractice => 'Start practice →';
+
+  @override
+  String get authGenericError => 'An error occurred';
+
+  @override
+  String get loginTitle => 'Log in to Vocabik';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get continueWithFacebook => 'Continue with Facebook';
+
+  @override
+  String get emailInvalid => 'Invalid email';
+
+  @override
+  String get passwordMinLength => 'Password must be at least 6 characters';
+
+  @override
+  String get forgotPassword => 'Forgot password? →';
+
+  @override
+  String get actionLogin => 'Log in';
+
+  @override
+  String get noAccount => 'Don\'t have an account? ';
+
+  @override
+  String get signUpFreeAction => 'Sign up for free →';
 }

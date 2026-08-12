@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/features/home/presentation/models/home_mock_data.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
@@ -42,7 +43,9 @@ class DailyPickCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: BounceWrapper(
-        onTap: () {},
+        onTap: () {
+          context.push('/video/${course.id}');
+        },
         child: Stack(
           children: [
             Container(

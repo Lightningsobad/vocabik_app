@@ -12,6 +12,7 @@ import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/verify_email_screen.dart';
 import '../../features/profile/presentation/screens/cefr_selection_screen.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
+import '../../features/video_detail/presentation/screens/video_detail_screen.dart';
 import '../di/injection.dart';
 
 // TODO: Thay thế bằng các màn hình thật trong tương lai
@@ -74,6 +75,13 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/cefr-selection',
       builder: (context, state) => const CefrSelectionScreen(),
+    ),
+    GoRoute(
+      path: '/video/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return VideoDetailScreen(videoId: id);
+      },
     ),
     GoRoute(
       path: '/player',

@@ -45,7 +45,7 @@ class EmailPasswordForm extends StatelessWidget {
             hintText: 'Email của bạn',
             hintStyle: GoogleFonts.nunito(color: colors?.textSecondary),
             filled: true,
-            fillColor: colors?.surfaceCard ?? Colors.grey.shade100,
+            fillColor: colors?.background ?? Colors.grey.shade100,
             errorText: emailError,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadius.md),

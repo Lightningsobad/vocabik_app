@@ -608,6 +608,30 @@ abstract class AppLocalizations {
   /// **'> 7 phút'**
   String get discoverTimeOver7;
 
+  /// No description provided for @discoverFilter7Days.
+  ///
+  /// In vi, this message translates to:
+  /// **'7 Ngày'**
+  String get discoverFilter7Days;
+
+  /// No description provided for @discoverEmptyResult.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy kết quả'**
+  String get discoverEmptyResult;
+
+  /// No description provided for @discoverErrorLoad.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã có lỗi xảy ra'**
+  String get discoverErrorLoad;
+
+  /// No description provided for @discoverRetryButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get discoverRetryButton;
+
   /// No description provided for @discoverSearchResultsWithQuery.
   ///
   /// In vi, this message translates to:
@@ -841,6 +865,150 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đăng ký'**
   String get actionSignUp;
+
+  /// No description provided for @homeVideosEmpty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có bài tập nào.'**
+  String get homeVideosEmpty;
+
+  /// No description provided for @homeVideosError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải danh sách bài tập.'**
+  String get homeVideosError;
+
+  /// No description provided for @homeRetry.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get homeRetry;
+
+  /// No description provided for @emptySectionText.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có video nào'**
+  String get emptySectionText;
+
+  /// No description provided for @videoDetailBack.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quay lại'**
+  String get videoDetailBack;
+
+  /// No description provided for @videoDetailMultipleChoice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trắc nghiệm'**
+  String get videoDetailMultipleChoice;
+
+  /// No description provided for @videoDetailExerciseType.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kiểu bài'**
+  String get videoDetailExerciseType;
+
+  /// No description provided for @videoDetailFillBlank.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điền từ'**
+  String get videoDetailFillBlank;
+
+  /// No description provided for @videoDetailTypeTheAnswer.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gõ đáp án'**
+  String get videoDetailTypeTheAnswer;
+
+  /// No description provided for @videoDetailVersion.
+  ///
+  /// In vi, this message translates to:
+  /// **'PHIÊN BẢN'**
+  String get videoDetailVersion;
+
+  /// No description provided for @videoDetailVocabulary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ vựng'**
+  String get videoDetailVocabulary;
+
+  /// No description provided for @videoDetailGrammar.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngữ pháp'**
+  String get videoDetailGrammar;
+
+  /// No description provided for @videoDetailSpeed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tốc độ'**
+  String get videoDetailSpeed;
+
+  /// No description provided for @videoDetailStartPractice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu luyện tập →'**
+  String get videoDetailStartPractice;
+
+  /// No description provided for @authGenericError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Có lỗi xảy ra'**
+  String get authGenericError;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập vào Vocabik'**
+  String get loginTitle;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp tục với Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @continueWithFacebook.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp tục với Facebook'**
+  String get continueWithFacebook;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email không hợp lệ'**
+  String get emailInvalid;
+
+  /// No description provided for @passwordMinLength.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu phải từ 6 ký tự'**
+  String get passwordMinLength;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quên mật khẩu? →'**
+  String get forgotPassword;
+
+  /// No description provided for @actionLogin.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập'**
+  String get actionLogin;
+
+  /// No description provided for @noAccount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có tài khoản? '**
+  String get noAccount;
+
+  /// No description provided for @signUpFreeAction.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký miễn phí →'**
+  String get signUpFreeAction;
 }
 
 class _AppLocalizationsDelegate

@@ -274,6 +274,18 @@ class AppLocalizationsVi extends AppLocalizations {
   String get discoverTimeOver7 => '> 7 phút';
 
   @override
+  String get discoverFilter7Days => '7 Ngày';
+
+  @override
+  String get discoverEmptyResult => 'Không tìm thấy kết quả';
+
+  @override
+  String get discoverErrorLoad => 'Đã có lỗi xảy ra';
+
+  @override
+  String get discoverRetryButton => 'Thử lại';
+
+  @override
   String discoverSearchResultsWithQuery(int count, String query) {
     return 'Found $count kết quả cho \"$query\"';
   }
@@ -400,4 +412,76 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get actionSignUp => 'Đăng ký';
+
+  @override
+  String get homeVideosEmpty => 'Chưa có bài tập nào.';
+
+  @override
+  String get homeVideosError => 'Không thể tải danh sách bài tập.';
+
+  @override
+  String get homeRetry => 'Thử lại';
+
+  @override
+  String get emptySectionText => 'Chưa có video nào';
+
+  @override
+  String get videoDetailBack => 'Quay lại';
+
+  @override
+  String get videoDetailMultipleChoice => 'Trắc nghiệm';
+
+  @override
+  String get videoDetailExerciseType => 'Kiểu bài';
+
+  @override
+  String get videoDetailFillBlank => 'Điền từ';
+
+  @override
+  String get videoDetailTypeTheAnswer => 'Gõ đáp án';
+
+  @override
+  String get videoDetailVersion => 'PHIÊN BẢN';
+
+  @override
+  String get videoDetailVocabulary => 'Từ vựng';
+
+  @override
+  String get videoDetailGrammar => 'Ngữ pháp';
+
+  @override
+  String get videoDetailSpeed => 'Tốc độ';
+
+  @override
+  String get videoDetailStartPractice => 'Bắt đầu luyện tập →';
+
+  @override
+  String get authGenericError => 'Có lỗi xảy ra';
+
+  @override
+  String get loginTitle => 'Đăng nhập vào Vocabik';
+
+  @override
+  String get continueWithGoogle => 'Tiếp tục với Google';
+
+  @override
+  String get continueWithFacebook => 'Tiếp tục với Facebook';
+
+  @override
+  String get emailInvalid => 'Email không hợp lệ';
+
+  @override
+  String get passwordMinLength => 'Mật khẩu phải từ 6 ký tự';
+
+  @override
+  String get forgotPassword => 'Quên mật khẩu? →';
+
+  @override
+  String get actionLogin => 'Đăng nhập';
+
+  @override
+  String get noAccount => 'Chưa có tài khoản? ';
+
+  @override
+  String get signUpFreeAction => 'Đăng ký miễn phí →';
 }
