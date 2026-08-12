@@ -486,4 +486,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signUpFreeAction => 'Sign up for free →';
+
+  @override
+  String get progressYourProgress => 'Your progress';
+
+  @override
+  String get progressWeeklyXP => 'Weekly XP';
+
+  @override
+  String get progressAreasToImprove => 'Areas to improve';
+
+  @override
+  String get progressLearningHistory => 'Learning history';
 }

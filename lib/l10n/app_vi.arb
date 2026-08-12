@@ -227,5 +227,9 @@
   "forgotPassword": "Quên mật khẩu? →",
   "actionLogin": "Đăng nhập",
   "noAccount": "Chưa có tài khoản? ",
-  "signUpFreeAction": "Đăng ký miễn phí →"
+  "signUpFreeAction": "Đăng ký miễn phí →",
+  "progressYourProgress": "Tiến độ của bạn",
+  "progressWeeklyXP": "XP hàng tuần",
+  "progressAreasToImprove": "Cần cải thiện",
+  "progressLearningHistory": "Lịch sử học tập"
 }

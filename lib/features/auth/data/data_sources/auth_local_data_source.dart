@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 
 abstract class AuthLocalDataSource {
   Future<void> saveTokens(String accessToken, String refreshToken);
@@ -10,10 +11,11 @@ abstract class AuthLocalDataSource {
 @LazySingleton(as: AuthLocalDataSource)
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final SharedPreferences _prefs;
+  final CookieJar _cookieJar;
   static const _accessTokenKey = 'ACCESS_TOKEN';
   static const _refreshTokenKey = 'REFRESH_TOKEN';
 
-  AuthLocalDataSourceImpl(this._prefs);
+  AuthLocalDataSourceImpl(this._prefs, this._cookieJar);
 
   @override
   Future<void> saveTokens(String accessToken, String refreshToken) async {
@@ -30,5 +32,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<void> clear() async {
     await _prefs.remove(_accessTokenKey);
     await _prefs.remove(_refreshTokenKey);
+    await _cookieJar.deleteAll();
   }
 }

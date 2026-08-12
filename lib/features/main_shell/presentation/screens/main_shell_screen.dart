@@ -28,7 +28,7 @@ class MainShellScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.background,
-      appBar: const AppHeader(streak: 0, xp: 0),
+      appBar: const AppHeader(),
       body: navigationShell,
       floatingActionButton: const FloatingChatButton(),
       bottomNavigationBar: CustomBottomNavigationBar(
