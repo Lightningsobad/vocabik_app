@@ -1009,6 +1009,30 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đăng ký miễn phí →'**
   String get signUpFreeAction;
+
+  /// No description provided for @progressYourProgress.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiến độ của bạn'**
+  String get progressYourProgress;
+
+  /// No description provided for @progressWeeklyXP.
+  ///
+  /// In vi, this message translates to:
+  /// **'XP hàng tuần'**
+  String get progressWeeklyXP;
+
+  /// No description provided for @progressAreasToImprove.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cần cải thiện'**
+  String get progressAreasToImprove;
+
+  /// No description provided for @progressLearningHistory.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lịch sử học tập'**
+  String get progressLearningHistory;
 }
 
 class _AppLocalizationsDelegate

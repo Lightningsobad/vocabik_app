@@ -38,6 +38,9 @@ dependencies:
   # --- Core ---
   cupertino_icons: ^1.0.8
   dio: ^5.11.0
+  dio_cookie_manager: ^3.5.0
+  cookie_jar: ^4.0.9
+  path_provider: ^2.1.6
 
   # --- State Management ---
   flutter_bloc: ^9.1.1

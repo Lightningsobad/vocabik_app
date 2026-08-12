@@ -227,5 +227,9 @@
   "forgotPassword": "Forgot password? →",
   "actionLogin": "Log in",
   "noAccount": "Don't have an account? ",
-  "signUpFreeAction": "Sign up for free →"
+  "signUpFreeAction": "Sign up for free →",
+  "progressYourProgress": "Your progress",
+  "progressWeeklyXP": "Weekly XP",
+  "progressAreasToImprove": "Areas to improve",
+  "progressLearningHistory": "Learning history"
 }

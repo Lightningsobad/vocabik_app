@@ -484,4 +484,16 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get signUpFreeAction => 'Đăng ký miễn phí →';
+
+  @override
+  String get progressYourProgress => 'Tiến độ của bạn';
+
+  @override
+  String get progressWeeklyXP => 'XP hàng tuần';
+
+  @override
+  String get progressAreasToImprove => 'Cần cải thiện';
+
+  @override
+  String get progressLearningHistory => 'Lịch sử học tập';
 }

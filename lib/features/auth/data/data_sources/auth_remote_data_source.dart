@@ -33,6 +33,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await _dio.post(
         '/auth/login',
         data: request.toJson(),
+        options: Options(
+          headers: {'x-client-type': 'mobile'},
+        ),
         cancelToken: cancelToken,
       );
       return await compute(_parseAuthResponse, response.data as Map<String, dynamic>);

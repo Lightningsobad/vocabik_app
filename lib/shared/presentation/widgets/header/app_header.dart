@@ -13,18 +13,15 @@ import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/cubit/theme_cubit.dart';
 import 'package:vocabik_app/shared/localization/cubit/localization_cubit.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
+import 'package:vocabik_app/shared/gamification/cubit/gamification_global_cubit.dart';
 
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
-  final int streak;
-  final int xp;
   final VoidCallback? onHomeTap;
   final VoidCallback? onThemeTap;
   final VoidCallback? onMenuTap;
 
   const AppHeader({
     super.key,
-    required this.streak,
-    required this.xp,
     this.onHomeTap,
     this.onThemeTap,
     this.onMenuTap,
@@ -42,6 +39,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     
     final currentLang = context.select((LocalizationCubit cubit) => cubit.state.currentLocale.languageCode);
     final displayLanguage = currentLang == 'en' ? 'EN' : 'VI';
+    
+    final streak = context.select((GamificationGlobalCubit cubit) => cubit.state.streak);
+    final xp = context.select((GamificationGlobalCubit cubit) => cubit.state.xp);
     
     final topPadding = MediaQuery.paddingOf(context).top;
 
