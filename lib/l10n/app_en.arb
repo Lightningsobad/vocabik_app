@@ -217,5 +217,15 @@
   "videoDetailVocabulary": "Vocabulary",
   "videoDetailGrammar": "Grammar",
   "videoDetailSpeed": "Speed",
-  "videoDetailStartPractice": "Start practice \u2192"
+  "videoDetailStartPractice": "Start practice \u2192",
+  "authGenericError": "An error occurred",
+  "loginTitle": "Log in to Vocabik",
+  "continueWithGoogle": "Continue with Google",
+  "continueWithFacebook": "Continue with Facebook",
+  "emailInvalid": "Invalid email",
+  "passwordMinLength": "Password must be at least 6 characters",
+  "forgotPassword": "Forgot password? →",
+  "actionLogin": "Log in",
+  "noAccount": "Don't have an account? ",
+  "signUpFreeAction": "Sign up for free →"
 }

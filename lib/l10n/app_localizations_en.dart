@@ -456,4 +456,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get videoDetailStartPractice => 'Start practice →';
+
+  @override
+  String get authGenericError => 'An error occurred';
+
+  @override
+  String get loginTitle => 'Log in to Vocabik';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get continueWithFacebook => 'Continue with Facebook';
+
+  @override
+  String get emailInvalid => 'Invalid email';
+
+  @override
+  String get passwordMinLength => 'Password must be at least 6 characters';
+
+  @override
+  String get forgotPassword => 'Forgot password? →';
+
+  @override
+  String get actionLogin => 'Log in';
+
+  @override
+  String get noAccount => 'Don\'t have an account? ';
+
+  @override
+  String get signUpFreeAction => 'Sign up for free →';
 }

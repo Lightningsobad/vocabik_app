@@ -8,12 +8,14 @@ class PrimaryButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
+  final Color? textColor;
 
   const PrimaryButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.isLoading = false,
+    this.textColor,
   });
 
   @override
@@ -42,9 +44,9 @@ class PrimaryButton extends StatelessWidget {
             : Text(
                 text,
                 style: GoogleFonts.nunito(
-                  color: Theme.of(
+                  color: textColor ?? Theme.of(
                     context,
-                  ).colorScheme.onPrimary, // White text on primary button
+                  ).colorScheme.onPrimary, // Customizable text color, defaults to onPrimary
                   fontSize: 18.0,
                   fontWeight: FontWeight.w900,
                 ),

@@ -217,5 +217,15 @@
   "videoDetailVocabulary": "Từ vựng",
   "videoDetailGrammar": "Ngữ pháp",
   "videoDetailSpeed": "Tốc độ",
-  "videoDetailStartPractice": "Bắt đầu luyện tập \u2192"
+  "videoDetailStartPractice": "Bắt đầu luyện tập \u2192",
+  "authGenericError": "Có lỗi xảy ra",
+  "loginTitle": "Đăng nhập vào Vocabik",
+  "continueWithGoogle": "Tiếp tục với Google",
+  "continueWithFacebook": "Tiếp tục với Facebook",
+  "emailInvalid": "Email không hợp lệ",
+  "passwordMinLength": "Mật khẩu phải từ 6 ký tự",
+  "forgotPassword": "Quên mật khẩu? →",
+  "actionLogin": "Đăng nhập",
+  "noAccount": "Chưa có tài khoản? ",
+  "signUpFreeAction": "Đăng ký miễn phí →"
 }

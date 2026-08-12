@@ -56,7 +56,7 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
           color: colors.textSecondary,
         ),
         filled: true,
-        fillColor: colors.surfaceCard,
+        fillColor: colors.background,
         errorText: widget.errorText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),

@@ -454,4 +454,34 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get videoDetailStartPractice => 'Bắt đầu luyện tập →';
+
+  @override
+  String get authGenericError => 'Có lỗi xảy ra';
+
+  @override
+  String get loginTitle => 'Đăng nhập vào Vocabik';
+
+  @override
+  String get continueWithGoogle => 'Tiếp tục với Google';
+
+  @override
+  String get continueWithFacebook => 'Tiếp tục với Facebook';
+
+  @override
+  String get emailInvalid => 'Email không hợp lệ';
+
+  @override
+  String get passwordMinLength => 'Mật khẩu phải từ 6 ký tự';
+
+  @override
+  String get forgotPassword => 'Quên mật khẩu? →';
+
+  @override
+  String get actionLogin => 'Đăng nhập';
+
+  @override
+  String get noAccount => 'Chưa có tài khoản? ';
+
+  @override
+  String get signUpFreeAction => 'Đăng ký miễn phí →';
 }

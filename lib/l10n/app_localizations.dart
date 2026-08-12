@@ -949,6 +949,66 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Bắt đầu luyện tập →'**
   String get videoDetailStartPractice;
+
+  /// No description provided for @authGenericError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Có lỗi xảy ra'**
+  String get authGenericError;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập vào Vocabik'**
+  String get loginTitle;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp tục với Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @continueWithFacebook.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp tục với Facebook'**
+  String get continueWithFacebook;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email không hợp lệ'**
+  String get emailInvalid;
+
+  /// No description provided for @passwordMinLength.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu phải từ 6 ký tự'**
+  String get passwordMinLength;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quên mật khẩu? →'**
+  String get forgotPassword;
+
+  /// No description provided for @actionLogin.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập'**
+  String get actionLogin;
+
+  /// No description provided for @noAccount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có tài khoản? '**
+  String get noAccount;
+
+  /// No description provided for @signUpFreeAction.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký miễn phí →'**
+  String get signUpFreeAction;
 }
 
 class _AppLocalizationsDelegate

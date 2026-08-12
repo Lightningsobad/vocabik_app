@@ -18,23 +18,31 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<Either<Failure, User>> login({required String email, required String password}) async {
+  Future<Either<Failure, User>> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       final response = await _remoteDataSource.login(
         LoginRequestModel(email: email, password: password),
       );
-      print('========================================');
-      print('[LOGIN RESPONSE ACCESS TOKEN]:');
-      print(response.accessToken);
-      print('========================================');
-      await _localDataSource.saveTokens(response.accessToken, response.refreshToken);
+      await _localDataSource.saveTokens(
+        response.accessToken,
+        response.refreshToken,
+      );
       return right(response.user);
     } on NetworkException {
-      return left(const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'));
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
     } on InvalidCredentialsException {
-      return left(const InvalidCredentialsFailure('Email hoặc mật khẩu không chính xác.'));
+      return left(
+        const InvalidCredentialsFailure('Email hoặc mật khẩu không chính xác.'),
+      );
     } on NotVerifiedException {
-      return left(const NotVerifiedFailure('Tài khoản chưa được xác thực email.'));
+      return left(
+        const NotVerifiedFailure('Tài khoản chưa được xác thực email.'),
+      );
     } on ServerException {
       return left(const ServerFailure('Lỗi máy chủ, vui lòng thử lại sau.'));
     } catch (e) {
@@ -48,7 +56,9 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await _remoteDataSource.getMe();
       return right(user);
     } on NetworkException {
-      return left(const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'));
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
     } on ServerException catch (e) {
       return left(ServerFailure(e.message));
     } catch (e) {
@@ -72,14 +82,24 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> register({required String email, required String password, required String displayName}) async {
+  Future<Either<Failure, void>> register({
+    required String email,
+    required String password,
+    required String displayName,
+  }) async {
     try {
       await _remoteDataSource.register(
-        RegisterRequestModel(email: email, password: password, displayName: displayName),
+        RegisterRequestModel(
+          email: email,
+          password: password,
+          displayName: displayName,
+        ),
       );
       return right(null);
     } on NetworkException {
-      return left(const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'));
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
     } on ServerException {
       return left(const UserAlreadyExistsFailure('Tài khoản đã tồn tại.'));
     } catch (e) {
@@ -93,9 +113,13 @@ class AuthRepositoryImpl implements AuthRepository {
       await _remoteDataSource.verifyEmail(token);
       return right(null);
     } on NetworkException {
-      return left(const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'));
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
     } on ServerException {
-      return left(const InvalidTokenFailure('Token không hợp lệ hoặc đã hết hạn.'));
+      return left(
+        const InvalidTokenFailure('Token không hợp lệ hoặc đã hết hạn.'),
+      );
     } catch (e) {
       return left(const ServerFailure('Lỗi hệ thống không xác định.'));
     }
@@ -107,7 +131,9 @@ class AuthRepositoryImpl implements AuthRepository {
       await _remoteDataSource.resendVerificationEmail(email);
       return right(null);
     } on NetworkException {
-      return left(const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'));
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
     } catch (e) {
       return left(const ServerFailure('Lỗi hệ thống không xác định.'));
     }
