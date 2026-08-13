@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:vocabik_app/shared/theme/app_colors.dart';
 
 class ShimmerBlock extends StatelessWidget {
   final double width;
@@ -16,14 +15,13 @@ class ShimmerBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     // Using a subtle greyish color for the shimmer
-    final baseColor = Theme.of(context).brightness == Brightness.dark 
-      ? const Color(0xFF334155) // slate 700
-      : const Color(0xFFE2E8F0); // slate 200
-    final highlightColor = Theme.of(context).brightness == Brightness.dark 
-      ? const Color(0xFF475569) // slate 600
-      : const Color(0xFFF1F5F9); // slate 100
+    final baseColor = Theme.of(context).brightness == Brightness.dark
+        ? const Color(0xFF334155) // slate 700
+        : const Color(0xFFE2E8F0); // slate 200
+    final highlightColor = Theme.of(context).brightness == Brightness.dark
+        ? const Color(0xFF475569) // slate 600
+        : const Color(0xFFF1F5F9); // slate 100
 
     return Shimmer.fromColors(
       baseColor: baseColor,
