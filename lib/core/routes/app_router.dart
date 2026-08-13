@@ -30,7 +30,7 @@ class PlaceholderScreen extends StatelessWidget {
 }
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/',
   redirect: (context, state) {
     final localDataSource = getIt<AuthLocalDataSource>();
     final isLoggedIn = localDataSource.getAccessToken() != null;
@@ -42,6 +42,11 @@ final GoRouter appRouter = GoRouter(
     if (!isLoggedIn && !isUnauthRoute) {
       return '/login';
     }
+    
+    if (isLoggedIn && isUnauthRoute) {
+      return '/home';
+    }
+
     return null;
   },
   routes: [
