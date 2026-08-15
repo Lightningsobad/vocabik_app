@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -6,8 +7,13 @@ import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrap
 
 class VideoThumbnailSection extends StatelessWidget {
   final VideoEntity video;
+  final VoidCallback? onTap;
 
-  const VideoThumbnailSection({super.key, required this.video});
+  const VideoThumbnailSection({
+    super.key,
+    required this.video,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +22,12 @@ class VideoThumbnailSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: BounceWrapper(
-        onTap: () {
-          // Same behavior as "Start practice"
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Navigate to Practice screen from thumbnail')),
-          );
-        },
+        onTap: onTap ??
+            () {
+              context.push(
+                '/exercise/${video.id}?cefr_level=${video.cefrLevel}&version_id=v1&youtube_video_id=${video.youtubeVideoId}&video_title=${Uri.encodeComponent(video.title)}',
+              );
+            },
         child: Container(
           width: double.infinity,
           height: 220,

@@ -231,5 +231,14 @@
   "progressYourProgress": "Tiến độ của bạn",
   "progressWeeklyXP": "XP hàng tuần",
   "progressAreasToImprove": "Cần cải thiện",
-  "progressLearningHistory": "Lịch sử học tập"
+  "progressLearningHistory": "Lịch sử học tập",
+  "exerciseTitle": "ĐANG LUYỆN",
+  "exerciseCorrect": "Chính xác! 🎉",
+  "exerciseAlmost": "Gần đúng!",
+  "exerciseHint": "💡 Gợi ý",
+  "exerciseContinue": "Tiếp tục →",
+  "exerciseCheck": "Kiểm tra",
+  "exercisePlayingVideo": "Đang phát video...",
+  "exerciseCompleted": "Hoàn thành bài tập!",
+  "viewVietnameseTranslation": "Xem dịch tiếng Việt"
 }

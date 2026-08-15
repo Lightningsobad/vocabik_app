@@ -212,14 +212,14 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                                       horizontal: AppSpacing.lg,
                                       vertical: AppSpacing.sm),
                                   decoration: BoxDecoration(
-                                    color: AppColors.accent,
+                                    color: colors.primaryAccent,
                                     borderRadius:
-                                        BorderRadius.circular(AppSpacing.sm),
+                                        BorderRadius.circular(999.0),
                                   ),
                                   child: Text(
                                     l10n.discoverRetryButton,
                                     style: GoogleFonts.nunito(
-                                        color: Colors.white,
+                                        color: colors.onPrimaryAccent,
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),

@@ -11,11 +11,42 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       scaffoldBackgroundColor: extension.background,
-      primaryColor: AppColors.accent,
+      primaryColor: extension.primaryAccent,
       colorScheme: ColorScheme.light(
-        primary: AppColors.accent,
+        primary: extension.primaryAccent,
+        onPrimary: extension.onPrimaryAccent,
         secondary: AppColors.premium,
         surface: extension.surfaceCard,
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: extension.surfaceCard,
+        foregroundColor: extension.textPrimary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
+      dividerTheme: DividerThemeData(
+        color: extension.borderSubtle,
+        thickness: 1.0,
+        space: 1.0,
+      ),
+      iconTheme: IconThemeData(
+        color: extension.textPrimary,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(
+            color: extension.primaryAccent,
+            width: 1.5,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(
+            color: extension.borderSubtle,
+            width: 1.0,
+          ),
+        ),
       ),
       textTheme: GoogleFonts.nunitoTextTheme(ThemeData.light().textTheme).apply(
         bodyColor: extension.textPrimary,
@@ -31,11 +62,42 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: extension.background,
-      primaryColor: AppColors.accent,
+      primaryColor: extension.primaryAccent,
       colorScheme: ColorScheme.dark(
-        primary: AppColors.accent,
+        primary: extension.primaryAccent,
+        onPrimary: extension.onPrimaryAccent,
         secondary: AppColors.premium,
         surface: extension.surfaceCard,
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: extension.surfaceCard,
+        foregroundColor: extension.textPrimary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
+      dividerTheme: DividerThemeData(
+        color: extension.borderSubtle,
+        thickness: 1.0,
+        space: 1.0,
+      ),
+      iconTheme: IconThemeData(
+        color: extension.textPrimary,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(
+            color: extension.primaryAccent,
+            width: 1.5,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(
+            color: extension.borderSubtle,
+            width: 1.0,
+          ),
+        ),
       ),
       textTheme: GoogleFonts.nunitoTextTheme(ThemeData.dark().textTheme).apply(
         bodyColor: extension.textPrimary,

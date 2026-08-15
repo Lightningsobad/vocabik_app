@@ -23,20 +23,20 @@ class CefrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>();
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     return BounceWrapper(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: isSelected 
-              ? const Color(0xFF06B6D4).withValues(alpha: 0.1) // Cyan with opacity
-              : colors?.surfaceCard,
+              ? colors.primaryAccent.withValues(alpha: 0.1)
+              : colors.surfaceCard,
           borderRadius: BorderRadius.circular(AppRadius.xl),
           border: Border.all(
             color: isSelected 
-                ? const Color(0xFF06B6D4) // Primary Cyan
-                : colors?.borderSubtle ?? Colors.grey.shade300,
+                ? colors.primaryAccent
+                : colors.borderSubtle,
             width: isSelected ? 2.0 : 1.0,
           ),
         ),
@@ -54,7 +54,7 @@ class CefrCard extends StatelessWidget {
               style: GoogleFonts.nunito(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: colors?.textPrimary,
+                color: colors.textPrimary,
               ),
             ),
             const SizedBox(height: 4),
@@ -63,7 +63,7 @@ class CefrCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
                 fontSize: 14,
-                color: colors?.textSecondary,
+                color: colors.textSecondary,
               ),
             ),
           ],

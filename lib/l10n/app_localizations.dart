@@ -1033,6 +1033,60 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Lịch sử học tập'**
   String get progressLearningHistory;
+
+  /// No description provided for @exerciseTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'ĐANG LUYỆN'**
+  String get exerciseTitle;
+
+  /// No description provided for @exerciseCorrect.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chính xác! 🎉'**
+  String get exerciseCorrect;
+
+  /// No description provided for @exerciseAlmost.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gần đúng!'**
+  String get exerciseAlmost;
+
+  /// No description provided for @exerciseHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'💡 Gợi ý'**
+  String get exerciseHint;
+
+  /// No description provided for @exerciseContinue.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp tục →'**
+  String get exerciseContinue;
+
+  /// No description provided for @exerciseCheck.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kiểm tra'**
+  String get exerciseCheck;
+
+  /// No description provided for @exercisePlayingVideo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang phát video...'**
+  String get exercisePlayingVideo;
+
+  /// No description provided for @exerciseCompleted.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hoàn thành bài tập!'**
+  String get exerciseCompleted;
+
+  /// No description provided for @viewVietnameseTranslation.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem dịch tiếng Việt'**
+  String get viewVietnameseTranslation;
 }
 
 class _AppLocalizationsDelegate
