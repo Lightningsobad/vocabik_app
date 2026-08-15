@@ -6,46 +6,74 @@ Tài liệu này định nghĩa các quy tắc chuẩn mực về UI/UX cho toà
 
 - **Font chữ áp dụng mọi thành phần hiển thị chữ trong app:** Sử dụng font **Nunito** (từ Google Fonts) cho toàn bộ hệ thống.
 
-## 2. Interactions (Hiệu ứng tương tác)
+## 2. Interactions & Hiệu ứng (Interactions & Effects)
 
 - **Nút bấm (Buttons) & Chọn Tab:** Các hiệu ứng khi người dùng tương tác (nhấn nút, chuyển/chọn tab) phải được đồng bộ thống nhất trên toàn hệ thống.
 - **Thành phần sử dụng:** Bắt buộc bọc các widget có tương tác bằng [BounceWrapper](file:///d:/App/vocabik_app/lib/shared/presentation/widgets/interactions/bounce_wrapper.dart) để tạo hiệu ứng nảy (bounce) mượt mà và đồng nhất.
+- **Phong cách thiết kế phẳng (Flat Design):** Không sử dụng hiệu ứng đổ bóng (Box Shadows) cho các Card/Container. Loại bỏ hiệu ứng kính mờ (Glassmorphism / BackdropFilter) để đảm bảo hiệu năng và tính tối giản, sắc nét của giao diện.
 
 ## 3. Màu sắc & Trạng thái (Colors & States)
 
-- **Màu chủ đạo (Primary Color):** `0xFF06B6D4` (Cyan) - Giữ nguyên không đổi ở cả hai chế độ.
-- **Trạng thái Tab được chọn (Selected Tab):** Sử dụng màu `0xFF06B6D4` làm màu nổi bật.
-- **Trạng thái Nút bấm (Button):** Các nút bấm chính (Primary buttons) sử dụng màu nền `0xFF06B6D4`.
+### Primary Accent & Nút bấm (Button):
+- **Light Mode:** Màu nền nút & viền: `#0891B2`, màu chữ/icon trong nút: `#FFFFFF`. Hình dạng bo góc viên thuốc (Pill shape - `BorderRadius.circular(999)`).
+- **Dark Mode:** Màu nền nút & viền: `#00E5CC`, màu chữ/icon trong nút: `#0D0D1A`. Hình dạng bo góc viên thuốc (Pill shape - `BorderRadius.circular(999)`).
 
-## 4. Input Fields (Ô nhập liệu)
+### Tab Segmented ([SharedSegmentedTabBar](file:///d:/App/vocabik_app/lib/shared/presentation/widgets/shared_segmented_tab_bar.dart)):
+- **Light Mode:**
+  - Tab chưa chọn: Màu nền `#F5F5FA` (hòa vào màu nền app), màu viền `#E8E8ED`, màu chữ `#4B4B63`.
+  - Tab được chọn: Màu nền & viền `#0891B2`, màu chữ `#FFFFFF`.
+- **Dark Mode:**
+  - Tab chưa chọn: Màu nền `#20203B`, màu viền `#303047`, màu chữ `#A6A6BF`.
+  - Tab được chọn: Màu nền & viền `#00E5CC`, màu chữ `#0D0D1A`.
 
-- **Trạng thái Focus (Khi được chọn/nhập liệu):** Viền (border) của các ô nhập liệu (TextField, TextFormField) phải chuyển sang màu `0xFF06B6D4` khi người dùng nhấn vào để bắt đầu nhập liệu ở cả Dark và Light Mode.
+### Bottom Navigation Bar ([CustomBottomNavigationBar](file:///d:/App/vocabik_app/lib/features/main_shell/presentation/widgets/custom_bottom_navigation_bar.dart)):
+- **Light Mode:** Chưa chọn `#6D6D87`, Đã chọn `#088FB0`.
+- **Dark Mode:** Chưa chọn `#8585A1`, Đã chọn `#00E6CB`.
 
-## 5. Theme & Chế độ Sáng/Tối (Light/Dark Mode)
+### App Bar & Thẻ (Cards):
+- **Light Mode:** Màu nền `#FFFFFF`, màu viền `#F0F0F2`, màu chữ tiêu đề trong thẻ `#13131F`.
+- **Dark Mode:** Màu nền `#1A1A2E`, màu viền `#2A2A3D`, màu chữ tiêu đề trong thẻ `#F5F5FA`.
 
-Việc chuyển đổi giữa Light Mode và Dark Mode phải đảm bảo tính thống nhất (consistency) trên toàn bộ ứng dụng, sử dụng bộ màu ngữ nghĩa (semantic colors) thay vì màu tĩnh (static colors):
+### Ô nhập liệu (Input Fields):
+- **Trạng thái Focus:** Viền (border) chuyển sang màu `primaryAccent` (`#0891B2` ở Light Mode, `#00E5CC` ở Dark Mode).
+
+### Đường phân cách (Dividers):
+- Sử dụng màu `borderSubtle` (`#F0F0F2` ở Light Mode, `#2A2A3D` ở Dark Mode).
+
+## 4. Theme & Chế độ Sáng/Tối (Light/Dark Mode)
+
+Việc chuyển đổi giữa Light Mode và Dark Mode phải đảm bảo tính thống nhất (consistency) trên toàn bộ ứng dụng, sử dụng bộ màu ngữ nghĩa (semantic colors) từ `Theme.of(context).extension<AppColorsExtension>()!`:
 
 - **Light Mode (Mặc định):**
-  - **Màu nền (Background):** `0xFFFFFFFF` (Trắng)
-  - **Màu thẻ (Surface/Card):** `0xFFF8FAFC` (Trắng xám nhạt)
-  - **Màu chữ chính (Text Primary):** `0xFF13131F` (Đen)
-  - **Màu chữ phụ (Text Secondary):** `0xFF64748B` (Xám)
-  - **Viền (Border):** `0xFFE2E8F0`
+  - **Màu nền tổng thể (Background):** `#F5F5FA`
+  - **Màu thẻ & App Bar (Surface/Card):** `#FFFFFF`
+  - **Màu chữ chính (Text Primary):** `#13131F`
+  - **Màu chữ phụ (Text Secondary):** `#6D6D87`
+  - **Viền & Phân cách (Border/Divider):** `#F0F0F2`
 
 - **Dark Mode:**
-  - **Màu nền (Background):** `0xFF0B0F19` (Xanh đen đậm)
-  - **Màu thẻ (Surface/Card):** `0xFF1E293B` (Xanh xám đậm - slate 800)
-  - **Màu chữ chính (Text Primary):** `0xFFF8FAFC` (Trắng sáng)
-  - **Màu chữ phụ (Text Secondary):** `0xFF94A3B8` (Xám nhạt)
-  - **Viền (Border):** `0xFF334155`
- 
+  - **Màu nền tổng thể (Background):** `#0D0D1A`
+  - **Màu thẻ & App Bar (Surface/Card):** `#1A1A2E`
+  - **Màu chữ chính (Text Primary):** `#F5F5FA`
+  - **Màu chữ phụ (Text Secondary):** `#8585A1`
+  - **Viền & Phân cách (Border/Divider):** `#2A2A3D`
 
-**Nguyên tắc chuyển đổi:**
+- **Màu sắc trạng thái & gamification (Dùng chung):**
+  - **Streak:** `0xFFF59E0B`
+  - **Premium:** `0xFF8B5CF6`
+  - **Danger/Error:** `0xFFE23E54` (Light) / `0xFFFF5C72` (Dark)
 
-- Các thành phần có tính tương tác cao (Nút bấm chính, Progress bar, Icon nổi bật, Focus border) luôn giữ màu chủ đạo Cyan `0xFF06B6D4`.
-- Sử dụng hiệu ứng chuyển đổi mượt mà (smooth transition) giữa các theme.
-- Đảm bảo độ tương phản (contrast) của chữ trên nền ở cả hai chế độ.
+## 5. Quy tắc Code Clean & Ngăn chặn Hardcode Màu (Code Guidelines)
 
-## 5. Ngôn ngữ & Chế độ English/Vietnamese (Light/Dark Mode)
-  - Các tên bài hát, thể loại, tên nghệ sĩ, album, quốc gia, lời bài hát ( lyrics ) được hiển thị bằng tiếng Anh ở cả hai chế độ Ngôn ngữ. 
-  - 
+> [!CAUTION]
+> **CẤM HARDCODE MÃ MÀU TRONG WIDGET:**
+> - Tuyệt đối không khai báo mã màu tĩnh như `Color(0xFF...)` hoặc dùng `AppColors.accent` trực tiếp trong các widget UI.
+> - Bắt buộc phải lấy màu từ `AppColorsExtension` thông qua:
+>   ```dart
+>   final colors = Theme.of(context).extension<AppColorsExtension>()!;
+>   ```
+> - Điều này đảm bảo giao diện luôn tự động thích ứng chuẩn xác khi người dùng chuyển đổi giữa Light Mode và Dark Mode.
+
+## 6. Ngôn ngữ & Chế độ English/Vietnamese
+
+- Các tên bài hát, thể loại, tên nghệ sĩ, album, quốc gia, lời bài hát (lyrics) được hiển thị bằng tiếng Anh ở cả hai chế độ ngôn ngữ.

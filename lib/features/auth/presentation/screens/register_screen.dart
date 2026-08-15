@@ -100,10 +100,10 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                     color: colors?.surfaceCard,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.play_arrow_rounded,
                     size: 32,
-                    color: Color(0xFF06B6D4), // Primary Cyan
+                    color: colors?.primaryAccent,
                   ),
                 ),
               ),
@@ -230,22 +230,22 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             decoration: BoxDecoration(
-                              color: isValid ? const Color(0xFF06B6D4) : Colors.grey, // Primary Cyan or Grey
+                              color: isValid ? (colors?.primaryAccent ?? const Color(0xFF0891B2)) : Colors.grey,
                               borderRadius: BorderRadius.circular(AppRadius.full),
                             ),
                             alignment: Alignment.center,
                             child: isLoading
-                                ? const SizedBox(
+                                ? SizedBox(
                                     height: 20,
                                     width: 20,
-                                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                    child: CircularProgressIndicator(color: colors?.onPrimaryAccent ?? Colors.white, strokeWidth: 2),
                                   )
                                 : Text(
                                     l10n.actionSignUp,
                                     style: GoogleFonts.nunito(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                      color: colors?.onPrimaryAccent ?? Colors.white,
                                     ),
                                   ),
                           ),
@@ -280,7 +280,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                         style: GoogleFonts.nunito(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF06B6D4),
+                          color: colors?.primaryAccent,
                         ),
                       ),
                     ),
@@ -307,7 +307,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
         color: colors?.textPrimary,
         fontSize: 16,
       ),
-      cursorColor: const Color(0xFF06B6D4),
+      cursorColor: colors?.primaryAccent,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: GoogleFonts.nunito(color: colors?.textSecondary),
@@ -323,7 +323,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: const BorderSide(color: Color(0xFF06B6D4), width: 2.0),
+          borderSide: BorderSide(color: colors?.primaryAccent ?? const Color(0xFF0891B2), width: 2.0),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
       ),

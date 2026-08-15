@@ -146,16 +146,16 @@ class _CefrSelectionScreenViewState extends State<CefrSelectionScreenView> {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
                         color: state.selectedLevel != null 
-                            ? const Color(0xFF06B6D4) // Primary Cyan
+                            ? colors?.primaryAccent
                             : colors?.borderSubtle ?? Colors.grey.shade300, // Disabled state
                         borderRadius: BorderRadius.circular(AppRadius.full),
                       ),
                       alignment: Alignment.center,
                       child: state.status == CefrSelectionStatus.loading
-                          ? const SizedBox(
+                          ? SizedBox(
                               height: 20,
                               width: 20,
-                              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                              child: CircularProgressIndicator(color: colors?.onPrimaryAccent ?? Colors.white, strokeWidth: 2),
                             )
                           : Text(
                               l10n.startLearning,
@@ -163,7 +163,7 @@ class _CefrSelectionScreenViewState extends State<CefrSelectionScreenView> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: state.selectedLevel != null 
-                                    ? Colors.white 
+                                    ? colors?.onPrimaryAccent 
                                     : colors?.textSecondary,
                               ),
                             ),

@@ -36,10 +36,10 @@ class SharedSegmentedTabBar extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isSelected ? Theme.of(context).colorScheme.primary : colors.surfaceCard,
+                  color: isSelected ? colors.primaryAccent : colors.tabUnselectedBackground,
                   borderRadius: BorderRadius.circular(24.0),
                   border: Border.all(
-                    color: isSelected ? Theme.of(context).colorScheme.primary : colors.borderSubtle,
+                    color: isSelected ? colors.primaryAccent : colors.tabUnselectedBorder,
                     width: 1.0,
                   ),
                 ),
@@ -47,8 +47,8 @@ class SharedSegmentedTabBar extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   style: GoogleFonts.nunito(
                     color: isSelected 
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : colors.textSecondary,
+                        ? colors.onPrimaryAccent
+                        : colors.tabUnselectedText,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                     fontSize: 15.0,
                   ),

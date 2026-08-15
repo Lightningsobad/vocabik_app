@@ -9,7 +9,6 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -34,6 +33,15 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
 import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
 import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
+import '../../features/exercise/data/datasources/exercise_remote_datasource.dart'
+    as _i913;
+import '../../features/exercise/data/repositories/exercise_repository_impl.dart'
+    as _i607;
+import '../../features/exercise/domain/repositories/exercise_repository.dart'
+    as _i50;
+import '../../features/exercise/domain/usecases/get_exercise_usecase.dart'
+    as _i497;
+import '../../features/exercise/presentation/cubit/exercise_cubit.dart' as _i67;
 import '../../features/home/presentation/bloc/home_videos_bloc.dart' as _i294;
 import '../../features/profile/data/data_sources/profile_remote_data_source.dart'
     as _i1012;
@@ -110,7 +118,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.prefs,
       preResolve: true,
     );
-
     gh.singleton<_i391.DeepLinkService>(() => _i391.DeepLinkService());
     gh.lazySingleton<_i561.GamificationGlobalCubit>(
       () => _i561.GamificationGlobalCubit(),
@@ -118,18 +125,43 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i416.ThemeRepository>(
       () => _i108.ThemeRepositoryImpl(prefs: gh<_i460.SharedPreferences>()),
     );
-    gh.lazySingleton<_i606.AuthLocalDataSource>(
-      () => _i606.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
-    );
-    gh.lazySingleton<_i361.Dio>(
-      () => appModule.dio(gh<_i606.AuthLocalDataSource>()),
-    );
     gh.lazySingleton<_i431.SettingsLocalDataSource>(
       () => _i431.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i606.AuthLocalDataSource>(
+      () => _i606.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i729.LocalizationLocalDataSource>(
       () =>
           _i729.LocalizationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.factory<_i909.ThemeCubit>(
+      () => _i909.ThemeCubit(themeRepository: gh<_i416.ThemeRepository>()),
+    );
+    gh.lazySingleton<_i361.Dio>(
+      () => appModule.dio(gh<_i606.AuthLocalDataSource>()),
+    );
+    gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
+      () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i520.SettingsRepository>(
+      () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
+    );
+    gh.lazySingleton<_i960.LocalizationRepository>(
+      () => _i682.LocalizationRepositoryImpl(
+        gh<_i729.LocalizationLocalDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i959.SharedVideoRepository>(
+      () => _i676.SharedVideoRepositoryImpl(
+        remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i552.GetVideosUseCase>(
+      () => _i552.GetVideosUseCase(gh<_i959.SharedVideoRepository>()),
+    );
+    gh.factory<_i294.HomeVideosBloc>(
+      () => _i294.HomeVideosBloc(gh<_i552.GetVideosUseCase>()),
     );
     gh.lazySingleton<_i25.AuthRemoteDataSource>(
       () => _i25.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -137,11 +169,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i854.ProgressRemoteDataSource>(
       () => _i854.ProgressRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.factory<_i909.ThemeCubit>(
-      () => _i909.ThemeCubit(themeRepository: gh<_i416.ThemeRepository>()),
+    gh.lazySingleton<_i913.ExerciseRemoteDataSource>(
+      () => _i913.ExerciseRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i268.VideoDetailRemoteDataSource>(
       () => _i268.VideoDetailRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i738.GetLanguageUseCase>(
+      () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
+    );
+    gh.lazySingleton<_i476.SaveLanguageUseCase>(
+      () => _i476.SaveLanguageUseCase(gh<_i960.LocalizationRepository>()),
     );
     gh.lazySingleton<_i1012.ProfileRemoteDataSource>(
       () => _i1012.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -154,16 +192,25 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i268.VideoDetailRemoteDataSource>(),
       ),
     );
-    gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
-      () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
+    gh.factory<_i521.SoundSettingsCubit>(
+      () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
-    gh.lazySingleton<_i520.SettingsRepository>(
-      () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
+    gh.factory<_i987.DiscoverBloc>(
+      () => _i987.DiscoverBloc(gh<_i552.GetVideosUseCase>()),
+    );
+    gh.lazySingleton<_i50.ExerciseRepository>(
+      () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
     );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
         gh<_i25.AuthRemoteDataSource>(),
         gh<_i606.AuthLocalDataSource>(),
+      ),
+    );
+    gh.singleton<_i97.LocalizationCubit>(
+      () => _i97.LocalizationCubit(
+        gh<_i738.GetLanguageUseCase>(),
+        gh<_i476.SaveLanguageUseCase>(),
       ),
     );
     gh.factory<_i1010.RegisterUseCase>(
@@ -187,36 +234,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i785.ProgressRepository>(
       () => _i779.ProgressRepositoryImpl(gh<_i854.ProgressRemoteDataSource>()),
     );
-    gh.lazySingleton<_i960.LocalizationRepository>(
-      () => _i682.LocalizationRepositoryImpl(
-        gh<_i729.LocalizationLocalDataSource>(),
-      ),
-    );
-    gh.lazySingleton<_i959.SharedVideoRepository>(
-      () => _i676.SharedVideoRepositoryImpl(
-        remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
-      ),
-    );
     gh.factory<_i186.UpdateProfileUseCase>(
       () => _i186.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
-    );
-    gh.factory<_i552.GetVideosUseCase>(
-      () => _i552.GetVideosUseCase(gh<_i959.SharedVideoRepository>()),
-    );
-    gh.factory<_i294.HomeVideosBloc>(
-      () => _i294.HomeVideosBloc(gh<_i552.GetVideosUseCase>()),
     );
     gh.factory<_i690.RegisterBloc>(
       () => _i690.RegisterBloc(gh<_i1010.RegisterUseCase>()),
     );
     gh.factory<_i714.GetVideoDetailUseCase>(
       () => _i714.GetVideoDetailUseCase(gh<_i291.VideoDetailRepository>()),
-    );
-    gh.lazySingleton<_i738.GetLanguageUseCase>(
-      () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
-    );
-    gh.lazySingleton<_i476.SaveLanguageUseCase>(
-      () => _i476.SaveLanguageUseCase(gh<_i960.LocalizationRepository>()),
     );
     gh.lazySingleton<_i797.AuthBloc>(
       () => _i797.AuthBloc(
@@ -225,17 +250,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i477.GetMeUseCase>(),
       ),
     );
-    gh.factory<_i521.SoundSettingsCubit>(
-      () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
-    );
-    gh.factory<_i987.DiscoverBloc>(
-      () => _i987.DiscoverBloc(gh<_i552.GetVideosUseCase>()),
-    );
-    gh.singleton<_i97.LocalizationCubit>(
-      () => _i97.LocalizationCubit(
-        gh<_i738.GetLanguageUseCase>(),
-        gh<_i476.SaveLanguageUseCase>(),
-      ),
+    gh.factory<_i497.GetExerciseUseCase>(
+      () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
     );
     gh.lazySingleton<_i474.GetGamificationSummaryUseCase>(
       () => _i474.GetGamificationSummaryUseCase(gh<_i785.ProgressRepository>()),
@@ -247,6 +263,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1038.LoginUseCase>(),
         gh<_i131.SignOutUseCase>(),
       ),
+    );
+    gh.factory<_i67.ExerciseCubit>(
+      () => _i67.ExerciseCubit(gh<_i497.GetExerciseUseCase>()),
     );
     gh.factory<_i498.CefrSelectionCubit>(
       () => _i498.CefrSelectionCubit(gh<_i186.UpdateProfileUseCase>()),

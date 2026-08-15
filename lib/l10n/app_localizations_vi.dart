@@ -496,4 +496,31 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get progressLearningHistory => 'Lịch sử học tập';
+
+  @override
+  String get exerciseTitle => 'ĐANG LUYỆN';
+
+  @override
+  String get exerciseCorrect => 'Chính xác! 🎉';
+
+  @override
+  String get exerciseAlmost => 'Gần đúng!';
+
+  @override
+  String get exerciseHint => '💡 Gợi ý';
+
+  @override
+  String get exerciseContinue => 'Tiếp tục →';
+
+  @override
+  String get exerciseCheck => 'Kiểm tra';
+
+  @override
+  String get exercisePlayingVideo => 'Đang phát video...';
+
+  @override
+  String get exerciseCompleted => 'Hoàn thành bài tập!';
+
+  @override
+  String get viewVietnameseTranslation => 'Xem dịch tiếng Việt';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/features/video_detail/presentation/cubit/video_detail_cubit.dart';
@@ -160,10 +161,7 @@ class VideoDetailScreenView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                     child: BounceWrapper(
                       onTap: () {
-                        // TODO: Navigate to Practice screen
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Navigate to Practice screen for video ${video.id}')),
-                        );
+                        context.push('/exercise/${video.id}?cefr_level=${video.cefrLevel}&version_id=v1&youtube_video_id=${video.youtubeVideoId}&video_title=${Uri.encodeComponent(video.title)}');
                       },
                       child: Container(
                         width: double.infinity,

@@ -49,7 +49,7 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
         color: colors.textPrimary,
         fontSize: 16,
       ),
-      cursorColor: const Color(0xFF06B6D4),
+      cursorColor: colors.primaryAccent,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: GoogleFonts.nunito(
@@ -68,7 +68,7 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: const BorderSide(color: Color(0xFF06B6D4), width: 2.0),
+          borderSide: BorderSide(color: colors.primaryAccent, width: 2.0),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),

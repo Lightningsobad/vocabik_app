@@ -498,4 +498,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get progressLearningHistory => 'Learning history';
+
+  @override
+  String get exerciseTitle => 'PRACTICE';
+
+  @override
+  String get exerciseCorrect => 'Correct! 🎉';
+
+  @override
+  String get exerciseAlmost => 'Almost!';
+
+  @override
+  String get exerciseHint => '💡 Hint';
+
+  @override
+  String get exerciseContinue => 'Continue →';
+
+  @override
+  String get exerciseCheck => 'Check';
+
+  @override
+  String get exercisePlayingVideo => 'Playing video...';
+
+  @override
+  String get exerciseCompleted => 'Exercise completed!';
+
+  @override
+  String get viewVietnameseTranslation => 'View Vietnamese translation';
 }

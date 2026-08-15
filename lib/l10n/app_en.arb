@@ -231,5 +231,14 @@
   "progressYourProgress": "Your progress",
   "progressWeeklyXP": "Weekly XP",
   "progressAreasToImprove": "Areas to improve",
-  "progressLearningHistory": "Learning history"
+  "progressLearningHistory": "Learning history",
+  "exerciseTitle": "PRACTICE",
+  "exerciseCorrect": "Correct! 🎉",
+  "exerciseAlmost": "Almost!",
+  "exerciseHint": "💡 Hint",
+  "exerciseContinue": "Continue →",
+  "exerciseCheck": "Check",
+  "exercisePlayingVideo": "Playing video...",
+  "exerciseCompleted": "Exercise completed!",
+  "viewVietnameseTranslation": "View Vietnamese translation"
 }

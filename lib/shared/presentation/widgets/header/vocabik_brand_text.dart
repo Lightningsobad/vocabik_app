@@ -21,10 +21,10 @@ class VocabikBrandText extends StatelessWidget {
           const TextSpan(
             text: 'Vocab',
           ),
-          const TextSpan(
+          TextSpan(
             text: 'ik',
             style: TextStyle(
-              color: AppColors.accent, // Màu Cyan cho phần 'ik'
+              color: colors.primaryAccent, // Màu Primary Accent cho phần 'ik'
             ),
           ),
         ],

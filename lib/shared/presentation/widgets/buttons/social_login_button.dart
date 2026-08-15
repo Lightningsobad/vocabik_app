@@ -23,6 +23,7 @@ class SocialLoginButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         height: 48,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           color: colors?.surfaceCard ?? Colors.white,
           borderRadius: BorderRadius.circular(999),
@@ -33,15 +34,19 @@ class SocialLoginButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             icon,
             const SizedBox(width: 8),
-            Text(
-              text,
-              style: GoogleFonts.nunito(
-                color: colors?.textPrimary ?? Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
+            Flexible(
+              child: Text(
+                text,
+                style: GoogleFonts.nunito(
+                  color: colors?.textPrimary ?? Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -52,80 +51,75 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           maxScaleFactor: 1.1,
         ),
       ),
-      child: ClipRect(
-        child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // blur-md
-        child: Container(
-          height: AppSpacing.headerHeight + topPadding,
-          padding: EdgeInsets.only(
-            top: topPadding,
-            left: AppSpacing.lg,
-            right: AppSpacing.lg,
+      child: Container(
+        height: AppSpacing.headerHeight + topPadding,
+        padding: EdgeInsets.only(
+          top: topPadding,
+          left: AppSpacing.lg,
+          right: AppSpacing.lg,
+        ),
+        decoration: BoxDecoration(
+          color: colors.surfaceCard, // Flat design with solid surfaceCard background
+          border: Border(
+            bottom: BorderSide(
+              color: colors.borderSubtle,
+              width: 1.0,
+            ),
           ),
-            decoration: BoxDecoration(
-              color: colors.glassFill, // glass-fill
-              border: Border(
-                bottom: BorderSide(
-                  color: colors.borderSubtle, // border-subtle
-                  width: 1.0,
-                ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Left Section: Logo & Name
+            BounceWrapper(
+              onTap: onHomeTap,
+              child: const Row(
+                children: [
+                  VocabikLogo(),
+                  SizedBox(width: AppSpacing.sm),
+                  VocabikBrandText(),
+                ],
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Left Section: Logo & Name
-                BounceWrapper(
-                  onTap: onHomeTap,
-                  child: const Row(
-                    children: [
-                      VocabikLogo(),
-                      SizedBox(width: AppSpacing.sm),
-                      VocabikBrandText(),
-                    ],
-                  ),
-                ),
 
-                // Right Section: Stats & Actions
-                Wrap(
-                  spacing: AppSpacing.md,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    StatBadge(
-                      emoji: '🔥',
-                      valueText: streak.toString(),
-                      color: AppColors.streak, // streak color
-                    ),
-                    StatBadge(
-                      emoji: '⚡',
-                      valueText: _numberFormat.format(xp),
-                      color: AppColors.accent, // xp color
-                    ),
-                    HeaderCircleButton(
-                      text: displayLanguage,
-                      onTap: () {
-                        final newLang = currentLang == 'vi' ? 'en' : 'vi';
-                        context.read<LocalizationCubit>().changeLanguage(newLang);
-                      },
-                    ),
-                    HeaderCircleButton(
-                      text: isDarkMode ? '🌙' : '☀️',
-                      onTap: onThemeTap ?? () => context.read<ThemeCubit>().toggleTheme(),
-                    ),
-                    HeaderCircleButton(
-                      icon: Icon(
-                        LucideIcons.layoutGrid,
-                        size: 16,
-                        color: colors.textSecondary, // text-secondary
-                      ),
-                      onTap: onMenuTap ?? () {},
-                    ),
-                  ],
+            // Right Section: Stats & Actions
+            Wrap(
+              spacing: AppSpacing.md,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                StatBadge(
+                  emoji: '🔥',
+                  valueText: streak.toString(),
+                  color: AppColors.streak, // streak color
+                ),
+                StatBadge(
+                  emoji: '⚡',
+                  valueText: _numberFormat.format(xp),
+                  color: colors.primaryAccent, // xp color
+                ),
+                HeaderCircleButton(
+                  text: displayLanguage,
+                  onTap: () {
+                    final newLang = currentLang == 'vi' ? 'en' : 'vi';
+                    context.read<LocalizationCubit>().changeLanguage(newLang);
+                  },
+                ),
+                HeaderCircleButton(
+                  text: isDarkMode ? '🌙' : '☀️',
+                  onTap: onThemeTap ?? () => context.read<ThemeCubit>().toggleTheme(),
+                ),
+                HeaderCircleButton(
+                  icon: Icon(
+                    LucideIcons.layoutGrid,
+                    size: 16,
+                    color: colors.textSecondary,
+                  ),
+                  onTap: onMenuTap ?? () {},
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

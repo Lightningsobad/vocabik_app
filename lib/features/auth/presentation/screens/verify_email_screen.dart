@@ -128,7 +128,7 @@ class _VerifyEmailScreenViewState extends State<VerifyEmailScreenView> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
                       fontSize: 16,
-                      color: const Color(0xFF06B6D4), // Cyan color for the email text
+                      color: colors?.primaryAccent,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -146,7 +146,7 @@ class _VerifyEmailScreenViewState extends State<VerifyEmailScreenView> {
                           decoration: BoxDecoration(
                             color: state.countdown > 0 || state.status == VerifyEmailStatus.loading
                                 ? colors?.background
-                                : const Color(0xFF06B6D4),
+                                : colors?.primaryAccent,
                             borderRadius: BorderRadius.circular(AppRadius.full),
                             border: Border.all(
                               color: state.countdown > 0 || state.status == VerifyEmailStatus.loading
@@ -170,7 +170,7 @@ class _VerifyEmailScreenViewState extends State<VerifyEmailScreenView> {
                                     fontWeight: FontWeight.bold,
                                     color: state.countdown > 0
                                         ? colors?.textPrimary
-                                        : Colors.white,
+                                        : (colors?.onPrimaryAccent ?? Colors.white),
                                   ),
                                 ),
                         ),
@@ -195,7 +195,7 @@ class _VerifyEmailScreenViewState extends State<VerifyEmailScreenView> {
                             fontWeight: FontWeight.bold,
                             color: state.status == VerifyEmailStatus.loading
                                 ? Colors.grey
-                                : const Color(0xFF06B6D4),
+                                : colors?.primaryAccent,
                           ),
                         ),
                       );

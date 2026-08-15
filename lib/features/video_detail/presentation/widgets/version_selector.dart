@@ -54,10 +54,10 @@ class VersionSelector extends StatelessWidget {
         width: 100,
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF06B6D4).withValues(alpha: 0.1) : colors.surfaceCard,
+          color: isSelected ? colors.primaryAccent.withValues(alpha: 0.1) : colors.surfaceCard,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? const Color(0xFF06B6D4) : colors.borderSubtle,
+            color: isSelected ? colors.primaryAccent : colors.borderSubtle,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -76,7 +76,7 @@ class VersionSelector extends StatelessWidget {
                 ),
                 if (isLocked) ...[
                   const SizedBox(width: 4),
-                  Icon(Icons.lock, size: 14, color: const Color(0xFFF59E0B)),
+                  Icon(Icons.lock, size: 14, color: AppColors.streak),
                 ]
               ],
             ),
@@ -85,7 +85,7 @@ class VersionSelector extends StatelessWidget {
               subtitle,
               style: GoogleFonts.nunito(
                 fontSize: 12,
-                color: isLocked ? colors.textSecondary : (isSelected ? const Color(0xFF06B6D4) : colors.textSecondary),
+                color: isLocked ? colors.textSecondary : (isSelected ? colors.primaryAccent : colors.textSecondary),
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

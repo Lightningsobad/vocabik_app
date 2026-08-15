@@ -40,7 +40,7 @@ class EmailPasswordForm extends StatelessWidget {
             color: colors?.textPrimary,
             fontSize: 16,
           ),
-          cursorColor: const Color(0xFF06B6D4),
+          cursorColor: colors?.primaryAccent,
           decoration: InputDecoration(
             hintText: 'Email của bạn',
             hintStyle: GoogleFonts.nunito(color: colors?.textSecondary),
@@ -57,7 +57,7 @@ class EmailPasswordForm extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadius.md),
-              borderSide: const BorderSide(color: Color(0xFF06B6D4), width: 2.0),
+              borderSide: BorderSide(color: colors?.primaryAccent ?? const Color(0xFF0891B2), width: 2.0),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadius.md),

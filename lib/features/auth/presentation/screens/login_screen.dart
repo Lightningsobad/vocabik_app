@@ -60,11 +60,11 @@ class _LoginViewState extends State<LoginView> {
               child: Container(
                 width: 300,
                 height: 300,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      Color(0x3306B6D4), // Cyan glow
+                      (colors?.primaryAccent ?? const Color(0xFF00E5CC)).withValues(alpha: 0.2), // Accent glow
                       Colors.transparent,
                     ],
                   ),
@@ -227,9 +227,9 @@ class _LoginViewState extends State<LoginView> {
                             onPressed: () {},
                             child: Text(
                               l10n.forgotPassword,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.accent,
+                                color: colors?.primaryAccent,
                               ),
                             ),
                           ),
@@ -241,7 +241,6 @@ class _LoginViewState extends State<LoginView> {
                           builder: (context, state) {
                             return PrimaryButton(
                               text: l10n.actionLogin,
-                              textColor: AppColors.ink950,
                               isLoading: state.status == AuthStatus.loading,
                               onPressed: () => context.read<AuthBloc>().add(
                                 const LoginSubmitted(),
@@ -250,8 +249,9 @@ class _LoginViewState extends State<LoginView> {
                           },
                         ),
                         const SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             Text(
                               l10n.noAccount,
@@ -261,9 +261,9 @@ class _LoginViewState extends State<LoginView> {
                               onPressed: () => context.go('/register'),
                               child: Text(
                                 l10n.signUpFreeAction,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.accent,
+                                  color: colors?.primaryAccent,
                                 ),
                               ),
                             ),

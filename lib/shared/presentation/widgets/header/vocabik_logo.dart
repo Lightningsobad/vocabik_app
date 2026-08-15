@@ -8,6 +8,8 @@ class VocabikLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+
     return Container(
       width: size,
       height: size,
@@ -19,10 +21,10 @@ class VocabikLogo extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Biểu tượng nút play màu Cyan
+          // Biểu tượng nút play màu Primary Accent
           Icon(
             Icons.play_arrow_rounded,
-            color: AppColors.accent, // Màu Cyan
+            color: colors.primaryAccent,
             size: size * 0.66,
           ),
           // Đường gạch dưới màu Tím

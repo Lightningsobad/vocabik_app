@@ -59,14 +59,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     children: [
                       Icon(
                         item.icon,
-                        color: isSelected ? AppColors.accent : colors.textSecondary,
+                        color: isSelected ? colors.navSelected : colors.navUnselected,
                         size: 24.0,
                       ),
                       const SizedBox(height: 4.0),
                       Text(
                         item.label,
                         style: GoogleFonts.nunito(
-                          color: isSelected ? AppColors.accent : colors.textSecondary,
+                          color: isSelected ? colors.navSelected : colors.navUnselected,
                           fontWeight: FontWeight.bold,
                           fontSize: 12.0,
                         ),
