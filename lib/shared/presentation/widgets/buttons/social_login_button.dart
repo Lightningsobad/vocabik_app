@@ -18,17 +18,17 @@ class SocialLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>();
-    
+
     return BounceWrapper(
       onTap: onPressed,
       child: Container(
         height: 48,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: colors?.surfaceCard ?? Colors.white,
+          color: colors?.socialBackground ?? Colors.white,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-            color: colors?.borderSubtle ?? Colors.grey.shade300,
+            color: colors?.socialBorder ?? Colors.grey.shade300,
           ),
         ),
         alignment: Alignment.center,
@@ -44,7 +44,7 @@ class SocialLoginButton extends StatelessWidget {
                 style: GoogleFonts.nunito(
                   color: colors?.textPrimary ?? Colors.black,
                   fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),

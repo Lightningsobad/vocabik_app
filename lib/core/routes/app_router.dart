@@ -16,7 +16,8 @@ import '../../features/video_detail/presentation/screens/video_detail_screen.dar
 import '../../features/exercise/presentation/screens/exercise_screen.dart';
 import '../di/injection.dart';
 
-// TODO: Thay thế bằng các màn hình thật trong tương lai
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
+
 class PlaceholderScreen extends StatelessWidget {
   final String title;
   const PlaceholderScreen({super.key, required this.title});
@@ -35,17 +36,39 @@ final GoRouter appRouter = GoRouter(
   redirect: (context, state) {
     final localDataSource = getIt<AuthLocalDataSource>();
     final isLoggedIn = localDataSource.getAccessToken() != null;
-    
+
     // Allowed routes for unauthenticated users
     final unauthRoutes = ['/login', '/register', '/verify-email'];
     final isUnauthRoute = unauthRoutes.contains(state.matchedLocation);
-    
+
     if (!isLoggedIn && !isUnauthRoute) {
       return '/login';
     }
-    
-    if (isLoggedIn && isUnauthRoute) {
-      return '/home';
+
+    if (isLoggedIn) {
+      final authBloc = getIt<AuthBloc>();
+      final user = authBloc.state.user;
+
+      // 1. Check if email is verified
+      if (user != null && !user.emailVerified) {
+        if (state.matchedLocation != '/verify-email') {
+          return '/verify-email';
+        }
+        return null;
+      }
+
+      // 2. Check if CEFR level is selected or skipped
+      final hasSkippedCefr = localDataSource.isCefrSkipped();
+      if (!hasSkippedCefr && user != null && user.cefrLevel == null) {
+        if (state.matchedLocation != '/cefr-selection') {
+          return '/cefr-selection';
+        }
+        return null;
+      }
+
+      if (isUnauthRoute) {
+        return '/home';
+      }
     }
 
     return null;
@@ -53,14 +76,12 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const PlaceholderScreen(title: 'Splash Screen'),
+      builder: (context, state) =>
+          const PlaceholderScreen(title: 'Splash Screen'),
       // Redirect to /home from splash for now to see the navigation bar
       redirect: (context, state) => '/home',
     ),
-    GoRoute(
-      path: '/login',
-      builder: (context, state) => const LoginScreen(),
-    ),
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(
       path: '/register',
       builder: (context, state) => const RegisterScreen(),
@@ -69,9 +90,17 @@ final GoRouter appRouter = GoRouter(
       path: '/verify-email',
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>? ?? {};
+        final token =
+            extra['token'] as String? ?? state.uri.queryParameters['token'];
+        final email =
+            extra['email'] as String? ??
+            state.uri.queryParameters['email'] ??
+            '';
+        final password = extra['password'] as String? ?? '';
         return VerifyEmailScreen(
-          email: extra['email'] as String? ?? 'an.nguyen@gmail.com',
-          password: extra['password'] as String? ?? '',
+          email: email,
+          password: password,
+          token: token,
         );
       },
     ),
@@ -93,7 +122,8 @@ final GoRouter appRouter = GoRouter(
         // Assuming we pass cefr_level and version_id as query params or default them
         final cefrLevel = state.uri.queryParameters['cefr_level'] ?? 'B1';
         final versionId = state.uri.queryParameters['version_id'] ?? 'v1';
-        final youtubeVideoId = state.uri.queryParameters['youtube_video_id'] ?? '';
+        final youtubeVideoId =
+            state.uri.queryParameters['youtube_video_id'] ?? '';
         final videoTitle = state.uri.queryParameters['video_title'] ?? '';
         return ExerciseScreen(
           videoId: videoId,
@@ -106,7 +136,8 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: '/player',
-      builder: (context, state) => const PlaceholderScreen(title: 'Player Screen'),
+      builder: (context, state) =>
+          const PlaceholderScreen(title: 'Player Screen'),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

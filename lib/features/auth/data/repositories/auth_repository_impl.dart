@@ -108,10 +108,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> verifyEmail(String token) async {
+  Future<Either<Failure, User>> verifyEmail(String token) async {
     try {
-      await _remoteDataSource.verifyEmail(token);
-      return right(null);
+      final response = await _remoteDataSource.verifyEmail(token);
+      await _localDataSource.saveTokens(
+        response.accessToken,
+        response.refreshToken,
+      );
+      return right(response.user);
     } on NetworkException {
       return left(
         const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
@@ -136,6 +140,16 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     } catch (e) {
       return left(const ServerFailure('Lỗi hệ thống không xác định.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> setCefrSkipped(bool value) async {
+    try {
+      await _localDataSource.setCefrSkipped(value);
+      return right(null);
+    } catch (e) {
+      return left(const CacheFailure('Không thể lưu trạng thái.'));
     }
   }
 }

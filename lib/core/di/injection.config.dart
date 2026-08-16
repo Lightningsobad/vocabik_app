@@ -26,10 +26,13 @@ import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
 import '../../features/auth/domain/use_cases/register_use_case.dart' as _i1010;
 import '../../features/auth/domain/use_cases/resend_email_use_case.dart'
     as _i518;
+import '../../features/auth/domain/use_cases/set_cefr_skipped_use_case.dart'
+    as _i773;
 import '../../features/auth/domain/use_cases/sign_out_use_case.dart' as _i131;
 import '../../features/auth/domain/use_cases/verify_email_use_case.dart'
     as _i421;
 import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
+import '../../features/auth/presentation/bloc/login_cubit.dart' as _i281;
 import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
 import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
@@ -219,6 +222,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i518.ResendEmailUseCase>(
       () => _i518.ResendEmailUseCase(gh<_i787.AuthRepository>()),
     );
+    gh.factory<_i773.SetCefrSkippedUseCase>(
+      () => _i773.SetCefrSkippedUseCase(gh<_i787.AuthRepository>()),
+    );
     gh.factory<_i131.SignOutUseCase>(
       () => _i131.SignOutUseCase(gh<_i787.AuthRepository>()),
     );
@@ -237,18 +243,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i186.UpdateProfileUseCase>(
       () => _i186.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
     );
+    gh.factory<_i498.CefrSelectionCubit>(
+      () => _i498.CefrSelectionCubit(
+        gh<_i186.UpdateProfileUseCase>(),
+        gh<_i773.SetCefrSkippedUseCase>(),
+      ),
+    );
     gh.factory<_i690.RegisterBloc>(
       () => _i690.RegisterBloc(gh<_i1010.RegisterUseCase>()),
     );
+    gh.lazySingleton<_i797.AuthBloc>(
+      () =>
+          _i797.AuthBloc(gh<_i131.SignOutUseCase>(), gh<_i477.GetMeUseCase>()),
+    );
     gh.factory<_i714.GetVideoDetailUseCase>(
       () => _i714.GetVideoDetailUseCase(gh<_i291.VideoDetailRepository>()),
-    );
-    gh.lazySingleton<_i797.AuthBloc>(
-      () => _i797.AuthBloc(
-        gh<_i1038.LoginUseCase>(),
-        gh<_i131.SignOutUseCase>(),
-        gh<_i477.GetMeUseCase>(),
-      ),
     );
     gh.factory<_i497.GetExerciseUseCase>(
       () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
@@ -256,19 +265,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i474.GetGamificationSummaryUseCase>(
       () => _i474.GetGamificationSummaryUseCase(gh<_i785.ProgressRepository>()),
     );
+    gh.factory<_i67.ExerciseCubit>(
+      () => _i67.ExerciseCubit(gh<_i497.GetExerciseUseCase>()),
+    );
     gh.factory<_i219.VerifyEmailCubit>(
       () => _i219.VerifyEmailCubit(
         gh<_i421.VerifyEmailUseCase>(),
         gh<_i518.ResendEmailUseCase>(),
         gh<_i1038.LoginUseCase>(),
-        gh<_i131.SignOutUseCase>(),
+        gh<_i797.AuthBloc>(),
       ),
     );
-    gh.factory<_i67.ExerciseCubit>(
-      () => _i67.ExerciseCubit(gh<_i497.GetExerciseUseCase>()),
-    );
-    gh.factory<_i498.CefrSelectionCubit>(
-      () => _i498.CefrSelectionCubit(gh<_i186.UpdateProfileUseCase>()),
+    gh.factory<_i281.LoginCubit>(
+      () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),
     );
     gh.factory<_i748.ProgressCubit>(
       () => _i748.ProgressCubit(

@@ -12,6 +12,9 @@ class PasswordInputWidget extends StatefulWidget {
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
   final String? errorText;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const PasswordInputWidget({
     super.key,
@@ -20,6 +23,9 @@ class PasswordInputWidget extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.errorText,
+    this.focusNode,
+    this.textInputAction,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -42,6 +48,9 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
 
     return TextFormField(
       controller: widget.controller,
+      focusNode: widget.focusNode,
+      textInputAction: widget.textInputAction,
+      onFieldSubmitted: widget.onFieldSubmitted,
       obscureText: _obscureText,
       validator: widget.validator,
       onChanged: widget.onChanged,
@@ -53,18 +62,18 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: GoogleFonts.nunito(
-          color: colors.textSecondary,
+          color: colors.hintText,
         ),
         filled: true,
-        fillColor: colors.background,
+        fillColor: colors.inputBackground,
         errorText: widget.errorText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: colors.borderSubtle),
+          borderSide: BorderSide(color: colors.inputBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: colors.borderSubtle),
+          borderSide: BorderSide(color: colors.inputBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -74,7 +83,11 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
           borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: BorderSide(color: colors.danger),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: colors.danger, width: 2.0),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 12.0),
         suffixIcon: Padding(
           padding: const EdgeInsets.only(right: AppSpacing.sm),
           child: BounceWrapper(

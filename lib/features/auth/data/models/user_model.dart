@@ -23,7 +23,7 @@ class UserModel extends User {
       tier: (json['tier'] ?? 'free') as String,
       emailVerified: (json['emailVerified'] ?? false) as bool,
       role: json['role'] as String?,
-      subscription: json['subscription'],
+      subscription: json['subscription'] != null ? json['subscription'] as Map<String, dynamic> : null,
       cefrLevel: json['cefrLevel'] as String?,
       hintMode: json['hintMode'] as String?,
       createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt'].toString()) : null,

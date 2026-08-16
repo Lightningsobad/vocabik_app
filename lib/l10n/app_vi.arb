@@ -164,7 +164,7 @@
   "signUpWithGoogle": "Đăng ký với Google",
   "orText": "hoặc",
   "yourName": "Tên của bạn",
-  "emailHint": "Email",
+  "emailHint": "Email của bạn",
   "passwordHint": "Mật khẩu",
   "passwordStrengthNone": "Chưa có",
   "passwordStrengthWeak": "Yếu",
@@ -172,6 +172,8 @@
   "passwordStrengthStrong": "Mạnh",
   "signUpTerms": "Bằng cách đăng ký, bạn đồng ý Điều khoản & Bảo mật",
   "alreadyHaveAccount": "Đã có tài khoản? Đăng nhập →",
+  "alreadyHaveAccountPrompt": "Đã có tài khoản? ",
+  "loginActionLink": "Đăng nhập →",
   "checkYourEmail": "Kiểm tra email của bạn",
   "checkEmailSubtitle": "Chúng tôi đã gửi đến:\n{email}",
   "@checkEmailSubtitle": {
@@ -189,8 +191,9 @@
       }
     }
   },
+  "resendEmail": "Gửi lại email",
   "iHaveVerified": "Tôi đã xác thực → tiếp tục",
-  "spamCheckTip": "💡 Không thấy email? Kiểm tra thư mục Spam.",
+  "spamCheckTip": "Không thấy email? Kiểm tra thư mục Spam.",
   "whereIsYourEnglish": "Tiếng Anh của bạn hiện ở đâu?",
   "weWillSuggest": "Chúng tôi sẽ gợi ý bài phù hợp nhất với bạn.",
   "levelA1A2": "A1–A2",
@@ -240,5 +243,17 @@
   "exerciseCheck": "Kiểm tra",
   "exercisePlayingVideo": "Đang phát video...",
   "exerciseCompleted": "Hoàn thành bài tập!",
-  "viewVietnameseTranslation": "Xem dịch tiếng Việt"
+  "viewVietnameseTranslation": "Xem dịch tiếng Việt",
+  "nameCannotBeEmpty": "Tên không được để trống",
+  "termsText": "Điều khoản",
+  "securityText": "Bảo mật",
+  "signUpTermsPrefix": "Bằng cách đăng ký, bạn đồng ý ",
+  "signUpTermsAnd": " & ",
+  "verifySuccessRedirect": "Xác thực thành công. Đang chuyển hướng...",
+  "verifyFailed": "Xác thực thất bại",
+  "updateFailed": "Cập nhật thất bại",
+  "invalidToken": "Token không hợp lệ hoặc đã hết hạn.",
+  "networkError": "Không có kết nối mạng. Vui lòng kiểm tra lại.",
+  "serverError": "Lỗi máy chủ, vui lòng thử lại sau.",
+  "userAlreadyExists": "Tài khoản đã tồn tại."
 }
