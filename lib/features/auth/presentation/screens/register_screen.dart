@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:vocabik_app/l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:vocabik_app/shared/theme/app_colors.dart';
-import 'package:vocabik_app/shared/theme/app_spacing.dart';
-import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
-import 'package:vocabik_app/shared/presentation/widgets/inputs/password_input_widget.dart';
-import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/register_bloc.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/register_event.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/register_state.dart';
+import 'package:vocabik_app/features/auth/presentation/utils/auth_validation_helper.dart';
+import 'package:vocabik_app/features/auth/presentation/widgets/auth_footer_link.dart';
+import 'package:vocabik_app/features/auth/presentation/widgets/auth_form.dart';
+import 'package:vocabik_app/features/auth/presentation/widgets/auth_scaffold.dart';
 import 'package:vocabik_app/features/auth/presentation/widgets/password_strength_indicator.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/widgets/auth/auth_card_wrapper.dart';
+import 'package:vocabik_app/shared/presentation/widgets/auth/auth_divider.dart';
+import 'package:vocabik_app/shared/presentation/widgets/buttons/primary_button.dart';
+import 'package:vocabik_app/shared/presentation/widgets/buttons/social_login_button.dart';
+import 'package:vocabik_app/shared/presentation/widgets/header/vocabik_logo.dart';
+import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -40,21 +45,6 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
   final _passwordController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    _nameController.addListener(() {
-      context.read<RegisterBloc>().add(RegisterDisplayNameChanged(_nameController.text));
-    });
-    _emailController.addListener(() {
-      context.read<RegisterBloc>().add(RegisterEmailChanged(_emailController.text));
-    });
-    _passwordController.addListener(() {
-      final password = _passwordController.text;
-      context.read<RegisterBloc>().add(RegisterPasswordChanged(password));
-    });
-  }
-
-  @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
@@ -62,270 +52,197 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
     super.dispose();
   }
 
+  void _submit() {
+    context.read<RegisterBloc>().add(const RegisterSubmitted());
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>();
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocListener<RegisterBloc, RegisterState>(
-      listener: (context, state) {
-        if (state.status == RegisterStatus.failure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? 'Registration failed')),
-            );
-        } else if (state.status == RegisterStatus.success) {
-          context.push('/verify-email', extra: {
-            'email': state.email.value,
-            'password': state.password.value,
-          });
-        }
-      },
-      child: Scaffold(
-        backgroundColor: colors?.background,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.xl),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-              const SizedBox(height: AppSpacing.xl3),
-              // App Logo placeholder (Play button icon in the UI)
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: colors?.surfaceCard,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    size: 32,
-                    color: colors?.primaryAccent,
+    return AuthScaffold(
+      body: BlocListener<RegisterBloc, RegisterState>(
+        listenWhen: (previous, current) =>
+            previous.status != current.status,
+        listener: (context, state) {
+          if (state.status == RegisterStatus.failure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.errorMessage ?? l10n.authGenericError,
                   ),
                 ),
+              );
+          } else if (state.status == RegisterStatus.success) {
+            context.push('/verify-email', extra: {
+              'email': state.email.value,
+              'password': state.password.value,
+            });
+          }
+        },
+        child: AuthCardWrapper(
+          children: [
+            // Logo
+            const Center(child: VocabikLogo(size: 48)),
+            const SizedBox(height: 12),
+
+            // Titles
+            Text(
+              l10n.createFreeAccount,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.nunito(
+                fontSize: AppFontSize.xl4,
+                fontWeight: FontWeight.w900,
               ),
-              const SizedBox(height: AppSpacing.xl),
-              Text(
-                l10n.createFreeAccount,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: colors?.textPrimary,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              l10n.startLearningToday,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.nunito(
+                fontSize: 14,
+                color: colors?.textSecondary,
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Social Sign Up
+            SocialLoginButton(
+              text: l10n.signUpWithGoogle,
+              icon: const Text(
+                'G',
+                style: TextStyle(
+                  color: Color(0xFF4285F4),
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w900,
+                  fontSize: 17,
                 ),
               ),
-              const SizedBox(height: 8),
-              Text(
-                l10n.startLearningToday,
-                textAlign: TextAlign.center,
+              onPressed: () {
+                // TODO: Implement Google Sign Up
+              },
+            ),
+            const SizedBox(height: 18),
+
+            // Divider
+            const AuthDivider(),
+            const SizedBox(height: 18),
+
+            // Form
+            BlocBuilder<RegisterBloc, RegisterState>(
+              buildWhen: (previous, current) =>
+                  previous.displayName != current.displayName ||
+                  previous.email != current.email ||
+                  previous.password != current.password,
+              builder: (context, state) {
+                return AuthForm(
+                  showNameField: true,
+                  nameController: _nameController,
+                  emailController: _emailController,
+                  passwordController: _passwordController,
+                  nameError: AuthValidationHelper.getDisplayNameError(
+                    context,
+                    state.displayName,
+                  ),
+                  emailError: AuthValidationHelper.getEmailError(
+                    context,
+                    state.email,
+                  ),
+                  passwordError: AuthValidationHelper.getPasswordError(
+                    context,
+                    state.password,
+                  ),
+                  onNameChanged: (value) => context
+                      .read<RegisterBloc>()
+                      .add(RegisterDisplayNameChanged(value)),
+                  onEmailChanged: (value) => context
+                      .read<RegisterBloc>()
+                      .add(RegisterEmailChanged(value)),
+                  onPasswordChanged: (value) => context
+                      .read<RegisterBloc>()
+                      .add(RegisterPasswordChanged(value)),
+                  onSubmitted: _submit,
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+
+            // Password Strength Indicator
+            BlocBuilder<RegisterBloc, RegisterState>(
+              buildWhen: (previous, current) =>
+                  previous.passwordStrength != current.passwordStrength,
+              builder: (context, state) {
+                return PasswordStrengthIndicator(
+                  strength: state.passwordStrength,
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+
+            // Submit Button
+            BlocBuilder<RegisterBloc, RegisterState>(
+              buildWhen: (previous, current) =>
+                  previous.status != current.status,
+              builder: (context, state) {
+                return PrimaryButton(
+                  text: l10n.actionSignUp,
+                  isLoading: state.status == RegisterStatus.loading,
+                  onPressed: _submit,
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+
+            // Terms & Security Notice
+            Text.rich(
+              TextSpan(
+                text: l10n.signUpTermsPrefix,
                 style: GoogleFonts.nunito(
-                  fontSize: 16,
+                  fontSize: 12,
                   color: colors?.textSecondary,
                 ),
-              ),
-              const SizedBox(height: AppSpacing.xl3),
-
-              // Google Sign Up Placeholder
-              BounceWrapper(
-                onTap: () {
-                  // TODO: Implement Google Sign Up
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  decoration: BoxDecoration(
-                    color: colors?.surfaceCard,
-                    borderRadius: BorderRadius.circular(AppRadius.full),
-                    border: Border.all(color: colors?.borderSubtle ?? Colors.grey.shade300),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.g_mobiledata, size: 24), // Placeholder for Google Icon
-                      const SizedBox(width: 8),
-                      Text(
-                        l10n.signUpWithGoogle,
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: colors?.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: AppSpacing.xl),
-              
-              // Divider
-              Row(
                 children: [
-                  Expanded(child: Divider(color: colors?.borderSubtle)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      l10n.orText,
-                      style: GoogleFonts.nunito(
-                        color: colors?.textSecondary,
-                        fontSize: 14,
-                      ),
+                  TextSpan(
+                    text: l10n.termsText,
+                    style: TextStyle(
+                      color: colors?.primaryAccent,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Expanded(child: Divider(color: colors?.borderSubtle)),
+                  TextSpan(
+                    text: l10n.signUpTermsAnd,
+                    style: TextStyle(color: colors?.textSecondary),
+                  ),
+                  TextSpan(
+                    text: l10n.securityText,
+                    style: TextStyle(
+                      color: colors?.primaryAccent,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ],
               ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
 
-              const SizedBox(height: AppSpacing.xl),
-
-              // Registration Form
-              Container(
-                decoration: BoxDecoration(
-                  color: colors?.surfaceCard,
-                  borderRadius: BorderRadius.circular(AppRadius.xl),
-                  border: Border.all(color: colors?.borderSubtle ?? Colors.transparent),
-                ),
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildTextField(
-                      controller: _nameController,
-                      hintText: l10n.yourName,
-                      colors: colors,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    _buildTextField(
-                      controller: _emailController,
-                      hintText: l10n.emailHint,
-                      keyboardType: TextInputType.emailAddress,
-                      colors: colors,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    PasswordInputWidget(
-                      controller: _passwordController,
-                      hintText: l10n.passwordHint,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    BlocBuilder<RegisterBloc, RegisterState>(
-                      buildWhen: (previous, current) => previous.passwordStrength != current.passwordStrength,
-                      builder: (context, state) {
-                        return PasswordStrengthIndicator(strength: state.passwordStrength);
-                      },
-                    ),
-                    const SizedBox(height: AppSpacing.xl),
-                    
-                    BlocBuilder<RegisterBloc, RegisterState>(
-                      buildWhen: (previous, current) => previous.status != current.status || previous.formStatus != current.formStatus,
-                      builder: (context, state) {
-                        final isValid = state.formStatus == FormzSubmissionStatus.success;
-                        final isLoading = state.status == RegisterStatus.loading;
-
-                        return BounceWrapper(
-                          onTap: isValid && !isLoading
-                              ? () => context.read<RegisterBloc>().add(const RegisterSubmitted())
-                              : () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            decoration: BoxDecoration(
-                              color: isValid ? (colors?.primaryAccent ?? const Color(0xFF0891B2)) : Colors.grey,
-                              borderRadius: BorderRadius.circular(AppRadius.full),
-                            ),
-                            alignment: Alignment.center,
-                            child: isLoading
-                                ? SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(color: colors?.onPrimaryAccent ?? Colors.white, strokeWidth: 2),
-                                  )
-                                : Text(
-                                    l10n.actionSignUp,
-                                    style: GoogleFonts.nunito(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: colors?.onPrimaryAccent ?? Colors.white,
-                                    ),
-                                  ),
-                          ),
-                        );
-                      },
-                    ),
-                    
-                    const SizedBox(height: AppSpacing.lg),
-                    
-                    Text(
-                      l10n.signUpTerms,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.nunito(
-                        fontSize: 12,
-                        color: colors?.textSecondary,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: AppSpacing.lg),
-                    
-                    BounceWrapper(
-                      onTap: () {
-                        if (context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.go('/login');
-                        }
-                      },
-                      child: Text(
-                        l10n.alreadyHaveAccount,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: colors?.primaryAccent,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            // Already have an account? Log in ->
+            AuthFooterLink(
+              promptText: l10n.alreadyHaveAccountPrompt,
+              actionText: l10n.loginActionLink,
+              onTap: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go('/login');
+                }
+              },
+            ),
+          ],
         ),
-      ),
-    ));
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    TextInputType keyboardType = TextInputType.text,
-    AppColorsExtension? colors,
-  }) {
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      style: GoogleFonts.nunito(
-        color: colors?.textPrimary,
-        fontSize: 16,
-      ),
-      cursorColor: colors?.primaryAccent,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: GoogleFonts.nunito(color: colors?.textSecondary),
-        filled: true,
-        fillColor: colors?.background,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: colors?.borderSubtle ?? Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: colors?.borderSubtle ?? Colors.grey.shade300),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: colors?.primaryAccent ?? const Color(0xFF0891B2), width: 2.0),
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
       ),
     );
   }

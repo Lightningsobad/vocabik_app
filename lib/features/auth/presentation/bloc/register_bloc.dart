@@ -8,7 +8,7 @@ import 'register_state.dart';
 import '../models/email_input.dart';
 import '../models/password_input.dart';
 import '../models/display_name_input.dart';
-import '../widgets/password_strength_indicator.dart';
+import '../models/password_strength.dart';
 import '../../domain/use_cases/register_use_case.dart';
 
 EventTransformer<Event> debounce<Event>(Duration duration) {
@@ -36,22 +36,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   PasswordStrength _evaluatePasswordStrength(String password) {
-    if (password.isEmpty) return PasswordStrength.none;
+    if (password.length < 6) return PasswordStrength.none;
     if (password.length < 8) return PasswordStrength.weak;
-
-    final hasLetters = password.contains(RegExp(r'[a-zA-Z]'));
-    final hasNumbers = password.contains(RegExp(r'[0-9]'));
-    final hasSpecialCharacters = password.contains(
-      RegExp(r'[!@#$%^&*(),.?":{}|<>]'),
-    );
-
-    if (hasLetters && hasNumbers && hasSpecialCharacters) {
-      return PasswordStrength.strong;
-    } else if (hasLetters && hasNumbers) {
-      return PasswordStrength.medium;
-    } else {
-      return PasswordStrength.weak;
-    }
+    if (password.length <= 10) return PasswordStrength.medium;
+    return PasswordStrength.strong;
   }
 
   void _onDisplayNameChanged(
@@ -105,12 +93,24 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterSubmitted event,
     Emitter<RegisterState> emit,
   ) async {
-    if (state.formStatus != FormzSubmissionStatus.success &&
-        Formz.validate([state.displayName, state.email, state.password])) {
-      return;
-    }
+    final displayName = DisplayNameInput.dirty(state.displayName.value);
+    final email = EmailInput.dirty(state.email.value);
+    final password = PasswordInput.dirty(state.password.value);
 
-    emit(state.copyWith(status: RegisterStatus.loading));
+    final isValid = Formz.validate([displayName, email, password]);
+    emit(
+      state.copyWith(
+        displayName: displayName,
+        email: email,
+        password: password,
+        formStatus: isValid
+            ? FormzSubmissionStatus.success
+            : FormzSubmissionStatus.initial,
+        status: isValid ? RegisterStatus.loading : RegisterStatus.initial,
+      ),
+    );
+
+    if (!isValid) return;
 
     final result = await _registerUseCase(
       RegisterParams(

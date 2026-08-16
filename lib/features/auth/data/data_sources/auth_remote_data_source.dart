@@ -14,7 +14,7 @@ abstract class AuthRemoteDataSource {
   Future<UserModel> getMe({CancelToken? cancelToken});
   Future<void> signOut({CancelToken? cancelToken});
   Future<void> register(RegisterRequestModel request, {CancelToken? cancelToken});
-  Future<void> verifyEmail(String token, {CancelToken? cancelToken});
+  Future<AuthResponseModel> verifyEmail(String token, {CancelToken? cancelToken});
   Future<void> resendVerificationEmail(String email, {CancelToken? cancelToken});
 }
 
@@ -69,9 +69,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (e is DioException) {
         final statusCode = e.response?.statusCode;
         if (statusCode == 401) {
-          throw const ServerException('Phiên đăng nhập hết hạn.');
+          throw const ServerException('Session expired');
         } else if (statusCode != null && statusCode >= 500) {
-          throw const ServerException('Lỗi máy chủ, vui lòng thử lại sau.');
+          throw const ServerException('Server error');
         }
       }
       throw const NetworkException();
@@ -102,7 +102,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (e is DioException) {
         final statusCode = e.response?.statusCode;
         if (statusCode == 409) {
-          throw const ServerException(); // Or UserAlreadyExistsException if created
+          throw const ServerException('User already exists');
         }
       }
       throw const NetworkException();
@@ -110,18 +110,27 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> verifyEmail(String token, {CancelToken? cancelToken}) async {
+  Future<AuthResponseModel> verifyEmail(String token, {CancelToken? cancelToken}) async {
     try {
-      await _dio.get(
+      final response = await _dio.get(
         '/auth/verify-email',
         queryParameters: {'token': token},
+        options: Options(
+          headers: {
+            'accept': '*/*',
+            'x-client-type': 'mobile',
+          },
+        ),
         cancelToken: cancelToken,
       );
+      return await compute(_parseAuthResponse, response.data as Map<String, dynamic>);
     } catch (e) {
       if (e is DioException) {
         final statusCode = e.response?.statusCode;
         if (statusCode == 400 || statusCode == 401) {
-          throw const ServerException(); // Or InvalidTokenException
+          throw const ServerException('Invalid or expired token');
+        } else if (statusCode != null && statusCode >= 500) {
+          throw const ServerException('Server error');
         }
       }
       throw const NetworkException();

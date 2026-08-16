@@ -332,7 +332,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yourName => 'Your name';
 
   @override
-  String get emailHint => 'Email';
+  String get emailHint => 'Your email';
 
   @override
   String get passwordHint => 'Password';
@@ -356,6 +356,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alreadyHaveAccount => 'Already have an account? Log in →';
 
   @override
+  String get alreadyHaveAccountPrompt => 'Already have an account? ';
+
+  @override
+  String get loginActionLink => 'Log in →';
+
+  @override
   String get checkYourEmail => 'Check your email';
 
   @override
@@ -365,22 +371,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String resendIn(int seconds) {
-    return 'Resend in $seconds seconds';
+    return 'Resend in ${seconds}s';
   }
 
   @override
-  String get iHaveVerified => 'I have verified → continue';
+  String get resendEmail => 'Resend email';
 
   @override
-  String get spamCheckTip =>
-      '💡 Can\'t find the email? Check your Spam folder.';
+  String get iHaveVerified => 'I\'ve verified → continue';
 
   @override
-  String get whereIsYourEnglish => 'Where is your English at?';
+  String get spamCheckTip => 'Don\'t see it? Check your Spam folder.';
 
   @override
-  String get weWillSuggest =>
-      'We will suggest the most suitable lessons for you.';
+  String get whereIsYourEnglish => 'Where is your English right now?';
+
+  @override
+  String get weWillSuggest => 'We\'ll suggest the exercises that fit you best.';
 
   @override
   String get levelA1A2 => 'A1–A2';
@@ -392,7 +399,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get levelB1 => 'B1';
 
   @override
-  String get levelB1Desc => 'Elementary';
+  String get levelB1Desc => 'Basic';
 
   @override
   String get levelB2 => 'B2';
@@ -482,10 +489,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionLogin => 'Log in';
 
   @override
-  String get noAccount => 'Don\'t have an account? ';
+  String get noAccount => 'No account yet? ';
 
   @override
-  String get signUpFreeAction => 'Sign up for free →';
+  String get signUpFreeAction => 'Sign up free →';
 
   @override
   String get progressYourProgress => 'Your progress';
@@ -525,4 +532,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewVietnameseTranslation => 'View Vietnamese translation';
+
+  @override
+  String get nameCannotBeEmpty => 'Name cannot be empty';
+
+  @override
+  String get termsText => 'Terms';
+
+  @override
+  String get securityText => 'Security';
+
+  @override
+  String get signUpTermsPrefix => 'By signing up, you agree to ';
+
+  @override
+  String get signUpTermsAnd => ' & ';
+
+  @override
+  String get verifySuccessRedirect => 'Verification successful. Redirecting...';
+
+  @override
+  String get verifyFailed => 'Verification failed';
+
+  @override
+  String get updateFailed => 'Update failed';
+
+  @override
+  String get invalidToken => 'Invalid or expired token.';
+
+  @override
+  String get networkError => 'No network connection. Please check again.';
+
+  @override
+  String get serverError => 'Server error, please try again later.';
+
+  @override
+  String get userAlreadyExists => 'Account already exists.';
 }

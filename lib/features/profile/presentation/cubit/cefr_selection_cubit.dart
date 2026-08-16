@@ -3,12 +3,17 @@ import 'package:injectable/injectable.dart';
 
 import 'cefr_selection_state.dart';
 import '../../domain/use_cases/update_profile_use_case.dart';
+import '../../../auth/domain/use_cases/set_cefr_skipped_use_case.dart';
 
 @injectable
 class CefrSelectionCubit extends Cubit<CefrSelectionState> {
   final UpdateProfileUseCase _updateProfileUseCase;
+  final SetCefrSkippedUseCase _setCefrSkippedUseCase;
 
-  CefrSelectionCubit(this._updateProfileUseCase) : super(const CefrSelectionState());
+  CefrSelectionCubit(
+    this._updateProfileUseCase,
+    this._setCefrSkippedUseCase,
+  ) : super(const CefrSelectionState());
 
   void selectLevel(String level) {
     emit(state.copyWith(
@@ -29,7 +34,15 @@ class CefrSelectionCubit extends Cubit<CefrSelectionState> {
         status: CefrSelectionStatus.failure,
         errorMessage: failure.message,
       )),
-      (_) => emit(state.copyWith(status: CefrSelectionStatus.success)),
+      (_) async {
+        await _setCefrSkippedUseCase(true);
+        emit(state.copyWith(status: CefrSelectionStatus.success));
+      },
     );
+  }
+
+  Future<void> skip() async {
+    await _setCefrSkippedUseCase(true);
+    emit(state.copyWith(status: CefrSelectionStatus.success));
   }
 }

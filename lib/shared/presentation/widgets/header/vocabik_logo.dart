@@ -14,27 +14,27 @@ class VocabikLogo extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: AppColors.ink950, // Nền màu tối
+        color: colors.logoBackground, // Nền logo
         borderRadius: BorderRadius.circular(size * 0.3),
-        border: Border.all(color: AppColors.accentBorder), // Viền nhẹ
+        border: Border.all(color: colors.logoBorder), // Viền logo
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Biểu tượng nút play màu Primary Accent
+          // Biểu tượng nút play
           Icon(
             Icons.play_arrow_rounded,
-            color: colors.primaryAccent,
+            color: colors.logoPlay,
             size: size * 0.66,
           ),
-          // Đường gạch dưới màu Tím
+          // Đường gạch dưới
           Positioned(
             bottom: size * 0.16,
             child: Container(
               width: size * 0.43,
               height: size * 0.08,
               decoration: BoxDecoration(
-                color: AppColors.premium, // Màu Tím
+                color: colors.logoUnderline, // Màu đường gạch dưới
                 borderRadius: BorderRadius.circular(size * 0.06),
               ),
             ),

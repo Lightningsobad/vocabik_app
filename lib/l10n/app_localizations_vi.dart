@@ -331,7 +331,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get yourName => 'Tên của bạn';
 
   @override
-  String get emailHint => 'Email';
+  String get emailHint => 'Email của bạn';
 
   @override
   String get passwordHint => 'Mật khẩu';
@@ -356,6 +356,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get alreadyHaveAccount => 'Đã có tài khoản? Đăng nhập →';
 
   @override
+  String get alreadyHaveAccountPrompt => 'Đã có tài khoản? ';
+
+  @override
+  String get loginActionLink => 'Đăng nhập →';
+
+  @override
   String get checkYourEmail => 'Kiểm tra email của bạn';
 
   @override
@@ -369,10 +375,13 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
+  String get resendEmail => 'Gửi lại email';
+
+  @override
   String get iHaveVerified => 'Tôi đã xác thực → tiếp tục';
 
   @override
-  String get spamCheckTip => '💡 Không thấy email? Kiểm tra thư mục Spam.';
+  String get spamCheckTip => 'Không thấy email? Kiểm tra thư mục Spam.';
 
   @override
   String get whereIsYourEnglish => 'Tiếng Anh của bạn hiện ở đâu?';
@@ -523,4 +532,41 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get viewVietnameseTranslation => 'Xem dịch tiếng Việt';
+
+  @override
+  String get nameCannotBeEmpty => 'Tên không được để trống';
+
+  @override
+  String get termsText => 'Điều khoản';
+
+  @override
+  String get securityText => 'Bảo mật';
+
+  @override
+  String get signUpTermsPrefix => 'Bằng cách đăng ký, bạn đồng ý ';
+
+  @override
+  String get signUpTermsAnd => ' & ';
+
+  @override
+  String get verifySuccessRedirect =>
+      'Xác thực thành công. Đang chuyển hướng...';
+
+  @override
+  String get verifyFailed => 'Xác thực thất bại';
+
+  @override
+  String get updateFailed => 'Cập nhật thất bại';
+
+  @override
+  String get invalidToken => 'Token không hợp lệ hoặc đã hết hạn.';
+
+  @override
+  String get networkError => 'Không có kết nối mạng. Vui lòng kiểm tra lại.';
+
+  @override
+  String get serverError => 'Lỗi máy chủ, vui lòng thử lại sau.';
+
+  @override
+  String get userAlreadyExists => 'Tài khoản đã tồn tại.';
 }

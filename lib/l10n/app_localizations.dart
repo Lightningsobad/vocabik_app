@@ -713,7 +713,7 @@ abstract class AppLocalizations {
   /// No description provided for @emailHint.
   ///
   /// In vi, this message translates to:
-  /// **'Email'**
+  /// **'Email của bạn'**
   String get emailHint;
 
   /// No description provided for @passwordHint.
@@ -758,6 +758,18 @@ abstract class AppLocalizations {
   /// **'Đã có tài khoản? Đăng nhập →'**
   String get alreadyHaveAccount;
 
+  /// No description provided for @alreadyHaveAccountPrompt.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã có tài khoản? '**
+  String get alreadyHaveAccountPrompt;
+
+  /// No description provided for @loginActionLink.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập →'**
+  String get loginActionLink;
+
   /// No description provided for @checkYourEmail.
   ///
   /// In vi, this message translates to:
@@ -776,6 +788,12 @@ abstract class AppLocalizations {
   /// **'Gửi lại sau {seconds} giây'**
   String resendIn(int seconds);
 
+  /// No description provided for @resendEmail.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lại email'**
+  String get resendEmail;
+
   /// No description provided for @iHaveVerified.
   ///
   /// In vi, this message translates to:
@@ -785,7 +803,7 @@ abstract class AppLocalizations {
   /// No description provided for @spamCheckTip.
   ///
   /// In vi, this message translates to:
-  /// **'💡 Không thấy email? Kiểm tra thư mục Spam.'**
+  /// **'Không thấy email? Kiểm tra thư mục Spam.'**
   String get spamCheckTip;
 
   /// No description provided for @whereIsYourEnglish.
@@ -1087,6 +1105,78 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Xem dịch tiếng Việt'**
   String get viewVietnameseTranslation;
+
+  /// No description provided for @nameCannotBeEmpty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên không được để trống'**
+  String get nameCannotBeEmpty;
+
+  /// No description provided for @termsText.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điều khoản'**
+  String get termsText;
+
+  /// No description provided for @securityText.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảo mật'**
+  String get securityText;
+
+  /// No description provided for @signUpTermsPrefix.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bằng cách đăng ký, bạn đồng ý '**
+  String get signUpTermsPrefix;
+
+  /// No description provided for @signUpTermsAnd.
+  ///
+  /// In vi, this message translates to:
+  /// **' & '**
+  String get signUpTermsAnd;
+
+  /// No description provided for @verifySuccessRedirect.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực thành công. Đang chuyển hướng...'**
+  String get verifySuccessRedirect;
+
+  /// No description provided for @verifyFailed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực thất bại'**
+  String get verifyFailed;
+
+  /// No description provided for @updateFailed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật thất bại'**
+  String get updateFailed;
+
+  /// No description provided for @invalidToken.
+  ///
+  /// In vi, this message translates to:
+  /// **'Token không hợp lệ hoặc đã hết hạn.'**
+  String get invalidToken;
+
+  /// No description provided for @networkError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có kết nối mạng. Vui lòng kiểm tra lại.'**
+  String get networkError;
+
+  /// No description provided for @serverError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lỗi máy chủ, vui lòng thử lại sau.'**
+  String get serverError;
+
+  /// No description provided for @userAlreadyExists.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài khoản đã tồn tại.'**
+  String get userAlreadyExists;
 }
 
 class _AppLocalizationsDelegate

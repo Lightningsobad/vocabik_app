@@ -7,7 +7,7 @@ class User extends Equatable {
   final String tier;
   final bool emailVerified;
   final String? role;
-  final dynamic subscription;
+  final Map<String, dynamic>? subscription;
   final String? cefrLevel;
   final String? hintMode;
   final DateTime? createdAt;
