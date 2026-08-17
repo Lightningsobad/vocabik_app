@@ -17,6 +17,7 @@ class AccountTabContent extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     
     return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status == AuthStatus.loading) {
           DialogUtils.showLoading(context);

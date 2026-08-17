@@ -30,7 +30,12 @@ class AuthRepositoryImpl implements AuthRepository {
         response.accessToken,
         response.refreshToken,
       );
-      return right(response.user);
+      try {
+        final user = await _remoteDataSource.getMe();
+        return right(user);
+      } catch (_) {
+        return right(response.user);
+      }
     } on NetworkException {
       return left(
         const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
@@ -115,7 +120,12 @@ class AuthRepositoryImpl implements AuthRepository {
         response.accessToken,
         response.refreshToken,
       );
-      return right(response.user);
+      try {
+        final user = await _remoteDataSource.getMe();
+        return right(user);
+      } catch (_) {
+        return right(response.user);
+      }
     } on NetworkException {
       return left(
         const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
