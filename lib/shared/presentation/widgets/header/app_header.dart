@@ -4,6 +4,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'vocabik_logo.dart';
 import 'vocabik_brand_text.dart';
+import 'header_pill_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'stat_badge.dart';
 import 'header_circle_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,16 +91,16 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 StatBadge(
-                  emoji: '🔥',
+                  iconAsset: 'assets/home_screen/streak_icon.svg',
                   valueText: streak.toString(),
                   color: AppColors.streak, // streak color
                 ),
                 StatBadge(
-                  emoji: '⚡',
+                  iconAsset: 'assets/home_screen/xp_icon.svg',
                   valueText: _numberFormat.format(xp),
                   color: colors.primaryAccent, // xp color
                 ),
-                HeaderCircleButton(
+                HeaderPillButton(
                   text: displayLanguage,
                   onTap: () {
                     final newLang = currentLang == 'vi' ? 'en' : 'vi';
@@ -106,7 +108,11 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   },
                 ),
                 HeaderCircleButton(
-                  text: isDarkMode ? '🌙' : '☀️',
+                  icon: SvgPicture.asset(
+                    isDarkMode ? 'assets/home_screen/moon_icon.svg' : 'assets/home_screen/sun.svg',
+                    width: 16,
+                    height: 16,
+                  ),
                   onTap: onThemeTap ?? () => context.read<ThemeCubit>().toggleTheme(),
                 ),
                 HeaderCircleButton(

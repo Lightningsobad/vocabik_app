@@ -193,7 +193,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get disconnectBtn => 'Hủy kết nối';
 
   @override
-  String get homeDailyPickTitle => '☀️ Tuyển chọn cho bạn hôm nay';
+  String get homeDailyPickTitle => 'Tuyển chọn cho bạn hôm nay';
 
   @override
   String get homeRecommendedTitle => 'CŨNG DÀNH CHO BẠN';
@@ -211,13 +211,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get homeDailyChallenge => 'Daily Challenge hôm nay';
 
   @override
-  String get homeTrending => 'Trending tuần này 🔥';
+  String get homeTrending => 'Trending tuần này';
 
   @override
   String get homeViewAll => 'Xem tất cả →';
 
   @override
-  String get homeRecentlyAdded => 'Mới thêm ✨';
+  String get homeRecentlyAdded => 'Mới thêm';
 
   @override
   String get homeLibrary => 'Thư viện';
@@ -568,5 +568,78 @@ class AppLocalizationsVi extends AppLocalizations {
   String get serverError => 'Lỗi máy chủ, vui lòng thử lại sau.';
 
   @override
+  String get exerciseTypeAnswerHint => 'Gõ đáp án...';
+
+  @override
+  String get exercisePleaseEnterAnswer => 'Vui lòng nhập đáp án';
+
+  @override
+  String exerciseAlmostCorrect(String answer) {
+    return 'Gần đúng — đáp án là \"$answer\".';
+  }
+
+  @override
   String get userAlreadyExists => 'Tài khoản đã tồn tại.';
+
+  @override
+  String get resultWhatWentWrong => 'Sai ở đâu?';
+
+  @override
+  String get resultShare => 'Chia sẻ';
+
+  @override
+  String get resultInstagram => 'Instagram';
+
+  @override
+  String get resultCopy => 'Sao chép';
+
+  @override
+  String get resultChallengeFriend => 'Thách bạn bè';
+
+  @override
+  String get resultNextSuggestedExercise => 'Bài tiếp theo gợi ý →';
+
+  @override
+  String get resultPracticeAgain => 'Luyện lại';
+
+  @override
+  String get resultBackToLibrary => 'Về thư viện';
+
+  @override
+  String get resultXpEarned => 'XP nhận được';
+
+  @override
+  String get resultDayStreak => 'ngày liên tiếp';
+
+  @override
+  String resultNewBadge(String level) {
+    return 'Huy hiệu mới: First $level!';
+  }
+
+  @override
+  String resultCompletedFirstExercise(String level) {
+    return 'Hoàn thành bài $level đầu tiên';
+  }
+
+  @override
+  String resultCorrectCount(int count) {
+    return '$count đúng';
+  }
+
+  @override
+  String resultWrongCount(int count) {
+    return '$count sai';
+  }
+
+  @override
+  String get resultFeatureInDevelopment => 'Tính năng đang phát triển';
+
+  @override
+  String get resultScoreCardError => 'Không thể tải Score Card';
+
+  @override
+  String get resultNoInternetScoreCard => 'Không có kết nối mạng để tạo thẻ';
+
+  @override
+  String get resultCopiedToClipboard => 'Đã sao chép vào bộ nhớ tạm!';
 }

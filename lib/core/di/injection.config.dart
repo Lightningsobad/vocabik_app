@@ -38,13 +38,35 @@ import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
 import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
 import '../../features/exercise/data/datasources/exercise_remote_datasource.dart'
     as _i913;
+import '../../features/exercise/data/datasources/score_card_remote_datasource.dart'
+    as _i62;
 import '../../features/exercise/data/repositories/exercise_repository_impl.dart'
     as _i607;
+import '../../features/exercise/data/repositories/score_card_repository_impl.dart'
+    as _i384;
 import '../../features/exercise/domain/repositories/exercise_repository.dart'
     as _i50;
+import '../../features/exercise/domain/repositories/score_card_repository.dart'
+    as _i697;
 import '../../features/exercise/domain/usecases/get_exercise_usecase.dart'
     as _i497;
 import '../../features/exercise/presentation/cubit/exercise_cubit.dart' as _i67;
+import '../../features/exercise/presentation/cubit/result_cubit.dart' as _i292;
+import '../../features/home/data/datasources/home_remote_data_source.dart'
+    as _i362;
+import '../../features/home/data/repositories/home_repository_impl.dart'
+    as _i76;
+import '../../features/home/domain/repositories/home_repository.dart' as _i0;
+import '../../features/home/domain/usecases/get_daily_pick_usecase.dart'
+    as _i327;
+import '../../features/home/domain/usecases/get_personalized_slots_usecase.dart'
+    as _i1011;
+import '../../features/home/presentation/bloc/home_daily_pick_bloc.dart'
+    as _i562;
+import '../../features/home/presentation/bloc/home_newly_bloc.dart' as _i850;
+import '../../features/home/presentation/bloc/home_personalized_bloc.dart'
+    as _i764;
+import '../../features/home/presentation/bloc/home_trending_bloc.dart' as _i649;
 import '../../features/home/presentation/bloc/home_videos_bloc.dart' as _i294;
 import '../../features/profile/data/data_sources/profile_remote_data_source.dart'
     as _i1012;
@@ -163,6 +185,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i552.GetVideosUseCase>(
       () => _i552.GetVideosUseCase(gh<_i959.SharedVideoRepository>()),
     );
+    gh.factory<_i850.HomeNewlyBloc>(
+      () => _i850.HomeNewlyBloc(gh<_i552.GetVideosUseCase>()),
+    );
+    gh.factory<_i649.HomeTrendingBloc>(
+      () => _i649.HomeTrendingBloc(gh<_i552.GetVideosUseCase>()),
+    );
     gh.factory<_i294.HomeVideosBloc>(
       () => _i294.HomeVideosBloc(gh<_i552.GetVideosUseCase>()),
     );
@@ -175,8 +203,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i913.ExerciseRemoteDataSource>(
       () => _i913.ExerciseRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i62.ScoreCardRemoteDataSource>(
+      () => _i62.ScoreCardRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i268.VideoDetailRemoteDataSource>(
       () => _i268.VideoDetailRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i362.HomeRemoteDataSource>(
+      () => _i362.HomeRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i738.GetLanguageUseCase>(
       () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
@@ -237,11 +271,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
     );
+    gh.lazySingleton<_i697.ScoreCardRepository>(
+      () => _i384.ScoreCardRepositoryImpl(gh<_i62.ScoreCardRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i0.HomeRepository>(
+      () => _i76.HomeRepositoryImpl(
+        remoteDataSource: gh<_i362.HomeRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i292.ResultCubit>(
+      () => _i292.ResultCubit(gh<_i697.ScoreCardRepository>()),
+    );
     gh.lazySingleton<_i785.ProgressRepository>(
       () => _i779.ProgressRepositoryImpl(gh<_i854.ProgressRemoteDataSource>()),
     );
     gh.factory<_i186.UpdateProfileUseCase>(
       () => _i186.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.factory<_i327.GetDailyPickUseCase>(
+      () => _i327.GetDailyPickUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.factory<_i1011.GetPersonalizedSlotsUseCase>(
+      () => _i1011.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
     );
     gh.factory<_i498.CefrSelectionCubit>(
       () => _i498.CefrSelectionCubit(
@@ -259,8 +310,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i714.GetVideoDetailUseCase>(
       () => _i714.GetVideoDetailUseCase(gh<_i291.VideoDetailRepository>()),
     );
+    gh.factory<_i562.HomeDailyPickBloc>(
+      () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
+    );
     gh.factory<_i497.GetExerciseUseCase>(
       () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
+    );
+    gh.factory<_i764.HomePersonalizedBloc>(
+      () =>
+          _i764.HomePersonalizedBloc(gh<_i1011.GetPersonalizedSlotsUseCase>()),
     );
     gh.lazySingleton<_i474.GetGamificationSummaryUseCase>(
       () => _i474.GetGamificationSummaryUseCase(gh<_i785.ProgressRepository>()),

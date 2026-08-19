@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vocabik_app/features/video_detail/presentation/cubit/video_detail_cubit.dart';
+import 'package:vocabik_app/features/video_detail/presentation/cubit/video_detail_state.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -24,8 +27,12 @@ class VideoThumbnailSection extends StatelessWidget {
       child: BounceWrapper(
         onTap: onTap ??
             () {
+              final detailState = context.read<VideoDetailCubit>().state;
+              final selectedType = (detailState is VideoDetailLoaded)
+                  ? detailState.selectedExerciseType
+                  : 'Multiple choice';
               context.push(
-                '/exercise/${video.id}?cefr_level=${video.cefrLevel}&version_id=v1&youtube_video_id=${video.youtubeVideoId}&video_title=${Uri.encodeComponent(video.title)}',
+                '/exercise/${video.id}?cefr_level=${video.cefrLevel}&version_id=v1&youtube_video_id=${video.youtubeVideoId}&video_title=${Uri.encodeComponent(video.title)}&exercise_type=${Uri.encodeComponent(selectedType)}',
               );
             },
         child: Container(

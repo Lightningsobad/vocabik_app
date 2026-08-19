@@ -74,19 +74,19 @@
   "connectTelegramBtn": "Connect Telegram Bot →",
   "connectZaloBtn": "Connect Zalo OA →",
   "disconnectBtn": "Disconnect",
-  "homeDailyPickTitle": "☀️ Handpicked for you today",
+  "homeDailyPickTitle": "Handpicked for you today",
   "homeRecommendedTitle": "ALSO FOR YOU",
   "homeTodayProgress": "Today",
-  "homeUnlimited": "Unlimited",
+  "homeUnlimited": "Go unlimited",
   "homeAll": "All",
   "homeDailyChallenge": "Today's Daily Challenge",
-  "homeTrending": "Trending this week \uD83D\uDD25",
+  "homeTrending": "Trending this week",
   "homeViewAll": "See all \u2192",
-  "homeRecentlyAdded": "Newly added \u2728",
+  "homeRecentlyAdded": "Newly added",
   "homeLibrary": "Library",
   "homePricing": "Pricing",
   "homePrivacyPolicy": "Privacy Policy",
-  "homeTerms": "Terms of Service",
+  "homeTerms": "Terms",
   "homePracticed": "{count} practiced",
   "@homePracticed": {
     "placeholders": {
@@ -118,7 +118,7 @@
   },
   "discoverSearchHint": "Search by song, artist...",
   "discoverFilterAll": "All",
-  "discoverTrendingTitle": "Trending 🔥",
+  "discoverTrendingTitle": "Trending",
   "discoverPlaylistTitle": "Selected Playlists",
   "discoverTimeUnder3": "< 3 mins",
   "discoverTime3To7": "3-7 mins",
@@ -255,5 +255,61 @@
   "invalidToken": "Invalid or expired token.",
   "networkError": "No network connection. Please check again.",
   "serverError": "Server error, please try again later.",
-  "userAlreadyExists": "Account already exists."
+  "exerciseTypeAnswerHint": "Type the answer...",
+  "exercisePleaseEnterAnswer": "Please enter an answer",
+  "exerciseAlmostCorrect": "Almost correct — the answer is \"{answer}\".",
+  "@exerciseAlmostCorrect": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "userAlreadyExists": "Account already exists.",
+  "resultWhatWentWrong": "What went wrong?",
+  "resultShare": "Share",
+  "resultInstagram": "Instagram",
+  "resultCopy": "Copy",
+  "resultChallengeFriend": "Challenge a friend",
+  "resultNextSuggestedExercise": "Next suggested exercise →",
+  "resultPracticeAgain": "Practice again",
+  "resultBackToLibrary": "Back to library",
+  "resultXpEarned": "XP earned",
+  "resultDayStreak": "day streak",
+  "resultNewBadge": "New badge: First {level}!",
+  "@resultNewBadge": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCompletedFirstExercise": "Completed your first {level} exercise",
+  "@resultCompletedFirstExercise": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCorrectCount": "{count} correct",
+  "@resultCorrectCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultWrongCount": "{count} wrong",
+  "@resultWrongCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultFeatureInDevelopment": "Feature in development",
+  "resultScoreCardError": "Unable to load Score Card",
+  "resultNoInternetScoreCard": "No internet connection to generate Score Card",
+  "resultCopiedToClipboard": "Copied to clipboard!"
 }

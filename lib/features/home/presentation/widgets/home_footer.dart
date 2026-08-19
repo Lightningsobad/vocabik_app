@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class HomeFooter extends StatelessWidget {
   const HomeFooter({super.key});
@@ -15,54 +16,64 @@ class HomeFooter extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: AppSpacing.xl3,
+        vertical: AppSpacing.xl,
         horizontal: AppSpacing.lg,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Logo text
-          RichText(
-            text: TextSpan(
-              style: GoogleFonts.nunito(
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
-                color: colors.textPrimary,
-              ),
-              children: [
-                const TextSpan(text: 'Vocab'),
-                TextSpan(
-                  text: 'ik',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
+          // 1. Top Divider line
+          Divider(
+            color: colors.borderSubtle,
+            height: 1,
+            thickness: 1,
+          ),
+          const SizedBox(height: AppSpacing.xl),
+
+          // 2. Logo & Links in a single horizontal row
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Logo text
+              RichText(
+                text: TextSpan(
+                  style: AppTextStyles.custom(
+                    fontSize: AppFontSize.lg2,
+                    fontWeight: FontWeight.w900,
+                    color: colors.textPrimary,
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Links Row 1
-          Row(
-            children: [
-              _buildFooterLink(l10n.homePricing, colors.textSecondary),
-              const SizedBox(width: 24),
-              _buildFooterLink(l10n.homePrivacyPolicy, colors.textSecondary),
-            ],
-          ),
-          const SizedBox(height: 12),
-          // Links Row 2 & Copyright
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildFooterLink(l10n.homeTerms, colors.textSecondary),
-              Text(
-                '© $year Vocabik',
-                style: GoogleFonts.nunito(
-                  color: colors.textSecondary.withValues(alpha: 0.6),
-                  fontSize: 14,
+                  children: [
+                    const TextSpan(text: 'Vocab'),
+                    TextSpan(
+                      text: 'ik',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              const SizedBox(width: AppSpacing.lg),
+              _buildFooterLink(l10n.homePricing, colors.textSecondary),
+              const SizedBox(width: AppSpacing.md2),
+              _buildFooterLink(l10n.homePrivacyPolicy, colors.textSecondary),
+              const SizedBox(width: AppSpacing.md2),
+              _buildFooterLink(l10n.homeTerms, colors.textSecondary),
             ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+
+          // 3. Copyright on the right
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              '© $year Vocabik',
+              style: AppTextStyles.custom(
+                color: colors.textSecondary.withValues(alpha: 0.6),
+                fontSize: AppFontSize.sm,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
         ],
       ),
@@ -72,10 +83,10 @@ class HomeFooter extends StatelessWidget {
   Widget _buildFooterLink(String text, Color color) {
     return Text(
       text,
-      style: GoogleFonts.nunito(
+      style: AppTextStyles.custom(
         color: color,
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontSize: AppFontSize.sm,
+        fontWeight: FontWeight.w800,
       ),
     );
   }

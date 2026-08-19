@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
@@ -8,6 +7,7 @@ import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 import 'course_tag_badge.dart';
 
@@ -46,83 +46,77 @@ class SharedCourseCard extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: colors.surfaceCard,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
+          borderRadius: BorderRadius.circular(AppRadius.lg2),
           border: Border.all(color: colors.borderSubtle),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Thumbnail
-            Container(
-              height: AppSpacing.xl12_2,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(AppRadius.lg),
-                  topRight: Radius.circular(AppRadius.lg),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(AppRadius.lg2),
+                    topRight: Radius.circular(AppRadius.lg2),
+                  ),
                 ),
-              ),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(AppRadius.lg),
-                      topRight: Radius.circular(AppRadius.lg),
-                    ),
-                    child: Image.network(
-                      video.thumbnailUrl,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        color: colors.surfaceCard,
-                        child: Icon(Icons.broken_image, color: colors.textSecondary),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(AppRadius.lg),
+                        topRight: Radius.circular(AppRadius.lg),
                       ),
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Container(
-                          color: colors.surfaceCard,
-                          child: const Center(
-                            child: CircularProgressIndicator(),
+                      child: SizedBox.expand(
+                        child: Transform.scale(
+                          scale: 1.34,
+                          child: Image.network(
+                            video.thumbnailUrl,
+                            fit: BoxFit.cover,
+                            cacheWidth: 500,
+                            cacheHeight: 310,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                                  color: colors.surfaceCard,
+                                  child: Icon(
+                                    Icons.broken_image,
+                                    color: colors.textSecondary,
+                                  ),
+                                ),
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Container(
+                                color: colors.surfaceCard,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    top: AppSpacing.sm,
-                    left: AppSpacing.sm,
-                    right: AppSpacing.xl4, 
-                    child: Wrap(
-                      spacing: 4.0,
-                      runSpacing: 4.0,
-                      children: [
-                        CourseTagBadge(text: video.cefrLevel),
-                        if (video.isNew)
-                          CourseTagBadge(
-                            text: l10n.homeNewTag,
-                            type: CourseTagType.newTag,
-                          ),
-                      ],
-                    ),
-                  ),
-                  if (video.category == 'talk' || video.category == 'Talk') // Play button in middle if it's a talk
-                    Center(
-                      child: Container(
-                        width: AppSpacing.xl5,
-                        height: AppSpacing.xl5,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.play_arrow_rounded,
-                          color: Colors.white,
-                          size: AppFontSize.xl6,
                         ),
                       ),
                     ),
-                ],
+                    Positioned(
+                      top: AppSpacing.sm,
+                      left: AppSpacing.sm,
+                      right: AppSpacing.xl4,
+                      child: Wrap(
+                        spacing: 4.0,
+                        runSpacing: 4.0,
+                        children: [
+                          CourseTagBadge(text: video.cefrLevel),
+                          if (video.isNew)
+                            CourseTagBadge(
+                              text: l10n.homeNewTag,
+                              type: CourseTagType.newTag,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             // Info
@@ -130,22 +124,23 @@ class SharedCourseCard extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpacing.sm),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     video.title,
-                    style: GoogleFonts.nunito(
+                    style: AppTextStyles.custom(
                       color: colors.textPrimary,
                       fontSize: AppFontSize.mdt,
                       fontWeight: FontWeight.w900,
                     ),
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (video.artist != null && video.artist!.isNotEmpty) ...[
                     const SizedBox(height: 2),
                     Text(
                       video.artist!,
-                      style: GoogleFonts.nunito(
+                      style: AppTextStyles.custom(
                         color: colors.textSecondary,
                         fontSize: AppFontSize.sm,
                       ),

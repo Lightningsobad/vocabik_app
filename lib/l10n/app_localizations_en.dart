@@ -194,7 +194,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get disconnectBtn => 'Disconnect';
 
   @override
-  String get homeDailyPickTitle => '☀️ Handpicked for you today';
+  String get homeDailyPickTitle => 'Handpicked for you today';
 
   @override
   String get homeRecommendedTitle => 'ALSO FOR YOU';
@@ -203,7 +203,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeTodayProgress => 'Today';
 
   @override
-  String get homeUnlimited => 'Unlimited';
+  String get homeUnlimited => 'Go unlimited';
 
   @override
   String get homeAll => 'All';
@@ -212,13 +212,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeDailyChallenge => 'Today\'s Daily Challenge';
 
   @override
-  String get homeTrending => 'Trending this week 🔥';
+  String get homeTrending => 'Trending this week';
 
   @override
   String get homeViewAll => 'See all →';
 
   @override
-  String get homeRecentlyAdded => 'Newly added ✨';
+  String get homeRecentlyAdded => 'Newly added';
 
   @override
   String get homeLibrary => 'Library';
@@ -230,7 +230,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homePrivacyPolicy => 'Privacy Policy';
 
   @override
-  String get homeTerms => 'Terms of Service';
+  String get homeTerms => 'Terms';
 
   @override
   String homePracticed(String count) {
@@ -260,7 +260,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverFilterAll => 'All';
 
   @override
-  String get discoverTrendingTitle => 'Trending 🔥';
+  String get discoverTrendingTitle => 'Trending';
 
   @override
   String get discoverPlaylistTitle => 'Selected Playlists';
@@ -567,5 +567,79 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverError => 'Server error, please try again later.';
 
   @override
+  String get exerciseTypeAnswerHint => 'Type the answer...';
+
+  @override
+  String get exercisePleaseEnterAnswer => 'Please enter an answer';
+
+  @override
+  String exerciseAlmostCorrect(String answer) {
+    return 'Almost correct — the answer is \"$answer\".';
+  }
+
+  @override
   String get userAlreadyExists => 'Account already exists.';
+
+  @override
+  String get resultWhatWentWrong => 'What went wrong?';
+
+  @override
+  String get resultShare => 'Share';
+
+  @override
+  String get resultInstagram => 'Instagram';
+
+  @override
+  String get resultCopy => 'Copy';
+
+  @override
+  String get resultChallengeFriend => 'Challenge a friend';
+
+  @override
+  String get resultNextSuggestedExercise => 'Next suggested exercise →';
+
+  @override
+  String get resultPracticeAgain => 'Practice again';
+
+  @override
+  String get resultBackToLibrary => 'Back to library';
+
+  @override
+  String get resultXpEarned => 'XP earned';
+
+  @override
+  String get resultDayStreak => 'day streak';
+
+  @override
+  String resultNewBadge(String level) {
+    return 'New badge: First $level!';
+  }
+
+  @override
+  String resultCompletedFirstExercise(String level) {
+    return 'Completed your first $level exercise';
+  }
+
+  @override
+  String resultCorrectCount(int count) {
+    return '$count correct';
+  }
+
+  @override
+  String resultWrongCount(int count) {
+    return '$count wrong';
+  }
+
+  @override
+  String get resultFeatureInDevelopment => 'Feature in development';
+
+  @override
+  String get resultScoreCardError => 'Unable to load Score Card';
+
+  @override
+  String get resultNoInternetScoreCard =>
+      'No internet connection to generate Score Card';
+
+  @override
+  String get resultCopiedToClipboard => 'Copied to clipboard!';
 }

@@ -45,7 +45,7 @@ class CourseTagBadge extends StatelessWidget {
         icon = Icons.check;
         break;
       case CourseTagType.dailyPick:
-        backgroundColor = Colors.black.withValues(alpha: 0.2);
+        backgroundColor = Colors.black.withValues(alpha: 0.4);
         textColor = Colors.white;
         break;
     }
