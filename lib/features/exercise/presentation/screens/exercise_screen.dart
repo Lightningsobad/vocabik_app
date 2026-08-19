@@ -10,6 +10,7 @@ import 'package:vocabik_app/features/exercise/presentation/widgets/answer_intera
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_header_widget.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_line_widget.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_video_player_widget.dart';
+import 'package:vocabik_app/features/exercise/presentation/widgets/type_answer_interaction_area.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -20,6 +21,7 @@ class ExerciseScreen extends StatelessWidget {
   final String versionId;
   final String youtubeVideoId;
   final String videoTitle;
+  final String exerciseType;
 
   const ExerciseScreen({
     super.key,
@@ -28,6 +30,7 @@ class ExerciseScreen extends StatelessWidget {
     required this.versionId,
     required this.youtubeVideoId,
     this.videoTitle = '',
+    this.exerciseType = 'Multiple choice',
   });
 
   @override
@@ -43,6 +46,7 @@ class ExerciseScreen extends StatelessWidget {
         youtubeVideoId: youtubeVideoId,
         videoTitle: videoTitle,
         cefrLevel: cefrLevel,
+        exerciseType: exerciseType,
       ),
     );
   }
@@ -52,12 +56,14 @@ class ExerciseScreenView extends StatefulWidget {
   final String youtubeVideoId;
   final String videoTitle;
   final String cefrLevel;
+  final String exerciseType;
 
   const ExerciseScreenView({
     super.key,
     required this.youtubeVideoId,
     required this.videoTitle,
     required this.cefrLevel,
+    this.exerciseType = 'Multiple choice',
   });
 
   @override
@@ -257,8 +263,11 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                                   ),
                                 ),
                                 const SizedBox(height: AppSpacing.tn),
-                                // Options 2x2 grid, Hint & Continue
-                                const AnswerInteractionArea(),
+                                // Interaction Area: Type the answer OR Multiple Choice
+                                if (widget.exerciseType == 'Type the answer')
+                                  const TypeAnswerInteractionArea()
+                                else
+                                  const AnswerInteractionArea(),
                               ],
                             ),
                           ),

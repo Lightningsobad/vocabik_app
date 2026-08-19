@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/di/injection.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_daily_pick_bloc.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_daily_pick_event.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_newly_bloc.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_newly_event.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_personalized_bloc.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_personalized_event.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_trending_bloc.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_trending_event.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_videos_bloc.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_videos_event.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_videos_state.dart';
+import 'package:vocabik_app/features/home/presentation/widgets/daily_challenge_card.dart';
+import 'package:vocabik_app/features/home/presentation/widgets/home_daily_pick_section.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_footer.dart';
-import 'package:vocabik_app/features/home/presentation/widgets/section_header.dart';
+import 'package:vocabik_app/features/home/presentation/widgets/home_library_section.dart';
+import 'package:vocabik_app/features/home/presentation/widgets/home_newly_added_section.dart';
+import 'package:vocabik_app/features/home/presentation/widgets/home_recommended_section.dart';
+import 'package:vocabik_app/features/home/presentation/widgets/home_trending_section.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/today_progress_card.dart';
-import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
-
 import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -19,8 +30,28 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<HomeVideosBloc>()..add(const FetchVideos()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => getIt<HomeVideosBloc>()..add(const FetchVideos()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<HomeDailyPickBloc>()..add(const FetchDailyPick()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<HomePersonalizedBloc>()
+                ..add(const FetchPersonalizedSlots()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<HomeTrendingBloc>()..add(const FetchTrendingVideos()),
+        ),
+        BlocProvider(
+          create: (_) => getIt<HomeNewlyBloc>()..add(const FetchNewlyVideos()),
+        ),
+      ],
       child: const _HomeScreenContent(),
     );
   }
@@ -36,6 +67,7 @@ class _HomeScreenContent extends StatefulWidget {
 class _HomeScreenContentState extends State<_HomeScreenContent> {
   final ValueNotifier<int> _selectedTabIndex = ValueNotifier<int>(0);
   final ScrollController _scrollController = ScrollController();
+  bool _isFetchingMore = false;
 
   @override
   void initState() {
@@ -51,12 +83,17 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
   }
 
   void _onScroll() {
+    if (_isFetchingMore) return;
     if (_isBottom) {
       final state = context.read<HomeVideosBloc>().state;
       if (state is HomeVideosLoaded && !state.hasReachedMax) {
+        _isFetchingMore = true;
         context.read<HomeVideosBloc>().add(const FetchVideos());
-      } else if (state is HomeVideosInitial || state is HomeVideosError) {
-        context.read<HomeVideosBloc>().add(const FetchVideos());
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            _isFetchingMore = false;
+          }
+        });
       }
     }
   }
@@ -72,218 +109,105 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
-    
-    final List<String> tags = [
-      l10n.homeAll,
-      'A1',
-      'A2',
-      'B1',
-      'B2',
-      'C1',
-    ];
+
+    final List<String> tags = [l10n.homeAll, 'A1', 'A2', 'B1', 'B2', 'C1'];
 
     return Scaffold(
       backgroundColor: colors.background,
       body: RefreshIndicator(
         onRefresh: () async {
           context.read<HomeVideosBloc>().add(const RefreshVideos());
+          context.read<HomeDailyPickBloc>().add(const RefreshDailyPick());
+          context.read<HomePersonalizedBloc>().add(
+            const RefreshPersonalizedSlots(),
+          );
+          context.read<HomeTrendingBloc>().add(const RefreshTrendingVideos());
+          context.read<HomeNewlyBloc>().add(const RefreshNewlyVideos());
         },
-        child: BlocBuilder<HomeVideosBloc, HomeVideosState>(
-          builder: (context, state) {
-            final isLoading = state is HomeVideosInitial || state is HomeVideosLoading;
-            final hasError = state is HomeVideosError;
-            final videos = state is HomeVideosLoaded ? state.videos : [];
-            final hasReachedMax = state is HomeVideosLoaded ? state.hasReachedMax : true;
-            final isEmpty = videos.isEmpty && !isLoading && !hasError;
+        child: CustomScrollView(
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.sm2),
+            ),
 
-            if (hasError && videos.isEmpty) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.xl),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 100),
-                      Icon(Icons.error_outline, size: 48, color: colors.textSecondary),
-                      const SizedBox(height: AppSpacing.md),
-                      Text(
-                        l10n.homeVideosError,
-                        style: TextStyle(color: colors.textSecondary),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                      ElevatedButton(
-                        onPressed: () => context.read<HomeVideosBloc>().add(const FetchVideos()),
-                        child: Text(l10n.homeRetry),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
+            // 1. Daily Pick Section
+            const HomeDailyPickSection(),
 
-            return CustomScrollView(
-              controller: _scrollController,
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
-                
-                // 1. Daily Pick
-                SliverToBoxAdapter(
-                  child: SectionHeader(
-                    title: l10n.homeDailyPickTitle,
-                    size: SectionHeaderSize.large,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: isLoading
-                      ? const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                          child: Center(child: CircularProgressIndicator()),
-                        )
-                      : videos.isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                              child: SharedCourseCard(
-                                video: videos.first,
-                                width: double.infinity,
-                              ),
-                            )
-                          : _EmptySection(text: l10n.emptySectionText),
-                ),
-                
-                const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
-                
-                // 2. Recommended
-                SliverToBoxAdapter(
-                  child: SectionHeader(
-                    title: l10n.homeRecommendedTitle,
-                    size: SectionHeaderSize.small,
-                  ),
-                ),
-                SliverToBoxAdapter(child: _EmptySection(text: l10n.emptySectionText)),
-                
-                const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
-                
-                // 3. Today Progress
-                const SliverToBoxAdapter(
-                  child: TodayProgressCard(
-                    completedLessons: 2,
-                    totalLessons: 5,
-                  ),
-                ),
-                
-                const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
-                
-                // 4. Tag Filters
-                SliverToBoxAdapter(
-                  child: ValueListenableBuilder<int>(
-                    valueListenable: _selectedTabIndex,
-                    builder: (context, index, child) {
-                      return SharedSegmentedTabBar(
-                        selectedIndex: index,
-                        onTabChanged: (newIndex) {
-                          _selectedTabIndex.value = newIndex;
-                        },
-                        tabs: tags,
-                      );
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.sm),
+            ),
+
+            // 2. Recommended / Also For You Section
+            const HomeRecommendedSection(),
+
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.sm),
+            ),
+
+            // 3. Today Progress Card
+            const SliverToBoxAdapter(
+              child: TodayProgressCard(
+                completedLessons: 2,
+                totalLessons: 5,
+              ),
+            ),
+
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.xl),
+            ),
+
+            // 4. Tag Filters
+            SliverToBoxAdapter(
+              child: ValueListenableBuilder<int>(
+                valueListenable: _selectedTabIndex,
+                builder: (context, index, child) {
+                  return SharedSegmentedTabBar(
+                    selectedIndex: index,
+                    onTabChanged: (newIndex) {
+                      _selectedTabIndex.value = newIndex;
                     },
-                  ),
-                ),
-                
-                const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
-                
-                // 5. Trending
-                SliverToBoxAdapter(
-                  child: SectionHeader(
-                    title: l10n.homeTrending,
-                    actionText: l10n.homeViewAll,
-                    onActionTap: () {},
-                    size: SectionHeaderSize.medium,
-                  ),
-                ),
-                SliverToBoxAdapter(child: _EmptySection(text: l10n.emptySectionText)),
-                
-                const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
-                
-                // 6. Recently Added
-                SliverToBoxAdapter(
-                  child: SectionHeader(
-                    title: l10n.homeRecentlyAdded,
-                    size: SectionHeaderSize.medium,
-                  ),
-                ),
-                SliverToBoxAdapter(child: _EmptySection(text: l10n.emptySectionText)),
-                
-                const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
-                
-                // 7. Library
-                SliverToBoxAdapter(
-                  child: SectionHeader(
-                    title: l10n.homeLibrary,
-                    size: SectionHeaderSize.medium,
-                  ),
-                ),
-                
-                if (isEmpty)
-                  SliverToBoxAdapter(child: _EmptySection(text: l10n.homeVideosEmpty))
-                else
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                    sliver: SliverGrid(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: AppSpacing.md,
-                        mainAxisSpacing: AppSpacing.md,
-                        childAspectRatio: 0.7,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return SharedCourseCard(
-                            video: videos[index],
-                            width: double.infinity,
-                          );
-                        },
-                        childCount: videos.length,
-                      ),
-                    ),
-                  ),
-                
-                if (state is HomeVideosLoaded && !hasReachedMax)
-                  const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.all(AppSpacing.md),
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-                
-                // 8. Footer
-                const SliverToBoxAdapter(child: HomeFooter()),
-                
-                // 9. Padding bottom for FAB
-                const SliverToBoxAdapter(child: SizedBox(height: 80)),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
+                    tabs: tags,
+                  );
+                },
+              ),
+            ),
 
-class _EmptySection extends StatelessWidget {
-  final String text;
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.xl),
+            ),
 
-  const _EmptySection({required this.text});
+            // 5. Daily Challenge
+            const SliverToBoxAdapter(child: DailyChallengeCard()),
 
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(color: colors.textSecondary),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.lg),
+            ),
+
+            // 6. Trending Section
+            const HomeTrendingSection(),
+
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.lg),
+            ),
+
+            // 7. Recently Added (Newly added) Section
+            const HomeNewlyAddedSection(),
+
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.lg),
+            ),
+
+            // 8. Library Section (Grid of all videos)
+            const HomeLibrarySection(),
+
+            // 9. Footer
+            const SliverToBoxAdapter(child: HomeFooter()),
+
+            // 10. Padding bottom for FAB
+            const SliverToBoxAdapter(child: SizedBox(height: 80)),
+          ],
         ),
       ),
     );

@@ -73,8 +73,10 @@ class ExerciseCubit extends Cubit<ExerciseState> {
         orElse: () => ExerciseBlankEntity(blankIndex: currentBlankIndex, correctAnswer: ''),
       );
       
-      final isCorrect = blankData.correctAnswer.isNotEmpty &&
-          answer.toLowerCase().trim() == blankData.correctAnswer.toLowerCase().trim();
+      final cleanedUserAnswer = _normalizeAnswer(answer);
+      final cleanedCorrectAnswer = _normalizeAnswer(blankData.correctAnswer);
+      final isCorrect = cleanedCorrectAnswer.isNotEmpty &&
+          cleanedUserAnswer == cleanedCorrectAnswer;
 
       final newCheckResults = Map<int, bool>.from(currentState.checkResults);
       newCheckResults[currentBlankIndex] = isCorrect;
@@ -84,6 +86,13 @@ class ExerciseCubit extends Cubit<ExerciseState> {
         checkResults: newCheckResults,
       ));
     }
+  }
+
+  String _normalizeAnswer(String text) {
+    return text
+        .trim()
+        .toLowerCase()
+        .replaceAll(RegExp(r'[.,!?:;"\u201C\u201D\u2018\u2019\(\)\[\]]'), '');
   }
 
   void checkAnswer() {

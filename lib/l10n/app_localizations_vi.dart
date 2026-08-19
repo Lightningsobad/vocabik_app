@@ -193,7 +193,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get disconnectBtn => 'Hủy kết nối';
 
   @override
-  String get homeDailyPickTitle => '☀️ Tuyển chọn cho bạn hôm nay';
+  String get homeDailyPickTitle => 'Tuyển chọn cho bạn hôm nay';
 
   @override
   String get homeRecommendedTitle => 'CŨNG DÀNH CHO BẠN';
@@ -211,13 +211,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get homeDailyChallenge => 'Daily Challenge hôm nay';
 
   @override
-  String get homeTrending => 'Trending tuần này 🔥';
+  String get homeTrending => 'Trending tuần này';
 
   @override
   String get homeViewAll => 'Xem tất cả →';
 
   @override
-  String get homeRecentlyAdded => 'Mới thêm ✨';
+  String get homeRecentlyAdded => 'Mới thêm';
 
   @override
   String get homeLibrary => 'Thư viện';
@@ -566,6 +566,17 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get serverError => 'Lỗi máy chủ, vui lòng thử lại sau.';
+
+  @override
+  String get exerciseTypeAnswerHint => 'Gõ đáp án...';
+
+  @override
+  String get exercisePleaseEnterAnswer => 'Vui lòng nhập đáp án';
+
+  @override
+  String exerciseAlmostCorrect(String answer) {
+    return 'Gần đúng — đáp án là \"$answer\".';
+  }
 
   @override
   String get userAlreadyExists => 'Tài khoản đã tồn tại.';

@@ -35,6 +35,9 @@ KHÔNG bắt đầu viết code ngay. Hãy đọc file `documents/ui_ux_design_s
 - **Tối ưu Hiệu năng:** 
   - Xác định vị trí đặt BlocBuilder/Consumer để phạm vi rebuild là nhỏ nhất.
   - Tận dụng tối đa từ khóa `const` cho các UI tĩnh.
+- **Tương thích:** 
+  - Đảm bảo ui không bị vỡ hoặc app crash khi xoay ngang màn hình.
+  - Đảm bảo các thành phần ui không bị lỗi overflowed khi người dùng thay đổi font chữ hệ thố.
 
 ### 5. Cấu hình & Tích hợp (Config & Routing)
 - Đăng ký Dependency Injection (GetIt) cho các lớp: Datasource, Repository, UseCase (nếu có), và BLoC/Cubit.

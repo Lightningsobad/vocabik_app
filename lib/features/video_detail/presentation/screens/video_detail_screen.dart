@@ -161,7 +161,7 @@ class VideoDetailScreenView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                     child: BounceWrapper(
                       onTap: () {
-                        context.push('/exercise/${video.id}?cefr_level=${video.cefrLevel}&version_id=v1&youtube_video_id=${video.youtubeVideoId}&video_title=${Uri.encodeComponent(video.title)}');
+                        context.push('/exercise/${video.id}?cefr_level=${video.cefrLevel}&version_id=v1&youtube_video_id=${video.youtubeVideoId}&video_title=${Uri.encodeComponent(video.title)}&exercise_type=${Uri.encodeComponent(state.selectedExerciseType)}');
                       },
                       child: Container(
                         width: double.infinity,

@@ -125,12 +125,14 @@ final GoRouter appRouter = GoRouter(
         final youtubeVideoId =
             state.uri.queryParameters['youtube_video_id'] ?? '';
         final videoTitle = state.uri.queryParameters['video_title'] ?? '';
+        final exerciseType = state.uri.queryParameters['exercise_type'] ?? 'Multiple choice';
         return ExerciseScreen(
           videoId: videoId,
           cefrLevel: cefrLevel,
           versionId: versionId,
           youtubeVideoId: youtubeVideoId,
           videoTitle: videoTitle,
+          exerciseType: exerciseType,
         );
       },
     ),

@@ -14,6 +14,9 @@ class AppTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
   final bool obscureText;
+  final TextAlign textAlign;
+  final bool readOnly;
+  final bool? enabled;
 
   const AppTextField({
     super.key,
@@ -26,6 +29,9 @@ class AppTextField extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.obscureText = false,
+    this.textAlign = TextAlign.start,
+    this.readOnly = false,
+    this.enabled,
   });
 
   @override
@@ -40,6 +46,9 @@ class AppTextField extends StatelessWidget {
       onChanged: onChanged,
       onSubmitted: onSubmitted,
       obscureText: obscureText,
+      textAlign: textAlign,
+      readOnly: readOnly,
+      enabled: enabled,
       style: GoogleFonts.nunito(
         color: colors?.textPrimary,
         fontSize: 16,

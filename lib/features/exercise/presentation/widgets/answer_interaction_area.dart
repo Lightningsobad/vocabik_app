@@ -7,6 +7,7 @@ import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'exercise_hint_button.dart';
 
 class AnswerInteractionArea extends StatelessWidget {
   const AnswerInteractionArea({super.key});
@@ -132,53 +133,16 @@ class AnswerInteractionArea extends StatelessWidget {
 
               // Bottom Area: Hint Button (Before Answer) or Result & Continue Button (After Answer)
               if (checkResult == null)
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: Opacity(
-                    opacity: state.hintUsedForCurrentBlank ? 0.4 : 1.0,
-                    child: BounceWrapper(
-                      onTap: state.hintUsedForCurrentBlank
-                          ? null
-                          : () {
-                              context.read<ExerciseCubit>().useHint();
-                            },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.optionCardBackground,
-                          border: Border.all(
-                            color: colors.optionCardBorder,
-                            width: 1.2,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text('💡 ', style: TextStyle(fontSize: 14)),
-                            Text(
-                              'Gợi ý',
-                              style: GoogleFonts.nunito(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFFFBBF24),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: ExerciseHintButton(),
                 ),
 
               if (checkResult != null) ...[
                 Text(
                   isCorrect 
-                      ? 'Chính xác! 🎉' 
-                      : 'Gần đúng — đáp án là "$correctAnswer".',
+                      ? l10n.exerciseCorrect 
+                      : l10n.exerciseAlmostCorrect(correctAnswer),
                   style: GoogleFonts.nunito(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

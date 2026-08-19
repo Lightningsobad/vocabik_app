@@ -22,8 +22,8 @@ class AppProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final progressColor = color ?? Theme.of(context).colorScheme.primary;
-    final bgColor = backgroundColor ?? colors.surfaceCard;
-    
+    final bgColor = backgroundColor ?? colors.background;
+
     // Ensure progress is bounded between 0 and 1
     final clampedProgress = progress.clamp(0.0, 1.0);
 

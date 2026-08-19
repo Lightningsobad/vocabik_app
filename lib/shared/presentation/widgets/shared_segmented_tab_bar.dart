@@ -32,25 +32,35 @@ class SharedSegmentedTabBar extends StatelessWidget {
               onTap: () => onTabChanged(index),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                constraints: const BoxConstraints(minHeight: 48.0),
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                constraints: const BoxConstraints(
+                  minHeight: 37.0,
+                  minWidth: 42.0,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14.0,
+                  vertical: 5.0,
+                ),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isSelected ? colors.primaryAccent : colors.tabUnselectedBackground,
-                  borderRadius: BorderRadius.circular(24.0),
+                  color: isSelected
+                      ? colors.primaryAccent
+                      : colors.tabUnselectedBackground,
+                  borderRadius: BorderRadius.circular(100.0),
                   border: Border.all(
-                    color: isSelected ? colors.primaryAccent : colors.tabUnselectedBorder,
+                    color: isSelected
+                        ? colors.primaryAccent
+                        : colors.tabUnselectedBorder,
                     width: 1.0,
                   ),
                 ),
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 200),
                   style: GoogleFonts.nunito(
-                    color: isSelected 
+                    color: isSelected
                         ? colors.onPrimaryAccent
                         : colors.tabUnselectedText,
-                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                    fontSize: 15.0,
+                    fontWeight: isSelected ? FontWeight.w900 : FontWeight.w800,
+                    fontSize: 14.0,
                   ),
                   child: Text(tabs[index]),
                 ),

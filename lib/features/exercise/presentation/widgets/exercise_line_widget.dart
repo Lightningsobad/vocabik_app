@@ -74,6 +74,12 @@ class BlankTokenWidget extends StatelessWidget {
         final isCorrect = checkResult == true;
         final isIncorrect = checkResult == false;
 
+        final blank = state.exercise.blanks.firstWhere(
+          (b) => b.blankIndex == blankIndex,
+          orElse: () => ExerciseBlankEntity(blankIndex: blankIndex, correctAnswer: ''),
+        );
+        final correctAnswer = blank.correctAnswer;
+
         String displayText = '________';
         Color textColor = colors.textSecondary;
         Color borderColor = colors.borderSubtle;
@@ -93,10 +99,12 @@ class BlankTokenWidget extends StatelessWidget {
         }
 
         if (isCorrect) {
+          displayText = correctAnswer.isNotEmpty ? correctAnswer : (selectedAnswer ?? '________');
           textColor = colors.success;
           borderColor = colors.successBorder;
           backgroundColor = colors.successBackground;
         } else if (isIncorrect) {
+          displayText = correctAnswer.isNotEmpty ? correctAnswer : (selectedAnswer ?? '________');
           textColor = colors.danger;
           borderColor = colors.danger;
           backgroundColor = colors.dangerSoft;
@@ -104,11 +112,6 @@ class BlankTokenWidget extends StatelessWidget {
 
         // If hint is used for current blank
         if (isCurrent && state.hintUsedForCurrentBlank && selectedAnswer == null) {
-          final blank = state.exercise.blanks.firstWhere(
-            (b) => b.blankIndex == blankIndex,
-            orElse: () => ExerciseBlankEntity(blankIndex: blankIndex, correctAnswer: ''),
-          );
-          final correctAnswer = blank.correctAnswer;
           if (correctAnswer.isNotEmpty) {
             displayText = '${correctAnswer[0]}_______';
           }

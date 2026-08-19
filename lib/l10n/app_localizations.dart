@@ -461,7 +461,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeDailyPickTitle.
   ///
   /// In vi, this message translates to:
-  /// **'☀️ Tuyển chọn cho bạn hôm nay'**
+  /// **'Tuyển chọn cho bạn hôm nay'**
   String get homeDailyPickTitle;
 
   /// No description provided for @homeRecommendedTitle.
@@ -497,7 +497,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeTrending.
   ///
   /// In vi, this message translates to:
-  /// **'Trending tuần này 🔥'**
+  /// **'Trending tuần này'**
   String get homeTrending;
 
   /// No description provided for @homeViewAll.
@@ -509,7 +509,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeRecentlyAdded.
   ///
   /// In vi, this message translates to:
-  /// **'Mới thêm ✨'**
+  /// **'Mới thêm'**
   String get homeRecentlyAdded;
 
   /// No description provided for @homeLibrary.
@@ -1171,6 +1171,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Lỗi máy chủ, vui lòng thử lại sau.'**
   String get serverError;
+
+  /// No description provided for @exerciseTypeAnswerHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gõ đáp án...'**
+  String get exerciseTypeAnswerHint;
+
+  /// No description provided for @exercisePleaseEnterAnswer.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập đáp án'**
+  String get exercisePleaseEnterAnswer;
+
+  /// No description provided for @exerciseAlmostCorrect.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gần đúng — đáp án là \"{answer}\".'**
+  String exerciseAlmostCorrect(String answer);
 
   /// No description provided for @userAlreadyExists.
   ///

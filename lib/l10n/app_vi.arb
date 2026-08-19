@@ -74,15 +74,15 @@
   "connectTelegramBtn": "Kết nối Telegram Bot →",
   "connectZaloBtn": "Kết nối Zalo OA →",
   "disconnectBtn": "Hủy kết nối",
-  "homeDailyPickTitle": "☀️ Tuyển chọn cho bạn hôm nay",
+  "homeDailyPickTitle": "Tuyển chọn cho bạn hôm nay",
   "homeRecommendedTitle": "CŨNG DÀNH CHO BẠN",
   "homeTodayProgress": "Hôm nay",
   "homeUnlimited": "Không giới hạn",
   "homeAll": "Tất cả",
   "homeDailyChallenge": "Daily Challenge hôm nay",
-  "homeTrending": "Trending tuần này \uD83D\uDD25",
+  "homeTrending": "Trending tuần này",
   "homeViewAll": "Xem tất cả \u2192",
-  "homeRecentlyAdded": "Mới thêm \u2728",
+  "homeRecentlyAdded": "Mới thêm",
   "homeLibrary": "Thư viện",
   "homePricing": "Bảng giá",
   "homePrivacyPolicy": "Chính sách bảo mật",
@@ -255,5 +255,15 @@
   "invalidToken": "Token không hợp lệ hoặc đã hết hạn.",
   "networkError": "Không có kết nối mạng. Vui lòng kiểm tra lại.",
   "serverError": "Lỗi máy chủ, vui lòng thử lại sau.",
+  "exerciseTypeAnswerHint": "Gõ đáp án...",
+  "exercisePleaseEnterAnswer": "Vui lòng nhập đáp án",
+  "exerciseAlmostCorrect": "Gần đúng — đáp án là \"{answer}\".",
+  "@exerciseAlmostCorrect": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
   "userAlreadyExists": "Tài khoản đã tồn tại."
 }
