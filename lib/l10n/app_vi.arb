@@ -265,5 +265,51 @@
       }
     }
   },
-  "userAlreadyExists": "Tài khoản đã tồn tại."
+  "userAlreadyExists": "Tài khoản đã tồn tại.",
+  "resultWhatWentWrong": "Sai ở đâu?",
+  "resultShare": "Chia sẻ",
+  "resultInstagram": "Instagram",
+  "resultCopy": "Sao chép",
+  "resultChallengeFriend": "Thách bạn bè",
+  "resultNextSuggestedExercise": "Bài tiếp theo gợi ý →",
+  "resultPracticeAgain": "Luyện lại",
+  "resultBackToLibrary": "Về thư viện",
+  "resultXpEarned": "XP nhận được",
+  "resultDayStreak": "ngày liên tiếp",
+  "resultNewBadge": "Huy hiệu mới: First {level}!",
+  "@resultNewBadge": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCompletedFirstExercise": "Hoàn thành bài {level} đầu tiên",
+  "@resultCompletedFirstExercise": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCorrectCount": "{count} đúng",
+  "@resultCorrectCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultWrongCount": "{count} sai",
+  "@resultWrongCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultFeatureInDevelopment": "Tính năng đang phát triển",
+  "resultScoreCardError": "Không thể tải Score Card",
+  "resultNoInternetScoreCard": "Không có kết nối mạng để tạo thẻ",
+  "resultCopiedToClipboard": "Đã sao chép vào bộ nhớ tạm!"
 }

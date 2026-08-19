@@ -579,4 +579,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get userAlreadyExists => 'Account already exists.';
+
+  @override
+  String get resultWhatWentWrong => 'What went wrong?';
+
+  @override
+  String get resultShare => 'Share';
+
+  @override
+  String get resultInstagram => 'Instagram';
+
+  @override
+  String get resultCopy => 'Copy';
+
+  @override
+  String get resultChallengeFriend => 'Challenge a friend';
+
+  @override
+  String get resultNextSuggestedExercise => 'Next suggested exercise →';
+
+  @override
+  String get resultPracticeAgain => 'Practice again';
+
+  @override
+  String get resultBackToLibrary => 'Back to library';
+
+  @override
+  String get resultXpEarned => 'XP earned';
+
+  @override
+  String get resultDayStreak => 'day streak';
+
+  @override
+  String resultNewBadge(String level) {
+    return 'New badge: First $level!';
+  }
+
+  @override
+  String resultCompletedFirstExercise(String level) {
+    return 'Completed your first $level exercise';
+  }
+
+  @override
+  String resultCorrectCount(int count) {
+    return '$count correct';
+  }
+
+  @override
+  String resultWrongCount(int count) {
+    return '$count wrong';
+  }
+
+  @override
+  String get resultFeatureInDevelopment => 'Feature in development';
+
+  @override
+  String get resultScoreCardError => 'Unable to load Score Card';
+
+  @override
+  String get resultNoInternetScoreCard =>
+      'No internet connection to generate Score Card';
+
+  @override
+  String get resultCopiedToClipboard => 'Copied to clipboard!';
 }

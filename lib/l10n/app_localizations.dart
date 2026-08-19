@@ -1195,6 +1195,114 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Tài khoản đã tồn tại.'**
   String get userAlreadyExists;
+
+  /// No description provided for @resultWhatWentWrong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sai ở đâu?'**
+  String get resultWhatWentWrong;
+
+  /// No description provided for @resultShare.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chia sẻ'**
+  String get resultShare;
+
+  /// No description provided for @resultInstagram.
+  ///
+  /// In vi, this message translates to:
+  /// **'Instagram'**
+  String get resultInstagram;
+
+  /// No description provided for @resultCopy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sao chép'**
+  String get resultCopy;
+
+  /// No description provided for @resultChallengeFriend.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thách bạn bè'**
+  String get resultChallengeFriend;
+
+  /// No description provided for @resultNextSuggestedExercise.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bài tiếp theo gợi ý →'**
+  String get resultNextSuggestedExercise;
+
+  /// No description provided for @resultPracticeAgain.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện lại'**
+  String get resultPracticeAgain;
+
+  /// No description provided for @resultBackToLibrary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Về thư viện'**
+  String get resultBackToLibrary;
+
+  /// No description provided for @resultXpEarned.
+  ///
+  /// In vi, this message translates to:
+  /// **'XP nhận được'**
+  String get resultXpEarned;
+
+  /// No description provided for @resultDayStreak.
+  ///
+  /// In vi, this message translates to:
+  /// **'ngày liên tiếp'**
+  String get resultDayStreak;
+
+  /// No description provided for @resultNewBadge.
+  ///
+  /// In vi, this message translates to:
+  /// **'Huy hiệu mới: First {level}!'**
+  String resultNewBadge(String level);
+
+  /// No description provided for @resultCompletedFirstExercise.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hoàn thành bài {level} đầu tiên'**
+  String resultCompletedFirstExercise(String level);
+
+  /// No description provided for @resultCorrectCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} đúng'**
+  String resultCorrectCount(int count);
+
+  /// No description provided for @resultWrongCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} sai'**
+  String resultWrongCount(int count);
+
+  /// No description provided for @resultFeatureInDevelopment.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tính năng đang phát triển'**
+  String get resultFeatureInDevelopment;
+
+  /// No description provided for @resultScoreCardError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải Score Card'**
+  String get resultScoreCardError;
+
+  /// No description provided for @resultNoInternetScoreCard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có kết nối mạng để tạo thẻ'**
+  String get resultNoInternetScoreCard;
+
+  /// No description provided for @resultCopiedToClipboard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã sao chép vào bộ nhớ tạm!'**
+  String get resultCopiedToClipboard;
 }
 
 class _AppLocalizationsDelegate

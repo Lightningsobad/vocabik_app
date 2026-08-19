@@ -10,6 +10,7 @@ import 'package:vocabik_app/features/exercise/presentation/widgets/answer_intera
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_header_widget.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_line_widget.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_video_player_widget.dart';
+import 'package:vocabik_app/features/exercise/presentation/screens/result_screen.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/type_answer_interaction_area.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -43,6 +44,8 @@ class ExerciseScreen extends StatelessWidget {
           versionId: versionId,
         ),
       child: ExerciseScreenView(
+        videoId: videoId,
+        versionId: versionId,
         youtubeVideoId: youtubeVideoId,
         videoTitle: videoTitle,
         cefrLevel: cefrLevel,
@@ -53,6 +56,8 @@ class ExerciseScreen extends StatelessWidget {
 }
 
 class ExerciseScreenView extends StatefulWidget {
+  final String videoId;
+  final String versionId;
   final String youtubeVideoId;
   final String videoTitle;
   final String cefrLevel;
@@ -60,6 +65,8 @@ class ExerciseScreenView extends StatefulWidget {
 
   const ExerciseScreenView({
     super.key,
+    required this.videoId,
+    required this.versionId,
     required this.youtubeVideoId,
     required this.videoTitle,
     required this.cefrLevel,
@@ -74,10 +81,26 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
   late YoutubePlayerController _youtubeController;
   StreamSubscription<YoutubeVideoState>? _videoStateSubscription;
   bool _isQuestionVisible = false;
+  DateTime _startTime = DateTime.now();
+
+  void _handlePracticeAgain() {
+    setState(() {
+      _startTime = DateTime.now();
+      _isQuestionVisible = false;
+    });
+    _youtubeController.seekTo(seconds: 0);
+    _youtubeController.playVideo();
+    context.read<ExerciseCubit>().loadExercise(
+      videoId: widget.videoId,
+      cefrLevel: widget.cefrLevel,
+      versionId: widget.versionId,
+    );
+  }
 
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now();
     
     // Safely extract ID in case a full URL was passed
     final safeVideoId = YoutubePlayerController.convertUrlToId(widget.youtubeVideoId) ?? widget.youtubeVideoId;
@@ -194,15 +217,12 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
               );
             } else if (state is ExerciseLoaded) {
               if (state.isFinished) {
-                return Center(
-                  child: Text(
-                    l10n.exerciseCompleted,
-                    style: GoogleFonts.nunito(
-                      color: colors.textPrimary,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                return ResultScreen(
+                  exercise: state.exercise,
+                  selectedAnswers: state.selectedAnswers,
+                  checkResults: state.checkResults,
+                  durationMs: DateTime.now().difference(_startTime).inMilliseconds,
+                  onPracticeAgain: _handlePracticeAgain,
                 );
               }
 

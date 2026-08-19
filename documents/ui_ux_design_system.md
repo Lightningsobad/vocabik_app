@@ -4,7 +4,7 @@ Tài liệu này định nghĩa các quy tắc chuẩn mực về UI/UX cho toà
 
 ## 1. Typography (Kiểu chữ)
 
-- **Font chữ áp dụng mọi thành phần hiển thị chữ trong app:** Sử dụng font **Nunito** (từ Google Fonts) cho toàn bộ hệ thống.
+- **Font chữ áp dụng mọi thành phần hiển thị chữ trong app:** Sử dụng font tại lib\shared\theme\app_text_style.dart cho chữ trong toàn bộ hệ thống
 
 ## 2. Interactions & Hiệu ứng (Interactions & Effects)
 

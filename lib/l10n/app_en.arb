@@ -265,5 +265,51 @@
       }
     }
   },
-  "userAlreadyExists": "Account already exists."
+  "userAlreadyExists": "Account already exists.",
+  "resultWhatWentWrong": "What went wrong?",
+  "resultShare": "Share",
+  "resultInstagram": "Instagram",
+  "resultCopy": "Copy",
+  "resultChallengeFriend": "Challenge a friend",
+  "resultNextSuggestedExercise": "Next suggested exercise →",
+  "resultPracticeAgain": "Practice again",
+  "resultBackToLibrary": "Back to library",
+  "resultXpEarned": "XP earned",
+  "resultDayStreak": "day streak",
+  "resultNewBadge": "New badge: First {level}!",
+  "@resultNewBadge": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCompletedFirstExercise": "Completed your first {level} exercise",
+  "@resultCompletedFirstExercise": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCorrectCount": "{count} correct",
+  "@resultCorrectCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultWrongCount": "{count} wrong",
+  "@resultWrongCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultFeatureInDevelopment": "Feature in development",
+  "resultScoreCardError": "Unable to load Score Card",
+  "resultNoInternetScoreCard": "No internet connection to generate Score Card",
+  "resultCopiedToClipboard": "Copied to clipboard!"
 }

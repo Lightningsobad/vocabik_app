@@ -580,4 +580,66 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get userAlreadyExists => 'Tài khoản đã tồn tại.';
+
+  @override
+  String get resultWhatWentWrong => 'Sai ở đâu?';
+
+  @override
+  String get resultShare => 'Chia sẻ';
+
+  @override
+  String get resultInstagram => 'Instagram';
+
+  @override
+  String get resultCopy => 'Sao chép';
+
+  @override
+  String get resultChallengeFriend => 'Thách bạn bè';
+
+  @override
+  String get resultNextSuggestedExercise => 'Bài tiếp theo gợi ý →';
+
+  @override
+  String get resultPracticeAgain => 'Luyện lại';
+
+  @override
+  String get resultBackToLibrary => 'Về thư viện';
+
+  @override
+  String get resultXpEarned => 'XP nhận được';
+
+  @override
+  String get resultDayStreak => 'ngày liên tiếp';
+
+  @override
+  String resultNewBadge(String level) {
+    return 'Huy hiệu mới: First $level!';
+  }
+
+  @override
+  String resultCompletedFirstExercise(String level) {
+    return 'Hoàn thành bài $level đầu tiên';
+  }
+
+  @override
+  String resultCorrectCount(int count) {
+    return '$count đúng';
+  }
+
+  @override
+  String resultWrongCount(int count) {
+    return '$count sai';
+  }
+
+  @override
+  String get resultFeatureInDevelopment => 'Tính năng đang phát triển';
+
+  @override
+  String get resultScoreCardError => 'Không thể tải Score Card';
+
+  @override
+  String get resultNoInternetScoreCard => 'Không có kết nối mạng để tạo thẻ';
+
+  @override
+  String get resultCopiedToClipboard => 'Đã sao chép vào bộ nhớ tạm!';
 }
