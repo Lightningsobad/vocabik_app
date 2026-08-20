@@ -4,7 +4,6 @@ import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/presentation/widgets/header/app_header.dart';
 
 import '../widgets/custom_bottom_navigation_bar.dart';
-import '../widgets/floating_chat_button.dart';
 
 class MainShellScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -30,7 +29,6 @@ class MainShellScreen extends StatelessWidget {
       backgroundColor: colors.background,
       appBar: const AppHeader(),
       body: navigationShell,
-      floatingActionButton: const FloatingChatButton(),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: navigationShell.currentIndex,
         onTap: _onTap,

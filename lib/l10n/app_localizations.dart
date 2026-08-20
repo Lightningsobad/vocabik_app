@@ -1429,6 +1429,198 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Bài: {title}'**
   String assignmentLabel(String title);
+
+  /// No description provided for @termsOfServiceTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điều khoản dịch vụ'**
+  String get termsOfServiceTitle;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chính sách bảo mật'**
+  String get privacyPolicyTitle;
+
+  /// No description provided for @legalLastUpdated.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật lần cuối: {date}'**
+  String legalLastUpdated(String date);
+
+  /// No description provided for @legalLastUpdatedDefaultDate.
+  ///
+  /// In vi, this message translates to:
+  /// **'15/06/2026'**
+  String get legalLastUpdatedDefaultDate;
+
+  /// No description provided for @tosSection1Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'1. Chấp nhận điều khoản'**
+  String get tosSection1Title;
+
+  /// No description provided for @tosSection1Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này.'**
+  String get tosSection1Content;
+
+  /// No description provided for @tosSection2Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'2. Tài khoản người dùng'**
+  String get tosSection2Title;
+
+  /// No description provided for @tosSection2Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn chịu trách nhiệm bảo mật thông tin đăng nhập của mình.'**
+  String get tosSection2Content;
+
+  /// No description provided for @tosSection3Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'3. Sử dụng dịch vụ'**
+  String get tosSection3Title;
+
+  /// No description provided for @tosSection3Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không sử dụng dịch vụ cho mục đích bất hợp pháp hoặc vi phạm YouTube ToS.'**
+  String get tosSection3Content;
+
+  /// No description provided for @tosSection4Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'4. Nội dung & sở hữu trí tuệ'**
+  String get tosSection4Title;
+
+  /// No description provided for @tosSection4Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nội dung video thuộc về chủ sở hữu gốc trên YouTube; Vocabik chỉ tạo bài tập học tập.'**
+  String get tosSection4Content;
+
+  /// No description provided for @tosSection5Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'5. Thanh toán & hoàn tiền'**
+  String get tosSection5Title;
+
+  /// No description provided for @tosSection5Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gói Premium có thể hủy bất cứ lúc nào; hoàn tiền trong 7 ngày cho gói năm.'**
+  String get tosSection5Content;
+
+  /// No description provided for @tosSection6Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'6. Chấm dứt tài khoản'**
+  String get tosSection6Title;
+
+  /// No description provided for @tosSection6Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có thể xóa tài khoản bất cứ lúc nào; chúng tôi có thể chấm dứt nếu vi phạm điều khoản.'**
+  String get tosSection6Content;
+
+  /// No description provided for @tosContact.
+  ///
+  /// In vi, this message translates to:
+  /// **'Liên hệ: support@vocabik.com'**
+  String get tosContact;
+
+  /// No description provided for @privacySummaryTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tóm tắt:'**
+  String get privacySummaryTitle;
+
+  /// No description provided for @privacySummaryContent.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chúng tôi thu thập email và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.'**
+  String get privacySummaryContent;
+
+  /// No description provided for @privacySection1Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'1. Thông tin chúng tôi thu thập'**
+  String get privacySection1Title;
+
+  /// No description provided for @privacySection1Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email, tên hiển thị, và dữ liệu học tập (tiến độ, điểm số, từ vựng đã lưu) để cá nhân hóa trải nghiệm.'**
+  String get privacySection1Content;
+
+  /// No description provided for @privacySection2Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'2. Cách sử dụng thông tin'**
+  String get privacySection2Title;
+
+  /// No description provided for @privacySection2Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ và gửi nhắc nhở streak (nếu bạn bật).'**
+  String get privacySection2Content;
+
+  /// No description provided for @privacySection3Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'3. Dịch vụ bên thứ ba'**
+  String get privacySection3Title;
+
+  /// No description provided for @privacySection3Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Google OAuth, Facebook, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.'**
+  String get privacySection3Content;
+
+  /// No description provided for @privacySection4Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'4. Cookies & tracking'**
+  String get privacySection4Title;
+
+  /// No description provided for @privacySection4Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chúng tôi dùng cookie cần thiết cho đăng nhập và cookie phân tích ẩn danh.'**
+  String get privacySection4Content;
+
+  /// No description provided for @privacySection5Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'5. Quyền của bạn'**
+  String get privacySection5Title;
+
+  /// No description provided for @privacySection5Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có thể xóa, xuất, hoặc chỉnh sửa dữ liệu của mình bất cứ lúc nào trong phần Cài đặt.'**
+  String get privacySection5Content;
+
+  /// No description provided for @privacySection6Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'6. Bảo mật dữ liệu'**
+  String get privacySection6Title;
+
+  /// No description provided for @privacySection6Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dữ liệu được mã hóa khi truyền tải và lưu trữ trên hạ tầng bảo mật.'**
+  String get privacySection6Content;
+
+  /// No description provided for @privacyContact.
+  ///
+  /// In vi, this message translates to:
+  /// **'Liên hệ: privacy@vocabik.com'**
+  String get privacyContact;
 }
 
 class _AppLocalizationsDelegate

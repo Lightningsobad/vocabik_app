@@ -713,4 +713,115 @@ class AppLocalizationsEn extends AppLocalizations {
   String assignmentLabel(String title) {
     return 'Assignment: $title';
   }
+
+  @override
+  String get termsOfServiceTitle => 'Terms of Service';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String legalLastUpdated(String date) {
+    return 'Last updated: $date';
+  }
+
+  @override
+  String get legalLastUpdatedDefaultDate => '15/06/2026';
+
+  @override
+  String get tosSection1Title => '1. Acceptance of Terms';
+
+  @override
+  String get tosSection1Content =>
+      'By using Vocabik, you agree to these terms.';
+
+  @override
+  String get tosSection2Title => '2. User Account';
+
+  @override
+  String get tosSection2Content =>
+      'You are responsible for safeguarding your login credentials.';
+
+  @override
+  String get tosSection3Title => '3. Use of Service';
+
+  @override
+  String get tosSection3Content =>
+      'Do not use the service for illegal purposes or violate YouTube ToS.';
+
+  @override
+  String get tosSection4Title => '4. Content & Intellectual Property';
+
+  @override
+  String get tosSection4Content =>
+      'Video content belongs to original owners on YouTube; Vocabik only creates learning exercises.';
+
+  @override
+  String get tosSection5Title => '5. Payment & Refunds';
+
+  @override
+  String get tosSection5Content =>
+      'Premium plans can be canceled anytime; 7-day refund for annual plans.';
+
+  @override
+  String get tosSection6Title => '6. Account Termination';
+
+  @override
+  String get tosSection6Content =>
+      'You can delete your account anytime; we may terminate accounts that violate terms.';
+
+  @override
+  String get tosContact => 'Contact: support@vocabik.com';
+
+  @override
+  String get privacySummaryTitle => 'Summary:';
+
+  @override
+  String get privacySummaryContent =>
+      'We collect email and learning data to provide services. We do not sell your data.';
+
+  @override
+  String get privacySection1Title => '1. Information We Collect';
+
+  @override
+  String get privacySection1Content =>
+      'Email, display name, and learning data (progress, scores, saved vocabulary) to personalize your experience.';
+
+  @override
+  String get privacySection2Title => '2. How We Use Information';
+
+  @override
+  String get privacySection2Content =>
+      'Provide learning services, recommend suitable videos, track progress, and send streak reminders (if enabled).';
+
+  @override
+  String get privacySection3Title => '3. Third-Party Services';
+
+  @override
+  String get privacySection3Content =>
+      'Google OAuth, Facebook, YouTube API, Polar.sh (payments), and Google Analytics 4.';
+
+  @override
+  String get privacySection4Title => '4. Cookies & Tracking';
+
+  @override
+  String get privacySection4Content =>
+      'We use essential cookies for login and anonymous analytics cookies.';
+
+  @override
+  String get privacySection5Title => '5. Your Rights';
+
+  @override
+  String get privacySection5Content =>
+      'You can delete, export, or edit your data anytime in Settings.';
+
+  @override
+  String get privacySection6Title => '6. Data Security';
+
+  @override
+  String get privacySection6Content =>
+      'Data is encrypted in transit and stored on secure infrastructure.';
+
+  @override
+  String get privacyContact => 'Contact: privacy@vocabik.com';
 }
