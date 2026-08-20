@@ -642,4 +642,75 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get resultCopiedToClipboard => 'Đã sao chép vào bộ nhớ tạm!';
+
+  @override
+  String get myClassrooms => 'Lớp học của tôi';
+
+  @override
+  String get newClass => '+ Tạo lớp';
+
+  @override
+  String get students => 'Học sinh';
+
+  @override
+  String get assignments => 'Bài tập';
+
+  @override
+  String get statistics => 'Thống kê';
+
+  @override
+  String get joinCode => 'Mã tham gia';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get createClassroom => 'Tạo lớp học mới';
+
+  @override
+  String get classroomName => 'Tên lớp học';
+
+  @override
+  String get classroomNameHint => 'vd: 12A2 team';
+
+  @override
+  String get create => 'Tạo';
+
+  @override
+  String get createSuccess => 'Tạo lớp học thành công';
+
+  @override
+  String get createClassroomError => 'Không thể tạo lớp học';
+
+  @override
+  String get emptyClassrooms => 'Chưa có lớp học nào';
+
+  @override
+  String get noAssignmentYet => 'Chưa có bài tập nào được giao';
+
+  @override
+  String get noDataAvailable => 'Không có dữ liệu';
+
+  @override
+  String get enterClassroomName => 'Vui lòng nhập tên lớp học';
+
+  @override
+  String studentsCount(int count) {
+    return '$count học sinh';
+  }
+
+  @override
+  String studentsTabTitle(int count) {
+    return 'Học sinh ($count)';
+  }
+
+  @override
+  String assignmentDue(int current, int total, String date) {
+    return '$current/$total · Hạn $date';
+  }
+
+  @override
+  String assignmentLabel(String title) {
+    return 'Bài: $title';
+  }
 }

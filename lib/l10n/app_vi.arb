@@ -311,5 +311,60 @@
   "resultFeatureInDevelopment": "Tính năng đang phát triển",
   "resultScoreCardError": "Không thể tải Score Card",
   "resultNoInternetScoreCard": "Không có kết nối mạng để tạo thẻ",
-  "resultCopiedToClipboard": "Đã sao chép vào bộ nhớ tạm!"
+  "resultCopiedToClipboard": "Đã sao chép vào bộ nhớ tạm!",
+  "myClassrooms": "Lớp học của tôi",
+  "newClass": "+ Tạo lớp",
+  "students": "Học sinh",
+  "assignments": "Bài tập",
+  "statistics": "Thống kê",
+  "joinCode": "Mã tham gia",
+  "copy": "Copy",
+  "createClassroom": "Tạo lớp học mới",
+  "classroomName": "Tên lớp học",
+  "classroomNameHint": "vd: 12A2 team",
+  "create": "Tạo",
+  "createSuccess": "Tạo lớp học thành công",
+  "createClassroomError": "Không thể tạo lớp học",
+  "emptyClassrooms": "Chưa có lớp học nào",
+  "noAssignmentYet": "Chưa có bài tập nào được giao",
+  "noDataAvailable": "Không có dữ liệu",
+  "enterClassroomName": "Vui lòng nhập tên lớp học",
+  "studentsCount": "{count} học sinh",
+  "@studentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "studentsTabTitle": "Học sinh ({count})",
+  "@studentsTabTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "assignmentDue": "{current}/{total} · Hạn {date}",
+  "@assignmentDue": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "assignmentLabel": "Bài: {title}",
+  "@assignmentLabel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
 }

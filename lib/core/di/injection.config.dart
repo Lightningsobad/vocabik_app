@@ -35,6 +35,22 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
 import '../../features/auth/presentation/bloc/login_cubit.dart' as _i281;
 import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
+import '../../features/classroom/data/datasources/classroom_remote_data_source.dart'
+    as _i309;
+import '../../features/classroom/data/repositories/classroom_repository_impl.dart'
+    as _i360;
+import '../../features/classroom/domain/repositories/classroom_repository.dart'
+    as _i86;
+import '../../features/classroom/domain/usecases/create_classroom_use_case.dart'
+    as _i821;
+import '../../features/classroom/domain/usecases/get_classroom_by_id_use_case.dart'
+    as _i5;
+import '../../features/classroom/domain/usecases/get_classrooms_use_case.dart'
+    as _i851;
+import '../../features/classroom/presentation/cubit/classroom_detail_cubit.dart'
+    as _i51;
+import '../../features/classroom/presentation/cubit/classroom_list_cubit.dart'
+    as _i293;
 import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
 import '../../features/exercise/data/datasources/exercise_remote_datasource.dart'
     as _i913;
@@ -200,6 +216,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i854.ProgressRemoteDataSource>(
       () => _i854.ProgressRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i309.ClassroomRemoteDataSource>(
+      () => _i309.ClassroomRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i913.ExerciseRemoteDataSource>(
       () => _i913.ExerciseRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -237,6 +256,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i50.ExerciseRepository>(
       () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i86.ClassroomRepository>(
+      () =>
+          _i360.ClassroomRepositoryImpl(gh<_i309.ClassroomRemoteDataSource>()),
     );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
@@ -294,6 +317,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1011.GetPersonalizedSlotsUseCase>(
       () => _i1011.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
     );
+    gh.factory<_i821.CreateClassroomUseCase>(
+      () => _i821.CreateClassroomUseCase(gh<_i86.ClassroomRepository>()),
+    );
+    gh.factory<_i5.GetClassroomByIdUseCase>(
+      () => _i5.GetClassroomByIdUseCase(gh<_i86.ClassroomRepository>()),
+    );
+    gh.factory<_i851.GetClassroomsUseCase>(
+      () => _i851.GetClassroomsUseCase(gh<_i86.ClassroomRepository>()),
+    );
     gh.factory<_i498.CefrSelectionCubit>(
       () => _i498.CefrSelectionCubit(
         gh<_i186.UpdateProfileUseCase>(),
@@ -306,6 +338,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i797.AuthBloc>(
       () =>
           _i797.AuthBloc(gh<_i131.SignOutUseCase>(), gh<_i477.GetMeUseCase>()),
+    );
+    gh.factory<_i293.ClassroomListCubit>(
+      () => _i293.ClassroomListCubit(
+        gh<_i851.GetClassroomsUseCase>(),
+        gh<_i821.CreateClassroomUseCase>(),
+      ),
     );
     gh.factory<_i714.GetVideoDetailUseCase>(
       () => _i714.GetVideoDetailUseCase(gh<_i291.VideoDetailRepository>()),
@@ -325,6 +363,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i67.ExerciseCubit>(
       () => _i67.ExerciseCubit(gh<_i497.GetExerciseUseCase>()),
+    );
+    gh.factory<_i51.ClassroomDetailCubit>(
+      () => _i51.ClassroomDetailCubit(gh<_i5.GetClassroomByIdUseCase>()),
     );
     gh.factory<_i219.VerifyEmailCubit>(
       () => _i219.VerifyEmailCubit(

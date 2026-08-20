@@ -14,6 +14,9 @@ import '../../features/profile/presentation/screens/cefr_selection_screen.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../../features/video_detail/presentation/screens/video_detail_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_screen.dart';
+import '../../features/classroom/presentation/screens/my_classrooms_screen.dart';
+import '../../features/classroom/presentation/screens/classroom_detail_screen.dart';
+import '../../features/classroom/domain/entities/classroom_entity.dart';
 import '../di/injection.dart';
 
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
@@ -179,6 +182,23 @@ final GoRouter appRouter = GoRouter(
                 GoRoute(
                   path: 'integration',
                   builder: (context, state) => const IntegrationContentView(),
+                ),
+                GoRoute(
+                  path: 'classrooms',
+                  builder: (context, state) => const MyClassroomsScreen(),
+                  routes: [
+                    GoRoute(
+                      path: ':id',
+                      builder: (context, state) {
+                        final id = state.pathParameters['id']!;
+                        final classroom = state.extra as ClassroomEntity?;
+                        return ClassroomDetailScreen(
+                          id: id,
+                          classroom: classroom,
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

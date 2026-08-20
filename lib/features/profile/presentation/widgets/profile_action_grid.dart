@@ -26,7 +26,9 @@ class ProfileActionGrid extends StatelessWidget {
     ActionItemData(title: l10n.actionAchievements, emoji: '🏅', onTap: () {}),
     ActionItemData(title: l10n.actionNotebook, emoji: '📖', onTap: () {}),
     ActionItemData(title: l10n.actionLeaderboard, emoji: '🏆', onTap: () {}),
-    ActionItemData(title: l10n.actionClassroom, emoji: '🎓', onTap: () {}),
+    ActionItemData(title: l10n.actionClassroom, emoji: '🎓', onTap: () {
+      context.push('/profile/classrooms');
+    }),
     ActionItemData(title: l10n.actionDailyChallenge, emoji: '🔥', onTap: () {}),
     ActionItemData(title: l10n.actionBotIntegration, emoji: '✈️', onTap: () {
       context.push('/profile/integration');
