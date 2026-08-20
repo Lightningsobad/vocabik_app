@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -43,9 +44,26 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late final TapGestureRecognizer _termsRecognizer;
+  late final TapGestureRecognizer _privacyRecognizer;
+
+  @override
+  void initState() {
+    super.initState();
+    _termsRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        context.push('/terms-of-service');
+      };
+    _privacyRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        context.push('/privacy-policy');
+      };
+  }
 
   @override
   void dispose() {
+    _termsRecognizer.dispose();
+    _privacyRecognizer.dispose();
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -207,6 +225,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                 children: [
                   TextSpan(
                     text: l10n.termsText,
+                    recognizer: _termsRecognizer,
                     style: TextStyle(
                       color: colors?.primaryAccent,
                       fontWeight: FontWeight.w700,
@@ -218,6 +237,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                   ),
                   TextSpan(
                     text: l10n.securityText,
+                    recognizer: _privacyRecognizer,
                     style: TextStyle(
                       color: colors?.primaryAccent,
                       fontWeight: FontWeight.w700,

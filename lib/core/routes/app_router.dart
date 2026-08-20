@@ -19,6 +19,7 @@ import '../../features/classroom/presentation/screens/classroom_detail_screen.da
 import '../../features/classroom/domain/entities/classroom_entity.dart';
 import '../di/injection.dart';
 
+import '../../features/legal/presentation/screens/legal_screen.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 class PlaceholderScreen extends StatelessWidget {
@@ -41,10 +42,17 @@ final GoRouter appRouter = GoRouter(
     final isLoggedIn = localDataSource.getAccessToken() != null;
 
     // Allowed routes for unauthenticated users
-    final unauthRoutes = ['/login', '/register', '/verify-email'];
-    final isUnauthRoute = unauthRoutes.contains(state.matchedLocation);
+    final unauthAllowedRoutes = [
+      '/login',
+      '/register',
+      '/verify-email',
+      '/terms-of-service',
+      '/privacy-policy',
+    ];
+    final isUnauthAllowed =
+        unauthAllowedRoutes.contains(state.matchedLocation);
 
-    if (!isLoggedIn && !isUnauthRoute) {
+    if (!isLoggedIn && !isUnauthAllowed) {
       return '/login';
     }
 
@@ -69,7 +77,8 @@ final GoRouter appRouter = GoRouter(
         return null;
       }
 
-      if (isUnauthRoute) {
+      if (state.matchedLocation == '/login' ||
+          state.matchedLocation == '/register') {
         return '/home';
       }
     }
@@ -88,6 +97,20 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/register',
       builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      path: '/terms-of-service',
+      builder: (context, state) => const LegalScreen(
+        type: LegalScreenType.termsOfService,
+        isFullscreen: true,
+      ),
+    ),
+    GoRoute(
+      path: '/privacy-policy',
+      builder: (context, state) => const LegalScreen(
+        type: LegalScreenType.privacyPolicy,
+        isFullscreen: true,
+      ),
     ),
     GoRoute(
       path: '/verify-email',
@@ -154,6 +177,22 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/home',
               builder: (context, state) => const HomeScreen(),
+              routes: [
+                GoRoute(
+                  path: 'terms-of-service',
+                  builder: (context, state) => const LegalScreen(
+                    type: LegalScreenType.termsOfService,
+                    isFullscreen: false,
+                  ),
+                ),
+                GoRoute(
+                  path: 'privacy-policy',
+                  builder: (context, state) => const LegalScreen(
+                    type: LegalScreenType.privacyPolicy,
+                    isFullscreen: false,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

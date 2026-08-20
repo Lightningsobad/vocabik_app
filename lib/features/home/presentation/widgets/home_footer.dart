@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -54,11 +56,26 @@ class HomeFooter extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.lg),
-              _buildFooterLink(l10n.homePricing, colors.textSecondary),
+              _buildFooterLink(
+                text: l10n.homePricing,
+                color: colors.textSecondary,
+              ),
               const SizedBox(width: AppSpacing.md2),
-              _buildFooterLink(l10n.homePrivacyPolicy, colors.textSecondary),
+              _buildFooterLink(
+                text: l10n.homePrivacyPolicy,
+                color: colors.textSecondary,
+                onTap: () {
+                  context.push('/home/privacy-policy');
+                },
+              ),
               const SizedBox(width: AppSpacing.md2),
-              _buildFooterLink(l10n.homeTerms, colors.textSecondary),
+              _buildFooterLink(
+                text: l10n.homeTerms,
+                color: colors.textSecondary,
+                onTap: () {
+                  context.push('/home/terms-of-service');
+                },
+              ),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
@@ -80,14 +97,22 @@ class HomeFooter extends StatelessWidget {
     );
   }
 
-  Widget _buildFooterLink(String text, Color color) {
-    return Text(
-      text,
-      style: AppTextStyles.custom(
-        color: color,
-        fontSize: AppFontSize.sm,
-        fontWeight: FontWeight.w800,
+  Widget _buildFooterLink({
+    required String text,
+    required Color color,
+    VoidCallback? onTap,
+  }) {
+    return BounceWrapper(
+      onTap: onTap,
+      child: Text(
+        text,
+        style: AppTextStyles.custom(
+          color: color,
+          fontSize: AppFontSize.sm,
+          fontWeight: FontWeight.w800,
+        ),
       ),
     );
   }
 }
+

@@ -366,5 +366,44 @@
         "type": "String"
       }
     }
-  }
+  },
+  "termsOfServiceTitle": "Điều khoản dịch vụ",
+  "privacyPolicyTitle": "Chính sách bảo mật",
+  "legalLastUpdated": "Cập nhật lần cuối: {date}",
+  "@legalLastUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalLastUpdatedDefaultDate": "15/06/2026",
+  "tosSection1Title": "1. Chấp nhận điều khoản",
+  "tosSection1Content": "Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này.",
+  "tosSection2Title": "2. Tài khoản người dùng",
+  "tosSection2Content": "Bạn chịu trách nhiệm bảo mật thông tin đăng nhập của mình.",
+  "tosSection3Title": "3. Sử dụng dịch vụ",
+  "tosSection3Content": "Không sử dụng dịch vụ cho mục đích bất hợp pháp hoặc vi phạm YouTube ToS.",
+  "tosSection4Title": "4. Nội dung & sở hữu trí tuệ",
+  "tosSection4Content": "Nội dung video thuộc về chủ sở hữu gốc trên YouTube; Vocabik chỉ tạo bài tập học tập.",
+  "tosSection5Title": "5. Thanh toán & hoàn tiền",
+  "tosSection5Content": "Gói Premium có thể hủy bất cứ lúc nào; hoàn tiền trong 7 ngày cho gói năm.",
+  "tosSection6Title": "6. Chấm dứt tài khoản",
+  "tosSection6Content": "Bạn có thể xóa tài khoản bất cứ lúc nào; chúng tôi có thể chấm dứt nếu vi phạm điều khoản.",
+  "tosContact": "Liên hệ: support@vocabik.com",
+  "privacySummaryTitle": "Tóm tắt:",
+  "privacySummaryContent": "Chúng tôi thu thập email và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.",
+  "privacySection1Title": "1. Thông tin chúng tôi thu thập",
+  "privacySection1Content": "Email, tên hiển thị, và dữ liệu học tập (tiến độ, điểm số, từ vựng đã lưu) để cá nhân hóa trải nghiệm.",
+  "privacySection2Title": "2. Cách sử dụng thông tin",
+  "privacySection2Content": "Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ và gửi nhắc nhở streak (nếu bạn bật).",
+  "privacySection3Title": "3. Dịch vụ bên thứ ba",
+  "privacySection3Content": "Google OAuth, Facebook, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.",
+  "privacySection4Title": "4. Cookies & tracking",
+  "privacySection4Content": "Chúng tôi dùng cookie cần thiết cho đăng nhập và cookie phân tích ẩn danh.",
+  "privacySection5Title": "5. Quyền của bạn",
+  "privacySection5Content": "Bạn có thể xóa, xuất, hoặc chỉnh sửa dữ liệu của mình bất cứ lúc nào trong phần Cài đặt.",
+  "privacySection6Title": "6. Bảo mật dữ liệu",
+  "privacySection6Content": "Dữ liệu được mã hóa khi truyền tải và lưu trữ trên hạ tầng bảo mật.",
+  "privacyContact": "Liên hệ: privacy@vocabik.com"
 }

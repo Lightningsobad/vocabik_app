@@ -366,5 +366,44 @@
         "type": "String"
       }
     }
-  }
+  },
+  "termsOfServiceTitle": "Terms of Service",
+  "privacyPolicyTitle": "Privacy Policy",
+  "legalLastUpdated": "Last updated: {date}",
+  "@legalLastUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalLastUpdatedDefaultDate": "15/06/2026",
+  "tosSection1Title": "1. Acceptance of Terms",
+  "tosSection1Content": "By using Vocabik, you agree to these terms.",
+  "tosSection2Title": "2. User Account",
+  "tosSection2Content": "You are responsible for safeguarding your login credentials.",
+  "tosSection3Title": "3. Use of Service",
+  "tosSection3Content": "Do not use the service for illegal purposes or violate YouTube ToS.",
+  "tosSection4Title": "4. Content & Intellectual Property",
+  "tosSection4Content": "Video content belongs to original owners on YouTube; Vocabik only creates learning exercises.",
+  "tosSection5Title": "5. Payment & Refunds",
+  "tosSection5Content": "Premium plans can be canceled anytime; 7-day refund for annual plans.",
+  "tosSection6Title": "6. Account Termination",
+  "tosSection6Content": "You can delete your account anytime; we may terminate accounts that violate terms.",
+  "tosContact": "Contact: support@vocabik.com",
+  "privacySummaryTitle": "Summary:",
+  "privacySummaryContent": "We collect email and learning data to provide services. We do not sell your data.",
+  "privacySection1Title": "1. Information We Collect",
+  "privacySection1Content": "Email, display name, and learning data (progress, scores, saved vocabulary) to personalize your experience.",
+  "privacySection2Title": "2. How We Use Information",
+  "privacySection2Content": "Provide learning services, recommend suitable videos, track progress, and send streak reminders (if enabled).",
+  "privacySection3Title": "3. Third-Party Services",
+  "privacySection3Content": "Google OAuth, Facebook, YouTube API, Polar.sh (payments), and Google Analytics 4.",
+  "privacySection4Title": "4. Cookies & Tracking",
+  "privacySection4Content": "We use essential cookies for login and anonymous analytics cookies.",
+  "privacySection5Title": "5. Your Rights",
+  "privacySection5Content": "You can delete, export, or edit your data anytime in Settings.",
+  "privacySection6Title": "6. Data Security",
+  "privacySection6Content": "Data is encrypted in transit and stored on secure infrastructure.",
+  "privacyContact": "Contact: privacy@vocabik.com"
 }
