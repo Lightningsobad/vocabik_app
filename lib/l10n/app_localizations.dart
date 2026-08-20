@@ -1303,6 +1303,132 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đã sao chép vào bộ nhớ tạm!'**
   String get resultCopiedToClipboard;
+
+  /// No description provided for @myClassrooms.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lớp học của tôi'**
+  String get myClassrooms;
+
+  /// No description provided for @newClass.
+  ///
+  /// In vi, this message translates to:
+  /// **'+ Tạo lớp'**
+  String get newClass;
+
+  /// No description provided for @students.
+  ///
+  /// In vi, this message translates to:
+  /// **'Học sinh'**
+  String get students;
+
+  /// No description provided for @assignments.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bài tập'**
+  String get assignments;
+
+  /// No description provided for @statistics.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thống kê'**
+  String get statistics;
+
+  /// No description provided for @joinCode.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã tham gia'**
+  String get joinCode;
+
+  /// No description provided for @copy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// No description provided for @createClassroom.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo lớp học mới'**
+  String get createClassroom;
+
+  /// No description provided for @classroomName.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên lớp học'**
+  String get classroomName;
+
+  /// No description provided for @classroomNameHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'vd: 12A2 team'**
+  String get classroomNameHint;
+
+  /// No description provided for @create.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo'**
+  String get create;
+
+  /// No description provided for @createSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo lớp học thành công'**
+  String get createSuccess;
+
+  /// No description provided for @createClassroomError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tạo lớp học'**
+  String get createClassroomError;
+
+  /// No description provided for @emptyClassrooms.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có lớp học nào'**
+  String get emptyClassrooms;
+
+  /// No description provided for @noAssignmentYet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có bài tập nào được giao'**
+  String get noAssignmentYet;
+
+  /// No description provided for @noDataAvailable.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có dữ liệu'**
+  String get noDataAvailable;
+
+  /// No description provided for @enterClassroomName.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập tên lớp học'**
+  String get enterClassroomName;
+
+  /// No description provided for @studentsCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} học sinh'**
+  String studentsCount(int count);
+
+  /// No description provided for @studentsTabTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Học sinh ({count})'**
+  String studentsTabTitle(int count);
+
+  /// No description provided for @assignmentDue.
+  ///
+  /// In vi, this message translates to:
+  /// **'{current}/{total} · Hạn {date}'**
+  String assignmentDue(int current, int total, String date);
+
+  /// No description provided for @assignmentLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bài: {title}'**
+  String assignmentLabel(String title);
 }
 
 class _AppLocalizationsDelegate

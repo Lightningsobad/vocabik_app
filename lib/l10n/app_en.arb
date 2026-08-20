@@ -311,5 +311,60 @@
   "resultFeatureInDevelopment": "Feature in development",
   "resultScoreCardError": "Unable to load Score Card",
   "resultNoInternetScoreCard": "No internet connection to generate Score Card",
-  "resultCopiedToClipboard": "Copied to clipboard!"
+  "resultCopiedToClipboard": "Copied to clipboard!",
+  "myClassrooms": "My classrooms",
+  "newClass": "+ New class",
+  "students": "Students",
+  "assignments": "Assignments",
+  "statistics": "Statistics",
+  "joinCode": "Join code",
+  "copy": "Copy",
+  "createClassroom": "Create new classroom",
+  "classroomName": "Classroom name",
+  "classroomNameHint": "e.g. 12A2 team",
+  "create": "Create",
+  "createSuccess": "Classroom created successfully",
+  "createClassroomError": "Failed to create classroom",
+  "emptyClassrooms": "No classrooms yet",
+  "noAssignmentYet": "No assignment yet",
+  "noDataAvailable": "No data available",
+  "enterClassroomName": "Please enter a classroom name",
+  "studentsCount": "{count} students",
+  "@studentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "studentsTabTitle": "Students ({count})",
+  "@studentsTabTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "assignmentDue": "{current}/{total} · Due {date}",
+  "@assignmentDue": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "assignmentLabel": "Assignment: {title}",
+  "@assignmentLabel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
 }

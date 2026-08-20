@@ -642,4 +642,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resultCopiedToClipboard => 'Copied to clipboard!';
+
+  @override
+  String get myClassrooms => 'My classrooms';
+
+  @override
+  String get newClass => '+ New class';
+
+  @override
+  String get students => 'Students';
+
+  @override
+  String get assignments => 'Assignments';
+
+  @override
+  String get statistics => 'Statistics';
+
+  @override
+  String get joinCode => 'Join code';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get createClassroom => 'Create new classroom';
+
+  @override
+  String get classroomName => 'Classroom name';
+
+  @override
+  String get classroomNameHint => 'e.g. 12A2 team';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get createSuccess => 'Classroom created successfully';
+
+  @override
+  String get createClassroomError => 'Failed to create classroom';
+
+  @override
+  String get emptyClassrooms => 'No classrooms yet';
+
+  @override
+  String get noAssignmentYet => 'No assignment yet';
+
+  @override
+  String get noDataAvailable => 'No data available';
+
+  @override
+  String get enterClassroomName => 'Please enter a classroom name';
+
+  @override
+  String studentsCount(int count) {
+    return '$count students';
+  }
+
+  @override
+  String studentsTabTitle(int count) {
+    return 'Students ($count)';
+  }
+
+  @override
+  String assignmentDue(int current, int total, String date) {
+    return '$current/$total · Due $date';
+  }
+
+  @override
+  String assignmentLabel(String title) {
+    return 'Assignment: $title';
+  }
 }
