@@ -21,6 +21,7 @@ import 'package:vocabik_app/features/home/presentation/widgets/home_recommended_
 import 'package:vocabik_app/features/home/presentation/widgets/home_trending_section.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/today_progress_card.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/domain/enums/cefr_level.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -110,7 +111,8 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
 
-    final List<String> tags = [l10n.homeAll, 'A1', 'A2', 'B1', 'B2', 'C1'];
+    final List<String> tags =
+        CefrLevel.values.map((level) => level.getLocalizedName(l10n)).toList();
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -167,6 +169,10 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                     selectedIndex: index,
                     onTabChanged: (newIndex) {
                       _selectedTabIndex.value = newIndex;
+                      final cefrLevel = CefrLevel.fromIndex(newIndex);
+                      context.read<HomeVideosBloc>().add(
+                            ChangeCefrFilter(cefrLevel.code),
+                          );
                     },
                     tabs: tags,
                   );

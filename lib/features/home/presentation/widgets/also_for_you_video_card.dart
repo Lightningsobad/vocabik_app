@@ -21,12 +21,12 @@ class AlsoForYouVideoCard extends StatelessWidget {
     return BounceWrapper(
       onTap: () {
         if (slot.videoId.isNotEmpty) {
-          context.push('/video/${slot.videoId}');
+          context.push('/home/video/${slot.videoId}');
         }
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: AppSpacing.sm2),
-        padding: const EdgeInsets.all(AppSpacing.sm2),
+        padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
           color: colors.surfaceCard,
           borderRadius: BorderRadius.circular(AppRadius.lg),

@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:vocabik_app/features/video_detail/domain/entities/video_progress_entity.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/domain/enums/exercise_type.dart';
 
 abstract class VideoDetailState extends Equatable {
   const VideoDetailState();
@@ -14,29 +16,45 @@ class VideoDetailLoading extends VideoDetailState {}
 
 class VideoDetailLoaded extends VideoDetailState {
   final VideoEntity video;
-  final String selectedExerciseType; // e.g. "Multiple choice" or "Type the answer"
+  final ExerciseType selectedExerciseType;
   final String selectedVersion; // e.g. "v1", "v2"
+  final int blanksCount;
+  final VideoProgressEntity? latestProgress;
 
   const VideoDetailLoaded({
     required this.video,
     required this.selectedExerciseType,
     required this.selectedVersion,
+    this.blanksCount = 0,
+    this.latestProgress,
   });
 
   VideoDetailLoaded copyWith({
     VideoEntity? video,
-    String? selectedExerciseType,
+    ExerciseType? selectedExerciseType,
     String? selectedVersion,
+    int? blanksCount,
+    VideoProgressEntity? latestProgress,
+    bool clearProgress = false,
   }) {
     return VideoDetailLoaded(
       video: video ?? this.video,
       selectedExerciseType: selectedExerciseType ?? this.selectedExerciseType,
       selectedVersion: selectedVersion ?? this.selectedVersion,
+      blanksCount: blanksCount ?? this.blanksCount,
+      latestProgress:
+          clearProgress ? null : (latestProgress ?? this.latestProgress),
     );
   }
 
   @override
-  List<Object?> get props => [video, selectedExerciseType, selectedVersion];
+  List<Object?> get props => [
+        video,
+        selectedExerciseType,
+        selectedVersion,
+        blanksCount,
+        latestProgress,
+      ];
 }
 
 class VideoDetailError extends VideoDetailState {

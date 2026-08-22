@@ -40,7 +40,9 @@ class SharedCourseCard extends StatelessWidget {
 
     return BounceWrapper(
       onTap: () {
-        context.push('/video/${video.id}');
+        final location = GoRouterState.of(context).matchedLocation;
+        final prefix = location.startsWith('/discover') ? '/discover' : '/home';
+        context.push('$prefix/video/${video.id}');
       },
       child: Container(
         width: width,
@@ -115,13 +117,36 @@ class SharedCourseCard extends StatelessWidget {
                         ],
                       ),
                     ),
+                    if (video.durationSeconds > 0)
+                      Positioned(
+                        bottom: AppSpacing.sm,
+                        right: AppSpacing.sm,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.tnn,
+                            vertical: AppSpacing.tn,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.7),
+                            borderRadius: BorderRadius.circular(AppRadius.tn),
+                          ),
+                          child: Text(
+                            _formatDuration(video.durationSeconds),
+                            style: AppTextStyles.custom(
+                              color: Colors.white,
+                              fontSize: AppFontSize.tnn,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
             ),
             // Info
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.sm),
+              padding: const EdgeInsets.all(AppSpacing.sm2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -130,19 +155,20 @@ class SharedCourseCard extends StatelessWidget {
                     video.title,
                     style: AppTextStyles.custom(
                       color: colors.textPrimary,
-                      fontSize: AppFontSize.mdt,
+                      fontSize: AppFontSize.lg2,
                       fontWeight: FontWeight.w900,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (video.artist != null && video.artist!.isNotEmpty) ...[
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpacing.tnn),
                     Text(
                       video.artist!,
                       style: AppTextStyles.custom(
                         color: colors.textSecondary,
-                        fontSize: AppFontSize.sm,
+                        fontSize: AppFontSize.mdt,
+                        fontWeight: FontWeight.w600,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -156,11 +182,21 @@ class SharedCourseCard extends StatelessWidget {
                       Flexible(
                         child: CourseTagBadge(
                           text: video.category,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.sm,
+                            vertical: AppSpacing.tn,
+                          ),
+                          textStyle: AppTextStyles.custom(
+                            color: colors.tabUnselectedText,
+                            fontSize: AppFontSize.sm,
+                            fontWeight: FontWeight.w700,
+                          ),
                           type: CourseTagType.category,
                         ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: AppSpacing.tn),
                 ],
               ),
             ),
@@ -168,5 +204,11 @@ class SharedCourseCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatDuration(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 }

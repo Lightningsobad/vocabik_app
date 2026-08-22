@@ -25,11 +25,11 @@ class DailyPickCard extends StatelessWidget {
       child: BounceWrapper(
         onTap: () {
           if (dailyPick.videoId.isNotEmpty) {
-            context.push('/video/${dailyPick.videoId}');
+            context.push('/home/video/${dailyPick.videoId}');
           }
         },
         child: Container(
-          height: 215,
+          height: 250,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppRadius.lg2),
             color: colors.surfaceCard,
@@ -96,19 +96,28 @@ class DailyPickCard extends StatelessWidget {
 
                 // 3. Top-left Badge (DAILY PICK)
                 Positioned(
-                  top: AppSpacing.md,
-                  left: AppSpacing.md,
+                  top: AppSpacing.mdt,
+                  left: AppSpacing.mdt,
                   child: CourseTagBadge(
                     text: l10n.homeDailyPickTag,
                     type: CourseTagType.dailyPick,
+                    textStyle: AppTextStyles.custom(
+                      fontSize: AppFontSize.sm,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                      vertical: AppSpacing.tnn,
+                    ),
                   ),
                 ),
 
                 // 4. Center Play Button with Glow
                 Center(
                   child: Container(
-                    width: 56,
-                    height: 56,
+                    width: 68,
+                    height: 68,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
                       shape: BoxShape.circle,
@@ -133,9 +142,9 @@ class DailyPickCard extends StatelessWidget {
 
                 // 5. Bottom Info (CEFR Level & Title)
                 Positioned(
-                  bottom: AppSpacing.md,
-                  left: AppSpacing.md,
-                  right: AppSpacing.md,
+                  bottom: AppSpacing.mdt,
+                  left: AppSpacing.mdt,
+                  right: AppSpacing.mdt,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -152,7 +161,7 @@ class DailyPickCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.custom(
                           color: Colors.white,
-                          fontSize: AppFontSize.xl5,
+                          fontSize: AppFontSize.xl6,
                           fontWeight: FontWeight.w900,
                           height: 1.2,
                         ),

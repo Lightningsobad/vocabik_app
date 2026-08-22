@@ -1,33 +1,62 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/features/video_detail/domain/use_cases/get_latest_video_progress_use_case.dart';
 import 'package:vocabik_app/features/video_detail/domain/use_cases/get_video_detail_use_case.dart';
+import 'package:vocabik_app/features/video_detail/domain/use_cases/get_video_exercise_blanks_use_case.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/domain/enums/exercise_type.dart';
 
 import 'video_detail_state.dart';
 
 @injectable
 class VideoDetailCubit extends Cubit<VideoDetailState> {
   final GetVideoDetailUseCase _getVideoDetailUseCase;
+  final GetVideoExerciseBlanksUseCase _getVideoExerciseBlanksUseCase;
+  final GetLatestVideoProgressUseCase _getLatestVideoProgressUseCase;
 
-  VideoDetailCubit(this._getVideoDetailUseCase) : super(VideoDetailInitial());
+  VideoDetailCubit(
+    this._getVideoDetailUseCase,
+    this._getVideoExerciseBlanksUseCase,
+    this._getLatestVideoProgressUseCase,
+  ) : super(VideoDetailInitial());
 
   Future<void> loadVideoDetail(String id) async {
     emit(VideoDetailLoading());
 
-    final result = await _getVideoDetailUseCase(id);
+    try {
+      final detailFuture = _getVideoDetailUseCase(id);
+      final blanksFuture = _getVideoExerciseBlanksUseCase(id);
 
-    result.fold(
-      (failure) => emit(VideoDetailError(message: failure.message)),
-      (video) {
-        emit(VideoDetailLoaded(
-          video: video,
-          selectedExerciseType: 'Multiple choice', // Default for "Fill-blank"
-          selectedVersion: video.canonicalVersion ?? 'v1',
-        ));
-      },
-    );
+      final results = await Future.wait([detailFuture, blanksFuture]);
+      final detailResult = results[0] as Either<Failure, VideoEntity>;
+      final blanksResult = results[1] as Either<Failure, int>;
+
+      await detailResult.fold(
+        (failure) async => emit(VideoDetailError(message: failure.message)),
+        (video) async {
+          final blanksCount = blanksResult.fold((_) => 0, (count) => count);
+
+          final progressResult =
+              await _getLatestVideoProgressUseCase(video.title);
+          final latestProgress = progressResult.fold((_) => null, (p) => p);
+
+          emit(VideoDetailLoaded(
+            video: video,
+            selectedExerciseType: ExerciseType.multipleChoice,
+            selectedVersion: video.canonicalVersion ?? 'v1',
+            blanksCount: blanksCount,
+            latestProgress: latestProgress,
+          ));
+        },
+      );
+    } catch (e) {
+      emit(VideoDetailError(message: e.toString()));
+    }
   }
 
-  void changeExerciseType(String exerciseType) {
+  void changeExerciseType(ExerciseType exerciseType) {
     if (state is VideoDetailLoaded) {
       final currentState = state as VideoDetailLoaded;
       emit(currentState.copyWith(selectedExerciseType: exerciseType));
@@ -37,18 +66,11 @@ class VideoDetailCubit extends Cubit<VideoDetailState> {
   void changeVersion(String version) {
     if (state is VideoDetailLoaded) {
       final currentState = state as VideoDetailLoaded;
-      
-      // Prevent selecting a version that is locked.
-      // E.g., if canonicalVersion is 'v1', then 'v2' and 'v3' are locked.
-      // Here we assume canonicalVersion determines the highest unlocked version.
-      // For simplicity, we can do a naive check if it's 'v1', we only allow 'v1'.
-      // If canonicalVersion is 'v2', allow 'v1', 'v2'.
-      final maxVersionStr = currentState.video.canonicalVersion ?? 'v1';
-      final maxVersion = int.tryParse(maxVersionStr.replaceAll('v', '')) ?? 1;
-      final selectedVer = int.tryParse(version.replaceAll('v', '')) ?? 1;
-      
-      if (selectedVer <= maxVersion) {
-         emit(currentState.copyWith(selectedVersion: version));
+      final selectedVer =
+          int.tryParse(version.replaceAll(RegExp(r'[^0-9]'), '')) ?? 1;
+
+      if (selectedVer <= currentState.video.maxVersionNumber) {
+        emit(currentState.copyWith(selectedVersion: version));
       }
     }
   }

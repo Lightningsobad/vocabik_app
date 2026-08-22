@@ -55,8 +55,9 @@ class HomeLibrarySection extends StatelessWidget {
                 state is HomeVideosInitial || state is HomeVideosLoading;
             final hasError = state is HomeVideosError;
             final videos = state is HomeVideosLoaded ? state.videos : [];
-            final hasReachedMax =
-                state is HomeVideosLoaded ? state.hasReachedMax : true;
+            final hasReachedMax = state is HomeVideosLoaded
+                ? state.hasReachedMax
+                : true;
             final isEmpty = videos.isEmpty && !isLoading && !hasError;
 
             // Loading Placeholder (Initial load)
@@ -70,11 +71,11 @@ class HomeLibrarySection extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: AppSpacing.md2,
-                        mainAxisSpacing: AppSpacing.md2,
-                        childAspectRatio: 0.9,
-                      ),
+                            crossAxisCount: 2,
+                            crossAxisSpacing: AppSpacing.md2,
+                            mainAxisSpacing: AppSpacing.md2,
+                            childAspectRatio: 0.85,
+                          ),
                       itemCount: 4,
                       itemBuilder: (context, index) => Container(
                         decoration: BoxDecoration(
@@ -109,9 +110,9 @@ class HomeLibrarySection extends StatelessWidget {
                       const SizedBox(height: AppSpacing.md),
                       ElevatedButton(
                         onPressed: () {
-                          context
-                              .read<HomeVideosBloc>()
-                              .add(const FetchVideos());
+                          context.read<HomeVideosBloc>().add(
+                            const FetchVideos(),
+                          );
                         },
                         child: Text(l10n.homeRetry),
                       ),
@@ -149,20 +150,17 @@ class HomeLibrarySection extends StatelessWidget {
                   sliver: SliverGrid(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: AppSpacing.md2,
-                      mainAxisSpacing: AppSpacing.md2,
-                      childAspectRatio: 0.9,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return SharedCourseCard(
-                          video: videos[index],
-                          width: double.infinity,
-                        );
-                      },
-                      childCount: videos.length,
-                    ),
+                          crossAxisCount: 2,
+                          crossAxisSpacing: AppSpacing.md2,
+                          mainAxisSpacing: AppSpacing.md2,
+                          childAspectRatio: 0.85,
+                        ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return SharedCourseCard(
+                        video: videos[index],
+                        width: double.infinity,
+                      );
+                    }, childCount: videos.length),
                   ),
                 ),
                 if (state is HomeVideosLoaded && !hasReachedMax)

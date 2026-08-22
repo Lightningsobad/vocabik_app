@@ -110,8 +110,12 @@ import '../../features/video_detail/data/repositories/video_detail_repository_im
     as _i272;
 import '../../features/video_detail/domain/repositories/video_detail_repository.dart'
     as _i291;
+import '../../features/video_detail/domain/use_cases/get_latest_video_progress_use_case.dart'
+    as _i209;
 import '../../features/video_detail/domain/use_cases/get_video_detail_use_case.dart'
     as _i714;
+import '../../features/video_detail/domain/use_cases/get_video_exercise_blanks_use_case.dart'
+    as _i203;
 import '../../features/video_detail/presentation/cubit/video_detail_cubit.dart'
     as _i483;
 import '../../shared/data/datasources/shared_video_remote_data_source.dart'
@@ -345,8 +349,25 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i821.CreateClassroomUseCase>(),
       ),
     );
+    gh.factory<_i209.GetLatestVideoProgressUseCase>(
+      () => _i209.GetLatestVideoProgressUseCase(
+        gh<_i291.VideoDetailRepository>(),
+      ),
+    );
     gh.factory<_i714.GetVideoDetailUseCase>(
       () => _i714.GetVideoDetailUseCase(gh<_i291.VideoDetailRepository>()),
+    );
+    gh.factory<_i203.GetVideoExerciseBlanksUseCase>(
+      () => _i203.GetVideoExerciseBlanksUseCase(
+        gh<_i291.VideoDetailRepository>(),
+      ),
+    );
+    gh.factory<_i483.VideoDetailCubit>(
+      () => _i483.VideoDetailCubit(
+        gh<_i714.GetVideoDetailUseCase>(),
+        gh<_i203.GetVideoExerciseBlanksUseCase>(),
+        gh<_i209.GetLatestVideoProgressUseCase>(),
+      ),
     );
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
@@ -383,9 +404,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i474.GetGamificationSummaryUseCase>(),
         gh<_i561.GamificationGlobalCubit>(),
       ),
-    );
-    gh.factory<_i483.VideoDetailCubit>(
-      () => _i483.VideoDetailCubit(gh<_i714.GetVideoDetailUseCase>()),
     );
     return this;
   }

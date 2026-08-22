@@ -48,11 +48,9 @@ class HomeVideoSection extends StatelessWidget {
           ),
           if (isLoading)
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: SizedBox(
-                height: 230,
+                height: 267,
                 child: AppShimmer(
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -60,7 +58,7 @@ class HomeVideoSection extends StatelessWidget {
                     separatorBuilder: (context, index) =>
                         const SizedBox(width: AppSpacing.lg),
                     itemBuilder: (context, index) => Container(
-                      width: 250,
+                      width: 282,
                       decoration: BoxDecoration(
                         color: colors.surfaceCard,
                         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -72,21 +70,16 @@ class HomeVideoSection extends StatelessWidget {
             )
           else if (videos.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: SizedBox(
-                height: 230,
+                height: 263,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: videos.length,
                   separatorBuilder: (context, index) =>
                       const SizedBox(width: AppSpacing.lg),
                   itemBuilder: (context, index) {
-                    return SharedCourseCard(
-                      video: videos[index],
-                      width: 250,
-                    );
+                    return SharedCourseCard(video: videos[index], width: 282);
                   },
                 ),
               ),

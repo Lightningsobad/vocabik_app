@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class HeaderCircleButton extends StatelessWidget {
   final Widget? icon;
@@ -22,19 +22,19 @@ class HeaderCircleButton extends StatelessWidget {
     return BounceWrapper(
       onTap: onTap,
       child: Container(
-        width: 34,
-        height: 34,
+        width: 39,
+        height: 39,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: colors.surfaceCard,
-          border: Border.all(color: colors.borderSubtle),
+          color: colors.tabUnselectedBackground,
+          border: Border.all(color: colors.borderSubtle, width: 1),
         ),
         alignment: Alignment.center,
         child: text != null
             ? Text(
                 text!,
-                style: GoogleFonts.nunito(
-                  fontSize: 12,
+                style: AppTextStyles.custom(
+                  fontSize: 14,
                   fontWeight: FontWeight.w800,
                   color: colors.textSecondary,
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_progress_bar.dart';
@@ -27,7 +28,7 @@ class TodayProgressCard extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.lg1),
       decoration: BoxDecoration(
         color: colors.surfaceCard,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -79,7 +80,9 @@ class TodayProgressCard extends StatelessWidget {
           ),
           const SizedBox(width: AppSpacing.md),
           BounceWrapper(
-            onTap: () {},
+            onTap: () {
+              context.push('/home/pricing');
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 17.0,

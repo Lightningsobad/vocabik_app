@@ -60,8 +60,7 @@ class _LoginViewState extends State<LoginView> {
 
     return AuthScaffold(
       body: BlocListener<LoginCubit, LoginState>(
-        listenWhen: (previous, current) =>
-            previous.status != current.status,
+        listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == LoginStatus.success) {
             context.go('/home');
@@ -76,9 +75,7 @@ class _LoginViewState extends State<LoginView> {
           } else if (state.status == LoginStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(
-                  state.errorMessage ?? l10n.authGenericError,
-                ),
+                content: Text(state.errorMessage ?? l10n.authGenericError),
               ),
             );
           }

@@ -11,27 +11,64 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
   final GetVideosUseCase getVideosUseCase;
   static const int _pageSize = 20;
 
-  HomeVideosBloc(this.getVideosUseCase) : super(HomeVideosInitial()) {
+  HomeVideosBloc(this.getVideosUseCase) : super(const HomeVideosInitial()) {
     on<FetchVideos>(
       _onFetchVideos,
       transformer: droppable(),
     );
     on<RefreshVideos>(_onRefreshVideos);
+    on<ChangeCefrFilter>(
+      _onChangeCefrFilter,
+      transformer: restartable(),
+    );
+  }
+
+  Future<void> _onChangeCefrFilter(
+    ChangeCefrFilter event,
+    Emitter<HomeVideosState> emit,
+  ) async {
+    if (state is HomeVideosLoading && state.currentCefr == event.cefr) {
+      return;
+    }
+
+    emit(HomeVideosLoading(currentCefr: event.cefr));
+    final result = await getVideosUseCase(
+      page: 1,
+      pageSize: _pageSize,
+      cefr: event.cefr,
+    );
+
+    result.fold(
+      (failure) => emit(HomeVideosError(failure.message, currentCefr: event.cefr)),
+      (data) => emit(HomeVideosLoaded(
+        videos: data.items,
+        hasReachedMax: data.hasReachedMax,
+        currentPage: data.page,
+        currentCefr: event.cefr,
+      )),
+    );
   }
 
   Future<void> _onFetchVideos(
     FetchVideos event,
     Emitter<HomeVideosState> emit,
   ) async {
-    if (state is HomeVideosInitial) {
-      emit(HomeVideosLoading());
-      final result = await getVideosUseCase(page: 1, pageSize: _pageSize);
+    final currentCefr = state.currentCefr;
+
+    if (state is HomeVideosInitial || state is HomeVideosError) {
+      emit(HomeVideosLoading(currentCefr: currentCefr));
+      final result = await getVideosUseCase(
+        page: 1,
+        pageSize: _pageSize,
+        cefr: currentCefr,
+      );
       result.fold(
-        (failure) => emit(HomeVideosError(failure.message)),
+        (failure) => emit(HomeVideosError(failure.message, currentCefr: currentCefr)),
         (data) => emit(HomeVideosLoaded(
           videos: data.items,
           hasReachedMax: data.hasReachedMax,
           currentPage: data.page,
+          currentCefr: currentCefr,
         )),
       );
       return;
@@ -42,10 +79,14 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
       if (currentState.hasReachedMax) return;
 
       final nextPage = currentState.currentPage + 1;
-      final result = await getVideosUseCase(page: nextPage, pageSize: _pageSize);
-      
+      final result = await getVideosUseCase(
+        page: nextPage,
+        pageSize: _pageSize,
+        cefr: currentState.currentCefr,
+      );
+
       result.fold(
-        (failure) => emit(HomeVideosError(failure.message)),
+        (failure) => emit(HomeVideosError(failure.message, currentCefr: currentState.currentCefr)),
         (data) {
           emit(data.items.isEmpty
               ? currentState.copyWith(hasReachedMax: true)
@@ -53,6 +94,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
                   videos: currentState.videos + data.items,
                   hasReachedMax: data.hasReachedMax,
                   currentPage: data.page,
+                  currentCefr: currentState.currentCefr,
                 ));
         },
       );
@@ -63,14 +105,20 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
     RefreshVideos event,
     Emitter<HomeVideosState> emit,
   ) async {
-    emit(HomeVideosLoading());
-    final result = await getVideosUseCase(page: 1, pageSize: _pageSize);
+    final currentCefr = state.currentCefr;
+    emit(HomeVideosLoading(currentCefr: currentCefr));
+    final result = await getVideosUseCase(
+      page: 1,
+      pageSize: _pageSize,
+      cefr: currentCefr,
+    );
     result.fold(
-      (failure) => emit(HomeVideosError(failure.message)),
+      (failure) => emit(HomeVideosError(failure.message, currentCefr: currentCefr)),
       (data) => emit(HomeVideosLoaded(
         videos: data.items,
         hasReachedMax: data.hasReachedMax,
         currentPage: data.page,
+        currentCefr: currentCefr,
       )),
     );
   }

@@ -12,6 +12,7 @@ class VideoEntity extends Equatable {
   final bool breakingBadge;
   final String? canonicalVersion;
   final Map<String, int> reactionCounts;
+  final int durationSeconds;
 
   const VideoEntity({
     required this.id,
@@ -25,12 +26,18 @@ class VideoEntity extends Equatable {
     required this.breakingBadge,
     this.canonicalVersion,
     this.reactionCounts = const {},
+    this.durationSeconds = 0,
   });
 
   bool get isNew {
     final now = DateTime.now();
     final difference = now.difference(publishedAt).inDays;
     return difference <= 7;
+  }
+
+  int get maxVersionNumber {
+    final versionStr = canonicalVersion ?? 'v1';
+    return int.tryParse(versionStr.replaceAll(RegExp(r'[^0-9]'), '')) ?? 1;
   }
 
   @override
@@ -46,5 +53,6 @@ class VideoEntity extends Equatable {
         breakingBadge,
         canonicalVersion,
         reactionCounts,
+        durationSeconds,
       ];
 }
