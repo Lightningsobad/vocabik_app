@@ -14,6 +14,7 @@ class VideoEntity extends Equatable {
   final Map<String, int> reactionCounts;
   final int durationSeconds;
   final int practiced;
+  final bool isNew;
 
   const VideoEntity({
     required this.id,
@@ -29,13 +30,8 @@ class VideoEntity extends Equatable {
     this.reactionCounts = const {},
     this.durationSeconds = 0,
     this.practiced = 0,
+    this.isNew = false,
   });
-
-  bool get isNew {
-    final now = DateTime.now();
-    final difference = now.difference(publishedAt).inDays;
-    return difference <= 7;
-  }
 
   int get maxVersionNumber {
     final versionStr = canonicalVersion ?? 'v1';
@@ -67,6 +63,7 @@ class VideoEntity extends Equatable {
     Map<String, int>? reactionCounts,
     int? durationSeconds,
     int? practiced,
+    bool? isNew,
   }) {
     return VideoEntity(
       id: id ?? this.id,
@@ -82,6 +79,7 @@ class VideoEntity extends Equatable {
       reactionCounts: reactionCounts ?? this.reactionCounts,
       durationSeconds: durationSeconds ?? this.durationSeconds,
       practiced: practiced ?? this.practiced,
+      isNew: isNew ?? this.isNew,
     );
   }
 
@@ -100,5 +98,6 @@ class VideoEntity extends Equatable {
         reactionCounts,
         durationSeconds,
         practiced,
+        isNew,
       ];
 }

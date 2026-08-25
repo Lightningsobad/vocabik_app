@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/domain/usecases/get_videos_usecase.dart';
 
 import 'home_videos_event.dart';
@@ -23,6 +24,14 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
     );
   }
 
+  List<VideoEntity> _mapVideosWithNewFlag(List<VideoEntity> items, int page) {
+    final isPage1 = page == 1;
+    return items.asMap().entries.map((entry) {
+      final isNew = isPage1 && entry.key < 10;
+      return entry.value.copyWith(isNew: isNew);
+    }).toList();
+  }
+
   Future<void> _onChangeCefrFilter(
     ChangeCefrFilter event,
     Emitter<HomeVideosState> emit,
@@ -41,7 +50,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
     result.fold(
       (failure) => emit(HomeVideosError(failure.message, currentCefr: event.cefr)),
       (data) => emit(HomeVideosLoaded(
-        videos: data.items,
+        videos: _mapVideosWithNewFlag(data.items, data.page),
         hasReachedMax: data.hasReachedMax,
         currentPage: data.page,
         currentCefr: event.cefr,
@@ -65,7 +74,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
       result.fold(
         (failure) => emit(HomeVideosError(failure.message, currentCefr: currentCefr)),
         (data) => emit(HomeVideosLoaded(
-          videos: data.items,
+          videos: _mapVideosWithNewFlag(data.items, data.page),
           hasReachedMax: data.hasReachedMax,
           currentPage: data.page,
           currentCefr: currentCefr,
@@ -88,10 +97,11 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
       result.fold(
         (failure) => emit(HomeVideosError(failure.message, currentCefr: currentState.currentCefr)),
         (data) {
+          final mappedItems = _mapVideosWithNewFlag(data.items, data.page);
           emit(data.items.isEmpty
               ? currentState.copyWith(hasReachedMax: true)
               : HomeVideosLoaded(
-                  videos: currentState.videos + data.items,
+                  videos: currentState.videos + mappedItems,
                   hasReachedMax: data.hasReachedMax,
                   currentPage: data.page,
                   currentCefr: currentState.currentCefr,
@@ -115,7 +125,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
     result.fold(
       (failure) => emit(HomeVideosError(failure.message, currentCefr: currentCefr)),
       (data) => emit(HomeVideosLoaded(
-        videos: data.items,
+        videos: _mapVideosWithNewFlag(data.items, data.page),
         hasReachedMax: data.hasReachedMax,
         currentPage: data.page,
         currentCefr: currentCefr,

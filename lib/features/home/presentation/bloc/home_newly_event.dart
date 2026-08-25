@@ -14,3 +14,12 @@ class FetchNewlyVideos extends HomeNewlyEvent {
 class RefreshNewlyVideos extends HomeNewlyEvent {
   const RefreshNewlyVideos();
 }
+
+class ChangeNewlyCefrFilter extends HomeNewlyEvent {
+  final String? cefr;
+
+  const ChangeNewlyCefrFilter(this.cefr);
+
+  @override
+  List<Object?> get props => [cefr];
+}
