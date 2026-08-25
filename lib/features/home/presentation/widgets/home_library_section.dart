@@ -7,6 +7,7 @@ import 'package:vocabik_app/features/home/presentation/widgets/section_header.da
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
+import 'package:vocabik_app/shared/presentation/widgets/shared_empty_state.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -125,16 +126,11 @@ class HomeLibrarySection extends StatelessWidget {
             // Empty state
             if (isEmpty) {
               return SliverToBoxAdapter(
-                child: Padding(
+                child: SharedEmptyState(
+                  message: l10n.emptyVideos,
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
                     vertical: AppSpacing.md,
-                  ),
-                  child: Center(
-                    child: Text(
-                      l10n.homeVideosEmpty,
-                      style: TextStyle(color: colors.textSecondary),
-                    ),
                   ),
                 ),
               );

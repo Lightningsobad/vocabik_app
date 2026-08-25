@@ -11,4 +11,6 @@ abstract class SharedVideoRepository {
     String? genre,
     String? window,
   });
+
+  Future<Either<Failure, List<VideoEntity>>> getTrendingVideos({String? cefr});
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vocabik_app/core/utils/number_format_utils.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
@@ -166,7 +167,7 @@ class SharedCourseCard extends StatelessWidget {
                     Text(
                       video.artist!,
                       style: AppTextStyles.custom(
-                        color: colors.textSecondary,
+                        color: colors.practicedText,
                         fontSize: AppFontSize.mdt,
                         fontWeight: FontWeight.w600,
                       ),
@@ -194,6 +195,17 @@ class SharedCourseCard extends StatelessWidget {
                           type: CourseTagType.category,
                         ),
                       ),
+                      if (video.practiced >= 0)
+                        Text(
+                          l10n.homePracticed(
+                            NumberFormatUtils.formatCompact(video.practiced),
+                          ),
+                          style: AppTextStyles.custom(
+                            color: colors.practicedText,
+                            fontSize: AppFontSize.md,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.tn),

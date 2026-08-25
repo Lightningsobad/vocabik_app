@@ -1,0 +1,16 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/domain/repositories/shared_video_repository.dart';
+
+@injectable
+class GetTrendingVideosUseCase {
+  final SharedVideoRepository repository;
+
+  GetTrendingVideosUseCase(this.repository);
+
+  Future<Either<Failure, List<VideoEntity>>> call({String? cefr}) {
+    return repository.getTrendingVideos(cefr: cefr);
+  }
+}

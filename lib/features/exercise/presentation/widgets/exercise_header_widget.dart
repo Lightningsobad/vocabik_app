@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class ExerciseHeaderWidget extends StatelessWidget {
   final double progress;
@@ -21,7 +23,10 @@ class ExerciseHeaderWidget extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md2,
+      ),
       child: Row(
         children: [
           // Progress Bar
@@ -36,17 +41,17 @@ class ExerciseHeaderWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: AppSpacing.md2),
           // Fraction Text
           Text(
             '$currentStep/$totalSteps',
-            style: GoogleFonts.nunito(
+            style: AppTextStyles.custom(
               color: colors.textSecondary,
-              fontSize: 14,
+              fontSize: AppFontSize.md,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: AppSpacing.md2),
           // Close Button
           GestureDetector(
             onTap: onClose ?? () => Navigator.of(context).pop(),
@@ -58,7 +63,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
               ),
               child: Icon(
                 Icons.close_rounded,
-                size: 18,
+                size: 22,
                 color: colors.textSecondary,
               ),
             ),

@@ -435,6 +435,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emptySectionText => 'No video yet';
 
   @override
+  String get emptyVideos => 'No videos found';
+
+  @override
   String get videoDetailBack => 'Back';
 
   @override
@@ -473,7 +476,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get videoDetailLength => 'Length';
 
   @override
-  String get videoDetailShareThis => 'Share this lesson';
+  String get videoDetailShareThis => 'Share this exercise';
 
   @override
   String get videoDetailLastAttempt => 'Last attempt';
@@ -524,13 +527,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exerciseTitle => 'PRACTICE';
 
   @override
-  String get exerciseCorrect => 'Correct! 🎉';
+  String get exerciseCorrect => 'Correct!';
+
+  @override
+  String get exerciseCorrectAwesome => 'Awesome!';
+
+  @override
+  String get exerciseCorrectSpotOn => 'Spot on!';
 
   @override
   String get exerciseAlmost => 'Almost!';
 
   @override
-  String get exerciseHint => '💡 Hint';
+  String get exerciseHint => 'Hint';
 
   @override
   String get exerciseContinue => 'Continue →';
@@ -545,7 +554,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exerciseCompleted => 'Exercise completed!';
 
   @override
-  String get viewVietnameseTranslation => 'View Vietnamese translation';
+  String get viewVietnameseTranslation => 'Show Vietnamese';
 
   @override
   String get nameCannotBeEmpty => 'Name cannot be empty';
@@ -656,6 +665,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resultCopiedToClipboard => 'Copied to clipboard!';
+
+  @override
+  String get resultProgressSavedSuccess => 'Progress saved successfully!';
+
+  @override
+  String get resultProgressSaveError => 'Could not sync progress';
+
+  @override
+  String get resultProgressRetry => 'Retry sync';
 
   @override
   String get myClassrooms => 'My classrooms';

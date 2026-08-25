@@ -36,3 +36,8 @@ class UserAlreadyExistsFailure extends Failure {
 class InvalidTokenFailure extends Failure {
   const InvalidTokenFailure([super.message = 'Invalid token']);
 }
+
+class CancelledFailure extends Failure {
+  const CancelledFailure([super.message = 'Request cancelled']);
+}
+

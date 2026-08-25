@@ -14,6 +14,8 @@ import '../../features/profile/presentation/screens/cefr_selection_screen.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../../features/video_detail/presentation/screens/video_detail_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_screen.dart';
+import '../../features/exercise/presentation/screens/result_screen.dart';
+import '../../features/exercise/presentation/models/exercise_result_args.dart';
 import '../../features/classroom/presentation/screens/my_classrooms_screen.dart';
 import '../../features/classroom/presentation/screens/classroom_detail_screen.dart';
 import '../../features/classroom/domain/entities/classroom_entity.dart';
@@ -205,6 +207,22 @@ final GoRouter appRouter = GoRouter(
                     return VideoDetailScreen(videoId: id);
                   },
                 ),
+                GoRoute(
+                  path: 'exercise-result',
+                  builder: (context, state) {
+                    final args = state.extra as ExerciseResultArgs;
+                    return ResultScreen(
+                      key: ValueKey('${args.exercise.videoId}_${args.durationMs}_${args.selectedAnswers.hashCode}'),
+                      exercise: args.exercise,
+                      selectedAnswers: args.selectedAnswers,
+                      checkResults: args.checkResults,
+                      durationMs: args.durationMs,
+                      youtubeVideoId: args.youtubeVideoId,
+                      videoTitle: args.videoTitle,
+                      exerciseType: args.exerciseType,
+                    );
+                  },
+                ),
               ],
             ),
           ],
@@ -292,6 +310,27 @@ extension ExerciseNavigationExtension on BuildContext {
     push(uri.toString());
   }
 
+  void pushReplacementToExercise({
+    required String videoId,
+    required String cefrLevel,
+    String versionId = 'v1',
+    required String youtubeVideoId,
+    required String videoTitle,
+    ExerciseType exerciseType = ExerciseType.multipleChoice,
+  }) {
+    final uri = Uri(
+      path: '/exercise/$videoId',
+      queryParameters: {
+        'cefr_level': cefrLevel,
+        'version_id': versionId,
+        'youtube_video_id': youtubeVideoId,
+        'video_title': videoTitle,
+        'exercise_type': exerciseType.value,
+      },
+    );
+    pushReplacement(uri.toString());
+  }
+
   void pushVideoToExercise({
     required VideoEntity video,
     String? versionId,
@@ -305,6 +344,10 @@ extension ExerciseNavigationExtension on BuildContext {
       videoTitle: video.title,
       exerciseType: exerciseType,
     );
+  }
+
+  void goToExerciseResult(ExerciseResultArgs args) {
+    go('/home/exercise-result', extra: args);
   }
 }
 

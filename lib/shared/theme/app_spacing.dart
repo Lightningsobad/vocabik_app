@@ -5,6 +5,7 @@ class AppSpacing {
   static const double tnn = 6.0;
   static const double sm = 8.0;
   static const double sm2 = 10.0;
+  static const double sm3 = 11.0;
   static const double md = 12.0;
   static const double mdt = 13.0;
   static const double md2 = 14.0;
@@ -12,6 +13,7 @@ class AppSpacing {
   static const double lg = 16.0;
   static const double lg1 = 18.0;
   static const double lg2 = 20.0;
+  static const double lg3 = 22.0;
   static const double xl = 24.0;
   static const double xl1 = 26.0;
   static const double xl2 = 28.0;

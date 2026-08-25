@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_result_summary.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class ResultStatsSection extends StatelessWidget {
   final ExerciseResultSummary summary;
 
-  const ResultStatsSection({
-    super.key,
-    required this.summary,
-  });
+  const ResultStatsSection({super.key, required this.summary});
 
   String _getScoreIconPath(int score) {
     if (score >= 80) {
       return 'assets/result_screen/congratulation_icon.svg';
     } else if (score >= 50) {
-      return 'assets/result_screen/like_icon.svg';
+      return 'assets/result_screen/like_icon.png';
     } else {
       return 'assets/result_screen/strong_icon.svg';
     }
@@ -38,28 +36,31 @@ class ResultStatsSection extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.lg2),
         // Score icon
         Center(
-          child: SvgPicture.asset(
-            iconPath,
-            width: 72,
-            height: 72,
-          ),
+          child: iconPath.endsWith('.svg')
+              ? SvgPicture.asset(iconPath, width: 56, height: 56)
+              : Image.asset(
+                  iconPath,
+                  width: 56,
+                  height: 56,
+                  fit: BoxFit.contain,
+                ),
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.xl3),
 
         // Big percentage text
         Text(
           '${summary.accuracyScore}%',
-          style: GoogleFonts.nunito(
-            fontSize: 56,
+          style: AppTextStyles.custom(
+            fontSize: AppFontSize.xl13,
             fontWeight: FontWeight.w900,
             color: colors.primaryAccent,
             letterSpacing: -1,
           ),
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.tnn),
 
         // Badges row: Correct / Wrong / Time
         Row(
@@ -73,7 +74,7 @@ class ResultStatsSection extends StatelessWidget {
                 height: 16,
               ),
               label: l10n.resultCorrectCount(summary.correctCount),
-              textColor: colors.textPrimary,
+              textColor: colors.tabUnselectedText,
             ),
             const SizedBox(width: AppSpacing.md),
 
@@ -85,23 +86,23 @@ class ResultStatsSection extends StatelessWidget {
                 height: 16,
               ),
               label: l10n.resultWrongCount(summary.wrongCount),
-              textColor: colors.textPrimary,
+              textColor: colors.tabUnselectedText,
             ),
             const SizedBox(width: AppSpacing.md),
 
             // Duration
             _buildStatItem(
               icon: Icon(
-                Icons.access_time_rounded,
+                Icons.timer_outlined,
                 size: 16,
-                color: colors.textSecondary,
+                color: colors.tabUnselectedText,
               ),
               label: _formatDuration(summary.duration),
-              textColor: colors.textPrimary,
+              textColor: colors.tabUnselectedText,
             ),
           ],
         ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.xl),
       ],
     );
   }
@@ -118,9 +119,9 @@ class ResultStatsSection extends StatelessWidget {
         const SizedBox(width: AppSpacing.tn),
         Text(
           label,
-          style: GoogleFonts.nunito(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
+          style: AppTextStyles.custom(
+            fontSize: AppFontSize.md,
+            fontWeight: FontWeight.w600,
             color: textColor,
           ),
         ),

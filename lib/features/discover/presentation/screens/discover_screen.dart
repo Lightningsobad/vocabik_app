@@ -56,14 +56,16 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
   }
 
   void _onScroll() {
-    if (_isLoadingMore) return;                         // Guard 1: đang chờ kết quả
-    if (!_scrollController.hasClients) return;          // Guard 2: safety check
+    if (_isLoadingMore) return; // Guard 1: đang chờ kết quả
+    if (!_scrollController.hasClients) return; // Guard 2: safety check
     final position = _scrollController.position;
-    if (position.pixels < position.maxScrollExtent - 300) return; // Chưa đến cuối
+    if (position.pixels < position.maxScrollExtent - 300)
+      return; // Chưa đến cuối
 
     final state = context.read<DiscoverBloc>().state;
-    if (state.status == DiscoverStatus.loading) return; // Guard 3: bloc đang loading
-    if (state.hasReachedMax) return;                    // Guard 4: hết dữ liệu
+    if (state.status == DiscoverStatus.loading)
+      return; // Guard 3: bloc đang loading
+    if (state.hasReachedMax) return; // Guard 4: hết dữ liệu
 
     setState(() => _isLoadingMore = true);
     context.read<DiscoverBloc>().add(DiscoverVideosFetched());
@@ -85,12 +87,44 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
     // Map CEFR values. Assuming API expects exactly 'A1', 'A2' etc, or empty/null for all
     final cefrValues = ['', 'A1', 'A2', 'B1', 'B2', 'C1'];
 
-    final genres = [l10n.discoverFilterAll, 'Pop', 'Rap', 'Acoustic', 'Talk'];
-    final genreValues = ['', 'Pop', 'Rap', 'Acoustic', 'Talk'];
+    final genres = [
+      l10n.discoverFilterAll,
+      'Music',
+      'Vlog',
+      'News',
+      'Education',
+      'Entertainment',
+      'Ted talks',
+      'News English',
+      'Other',
+    ];
+    final genreValues = [
+      '',
+      'Music',
+      'Vlog',
+      'News',
+      'Education',
+      'Entertainment',
+      'Ted talks',
+      'News English',
+      'Other',
+    ];
 
-    final times = [l10n.discoverFilterAll, l10n.discoverTimeUnder3, l10n.discoverTime3To7, l10n.discoverTimeOver7, l10n.discoverFilter7Days];
+    final times = [
+      l10n.discoverFilterAll,
+      l10n.discoverTimeUnder3,
+      l10n.discoverTime3To7,
+      l10n.discoverTimeOver7,
+      l10n.discoverFilter7Days,
+    ];
     final windowValues = ['', '', '', '', '7d']; // API `window` value
-    final durationValues = ['', '<3', '3-7', '>7', '']; // Local filter values (backlog)
+    final durationValues = [
+      '',
+      '<3',
+      '3-7',
+      '>7',
+      '',
+    ]; // Local filter values (backlog)
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -118,13 +152,13 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: AppSpacing.md),
+                    const SizedBox(height: AppSpacing.lg3),
                     // Search Bar
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                      child: DiscoverSearchInput(
-                        onChanged: _onSearchChanged,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.lg,
                       ),
+                      child: DiscoverSearchInput(onChanged: _onSearchChanged),
                     ),
                     const SizedBox(height: AppSpacing.lg),
                     // Filters
@@ -132,9 +166,9 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                       selectedIndex: _selectedLevelIndex,
                       onTabChanged: (index) {
                         setState(() => _selectedLevelIndex = index);
-                        context.read<DiscoverBloc>().add(DiscoverFilterChanged(
-                              cefr: cefrValues[index],
-                            ));
+                        context.read<DiscoverBloc>().add(
+                          DiscoverFilterChanged(cefr: cefrValues[index]),
+                        );
                       },
                       tabs: levels,
                     ),
@@ -143,9 +177,9 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                       selectedIndex: _selectedGenreIndex,
                       onTabChanged: (index) {
                         setState(() => _selectedGenreIndex = index);
-                        context.read<DiscoverBloc>().add(DiscoverFilterChanged(
-                              genre: genreValues[index],
-                            ));
+                        context.read<DiscoverBloc>().add(
+                          DiscoverFilterChanged(genre: genreValues[index]),
+                        );
                       },
                       tabs: genres,
                     ),
@@ -154,10 +188,12 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                       selectedIndex: _selectedTimeIndex,
                       onTabChanged: (index) {
                         setState(() => _selectedTimeIndex = index);
-                        context.read<DiscoverBloc>().add(DiscoverFilterChanged(
-                              window: windowValues[index],
-                              duration: durationValues[index],
-                            ));
+                        context.read<DiscoverBloc>().add(
+                          DiscoverFilterChanged(
+                            window: windowValues[index],
+                            duration: durationValues[index],
+                          ),
+                        );
                       },
                       tabs: times,
                     ),
@@ -198,29 +234,32 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                             children: [
                               Text(
                                 l10n.discoverErrorLoad,
-                                style: GoogleFonts.nunito(color: colors.textSecondary),
+                                style: GoogleFonts.nunito(
+                                  color: colors.textSecondary,
+                                ),
                               ),
                               const SizedBox(height: AppSpacing.md),
                               BounceWrapper(
                                 onTap: () {
-                                  context
-                                      .read<DiscoverBloc>()
-                                      .add(DiscoverRefreshRequested());
+                                  context.read<DiscoverBloc>().add(
+                                    DiscoverRefreshRequested(),
+                                  );
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: AppSpacing.lg,
-                                      vertical: AppSpacing.sm),
+                                    horizontal: AppSpacing.lg,
+                                    vertical: AppSpacing.sm,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: colors.primaryAccent,
-                                    borderRadius:
-                                        BorderRadius.circular(999.0),
+                                    borderRadius: BorderRadius.circular(999.0),
                                   ),
                                   child: Text(
                                     l10n.discoverRetryButton,
                                     style: GoogleFonts.nunito(
-                                        color: colors.onPrimaryAccent,
-                                        fontWeight: FontWeight.w600),
+                                      color: colors.onPrimaryAccent,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -233,19 +272,25 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
 
                   // Trạng thái có dữ liệu (success hoặc loading thêm trang)
                   return SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                    ),
                     sliver: SliverMainAxisGroup(
                       slivers: [
                         SliverToBoxAdapter(
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                            padding: const EdgeInsets.only(
+                              bottom: AppSpacing.md,
+                            ),
                             child: Text(
                               state.searchQuery.isNotEmpty
                                   ? l10n.discoverSearchResultsWithQuery(
                                       state.displayedVideos.length,
-                                      state.searchQuery)
+                                      state.searchQuery,
+                                    )
                                   : l10n.discoverSearchResults(
-                                      state.displayedVideos.length),
+                                      state.displayedVideos.length,
+                                    ),
                               style: GoogleFonts.nunito(
                                 color: colors.textSecondary,
                                 fontSize: AppFontSize.md,
@@ -262,7 +307,8 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                                 child: Text(
                                   l10n.discoverEmptyResult,
                                   style: GoogleFonts.nunito(
-                                      color: colors.textSecondary),
+                                    color: colors.textSecondary,
+                                  ),
                                 ),
                               ),
                             ),
@@ -271,11 +317,11 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                           SliverGrid(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: AppSpacing.md,
-                              mainAxisSpacing: AppSpacing.md,
-                              childAspectRatio: 0.7,
-                            ),
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: AppSpacing.md,
+                                  mainAxisSpacing: AppSpacing.md,
+                                  childAspectRatio: 0.7,
+                                ),
                             delegate: SliverChildBuilderDelegate(
                               (context, index) {
                                 return SharedCourseCard(

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/features/exercise/data/models/exercise_model.dart';
+import 'package:vocabik_app/features/exercise/data/models/progress_request.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 
 abstract class ExerciseRemoteDataSource {
@@ -9,6 +10,11 @@ abstract class ExerciseRemoteDataSource {
     required String videoId,
     required String cefrLevel,
     required String versionId,
+    CancelToken? cancelToken,
+  });
+
+  Future<void> submitProgress({
+    required ProgressRequest request,
     CancelToken? cancelToken,
   });
 }
@@ -49,9 +55,36 @@ class ExerciseRemoteDataSourceImpl implements ExerciseRemoteDataSource {
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
-        throw ServerException('Request cancelled');
+        throw const RequestCancelledException();
       }
       throw ServerException(e.message ?? 'Failed to load exercise');
+    }
+  }
+
+  @override
+  Future<void> submitProgress({
+    required ProgressRequest request,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final response = await dio.post(
+        '/progress',
+        data: request.toJson(),
+        cancelToken: cancelToken,
+      );
+
+      if (response.statusCode == 200 ||
+          response.statusCode == 201 ||
+          response.statusCode == 204) {
+        return;
+      } else {
+        throw ServerException('Failed to submit exercise progress');
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.cancel) {
+        throw const RequestCancelledException();
+      }
+      throw ServerException(e.message ?? 'Failed to submit exercise progress');
     }
   }
 }

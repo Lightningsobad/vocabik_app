@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_entity.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_cubit.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.dart';
+import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_answer_feedback.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_hint_button.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/widgets/buttons/primary_button.dart';
 import 'package:vocabik_app/shared/presentation/widgets/inputs/app_text_field.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class TypeAnswerInteractionArea extends StatefulWidget {
   const TypeAnswerInteractionArea({super.key});
@@ -23,7 +26,6 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
   late final TextEditingController _controller;
   late final FocusNode _focusNode;
   String? _errorMessage;
-  int? _lastBlankIndex;
 
   @override
   void initState() {
@@ -73,7 +75,8 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
       },
       listener: (context, state) {
         if (state is ExerciseLoaded) {
-          _controller.clear();
+          final existingAnswer = state.selectedAnswers[state.currentBlankIndex];
+          _controller.text = existingAnswer ?? '';
           setState(() {
             _errorMessage = null;
           });
@@ -83,19 +86,6 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
         if (state is! ExerciseLoaded) return const SizedBox.shrink();
 
         final currentBlankIndex = state.currentBlankIndex;
-
-        // Reset controller when blank changes
-        if (_lastBlankIndex != currentBlankIndex) {
-          _lastBlankIndex = currentBlankIndex;
-          final existingAnswer = state.selectedAnswers[currentBlankIndex];
-          if (existingAnswer != null) {
-            _controller.text = existingAnswer;
-          } else {
-            _controller.clear();
-          }
-          _errorMessage = null;
-        }
-
         final checkResult = state.checkResults[currentBlankIndex];
         final isChecked = checkResult != null;
         final isCorrect = checkResult == true;
@@ -159,8 +149,8 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
                           child: Center(
                             child: Text(
                               l10n.exerciseCheck,
-                              style: GoogleFonts.nunito(
-                                fontSize: 16,
+                              style: AppTextStyles.custom(
+                                fontSize: AppFontSize.lg,
                                 fontWeight: FontWeight.bold,
                                 color: colors.onPrimaryAccent,
                               ),
@@ -175,40 +165,16 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
 
               // After submit: Result message + Continue button
               if (isChecked) ...[
-                Text(
-                  isCorrect
-                      ? l10n.exerciseCorrect
-                      : l10n.exerciseAlmostCorrect(correctAnswer),
-                  style: GoogleFonts.nunito(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: isCorrect ? colors.success : colors.danger,
-                  ),
-                  textAlign: TextAlign.center,
+                ExerciseAnswerFeedback(
+                  isCorrect: isCorrect,
+                  correctAnswer: correctAnswer,
                 ),
                 const SizedBox(height: AppSpacing.md),
-                BounceWrapper(
-                  onTap: () {
+                PrimaryButton(
+                  text: l10n.exerciseContinue,
+                  onPressed: () {
                     context.read<ExerciseCubit>().nextBlank();
                   },
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                    child: Center(
-                      child: Text(
-                        l10n.exerciseContinue,
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: colors.onPrimaryAccent,
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ],

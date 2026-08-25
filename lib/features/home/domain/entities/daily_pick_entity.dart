@@ -6,6 +6,10 @@ class DailyPickEntity extends Equatable {
   final String thumbnailUrl;
   final String cefrLevel;
   final String playerUrl;
+  final String artist;
+  final int durationSeconds;
+  final String category;
+  final int practiced;
 
   const DailyPickEntity({
     required this.videoId,
@@ -13,6 +17,10 @@ class DailyPickEntity extends Equatable {
     required this.thumbnailUrl,
     required this.cefrLevel,
     required this.playerUrl,
+    this.artist = '',
+    this.durationSeconds = 0,
+    this.category = '',
+    this.practiced = 0,
   });
 
   @override
@@ -22,5 +30,9 @@ class DailyPickEntity extends Equatable {
         thumbnailUrl,
         cefrLevel,
         playerUrl,
+        artist,
+        durationSeconds,
+        category,
+        practiced,
       ];
 }

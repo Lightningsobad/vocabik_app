@@ -53,3 +53,12 @@ class InvalidTokenException implements Exception {
   @override
   String toString() => 'InvalidTokenException: $message';
 }
+
+class RequestCancelledException implements Exception {
+  final String message;
+  const RequestCancelledException([this.message = 'Request cancelled']);
+
+  @override
+  String toString() => 'RequestCancelledException: $message';
+}
+

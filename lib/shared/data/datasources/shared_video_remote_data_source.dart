@@ -8,6 +8,14 @@ PaginatedVideoResponseModel _parseVideos(dynamic data) {
   return PaginatedVideoResponseModel.fromJson(data);
 }
 
+List<VideoModel> _parseTrendingVideos(dynamic data) {
+  final map = data as Map<String, dynamic>;
+  final items = map['items'] as List<dynamic>;
+  return items
+      .map((item) => VideoModel.fromJson(item as Map<String, dynamic>))
+      .toList();
+}
+
 abstract class SharedVideoRemoteDataSource {
   Future<PaginatedVideoResponseModel> getVideos({
     required int page,
@@ -16,6 +24,8 @@ abstract class SharedVideoRemoteDataSource {
     String? genre,
     String? window,
   });
+
+  Future<List<VideoModel>> getTrendingVideos({String? cefr});
 }
 
 @LazySingleton(as: SharedVideoRemoteDataSource)
@@ -49,6 +59,31 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
       
       if (response.statusCode == 200) {
         return await compute(_parseVideos, response.data);
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      throw ServerException(e.message ?? 'Unknown DioException');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<VideoModel>> getTrendingVideos({String? cefr}) async {
+    try {
+      final queryParameters = <String, dynamic>{};
+      if (cefr != null && cefr.isNotEmpty && cefr.toLowerCase() != 'all') {
+        queryParameters['cefr'] = cefr;
+      }
+
+      final response = await dio.get(
+        '/public/videos/trending',
+        queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
+      );
+      
+      if (response.statusCode == 200) {
+        return await compute(_parseTrendingVideos, response.data);
       } else {
         throw ServerException();
       }

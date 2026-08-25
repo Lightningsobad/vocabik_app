@@ -20,6 +20,7 @@ class VideoDetailLoaded extends VideoDetailState {
   final String selectedVersion; // e.g. "v1", "v2"
   final int blanksCount;
   final VideoProgressEntity? latestProgress;
+  final Set<String> userReactions;
 
   const VideoDetailLoaded({
     required this.video,
@@ -27,6 +28,7 @@ class VideoDetailLoaded extends VideoDetailState {
     required this.selectedVersion,
     this.blanksCount = 0,
     this.latestProgress,
+    this.userReactions = const {},
   });
 
   VideoDetailLoaded copyWith({
@@ -35,6 +37,7 @@ class VideoDetailLoaded extends VideoDetailState {
     String? selectedVersion,
     int? blanksCount,
     VideoProgressEntity? latestProgress,
+    Set<String>? userReactions,
     bool clearProgress = false,
   }) {
     return VideoDetailLoaded(
@@ -44,6 +47,7 @@ class VideoDetailLoaded extends VideoDetailState {
       blanksCount: blanksCount ?? this.blanksCount,
       latestProgress:
           clearProgress ? null : (latestProgress ?? this.latestProgress),
+      userReactions: userReactions ?? this.userReactions,
     );
   }
 
@@ -54,6 +58,7 @@ class VideoDetailLoaded extends VideoDetailState {
         selectedVersion,
         blanksCount,
         latestProgress,
+        userReactions,
       ];
 }
 

@@ -28,6 +28,19 @@ class WrongAnswerDetail extends Equatable {
       ];
 }
 
+class BlankAnswerEntity extends Equatable {
+  final int blankIndex;
+  final bool isCorrect;
+
+  const BlankAnswerEntity({
+    required this.blankIndex,
+    required this.isCorrect,
+  });
+
+  @override
+  List<Object?> get props => [blankIndex, isCorrect];
+}
+
 class ExerciseResultSummary extends Equatable {
   final int totalQuestions;
   final int correctCount;
@@ -35,6 +48,8 @@ class ExerciseResultSummary extends Equatable {
   final int accuracyScore; // 0 - 100
   final Duration duration;
   final List<WrongAnswerDetail> wrongAnswers;
+  final List<String> correctUserAnswers;
+  final List<BlankAnswerEntity> blankAnswers;
 
   const ExerciseResultSummary({
     required this.totalQuestions,
@@ -43,6 +58,8 @@ class ExerciseResultSummary extends Equatable {
     required this.accuracyScore,
     required this.duration,
     required this.wrongAnswers,
+    this.correctUserAnswers = const [],
+    this.blankAnswers = const [],
   });
 
   @override
@@ -53,5 +70,7 @@ class ExerciseResultSummary extends Equatable {
         accuracyScore,
         duration,
         wrongAnswers,
+        correctUserAnswers,
+        blankAnswers,
       ];
 }

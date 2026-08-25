@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vocabik_app/core/utils/string_extensions.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
@@ -13,6 +14,13 @@ class CourseTagBadge extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final EdgeInsetsGeometry? padding;
   final TextStyle? textStyle;
+  final Color? backgroundColor;
+  final Border? border;
+  final IconData? icon;
+  final Widget? leadingIcon;
+  final double? iconSize;
+  final Color? iconColor;
+  final double iconSpacing;
 
   const CourseTagBadge({
     super.key,
@@ -21,53 +29,81 @@ class CourseTagBadge extends StatelessWidget {
     this.borderRadius,
     this.padding,
     this.textStyle,
+    this.backgroundColor,
+    this.border,
+    this.icon,
+    this.leadingIcon,
+    this.iconSize,
+    this.iconColor,
+    this.iconSpacing = 4.0,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    Color backgroundColor;
+    Color defaultBg;
     Color textColor;
-    IconData? icon;
-    Border? border;
+    IconData? defaultIcon;
+    Border? defaultBorder;
 
     switch (type) {
       case CourseTagType.level:
         textColor = colors.tagLevelText;
         final cleanLevel = text.trim().toUpperCase();
         if (cleanLevel.startsWith('A')) {
-          backgroundColor = colors.tagLevelA;
+          defaultBg = colors.tagLevelA;
         } else if (cleanLevel == 'B1') {
-          backgroundColor = colors.tagLevelB1;
+          defaultBg = colors.tagLevelB1;
         } else if (cleanLevel == 'B2') {
-          backgroundColor = colors.tagLevelB2;
+          defaultBg = colors.tagLevelB2;
         } else if (cleanLevel == 'C1') {
-          backgroundColor = colors.tagLevelC1;
+          defaultBg = colors.tagLevelC1;
         } else {
-          backgroundColor = colors.tagLevelA;
+          defaultBg = colors.tagLevelA;
         }
         break;
       case CourseTagType.category:
-        backgroundColor = colors.tabUnselectedBackground;
+        defaultBg = colors.tabUnselectedBackground;
         textColor = colors.textSecondary;
-        border = Border.all(color: colors.borderSubtle, width: 1);
+        defaultBorder = Border.all(color: colors.borderSubtle, width: 1);
         break;
       case CourseTagType.newTag:
-        backgroundColor = colors.tagNewBackground;
+        defaultBg = colors.tagNewBackground;
         textColor = colors.tagNewText;
         break;
       case CourseTagType.completed:
-        backgroundColor = colors.tagNewBackground;
+        defaultBg = colors.tagNewBackground;
         textColor = colors.tagNewText;
-        icon = Icons.check;
+        defaultIcon = Icons.check;
         break;
       case CourseTagType.dailyPick:
-        backgroundColor = Colors.black.withValues(alpha: 0.4);
+        defaultBg = Colors.black.withValues(alpha: 0.4);
         textColor = Colors.white;
         break;
     }
 
+    String displayText = text;
+    if (type == CourseTagType.category && text.isNotEmpty) {
+      displayText = text.capitalize();
+    }
+
     final isCompactCircle = type == CourseTagType.completed && text.isEmpty;
+
+    final effectiveIcon = icon ?? defaultIcon;
+    final effectiveTextColor = textStyle?.color ?? textColor;
+    final effectiveIconColor = iconColor ?? effectiveTextColor;
+    final effectiveIconSize = iconSize ?? 14.0;
+
+    Widget? leading;
+    if (leadingIcon != null) {
+      leading = leadingIcon;
+    } else if (effectiveIcon != null) {
+      leading = Icon(
+        effectiveIcon,
+        size: effectiveIconSize,
+        color: effectiveIconColor,
+      );
+    }
 
     return Container(
       padding:
@@ -79,9 +115,9 @@ class CourseTagBadge extends StatelessWidget {
                   vertical: AppSpacing.xs,
                 )),
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: backgroundColor ?? defaultBg,
         borderRadius: borderRadius ?? BorderRadius.circular(AppRadius.full),
-        border: border,
+        border: border ?? defaultBorder,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -97,14 +133,14 @@ class CourseTagBadge extends StatelessWidget {
               ),
             ),
           ],
-          if (icon != null) ...[
-            Icon(icon, size: 12, color: textColor),
-            if (text.isNotEmpty) const SizedBox(width: 4),
+          if (leading != null) ...[
+            leading,
+            if (displayText.isNotEmpty) SizedBox(width: iconSpacing),
           ],
-          if (text.isNotEmpty)
+          if (displayText.isNotEmpty)
             Flexible(
               child: Text(
-                text,
+                displayText,
                 style:
                     textStyle ??
                     AppTextStyles.custom(

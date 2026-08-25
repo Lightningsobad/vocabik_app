@@ -66,15 +66,14 @@ class VersionSelector extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final isSelected = version == selectedVersion;
 
-    final verNum =
-        int.tryParse(version.replaceAll(RegExp(r'[^0-9]'), '')) ?? 1;
+    final verNum = int.tryParse(version.replaceAll(RegExp(r'[^0-9]'), '')) ?? 1;
     final isLocked = verNum > maxVersion;
 
     Widget cardContent = Container(
-      width: 105,
+      width: 115,
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md3,
-        vertical: AppSpacing.md2,
+        vertical: AppSpacing.sm3,
       ),
       decoration: BoxDecoration(
         color: isSelected

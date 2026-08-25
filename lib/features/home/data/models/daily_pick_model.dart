@@ -7,6 +7,10 @@ class DailyPickModel extends DailyPickEntity {
     required super.thumbnailUrl,
     required super.cefrLevel,
     required super.playerUrl,
+    super.artist,
+    super.durationSeconds,
+    super.category,
+    super.practiced,
   });
 
   factory DailyPickModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +24,10 @@ class DailyPickModel extends DailyPickEntity {
       thumbnailUrl: data['thumbnailUrl'] as String? ?? '',
       cefrLevel: data['cefrLevel'] as String? ?? '',
       playerUrl: data['playerUrl'] as String? ?? '',
+      artist: data['artist'] as String? ?? '',
+      durationSeconds: (data['durationSeconds'] as num?)?.toInt() ?? 0,
+      category: data['category'] as String? ?? '',
+      practiced: (data['practiced'] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -30,6 +38,10 @@ class DailyPickModel extends DailyPickEntity {
       'thumbnailUrl': thumbnailUrl,
       'cefrLevel': cefrLevel,
       'playerUrl': playerUrl,
+      'artist': artist,
+      'durationSeconds': durationSeconds,
+      'category': category,
+      'practiced': practiced,
     };
   }
 }

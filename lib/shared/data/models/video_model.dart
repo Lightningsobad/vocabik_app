@@ -52,6 +52,7 @@ class VideoModel {
   final String? canonicalVersion;
   final Map<String, int>? reactionCounts;
   final int durationSeconds;
+  final int practiced;
 
   VideoModel({
     required this.id,
@@ -66,6 +67,7 @@ class VideoModel {
     this.canonicalVersion,
     this.reactionCounts,
     this.durationSeconds = 0,
+    this.practiced = 0,
   });
 
   factory VideoModel.fromJson(Map<String, dynamic> json) {
@@ -84,6 +86,7 @@ class VideoModel {
           ? Map<String, int>.from(json['reactionCounts'] as Map)
           : null,
       durationSeconds: json['durationSeconds'] as int? ?? 0,
+      practiced: json['practiced'] as int? ?? 0,
     );
   }
 
@@ -101,6 +104,7 @@ class VideoModel {
       canonicalVersion: canonicalVersion,
       reactionCounts: reactionCounts ?? const {},
       durationSeconds: durationSeconds,
+      practiced: practiced,
     );
   }
 }

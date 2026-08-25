@@ -908,6 +908,12 @@ abstract class AppLocalizations {
   /// **'Chưa có video nào'**
   String get emptySectionText;
 
+  /// No description provided for @emptyVideos.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có video nào'**
+  String get emptyVideos;
+
   /// No description provided for @videoDetailBack.
   ///
   /// In vi, this message translates to:
@@ -1085,8 +1091,20 @@ abstract class AppLocalizations {
   /// No description provided for @exerciseCorrect.
   ///
   /// In vi, this message translates to:
-  /// **'Chính xác! 🎉'**
+  /// **'Chính xác!'**
   String get exerciseCorrect;
+
+  /// No description provided for @exerciseCorrectAwesome.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tuyệt vời!'**
+  String get exerciseCorrectAwesome;
+
+  /// No description provided for @exerciseCorrectSpotOn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chuẩn xác!'**
+  String get exerciseCorrectSpotOn;
 
   /// No description provided for @exerciseAlmost.
   ///
@@ -1327,6 +1345,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đã sao chép vào bộ nhớ tạm!'**
   String get resultCopiedToClipboard;
+
+  /// No description provided for @resultProgressSavedSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã lưu tiến độ làm bài!'**
+  String get resultProgressSavedSuccess;
+
+  /// No description provided for @resultProgressSaveError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể đồng bộ tiến độ'**
+  String get resultProgressSaveError;
+
+  /// No description provided for @resultProgressRetry.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get resultProgressRetry;
 
   /// No description provided for @myClassrooms.
   ///

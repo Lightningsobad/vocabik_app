@@ -173,6 +173,9 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                       context.read<HomeVideosBloc>().add(
                             ChangeCefrFilter(cefrLevel.code),
                           );
+                      context.read<HomeTrendingBloc>().add(
+                            ChangeTrendingCefrFilter(cefrLevel.code),
+                          );
                     },
                     tabs: tags,
                   );

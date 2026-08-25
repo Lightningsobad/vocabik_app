@@ -67,6 +67,19 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, List<VideoEntity>>> getTrendingVideos({String? cefr}) async {
+    try {
+      final response = await remoteDataSource.getTrendingVideos(cefr: cefr);
+      final entities = response.map((model) => model.toEntity()).toList();
+      return right(entities);
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
   Future<void> _fetchAndCacheDefault(int page, int pageSize) async {
     if (_isRefreshing) return; // Chặn concurrent refresh để tránh race condition
     _isRefreshing = true;

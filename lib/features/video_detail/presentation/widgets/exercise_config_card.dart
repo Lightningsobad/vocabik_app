@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
@@ -29,7 +30,7 @@ class ExerciseConfigCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.lg1),
       decoration: BoxDecoration(
         color: colors.surfaceCard,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        borderRadius: BorderRadius.circular(AppRadius.lg1),
         border: Border.all(color: colors.borderSubtle, width: 1),
       ),
       child: Row(
@@ -67,7 +68,7 @@ class ExerciseConfigCard extends StatelessWidget {
                 Text(
                   subtitle,
                   style: AppTextStyles.custom(
-                    fontSize: AppFontSize.sm,
+                    fontSize: AppFontSize.mdt,
                     fontWeight: FontWeight.normal,
                     color: colors.textSecondary,
                   ),

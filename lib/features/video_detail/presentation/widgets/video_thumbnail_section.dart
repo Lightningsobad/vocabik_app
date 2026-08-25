@@ -13,11 +13,7 @@ class VideoThumbnailSection extends StatelessWidget {
   final VideoEntity video;
   final VoidCallback? onTap;
 
-  const VideoThumbnailSection({
-    super.key,
-    required this.video,
-    this.onTap,
-  });
+  const VideoThumbnailSection({super.key, required this.video, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +22,8 @@ class VideoThumbnailSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: BounceWrapper(
-        onTap: onTap ??
+        onTap:
+            onTap ??
             () {
               final detailState = context.read<VideoDetailCubit>().state;
               final selectedType = (detailState is VideoDetailLoaded)
@@ -45,7 +42,7 @@ class VideoThumbnailSection extends StatelessWidget {
           width: double.infinity,
           height: 215,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(25),
             color: colors.surfaceCard,
             boxShadow: [
               BoxShadow(
@@ -56,7 +53,7 @@ class VideoThumbnailSection extends StatelessWidget {
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(25),
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -111,8 +108,8 @@ class VideoThumbnailSection extends StatelessWidget {
                 // 3. Center Play Button with Glow
                 Center(
                   child: Container(
-                    width: 58,
-                    height: 58,
+                    width: 74,
+                    height: 74,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
                       shape: BoxShape.circle,
@@ -130,7 +127,7 @@ class VideoThumbnailSection extends StatelessWidget {
                     child: Icon(
                       Icons.play_arrow_rounded,
                       color: Theme.of(context).colorScheme.onPrimary,
-                      size: 34,
+                      size: 44,
                     ),
                   ),
                 ),

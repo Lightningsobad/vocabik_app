@@ -12,16 +12,15 @@ import 'package:vocabik_app/shared/theme/app_text_style.dart';
 class ProgressHistoryCard extends StatelessWidget {
   final VideoProgressEntity progress;
 
-  const ProgressHistoryCard({
-    super.key,
-    required this.progress,
-  });
+  const ProgressHistoryCard({super.key, required this.progress});
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
-    final dateStr = DateFormat('dd/MM/yyyy').format(progress.completedAt);
+    final dateStr = progress.completedAt != null
+        ? DateFormat('dd/MM/yyyy').format(progress.completedAt!)
+        : null;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
@@ -29,15 +28,12 @@ class ProgressHistoryCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md2,
+          vertical: AppSpacing.lg1,
         ),
         decoration: BoxDecoration(
           color: colors.historyCardBackground,
           borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(
-            color: colors.historyCardBorder,
-            width: 1.2,
-          ),
+          border: Border.all(color: colors.historyCardBorder, width: 1.2),
         ),
         child: Row(
           children: [
@@ -59,12 +55,11 @@ class ProgressHistoryCard extends StatelessWidget {
                     text: '${progress.accuracyScore}%',
                     style: const TextStyle(fontWeight: FontWeight.w900),
                   ),
-                  TextSpan(
-                    text: ' · $dateStr',
-                    style: TextStyle(
-                      color: colors.textSecondary,
+                  if (dateStr != null)
+                    TextSpan(
+                      text: ' · $dateStr',
+                      style: TextStyle(color: colors.textSecondary),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -74,4 +69,3 @@ class ProgressHistoryCard extends StatelessWidget {
     );
   }
 }
-

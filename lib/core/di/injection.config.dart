@@ -42,7 +42,7 @@ import '../../features/classroom/data/repositories/classroom_repository_impl.dar
 import '../../features/classroom/domain/repositories/classroom_repository.dart'
     as _i86;
 import '../../features/classroom/domain/usecases/create_classroom_use_case.dart'
-    as _i821;
+    as _i822;
 import '../../features/classroom/domain/usecases/get_classroom_by_id_use_case.dart'
     as _i5;
 import '../../features/classroom/domain/usecases/get_classrooms_use_case.dart'
@@ -50,7 +50,7 @@ import '../../features/classroom/domain/usecases/get_classrooms_use_case.dart'
 import '../../features/classroom/presentation/cubit/classroom_detail_cubit.dart'
     as _i51;
 import '../../features/classroom/presentation/cubit/classroom_list_cubit.dart'
-    as _i293;
+    as _i292;
 import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
 import '../../features/exercise/data/datasources/exercise_remote_datasource.dart'
     as _i913;
@@ -66,8 +66,10 @@ import '../../features/exercise/domain/repositories/score_card_repository.dart'
     as _i697;
 import '../../features/exercise/domain/usecases/get_exercise_usecase.dart'
     as _i497;
+import '../../features/exercise/domain/usecases/submit_progress_usecase.dart'
+    as _i6;
 import '../../features/exercise/presentation/cubit/exercise_cubit.dart' as _i67;
-import '../../features/exercise/presentation/cubit/result_cubit.dart' as _i292;
+import '../../features/exercise/presentation/cubit/result_cubit.dart' as _i293;
 import '../../features/home/data/datasources/home_remote_data_source.dart'
     as _i362;
 import '../../features/home/data/repositories/home_repository_impl.dart'
@@ -116,6 +118,8 @@ import '../../features/video_detail/domain/use_cases/get_video_detail_use_case.d
     as _i714;
 import '../../features/video_detail/domain/use_cases/get_video_exercise_blanks_use_case.dart'
     as _i203;
+import '../../features/video_detail/domain/use_cases/send_video_reaction_use_case.dart'
+    as _i241;
 import '../../features/video_detail/presentation/cubit/video_detail_cubit.dart'
     as _i483;
 import '../../shared/data/datasources/shared_video_remote_data_source.dart'
@@ -123,6 +127,7 @@ import '../../shared/data/datasources/shared_video_remote_data_source.dart'
 import '../../shared/data/repositories/shared_video_repository_impl.dart'
     as _i676;
 import '../../shared/domain/repositories/shared_video_repository.dart' as _i959;
+import '../../shared/domain/usecases/get_trending_videos_usecase.dart' as _i821;
 import '../../shared/domain/usecases/get_videos_usecase.dart' as _i552;
 import '../../shared/gamification/cubit/gamification_global_cubit.dart'
     as _i561;
@@ -202,14 +207,17 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
       ),
     );
+    gh.factory<_i821.GetTrendingVideosUseCase>(
+      () => _i821.GetTrendingVideosUseCase(gh<_i959.SharedVideoRepository>()),
+    );
     gh.factory<_i552.GetVideosUseCase>(
       () => _i552.GetVideosUseCase(gh<_i959.SharedVideoRepository>()),
     );
+    gh.factory<_i649.HomeTrendingBloc>(
+      () => _i649.HomeTrendingBloc(gh<_i821.GetTrendingVideosUseCase>()),
+    );
     gh.factory<_i850.HomeNewlyBloc>(
       () => _i850.HomeNewlyBloc(gh<_i552.GetVideosUseCase>()),
-    );
-    gh.factory<_i649.HomeTrendingBloc>(
-      () => _i649.HomeTrendingBloc(gh<_i552.GetVideosUseCase>()),
     );
     gh.factory<_i294.HomeVideosBloc>(
       () => _i294.HomeVideosBloc(gh<_i552.GetVideosUseCase>()),
@@ -306,9 +314,6 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i362.HomeRemoteDataSource>(),
       ),
     );
-    gh.factory<_i292.ResultCubit>(
-      () => _i292.ResultCubit(gh<_i697.ScoreCardRepository>()),
-    );
     gh.lazySingleton<_i785.ProgressRepository>(
       () => _i779.ProgressRepositoryImpl(gh<_i854.ProgressRemoteDataSource>()),
     );
@@ -321,8 +326,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1011.GetPersonalizedSlotsUseCase>(
       () => _i1011.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
     );
-    gh.factory<_i821.CreateClassroomUseCase>(
-      () => _i821.CreateClassroomUseCase(gh<_i86.ClassroomRepository>()),
+    gh.factory<_i822.CreateClassroomUseCase>(
+      () => _i822.CreateClassroomUseCase(gh<_i86.ClassroomRepository>()),
     );
     gh.factory<_i5.GetClassroomByIdUseCase>(
       () => _i5.GetClassroomByIdUseCase(gh<_i86.ClassroomRepository>()),
@@ -343,10 +348,10 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i797.AuthBloc(gh<_i131.SignOutUseCase>(), gh<_i477.GetMeUseCase>()),
     );
-    gh.factory<_i293.ClassroomListCubit>(
-      () => _i293.ClassroomListCubit(
+    gh.factory<_i292.ClassroomListCubit>(
+      () => _i292.ClassroomListCubit(
         gh<_i851.GetClassroomsUseCase>(),
-        gh<_i821.CreateClassroomUseCase>(),
+        gh<_i822.CreateClassroomUseCase>(),
       ),
     );
     gh.factory<_i209.GetLatestVideoProgressUseCase>(
@@ -362,12 +367,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i291.VideoDetailRepository>(),
       ),
     );
-    gh.factory<_i483.VideoDetailCubit>(
-      () => _i483.VideoDetailCubit(
-        gh<_i714.GetVideoDetailUseCase>(),
-        gh<_i203.GetVideoExerciseBlanksUseCase>(),
-        gh<_i209.GetLatestVideoProgressUseCase>(),
-      ),
+    gh.factory<_i241.SendVideoReactionUseCase>(
+      () => _i241.SendVideoReactionUseCase(gh<_i291.VideoDetailRepository>()),
     );
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
@@ -375,15 +376,32 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i497.GetExerciseUseCase>(
       () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
     );
+    gh.factory<_i6.SubmitProgressUseCase>(
+      () => _i6.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
+    );
     gh.factory<_i764.HomePersonalizedBloc>(
       () =>
           _i764.HomePersonalizedBloc(gh<_i1011.GetPersonalizedSlotsUseCase>()),
+    );
+    gh.factory<_i483.VideoDetailCubit>(
+      () => _i483.VideoDetailCubit(
+        gh<_i714.GetVideoDetailUseCase>(),
+        gh<_i203.GetVideoExerciseBlanksUseCase>(),
+        gh<_i209.GetLatestVideoProgressUseCase>(),
+        gh<_i241.SendVideoReactionUseCase>(),
+      ),
     );
     gh.lazySingleton<_i474.GetGamificationSummaryUseCase>(
       () => _i474.GetGamificationSummaryUseCase(gh<_i785.ProgressRepository>()),
     );
     gh.factory<_i67.ExerciseCubit>(
       () => _i67.ExerciseCubit(gh<_i497.GetExerciseUseCase>()),
+    );
+    gh.factory<_i293.ResultCubit>(
+      () => _i293.ResultCubit(
+        gh<_i697.ScoreCardRepository>(),
+        gh<_i6.SubmitProgressUseCase>(),
+      ),
     );
     gh.factory<_i51.ClassroomDetailCubit>(
       () => _i51.ClassroomDetailCubit(gh<_i5.GetClassroomByIdUseCase>()),

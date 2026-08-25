@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vocabik_app/core/utils/number_format_utils.dart';
 import 'package:vocabik_app/features/home/domain/entities/daily_pick_entity.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/course_tag_badge.dart';
@@ -15,6 +16,12 @@ class DailyPickCard extends StatelessWidget {
 
   const DailyPickCard({super.key, required this.dailyPick});
 
+  String _formatDuration(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
@@ -29,9 +36,9 @@ class DailyPickCard extends StatelessWidget {
           }
         },
         child: Container(
-          height: 250,
+          height: 263,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.lg2),
+            borderRadius: BorderRadius.circular(AppRadius.xl),
             color: colors.surfaceCard,
             boxShadow: [
               BoxShadow(
@@ -42,7 +49,7 @@ class DailyPickCard extends StatelessWidget {
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(AppRadius.lg2),
+            borderRadius: BorderRadius.circular(AppRadius.xl),
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -116,8 +123,8 @@ class DailyPickCard extends StatelessWidget {
                 // 4. Center Play Button with Glow
                 Center(
                   child: Container(
-                    width: 68,
-                    height: 68,
+                    width: 58,
+                    height: 58,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
                       shape: BoxShape.circle,
@@ -140,23 +147,75 @@ class DailyPickCard extends StatelessWidget {
                   ),
                 ),
 
-                // 5. Bottom Info (CEFR Level & Title)
+                // 5. Bottom Info (CEFR Level, Category, Duration, Title, Artist, Practiced)
                 Positioned(
-                  bottom: AppSpacing.mdt,
+                  bottom: AppSpacing.xl,
                   left: AppSpacing.mdt,
                   right: AppSpacing.mdt,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (dailyPick.cefrLevel.isNotEmpty) ...[
+                      // Row with CEFR Level, Category, Duration
+                      if (dailyPick.cefrLevel.isNotEmpty ||
+                          dailyPick.category.isNotEmpty ||
+                          dailyPick.durationSeconds > 0) ...[
                         Row(
-                          children: [CourseTagBadge(text: dailyPick.cefrLevel)],
+                          children: [
+                            if (dailyPick.cefrLevel.isNotEmpty) ...[
+                              CourseTagBadge(text: dailyPick.cefrLevel),
+                              const SizedBox(width: AppSpacing.sm),
+                            ],
+                            if (dailyPick.category.isNotEmpty) ...[
+                              CourseTagBadge(
+                                text: dailyPick.category,
+                                type: CourseTagType.category,
+                                backgroundColor: Colors.white.withValues(
+                                  alpha: 0.2,
+                                ),
+                                border: const Border(),
+                                leadingIcon: Image.asset(
+                                  'assets/home_screen/music_icon.png',
+                                  width: 16,
+                                  height: 16,
+                                ),
+                                textStyle: AppTextStyles.custom(
+                                  color: Colors.white,
+                                  fontSize: AppFontSize.tnn,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.sm2,
+                                  vertical: AppSpacing.xs,
+                                ),
+                              ),
+                              const SizedBox(width: AppSpacing.sm),
+                            ],
+                            if (dailyPick.durationSeconds > 0) ...[
+                              Image.asset(
+                                'assets/home_screen/timer_icon.png',
+                                width: 14,
+                                height: 14,
+                                alignment: Alignment.center,
+                              ),
+                              const SizedBox(width: AppSpacing.xs),
+                              Text(
+                                _formatDuration(dailyPick.durationSeconds),
+                                style: AppTextStyles.custom(
+                                  color: Colors.white,
+                                  fontSize: AppFontSize.sm,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
                         const SizedBox(height: AppSpacing.sm),
                       ],
+
+                      // Title
                       Text(
-                        dailyPick.title,
+                        dailyPick.title.trim(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.custom(
@@ -166,6 +225,61 @@ class DailyPickCard extends StatelessWidget {
                           height: 1.2,
                         ),
                       ),
+
+                      // Artist & Practiced Count
+                      if (dailyPick.artist.isNotEmpty ||
+                          dailyPick.practiced >= 0) ...[
+                        const SizedBox(height: AppSpacing.xs),
+                        Row(
+                          children: [
+                            if (dailyPick.artist.isNotEmpty) ...[
+                              Flexible(
+                                child: Text(
+                                  dailyPick.artist,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTextStyles.custom(
+                                    color: Colors.white.withValues(alpha: 0.8),
+                                    fontSize: AppFontSize.lg,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            if (dailyPick.artist.isNotEmpty &&
+                                dailyPick.practiced >= 0) ...[
+                              Text(
+                                ' · ',
+                                style: AppTextStyles.custom(
+                                  color: Colors.white.withValues(alpha: 0.8),
+                                  fontSize: AppFontSize.md,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ],
+                            if (dailyPick.practiced >= 0) ...[
+                              Image.asset(
+                                'assets/home_screen/people_icon.png',
+                                width: 16,
+                                height: 16,
+                              ),
+                              const SizedBox(width: AppSpacing.xs),
+                              Text(
+                                l10n.homePracticed(
+                                  NumberFormatUtils.formatCompact(
+                                    dailyPick.practiced,
+                                  ),
+                                ),
+                                style: AppTextStyles.custom(
+                                  color: Colors.white.withValues(alpha: 0.8),
+                                  fontSize: AppFontSize.lg,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),

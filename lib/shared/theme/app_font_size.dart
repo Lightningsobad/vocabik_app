@@ -14,10 +14,14 @@ class AppFontSize {
   static const double xl3 = 24.0;
   static const double xl4 = 26.0;
   static const double xl5 = 28.0;
+  static const double xl5_5 = 30.0;
   static const double xl6 = 32.0;
   static const double xl7 = 36.0;
   static const double xl8 = 40.0;
   static const double xl9 = 48.0;
   static const double xl10 = 56.0;
   static const double xl11 = 64.0;
+  static const double xl12 = 68.0;
+  static const double xl13 = 72.0;
+  static const double xl14 = 80.0;
 }

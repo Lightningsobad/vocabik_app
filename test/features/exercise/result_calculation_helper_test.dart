@@ -66,6 +66,12 @@ void main() {
       expect(summary.wrongAnswers.first.blankStep, 2);
       expect(summary.wrongAnswers.first.correctWord, 'hello');
       expect(summary.wrongAnswers.first.afterText, 'there');
+      expect(summary.correctUserAnswers, ['world']);
+      expect(summary.blankAnswers.length, 2);
+      expect(summary.blankAnswers[0].blankIndex, 1);
+      expect(summary.blankAnswers[0].isCorrect, true);
+      expect(summary.blankAnswers[1].blankIndex, 2);
+      expect(summary.blankAnswers[1].isCorrect, false);
     });
   });
 }

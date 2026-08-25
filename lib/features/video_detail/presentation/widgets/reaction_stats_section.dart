@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vocabik_app/features/video_detail/presentation/cubit/video_detail_cubit.dart';
@@ -15,11 +16,20 @@ class ReactionStatsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VideoDetailCubit, VideoDetailState>(
-      builder: (context, state) {
-        if (state is! VideoDetailLoaded) return const SizedBox.shrink();
+    return BlocSelector<
+      VideoDetailCubit,
+      VideoDetailState,
+      Map<String, int>?
+    >(
+      selector: (state) {
+        if (state is VideoDetailLoaded) {
+          return state.video.reactionCounts;
+        }
+        return null;
+      },
+      builder: (context, reactionCounts) {
+        if (reactionCounts == null) return const SizedBox.shrink();
 
-        final reactionCounts = state.video.reactionCounts;
         final pump = reactionCounts['PUMP'] ?? 0;
         final music = reactionCounts['MUSIC'] ?? 0;
         final study = reactionCounts['STUDY'] ?? 0;
@@ -30,20 +40,20 @@ class ReactionStatsSection extends StatelessWidget {
             spacing: AppSpacing.sm,
             runSpacing: AppSpacing.sm,
             children: [
-              _buildReactionChip(
-                context,
-                'assets/video_detail/strong_icon.svg',
-                pump,
+              _ReactionChip(
+                iconAsset: 'assets/video_detail/strong_icon.svg',
+                count: pump,
+                reactionType: 'PUMP',
               ),
-              _buildReactionChip(
-                context,
-                'assets/video_detail/music_icon.svg',
-                music,
+              _ReactionChip(
+                iconAsset: 'assets/video_detail/music_icon.svg',
+                count: music,
+                reactionType: 'MUSIC',
               ),
-              _buildReactionChip(
-                context,
-                'assets/video_detail/book_icon.svg',
-                study,
+              _ReactionChip(
+                iconAsset: 'assets/video_detail/book_icon.svg',
+                count: study,
+                reactionType: 'STUDY',
               ),
             ],
           ),
@@ -51,13 +61,27 @@ class ReactionStatsSection extends StatelessWidget {
       },
     );
   }
+}
 
-  Widget _buildReactionChip(BuildContext context, String iconAsset, int count) {
+class _ReactionChip extends StatelessWidget {
+  final String iconAsset;
+  final int count;
+  final String reactionType;
+
+  const _ReactionChip({
+    required this.iconAsset,
+    required this.count,
+    required this.reactionType,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     return BounceWrapper(
       onTap: () {
-        // Read-only reaction stats
+        HapticFeedback.lightImpact();
+        context.read<VideoDetailCubit>().sendReaction(reactionType);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -67,7 +91,10 @@ class ReactionStatsSection extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.surfaceCard,
           borderRadius: BorderRadius.circular(AppRadius.full),
-          border: Border.all(color: colors.borderSubtle),
+          border: Border.all(
+            color: colors.borderSubtle,
+            width: 1.0,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),

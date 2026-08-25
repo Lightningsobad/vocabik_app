@@ -10,7 +10,7 @@ class GetLatestVideoProgressUseCase {
 
   GetLatestVideoProgressUseCase(this.repository);
 
-  Future<Either<Failure, VideoProgressEntity?>> call(String videoTitle) async {
-    return repository.getLatestProgress(videoTitle);
+  Future<Either<Failure, VideoProgressEntity?>> call(String videoId) async {
+    return repository.getLatestProgress(videoId);
   }
 }

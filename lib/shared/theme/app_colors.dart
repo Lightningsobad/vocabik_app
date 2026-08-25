@@ -53,6 +53,19 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color tagLevelB2;
   final Color tagLevelC1;
   final Color tagLevelText;
+  final Color tagCategoryBackground;
+  final Color tagCategoryBorder;
+  final Color videoDurationText;
+  final Color hintButtonText;
+  final Color scoreCardButtonBackground;
+  final Color scoreCardButtonBorder;
+  final Color xpCardBackground;
+  final Color xpCardBorder;
+  final Color streakCardBackground;
+  final Color streakCardBorder;
+  final Color badgeCardBackground;
+  final Color badgeCardBorder;
+  final Color practicedText;
 
   const AppColorsExtension({
     required this.primaryAccent,
@@ -98,6 +111,19 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.tagLevelB2,
     required this.tagLevelC1,
     required this.tagLevelText,
+    required this.tagCategoryBackground,
+    required this.tagCategoryBorder,
+    required this.videoDurationText,
+    required this.hintButtonText,
+    required this.scoreCardButtonBackground,
+    required this.scoreCardButtonBorder,
+    required this.xpCardBackground,
+    required this.xpCardBorder,
+    required this.streakCardBackground,
+    required this.streakCardBorder,
+    required this.badgeCardBackground,
+    required this.badgeCardBorder,
+    required this.practicedText,
   });
 
   @override
@@ -145,6 +171,19 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? tagLevelB2,
     Color? tagLevelC1,
     Color? tagLevelText,
+    Color? tagCategoryBackground,
+    Color? tagCategoryBorder,
+    Color? videoDurationText,
+    Color? hintButtonText,
+    Color? scoreCardButtonBackground,
+    Color? scoreCardButtonBorder,
+    Color? xpCardBackground,
+    Color? xpCardBorder,
+    Color? streakCardBackground,
+    Color? streakCardBorder,
+    Color? badgeCardBackground,
+    Color? badgeCardBorder,
+    Color? practicedText,
   }) {
     return AppColorsExtension(
       primaryAccent: primaryAccent ?? this.primaryAccent,
@@ -194,6 +233,22 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       tagLevelB2: tagLevelB2 ?? this.tagLevelB2,
       tagLevelC1: tagLevelC1 ?? this.tagLevelC1,
       tagLevelText: tagLevelText ?? this.tagLevelText,
+      tagCategoryBackground:
+          tagCategoryBackground ?? this.tagCategoryBackground,
+      tagCategoryBorder: tagCategoryBorder ?? this.tagCategoryBorder,
+      videoDurationText: videoDurationText ?? this.videoDurationText,
+      hintButtonText: hintButtonText ?? this.hintButtonText,
+      scoreCardButtonBackground:
+          scoreCardButtonBackground ?? this.scoreCardButtonBackground,
+      scoreCardButtonBorder:
+          scoreCardButtonBorder ?? this.scoreCardButtonBorder,
+      xpCardBackground: xpCardBackground ?? this.xpCardBackground,
+      xpCardBorder: xpCardBorder ?? this.xpCardBorder,
+      streakCardBackground: streakCardBackground ?? this.streakCardBackground,
+      streakCardBorder: streakCardBorder ?? this.streakCardBorder,
+      badgeCardBackground: badgeCardBackground ?? this.badgeCardBackground,
+      badgeCardBorder: badgeCardBorder ?? this.badgeCardBorder,
+      practicedText: practicedText ?? this.practicedText,
     );
   }
 
@@ -325,6 +380,71 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.tagLevelText,
         t,
       )!,
+      tagCategoryBackground: Color.lerp(
+        tagCategoryBackground,
+        other.tagCategoryBackground,
+        t,
+      )!,
+      tagCategoryBorder: Color.lerp(
+        tagCategoryBorder,
+        other.tagCategoryBorder,
+        t,
+      )!,
+      videoDurationText: Color.lerp(
+        videoDurationText,
+        other.videoDurationText,
+        t,
+      )!,
+      hintButtonText: Color.lerp(
+        hintButtonText,
+        other.hintButtonText,
+        t,
+      )!,
+      scoreCardButtonBackground: Color.lerp(
+        scoreCardButtonBackground,
+        other.scoreCardButtonBackground,
+        t,
+      )!,
+      scoreCardButtonBorder: Color.lerp(
+        scoreCardButtonBorder,
+        other.scoreCardButtonBorder,
+        t,
+      )!,
+      xpCardBackground: Color.lerp(
+        xpCardBackground,
+        other.xpCardBackground,
+        t,
+      )!,
+      xpCardBorder: Color.lerp(
+        xpCardBorder,
+        other.xpCardBorder,
+        t,
+      )!,
+      streakCardBackground: Color.lerp(
+        streakCardBackground,
+        other.streakCardBackground,
+        t,
+      )!,
+      streakCardBorder: Color.lerp(
+        streakCardBorder,
+        other.streakCardBorder,
+        t,
+      )!,
+      badgeCardBackground: Color.lerp(
+        badgeCardBackground,
+        other.badgeCardBackground,
+        t,
+      )!,
+      badgeCardBorder: Color.lerp(
+        badgeCardBorder,
+        other.badgeCardBorder,
+        t,
+      )!,
+      practicedText: Color.lerp(
+        practicedText,
+        other.practicedText,
+        t,
+      )!,
     );
   }
 
@@ -372,6 +492,19 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     tagLevelB2: Color(0xFF9234EB),
     tagLevelC1: Color(0xFFEB5B34),
     tagLevelText: Color(0xFF0A0A12),
+    tagCategoryBackground: Color(0xFFF5F5FA),
+    tagCategoryBorder: Color(0xFFE6E6EB),
+    videoDurationText: Color(0xFF6D6D87),
+    hintButtonText: Color(0xFFF59F0A),
+    scoreCardButtonBackground: Color(0xFFF0F0F5),
+    scoreCardButtonBorder: Color(0xFFD7D7DE),
+    xpCardBackground: Color(0xFFE6F8FA),
+    xpCardBorder: Color(0xFFB2EBF2),
+    streakCardBackground: Color(0xFFFFF8E7),
+    streakCardBorder: Color(0xFFFFE0B2),
+    badgeCardBackground: Color(0xFFF3E8FF),
+    badgeCardBorder: Color(0xFFE9D5FF),
+    practicedText: Color(0xFF6D6D87),
   );
 
   static const dark = AppColorsExtension(
@@ -396,7 +529,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     optionCardBackground: Color(0xFF1E2238),
     optionCardBorder: Color(0xFF2A2F48),
     inputBackground: Color(0xFF13131F),
-    inputBorder: Color(0xFF31313B),
+    inputBorder: Color(0xFF2F2F38),
     socialBackground: Color(0xFF20203B),
     socialBorder: Color(0xFF3B3B52),
     hintText: Color(0xFF757575),
@@ -418,5 +551,18 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     tagLevelB2: Color(0xFFA854F7),
     tagLevelC1: Color(0xFFFF7A59),
     tagLevelText: Color(0xFF0A0A12),
+    tagCategoryBackground: Color(0xFF20203B),
+    tagCategoryBorder: Color(0xFF2E2E45),
+    videoDurationText: Color(0xFF83839E),
+    hintButtonText: Color(0xFFFFB13D),
+    scoreCardButtonBackground: Color(0xFF1D1D36),
+    scoreCardButtonBorder: Color(0xFF38384F),
+    xpCardBackground: Color(0xFF0D252E),
+    xpCardBorder: Color(0xFF15535E),
+    streakCardBackground: Color(0xFF291E13),
+    streakCardBorder: Color(0xFF5E4018),
+    badgeCardBackground: Color(0xFF1B1B33),
+    badgeCardBorder: Color(0xFF33335A),
+    practicedText: Color(0xFF8585A1),
   );
 }

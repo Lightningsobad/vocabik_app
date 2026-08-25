@@ -41,8 +41,8 @@ class SectionHeader extends StatelessWidget {
 
     switch (size) {
       case SectionHeaderSize.large:
-        fontSize = AppFontSize.xl6;
-        fontWeight = FontWeight.w900;
+        fontSize = AppFontSize.xl5_5;
+        fontWeight = FontWeight.w800;
         defaultIconSize = 35.0;
         iconVerticalOffset = -4.5;
         break;

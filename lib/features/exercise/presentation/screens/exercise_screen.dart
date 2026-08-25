@@ -1,16 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:vocabik_app/core/di/injection.dart';
+import 'package:vocabik_app/core/routes/app_router.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_cubit.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/answer_interaction_area.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_header_widget.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_line_widget.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_video_player_widget.dart';
-import 'package:vocabik_app/features/exercise/presentation/screens/result_screen.dart';
+import 'package:vocabik_app/features/exercise/presentation/models/exercise_result_args.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/type_answer_interaction_area.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -83,28 +87,16 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
   bool _isQuestionVisible = false;
   DateTime _startTime = DateTime.now();
 
-  void _handlePracticeAgain() {
-    setState(() {
-      _startTime = DateTime.now();
-      _isQuestionVisible = false;
-    });
-    _youtubeController.seekTo(seconds: 0);
-    _youtubeController.playVideo();
-    context.read<ExerciseCubit>().loadExercise(
-      videoId: widget.videoId,
-      cefrLevel: widget.cefrLevel,
-      versionId: widget.versionId,
-    );
-  }
-
   @override
   void initState() {
     super.initState();
     _startTime = DateTime.now();
-    
+
     // Safely extract ID in case a full URL was passed
-    final safeVideoId = YoutubePlayerController.convertUrlToId(widget.youtubeVideoId) ?? widget.youtubeVideoId;
-    
+    final safeVideoId =
+        YoutubePlayerController.convertUrlToId(widget.youtubeVideoId) ??
+        widget.youtubeVideoId;
+
     _youtubeController = YoutubePlayerController.fromVideoId(
       videoId: safeVideoId,
       autoPlay: true,
@@ -116,29 +108,33 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
       ),
     );
 
-    _videoStateSubscription = _youtubeController.videoStateStream.listen((videoState) {
-      if (!mounted) return;
-      final state = context.read<ExerciseCubit>().state;
-      if (state is ExerciseLoaded && !state.isFinished) {
-        final currentPosition = videoState.position.inMilliseconds;
-        final activeLine = state.activeLine;
-        
-        // Pause when the video reaches the END of the active sentence
-        if (currentPosition >= activeLine.endMs) {
-          _youtubeController.pauseVideo();
-          if (!_isQuestionVisible) {
-            setState(() {
-              _isQuestionVisible = true;
-            });
-          }
-        } else if (currentPosition < activeLine.endMs && _isQuestionVisible) {
-          // If user seeks backward before the active sentence end
-          setState(() {
-            _isQuestionVisible = false;
-          });
-        }
+    _videoStateSubscription = _youtubeController.videoStateStream.listen(
+      _onVideoStateChanged,
+    );
+  }
+
+  void _onVideoStateChanged(YoutubeVideoState videoState) {
+    if (!mounted) return;
+    final state = context.read<ExerciseCubit>().state;
+    if (state is! ExerciseLoaded || state.isFinished) return;
+
+    final currentPosition = videoState.position.inMilliseconds;
+    final activeLine = state.activeLine;
+
+    // Pause when the video reaches the END of the active sentence
+    if (currentPosition >= activeLine.endMs) {
+      _youtubeController.pauseVideo();
+      if (!_isQuestionVisible) {
+        setState(() {
+          _isQuestionVisible = true;
+        });
       }
-    });
+    } else if (currentPosition < activeLine.endMs && _isQuestionVisible) {
+      // If user seeks backward before the active sentence end
+      setState(() {
+        _isQuestionVisible = false;
+      });
+    }
   }
 
   @override
@@ -159,12 +155,30 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
         child: BlocConsumer<ExerciseCubit, ExerciseState>(
           listenWhen: (previous, current) {
             if (previous is ExerciseLoaded && current is ExerciseLoaded) {
-              return previous.currentBlankIndex != current.currentBlankIndex;
+              return previous.currentBlankIndex != current.currentBlankIndex ||
+                  previous.isFinished != current.isFinished;
             }
             return false;
           },
           listener: (context, state) async {
-            if (state is ExerciseLoaded && !state.isFinished) {
+            if (state is ExerciseLoaded) {
+              if (state.isFinished) {
+                final durationMs = DateTime.now()
+                    .difference(_startTime)
+                    .inMilliseconds;
+                context.goToExerciseResult(
+                  ExerciseResultArgs(
+                    exercise: state.exercise,
+                    selectedAnswers: state.selectedAnswers,
+                    checkResults: state.checkResults,
+                    durationMs: durationMs,
+                    youtubeVideoId: widget.youtubeVideoId,
+                    videoTitle: widget.videoTitle,
+                    exerciseType: widget.exerciseType,
+                  ),
+                );
+                return;
+              }
               if (mounted) {
                 setState(() {
                   _isQuestionVisible = false;
@@ -187,11 +201,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.error_outline,
-                      size: 48,
-                      color: colors.danger,
-                    ),
+                    Icon(Icons.error_outline, size: 48, color: colors.danger),
                     const SizedBox(height: 16),
                     Text(
                       state.message,
@@ -217,13 +227,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
               );
             } else if (state is ExerciseLoaded) {
               if (state.isFinished) {
-                return ResultScreen(
-                  exercise: state.exercise,
-                  selectedAnswers: state.selectedAnswers,
-                  checkResults: state.checkResults,
-                  durationMs: DateTime.now().difference(_startTime).inMilliseconds,
-                  onPracticeAgain: _handlePracticeAgain,
-                );
+                return const Center(child: CircularProgressIndicator());
               }
 
               return Column(
@@ -241,7 +245,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                     cefrLevel: widget.cefrLevel,
                   ),
 
-                  const SizedBox(height: AppSpacing.sm),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Lower Area: Either "Playing video..." placeholder OR Question & Options
                   Expanded(
@@ -249,7 +253,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                         ? Center(
                             child: Text(
                               l10n.exercisePlayingVideo,
-                              style: GoogleFonts.nunito(
+                              style: AppTextStyles.custom(
                                 color: colors.textSecondary,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -257,26 +261,32 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                             ),
                           )
                         : SingleChildScrollView(
-                            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.md,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 const SizedBox(height: AppSpacing.md),
                                 // Sentence with blank
                                 ExerciseLineWidget(line: state.activeLine),
-                                const SizedBox(height: AppSpacing.tn),
+                                const SizedBox(height: AppSpacing.sm2),
                                 // Translation button
                                 Center(
                                   child: TextButton.icon(
                                     onPressed: () {
                                       // TODO: Show translation
                                     },
-                                    icon: Icon(Icons.language, size: 18, color: colors.primaryAccent),
+                                    icon: SvgPicture.asset(
+                                      'assets/exercise_screen/global.svg',
+                                      width: 20,
+                                      height: 20,
+                                    ),
                                     label: Text(
                                       l10n.viewVietnameseTranslation,
-                                      style: GoogleFonts.nunito(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
+                                      style: AppTextStyles.custom(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: AppFontSize.lg,
                                         color: colors.primaryAccent,
                                       ),
                                     ),

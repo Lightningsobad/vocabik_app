@@ -435,6 +435,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get emptySectionText => 'Chưa có video nào';
 
   @override
+  String get emptyVideos => 'Không có video nào';
+
+  @override
   String get videoDetailBack => 'Quay lại';
 
   @override
@@ -524,7 +527,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get exerciseTitle => 'ĐANG LUYỆN';
 
   @override
-  String get exerciseCorrect => 'Chính xác! 🎉';
+  String get exerciseCorrect => 'Chính xác!';
+
+  @override
+  String get exerciseCorrectAwesome => 'Tuyệt vời!';
+
+  @override
+  String get exerciseCorrectSpotOn => 'Chuẩn xác!';
 
   @override
   String get exerciseAlmost => 'Gần đúng!';
@@ -656,6 +665,15 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get resultCopiedToClipboard => 'Đã sao chép vào bộ nhớ tạm!';
+
+  @override
+  String get resultProgressSavedSuccess => 'Đã lưu tiến độ làm bài!';
+
+  @override
+  String get resultProgressSaveError => 'Không thể đồng bộ tiến độ';
+
+  @override
+  String get resultProgressRetry => 'Thử lại';
 
   @override
   String get myClassrooms => 'Lớp học của tôi';

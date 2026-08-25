@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_entity.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_cubit.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class ExerciseLineWidget extends StatelessWidget {
   final ExerciseLineEntity line;
@@ -30,9 +31,11 @@ class ExerciseLineWidget extends StatelessWidget {
           }
           return Text(
             token.text ?? '',
-            style: GoogleFonts.nunito(
-              fontSize: 20, // slightly larger to match design
-              color: Theme.of(context).extension<AppColorsExtension>()!.textPrimary,
+            style: AppTextStyles.custom(
+              fontSize: AppFontSize.xl,
+              color: Theme.of(
+                context,
+              ).extension<AppColorsExtension>()!.textPrimary,
               height: 1.5,
             ),
           );
@@ -66,17 +69,18 @@ class BlankTokenWidget extends StatelessWidget {
 
         final colors = Theme.of(context).extension<AppColorsExtension>()!;
         final primaryColor = colors.primaryAccent;
-        
+
         final isCurrent = state.currentBlankIndex == blankIndex;
         final selectedAnswer = state.selectedAnswers[blankIndex];
         final checkResult = state.checkResults[blankIndex];
-        
+
         final isCorrect = checkResult == true;
         final isIncorrect = checkResult == false;
 
         final blank = state.exercise.blanks.firstWhere(
           (b) => b.blankIndex == blankIndex,
-          orElse: () => ExerciseBlankEntity(blankIndex: blankIndex, correctAnswer: ''),
+          orElse: () =>
+              ExerciseBlankEntity(blankIndex: blankIndex, correctAnswer: ''),
         );
         final correctAnswer = blank.correctAnswer;
 
@@ -92,26 +96,32 @@ class BlankTokenWidget extends StatelessWidget {
             borderColor = primaryColor;
           }
         }
-        
+
         if (isCurrent && selectedAnswer == null) {
           borderColor = primaryColor;
           textColor = primaryColor;
         }
 
         if (isCorrect) {
-          displayText = correctAnswer.isNotEmpty ? correctAnswer : (selectedAnswer ?? '________');
+          displayText = correctAnswer.isNotEmpty
+              ? correctAnswer
+              : (selectedAnswer ?? '________');
           textColor = colors.success;
           borderColor = colors.successBorder;
           backgroundColor = colors.successBackground;
         } else if (isIncorrect) {
-          displayText = correctAnswer.isNotEmpty ? correctAnswer : (selectedAnswer ?? '________');
+          displayText = correctAnswer.isNotEmpty
+              ? correctAnswer
+              : (selectedAnswer ?? '________');
           textColor = colors.danger;
           borderColor = colors.danger;
           backgroundColor = colors.dangerSoft;
         }
 
         // If hint is used for current blank
-        if (isCurrent && state.hintUsedForCurrentBlank && selectedAnswer == null) {
+        if (isCurrent &&
+            state.hintUsedForCurrentBlank &&
+            selectedAnswer == null) {
           if (correctAnswer.isNotEmpty) {
             displayText = '${correctAnswer[0]}_______';
           }
@@ -132,8 +142,8 @@ class BlankTokenWidget extends StatelessWidget {
             ),
             child: Text(
               displayText,
-              style: GoogleFonts.nunito(
-                fontSize: 20,
+              style: AppTextStyles.custom(
+                fontSize: AppFontSize.xl,
                 fontWeight: FontWeight.bold,
                 color: textColor,
               ),

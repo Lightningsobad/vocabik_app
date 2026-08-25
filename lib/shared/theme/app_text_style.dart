@@ -14,6 +14,7 @@ class AppTextStyles {
     double? height = 1.2,
     double? letterSpacing = 0,
     TextDecoration? decoration,
+    List<Shadow>? shadows,
   }) {
     return GoogleFonts.nunito(
       fontSize: fontSize,
@@ -22,6 +23,7 @@ class AppTextStyles {
       height: height,
       letterSpacing: letterSpacing,
       decoration: decoration,
+      shadows: shadows,
     );
   }
 }
@@ -35,6 +37,7 @@ extension AppTypographyExtension on BuildContext {
     double? height = 1.2,
     double? letterSpacing = 0,
     TextDecoration? decoration,
+    List<Shadow>? shadows,
   }) {
     return AppTextStyles.custom(
       fontSize: fontSize,
@@ -43,6 +46,7 @@ extension AppTypographyExtension on BuildContext {
       height: height,
       letterSpacing: letterSpacing,
       decoration: decoration,
+      shadows: shadows,
     );
   }
 }

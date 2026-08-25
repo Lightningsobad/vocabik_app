@@ -3,6 +3,7 @@ import 'package:vocabik_app/features/home/presentation/widgets/section_header.da
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
+import 'package:vocabik_app/shared/presentation/widgets/shared_empty_state.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -85,16 +86,11 @@ class HomeVideoSection extends StatelessWidget {
               ),
             )
           else
-            Padding(
+            SharedEmptyState(
+              message: emptyText,
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.lg,
                 vertical: AppSpacing.md,
-              ),
-              child: Center(
-                child: Text(
-                  emptyText,
-                  style: TextStyle(color: colors.textSecondary),
-                ),
               ),
             ),
         ],
