@@ -17,16 +17,10 @@ class AuthCardWrapper extends StatelessWidget {
 
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 24,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
         child: Container(
           constraints: const BoxConstraints(maxWidth: 400),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 28,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
           decoration: BoxDecoration(
             color: colors?.surfaceCard ?? Colors.white,
             borderRadius: BorderRadius.circular(24),

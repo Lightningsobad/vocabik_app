@@ -14,13 +14,17 @@ import '../../features/profile/presentation/screens/cefr_selection_screen.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../../features/video_detail/presentation/screens/video_detail_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_screen.dart';
+import '../../features/exercise/presentation/screens/result_screen.dart';
+import '../../features/exercise/presentation/models/exercise_result_args.dart';
 import '../../features/classroom/presentation/screens/my_classrooms_screen.dart';
 import '../../features/classroom/presentation/screens/classroom_detail_screen.dart';
 import '../../features/classroom/domain/entities/classroom_entity.dart';
 import '../di/injection.dart';
-
 import '../../features/legal/presentation/screens/legal_screen.dart';
+import '../../features/pricing/presentation/screens/pricing_screen.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../shared/domain/entities/video_entity.dart';
+import '../../shared/domain/enums/exercise_type.dart';
 
 class PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -136,9 +140,9 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: '/video/:id',
-      builder: (context, state) {
+      redirect: (context, state) {
         final id = state.pathParameters['id']!;
-        return VideoDetailScreen(videoId: id);
+        return '/home/video/$id';
       },
     ),
     GoRoute(
@@ -192,6 +196,33 @@ final GoRouter appRouter = GoRouter(
                     isFullscreen: false,
                   ),
                 ),
+                GoRoute(
+                  path: 'pricing',
+                  builder: (context, state) => const PricingScreen(),
+                ),
+                GoRoute(
+                  path: 'video/:id',
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
+                    return VideoDetailScreen(videoId: id);
+                  },
+                ),
+                GoRoute(
+                  path: 'exercise-result',
+                  builder: (context, state) {
+                    final args = state.extra as ExerciseResultArgs;
+                    return ResultScreen(
+                      key: ValueKey('${args.exercise.videoId}_${args.durationMs}_${args.selectedAnswers.hashCode}'),
+                      exercise: args.exercise,
+                      selectedAnswers: args.selectedAnswers,
+                      checkResults: args.checkResults,
+                      durationMs: args.durationMs,
+                      youtubeVideoId: args.youtubeVideoId,
+                      videoTitle: args.videoTitle,
+                      exerciseType: args.exerciseType,
+                    );
+                  },
+                ),
               ],
             ),
           ],
@@ -201,6 +232,15 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/discover',
               builder: (context, state) => const DiscoverScreen(),
+              routes: [
+                GoRoute(
+                  path: 'video/:id',
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
+                    return VideoDetailScreen(videoId: id);
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -247,3 +287,67 @@ final GoRouter appRouter = GoRouter(
     ),
   ],
 );
+
+extension ExerciseNavigationExtension on BuildContext {
+  void pushToExercise({
+    required String videoId,
+    required String cefrLevel,
+    String versionId = 'v1',
+    required String youtubeVideoId,
+    required String videoTitle,
+    ExerciseType exerciseType = ExerciseType.multipleChoice,
+  }) {
+    final uri = Uri(
+      path: '/exercise/$videoId',
+      queryParameters: {
+        'cefr_level': cefrLevel,
+        'version_id': versionId,
+        'youtube_video_id': youtubeVideoId,
+        'video_title': videoTitle,
+        'exercise_type': exerciseType.value,
+      },
+    );
+    push(uri.toString());
+  }
+
+  void pushReplacementToExercise({
+    required String videoId,
+    required String cefrLevel,
+    String versionId = 'v1',
+    required String youtubeVideoId,
+    required String videoTitle,
+    ExerciseType exerciseType = ExerciseType.multipleChoice,
+  }) {
+    final uri = Uri(
+      path: '/exercise/$videoId',
+      queryParameters: {
+        'cefr_level': cefrLevel,
+        'version_id': versionId,
+        'youtube_video_id': youtubeVideoId,
+        'video_title': videoTitle,
+        'exercise_type': exerciseType.value,
+      },
+    );
+    pushReplacement(uri.toString());
+  }
+
+  void pushVideoToExercise({
+    required VideoEntity video,
+    String? versionId,
+    ExerciseType exerciseType = ExerciseType.multipleChoice,
+  }) {
+    pushToExercise(
+      videoId: video.id,
+      cefrLevel: video.cefrLevel,
+      versionId: versionId ?? video.canonicalVersion ?? 'v1',
+      youtubeVideoId: video.youtubeVideoId,
+      videoTitle: video.title,
+      exerciseType: exerciseType,
+    );
+  }
+
+  void goToExerciseResult(ExerciseResultArgs args) {
+    go('/home/exercise-result', extra: args);
+  }
+}
+

@@ -44,7 +44,7 @@ class ScoreCardRemoteDataSourceImpl implements ScoreCardRemoteDataSource {
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
-        throw ServerException('Request cancelled');
+        throw const RequestCancelledException();
       }
       throw ServerException(e.message ?? 'Failed to create score card');
     }

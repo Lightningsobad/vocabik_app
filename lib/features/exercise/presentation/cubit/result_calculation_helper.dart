@@ -30,14 +30,25 @@ ExerciseResultSummary _computeSummary(ResultCalculationParams params) {
   int correctCount = 0;
   int wrongCount = 0;
   final List<WrongAnswerDetail> wrongAnswers = [];
+  final List<String> correctUserAnswers = [];
+  final List<BlankAnswerEntity> blankAnswers = [];
 
   for (int i = 0; i < exercise.blanks.length; i++) {
     final blank = exercise.blanks[i];
     final blankIndex = blank.blankIndex;
     final isCorrect = checkResults[blankIndex] ?? false;
 
+    blankAnswers.add(BlankAnswerEntity(
+      blankIndex: blankIndex,
+      isCorrect: isCorrect,
+    ));
+
     if (isCorrect) {
       correctCount++;
+      final userAnswer = selectedAnswers[blankIndex];
+      if (userAnswer != null && userAnswer.isNotEmpty) {
+        correctUserAnswers.add(userAnswer);
+      }
     } else {
       wrongCount++;
 
@@ -96,5 +107,7 @@ ExerciseResultSummary _computeSummary(ResultCalculationParams params) {
     accuracyScore: accuracy,
     duration: Duration(milliseconds: params.durationMs),
     wrongAnswers: wrongAnswers,
+    correctUserAnswers: correctUserAnswers,
+    blankAnswers: blankAnswers,
   );
 }

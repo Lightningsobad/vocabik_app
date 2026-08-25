@@ -37,6 +37,7 @@ class DailyChallengeCard extends StatelessWidget {
         border: Border.all(color: borderColor),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset(
             'assets/home_screen/trophy.svg',
@@ -49,38 +50,16 @@ class DailyChallengeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        l10n.homeDailyChallenge,
-                        style: GoogleFonts.nunito(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontSize: AppFontSize.lg2,
-                          fontWeight: FontWeight.w900,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.sm),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.timer_outlined, color: timeColor, size: 16),
-                        const SizedBox(width: 4),
-                        Text(
-                          '08:42',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.nunito(
-                            color: timeColor,
-                            fontSize: AppFontSize.mdt,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                Text(
+                  l10n.homeDailyChallenge,
+                  style: GoogleFonts.nunito(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: AppFontSize.lg2,
+                    fontWeight: FontWeight.w900,
+                    height: 1.2,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -97,13 +76,32 @@ class DailyChallengeCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: AppSpacing.tn),
-          Icon(
-            Icons.chevron_right_rounded,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.5),
-            size: 22,
+          const SizedBox(width: AppSpacing.md),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.timer_outlined, color: timeColor, size: 16),
+              const SizedBox(width: 4),
+              Text(
+                '08:42',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.nunito(
+                  color: timeColor,
+                  fontSize: AppFontSize.mdt,
+                  fontWeight: FontWeight.w900,
+                  height: 1.1,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
+                size: 22,
+              ),
+            ],
           ),
         ],
       ),

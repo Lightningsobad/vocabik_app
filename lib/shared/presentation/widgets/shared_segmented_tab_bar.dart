@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class SharedSegmentedTabBar extends StatelessWidget {
   final int selectedIndex;
@@ -27,13 +28,13 @@ class SharedSegmentedTabBar extends StatelessWidget {
         children: List.generate(tabs.length, (index) {
           final isSelected = index == selectedIndex;
           return Padding(
-            padding: const EdgeInsets.only(right: 8.0),
+            padding: const EdgeInsets.only(right: 9.0),
             child: BounceWrapper(
               onTap: () => onTabChanged(index),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 constraints: const BoxConstraints(
-                  minHeight: 37.0,
+                  minHeight: 39.0,
                   minWidth: 42.0,
                 ),
                 padding: const EdgeInsets.symmetric(
@@ -55,12 +56,13 @@ class SharedSegmentedTabBar extends StatelessWidget {
                 ),
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 200),
-                  style: GoogleFonts.nunito(
+                  style: AppTextStyles.custom(
+                    fontSize: AppFontSize.md,
+
                     color: isSelected
                         ? colors.onPrimaryAccent
                         : colors.tabUnselectedText,
-                    fontWeight: isSelected ? FontWeight.w900 : FontWeight.w800,
-                    fontSize: 14.0,
+                    fontWeight: isSelected ? FontWeight.w800 : FontWeight.w700,
                   ),
                   child: Text(tabs[index]),
                 ),

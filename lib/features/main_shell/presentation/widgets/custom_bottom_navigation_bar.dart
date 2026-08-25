@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_spacing.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -28,20 +29,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
     ];
 
     return Container(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.paddingOf(context).bottom,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       decoration: BoxDecoration(
         color: colors.surfaceCard,
-        border: Border(
-          top: BorderSide(
-            color: colors.borderSubtle,
-            width: 1.0,
-          ),
-        ),
+        border: Border(top: BorderSide(color: colors.borderSubtle, width: 1.0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: List.generate(items.length, (index) {
@@ -59,14 +53,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     children: [
                       Icon(
                         item.icon,
-                        color: isSelected ? colors.navSelected : colors.navUnselected,
+                        color: isSelected
+                            ? colors.navSelected
+                            : colors.navUnselected,
                         size: 24.0,
                       ),
-                      const SizedBox(height: 4.0),
+                      const SizedBox(height: AppSpacing.xs),
                       Text(
                         item.label,
                         style: GoogleFonts.nunito(
-                          color: isSelected ? colors.navSelected : colors.navUnselected,
+                          color: isSelected
+                              ? colors.navSelected
+                              : colors.navUnselected,
                           fontWeight: FontWeight.bold,
                           fontSize: 12.0,
                         ),

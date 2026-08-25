@@ -11,7 +11,13 @@ class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
   final Color? textColor;
+  final Color? backgroundColor;
   final PrimaryButtonVariant variant;
+  final Widget? leadingIcon;
+  final Widget? trailingIcon;
+  final EdgeInsetsGeometry? padding;
+  final TextStyle? textStyle;
+  final BoxBorder? border;
 
   const PrimaryButton({
     super.key,
@@ -19,7 +25,13 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.textColor,
+    this.backgroundColor,
     this.variant = PrimaryButtonVariant.primary,
+    this.leadingIcon,
+    this.trailingIcon,
+    this.padding,
+    this.textStyle,
+    this.border,
   });
 
   @override
@@ -28,34 +40,44 @@ class PrimaryButton extends StatelessWidget {
     final isDisabled = isLoading || onPressed == null;
 
     final Color bgColor;
-    final Border? border;
+    final BoxBorder? defaultBorder;
     final Color defaultTextColor;
 
     if (variant == PrimaryButtonVariant.secondary) {
-      bgColor = Colors.transparent;
-      border = Border.all(
+      bgColor = backgroundColor ?? Colors.transparent;
+      defaultBorder = Border.all(
         color: isDisabled ? colors.borderSubtle.withValues(alpha: 0.5) : colors.borderSubtle,
         width: 1.5,
       );
       defaultTextColor = isDisabled ? colors.textSecondary : colors.textPrimary;
     } else {
       bgColor = isDisabled
-          ? colors.primaryAccent.withValues(alpha: 0.6)
-          : colors.primaryAccent;
-      border = null;
+          ? (backgroundColor ?? colors.primaryAccent).withValues(alpha: 0.6)
+          : (backgroundColor ?? colors.primaryAccent);
+      defaultBorder = null;
       defaultTextColor = colors.onPrimaryAccent;
     }
 
+    final effectiveBorder = border ?? defaultBorder;
+
     final effectiveTextColor = textColor ?? defaultTextColor;
+    final effectiveTextStyle = (textStyle ??
+            GoogleFonts.nunito(
+              fontSize: 18.0,
+              fontWeight: FontWeight.w900,
+            ))
+        .copyWith(
+      color: textStyle?.color ?? effectiveTextColor,
+    );
 
     return BounceWrapper(
       onTap: isLoading ? null : onPressed,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md2),
+        padding: padding ?? const EdgeInsets.symmetric(vertical: AppSpacing.md2),
         decoration: BoxDecoration(
           color: bgColor,
-          border: border,
+          border: effectiveBorder,
           borderRadius: BorderRadius.circular(999.0), // Bo góc dạng viên thuốc (Pill shape)
         ),
         alignment: Alignment.center,
@@ -68,13 +90,23 @@ class PrimaryButton extends StatelessWidget {
                   color: effectiveTextColor,
                 ),
               )
-            : Text(
-                text,
-                style: GoogleFonts.nunito(
-                  color: effectiveTextColor,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w900,
-                ),
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (leadingIcon != null) ...[
+                    leadingIcon!,
+                    const SizedBox(width: AppSpacing.sm),
+                  ],
+                  Text(
+                    text,
+                    style: effectiveTextStyle,
+                  ),
+                  if (trailingIcon != null) ...[
+                    const SizedBox(width: AppSpacing.sm),
+                    trailingIcon!,
+                  ],
+                ],
               ),
       ),
     );

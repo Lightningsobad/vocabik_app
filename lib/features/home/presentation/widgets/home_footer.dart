@@ -25,11 +25,7 @@ class HomeFooter extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 1. Top Divider line
-          Divider(
-            color: colors.borderSubtle,
-            height: 1,
-            thickness: 1,
-          ),
+          Divider(color: colors.borderSubtle, height: 1, thickness: 1),
           const SizedBox(height: AppSpacing.xl),
 
           // 2. Logo & Links in a single horizontal row
@@ -59,6 +55,9 @@ class HomeFooter extends StatelessWidget {
               _buildFooterLink(
                 text: l10n.homePricing,
                 color: colors.textSecondary,
+                onTap: () {
+                  context.push('/home/pricing');
+                },
               ),
               const SizedBox(width: AppSpacing.md2),
               _buildFooterLink(
@@ -108,11 +107,10 @@ class HomeFooter extends StatelessWidget {
         text,
         style: AppTextStyles.custom(
           color: color,
-          fontSize: AppFontSize.sm,
+          fontSize: AppFontSize.mdt,
           fontWeight: FontWeight.w800,
         ),
       ),
     );
   }
 }
-

@@ -13,6 +13,14 @@ class ExerciseInitial extends ExerciseState {}
 class ExerciseLoading extends ExerciseState {}
 
 class ExerciseLoaded extends ExerciseState {
+  static const _defaultLine = ExerciseLineEntity(
+    lineIndex: 0,
+    startMs: 0,
+    endMs: 0,
+    sentenceIndex: 0,
+    tokens: [],
+  );
+
   final ExerciseEntity exercise;
   final int currentBlankIndex;
   final Map<int, String> selectedAnswers;
@@ -21,6 +29,7 @@ class ExerciseLoaded extends ExerciseState {
   final bool hintUsedForCurrentBlank;
   final Map<int, int> blankEndMsMap;
   final List<int> stopPointMs;
+  final Map<int, ExerciseLineEntity> activeLineMap;
 
   ExerciseLoaded({
     required this.exercise,
@@ -31,8 +40,10 @@ class ExerciseLoaded extends ExerciseState {
     this.hintUsedForCurrentBlank = false,
     Map<int, int>? blankEndMsMap,
     List<int>? stopPointMs,
+    Map<int, ExerciseLineEntity>? activeLineMap,
   })  : blankEndMsMap = blankEndMsMap ?? _computeBlankEndMsMap(exercise),
-        stopPointMs = stopPointMs ?? _computeStopPointMs(exercise);
+        stopPointMs = stopPointMs ?? _computeStopPointMs(exercise),
+        activeLineMap = activeLineMap ?? _computeActiveLineMap(exercise);
 
   static Map<int, int> _computeBlankEndMsMap(ExerciseEntity exercise) {
     final map = <int, int>{};
@@ -41,13 +52,7 @@ class ExerciseLoaded extends ExerciseState {
         (l) => l.tokens.any((t) => t.blankIndex == blank.blankIndex),
         orElse: () => exercise.lines.isNotEmpty
             ? exercise.lines.first
-            : const ExerciseLineEntity(
-                lineIndex: 0,
-                startMs: 0,
-                endMs: 0,
-                sentenceIndex: 0,
-                tokens: [],
-              ),
+            : _defaultLine,
       );
       map[blank.blankIndex] = line.endMs;
     }
@@ -61,17 +66,25 @@ class ExerciseLoaded extends ExerciseState {
         (l) => l.tokens.any((t) => t.blankIndex == blank.blankIndex),
         orElse: () => exercise.lines.isNotEmpty
             ? exercise.lines.first
-            : const ExerciseLineEntity(
-                lineIndex: 0,
-                startMs: 0,
-                endMs: 0,
-                sentenceIndex: 0,
-                tokens: [],
-              ),
+            : _defaultLine,
       );
       list.add(line.endMs);
     }
     return list;
+  }
+
+  static Map<int, ExerciseLineEntity> _computeActiveLineMap(ExerciseEntity exercise) {
+    final map = <int, ExerciseLineEntity>{};
+    for (final blank in exercise.blanks) {
+      final line = exercise.lines.firstWhere(
+        (l) => l.tokens.any((t) => t.blankIndex == blank.blankIndex),
+        orElse: () => exercise.lines.isNotEmpty
+            ? exercise.lines.first
+            : _defaultLine,
+      );
+      map[blank.blankIndex] = line;
+    }
+    return map;
   }
 
   ExerciseLoaded copyWith({
@@ -92,6 +105,7 @@ class ExerciseLoaded extends ExerciseState {
           hintUsedForCurrentBlank ?? this.hintUsedForCurrentBlank,
       blankEndMsMap: exercise != null ? null : blankEndMsMap,
       stopPointMs: exercise != null ? null : stopPointMs,
+      activeLineMap: exercise != null ? null : activeLineMap,
     );
   }
 
@@ -105,18 +119,9 @@ class ExerciseLoaded extends ExerciseState {
 
   double get progress => totalSteps > 0 ? currentStep / totalSteps : 0.0;
 
-  ExerciseLineEntity get activeLine => exercise.lines.firstWhere(
-        (line) => line.tokens.any((t) => t.blankIndex == currentBlankIndex),
-        orElse: () => exercise.lines.isNotEmpty
-            ? exercise.lines.first
-            : const ExerciseLineEntity(
-                lineIndex: 0,
-                startMs: 0,
-                endMs: 0,
-                sentenceIndex: 0,
-                tokens: [],
-              ),
-      );
+  ExerciseLineEntity get activeLine =>
+      activeLineMap[currentBlankIndex] ??
+      (exercise.lines.isNotEmpty ? exercise.lines.first : _defaultLine);
 
   @override
   List<Object?> get props => [
@@ -128,6 +133,7 @@ class ExerciseLoaded extends ExerciseState {
         hintUsedForCurrentBlank,
         blankEndMsMap,
         stopPointMs,
+        activeLineMap,
       ];
 }
 

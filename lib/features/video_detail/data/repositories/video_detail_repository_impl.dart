@@ -2,9 +2,11 @@ import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
-import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/features/video_detail/data/datasources/video_detail_remote_data_source.dart';
+import 'package:vocabik_app/features/video_detail/domain/entities/reaction_result_entity.dart';
+import 'package:vocabik_app/features/video_detail/domain/entities/video_progress_entity.dart';
 import 'package:vocabik_app/features/video_detail/domain/repositories/video_detail_repository.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 
 @LazySingleton(as: VideoDetailRepository)
 class VideoDetailRepositoryImpl implements VideoDetailRepository {
@@ -17,6 +19,42 @@ class VideoDetailRepositoryImpl implements VideoDetailRepository {
     try {
       final videoModel = await remoteDataSource.getVideoDetail(id);
       return Right(videoModel.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> getExerciseBlanksCount(String videoId) async {
+    try {
+      final count = await remoteDataSource.getExerciseBlanksCount(videoId);
+      return Right(count);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, VideoProgressEntity?>> getLatestProgress(String videoId) async {
+    try {
+      final progressModel = await remoteDataSource.getLatestProgress(videoId);
+      return Right(progressModel?.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ReactionResultEntity>> sendVideoReaction(String videoId, String reactionType) async {
+    try {
+      final responseModel = await remoteDataSource.sendVideoReaction(videoId, reactionType);
+      return Right(responseModel.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {

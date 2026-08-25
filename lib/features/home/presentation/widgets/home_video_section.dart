@@ -3,6 +3,7 @@ import 'package:vocabik_app/features/home/presentation/widgets/section_header.da
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
+import 'package:vocabik_app/shared/presentation/widgets/shared_empty_state.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -48,11 +49,9 @@ class HomeVideoSection extends StatelessWidget {
           ),
           if (isLoading)
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: SizedBox(
-                height: 230,
+                height: 267,
                 child: AppShimmer(
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -60,7 +59,7 @@ class HomeVideoSection extends StatelessWidget {
                     separatorBuilder: (context, index) =>
                         const SizedBox(width: AppSpacing.lg),
                     itemBuilder: (context, index) => Container(
-                      width: 250,
+                      width: 282,
                       decoration: BoxDecoration(
                         color: colors.surfaceCard,
                         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -72,36 +71,26 @@ class HomeVideoSection extends StatelessWidget {
             )
           else if (videos.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: SizedBox(
-                height: 230,
+                height: 263,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: videos.length,
                   separatorBuilder: (context, index) =>
                       const SizedBox(width: AppSpacing.lg),
                   itemBuilder: (context, index) {
-                    return SharedCourseCard(
-                      video: videos[index],
-                      width: 250,
-                    );
+                    return SharedCourseCard(video: videos[index], width: 282);
                   },
                 ),
               ),
             )
           else
-            Padding(
+            SharedEmptyState(
+              message: emptyText,
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.lg,
                 vertical: AppSpacing.md,
-              ),
-              child: Center(
-                child: Text(
-                  emptyText,
-                  style: TextStyle(color: colors.textSecondary),
-                ),
               ),
             ),
         ],

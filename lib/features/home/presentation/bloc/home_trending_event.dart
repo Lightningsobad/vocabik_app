@@ -14,3 +14,12 @@ class FetchTrendingVideos extends HomeTrendingEvent {
 class RefreshTrendingVideos extends HomeTrendingEvent {
   const RefreshTrendingVideos();
 }
+
+class ChangeTrendingCefrFilter extends HomeTrendingEvent {
+  final String? cefr;
+
+  const ChangeTrendingCefrFilter(this.cefr);
+
+  @override
+  List<Object?> get props => [cefr];
+}

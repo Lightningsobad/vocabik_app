@@ -31,7 +31,7 @@ class HomeTrendingSection extends StatelessWidget {
           onActionTap: () {},
           isLoading: isLoading,
           videos: videos,
-          emptyText: l10n.emptySectionText,
+          emptyText: l10n.emptyVideos,
         );
       },
     );

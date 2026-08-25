@@ -435,6 +435,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emptySectionText => 'No video yet';
 
   @override
+  String get emptyVideos => 'No videos found';
+
+  @override
   String get videoDetailBack => 'Back';
 
   @override
@@ -463,6 +466,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get videoDetailStartPractice => 'Start practice →';
+
+  @override
+  String videoDetailBlanksCount(int count) {
+    return '$count blanks';
+  }
+
+  @override
+  String get videoDetailLength => 'Length';
+
+  @override
+  String get videoDetailShareThis => 'Share this exercise';
+
+  @override
+  String get videoDetailLastAttempt => 'Last attempt';
 
   @override
   String get authGenericError => 'An error occurred';
@@ -510,13 +527,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exerciseTitle => 'PRACTICE';
 
   @override
-  String get exerciseCorrect => 'Correct! 🎉';
+  String get exerciseCorrect => 'Correct!';
+
+  @override
+  String get exerciseCorrectAwesome => 'Awesome!';
+
+  @override
+  String get exerciseCorrectSpotOn => 'Spot on!';
 
   @override
   String get exerciseAlmost => 'Almost!';
 
   @override
-  String get exerciseHint => '💡 Hint';
+  String get exerciseHint => 'Hint';
 
   @override
   String get exerciseContinue => 'Continue →';
@@ -531,7 +554,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exerciseCompleted => 'Exercise completed!';
 
   @override
-  String get viewVietnameseTranslation => 'View Vietnamese translation';
+  String get viewVietnameseTranslation => 'Show Vietnamese';
 
   @override
   String get nameCannotBeEmpty => 'Name cannot be empty';
@@ -642,6 +665,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resultCopiedToClipboard => 'Copied to clipboard!';
+
+  @override
+  String get resultProgressSavedSuccess => 'Progress saved successfully!';
+
+  @override
+  String get resultProgressSaveError => 'Could not sync progress';
+
+  @override
+  String get resultProgressRetry => 'Retry sync';
 
   @override
   String get myClassrooms => 'My classrooms';
@@ -824,4 +856,130 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyContact => 'Contact: privacy@vocabik.com';
+
+  @override
+  String get pricingTitle => 'Learn English without limits';
+
+  @override
+  String get pricingSubtitle => 'Unlock Vocabik Premium from \$5/mo.';
+
+  @override
+  String get pricingMonthly => 'Monthly';
+
+  @override
+  String get pricingYearly => 'Yearly -33%';
+
+  @override
+  String get pricingFreeTag => 'FREE';
+
+  @override
+  String get pricingFreeTitle => 'Free';
+
+  @override
+  String get pricingFreeForever => 'forever';
+
+  @override
+  String get pricingFreeFeat1 => 'Curated library';
+
+  @override
+  String get pricingFreeFeat2 => '5 exercises / day';
+
+  @override
+  String get pricingFreeFeat3 => 'MC + Free-text';
+
+  @override
+  String get pricingFreeFeat4 => 'Progress tracking';
+
+  @override
+  String get pricingFreeFeat5 => 'Score Card';
+
+  @override
+  String get pricingFreeBtn => 'Use for free';
+
+  @override
+  String get pricingPremiumTag => 'PREMIUM';
+
+  @override
+  String get pricingPremiumTitle => 'PREMIUM';
+
+  @override
+  String get pricingPremiumMostPopular => 'MOST POPULAR';
+
+  @override
+  String get pricingPremiumPriceMonthly => '\$5';
+
+  @override
+  String get pricingPremiumPriceYearly => '\$40';
+
+  @override
+  String get pricingPremiumPerMonth => '/mo';
+
+  @override
+  String get pricingPremiumPerYear => '/yr';
+
+  @override
+  String get pricingPremiumFeat1 => 'Everything in Free';
+
+  @override
+  String get pricingPremiumFeat2 => 'Paste any YouTube URL';
+
+  @override
+  String get pricingPremiumFeat3 => 'Unlimited learning';
+
+  @override
+  String get pricingPremiumFeat4 => 'All exercise versions';
+
+  @override
+  String get pricingPremiumFeat5 => 'Streak Freeze';
+
+  @override
+  String get pricingPremiumFeat6 => 'Unlimited hints';
+
+  @override
+  String get pricingPremiumFeat7 => 'Suggest a video for the library';
+
+  @override
+  String get pricingPremiumBtn => 'Start Premium →';
+
+  @override
+  String get pricingCancelAnytime => 'Cancel anytime';
+
+  @override
+  String get pricingBadgeSecure => 'Secure payment';
+
+  @override
+  String get pricingBadgeCancel => 'Cancel anytime';
+
+  @override
+  String get pricingBadgeCard => 'Visa/Mastercard';
+
+  @override
+  String get pricingBadgeSupport => '24h support';
+
+  @override
+  String get pricingFaqTitle => 'Frequently asked questions';
+
+  @override
+  String get pricingFaq1Q => 'Can I cancel?';
+
+  @override
+  String get pricingFaq1A => 'Yes, anytime, at no cost.';
+
+  @override
+  String get pricingFaq2Q => 'Can I use a Vietnamese card?';
+
+  @override
+  String get pricingFaq2A => 'Yes, we accept international Visa/Mastercard.';
+
+  @override
+  String get pricingFaq3Q => 'Is there a free trial?';
+
+  @override
+  String get pricingFaq3A => 'The Free plan is a permanent trial.';
+
+  @override
+  String get pricingFaq4Q => 'Can I get an annual refund?';
+
+  @override
+  String get pricingFaq4A => 'Within 7 days of payment.';
 }

@@ -117,6 +117,9 @@ flutter:
     - assets/cefr_screen/
     - assets/home_screen/
     - assets/result_screen/
+    - assets/video_detail/
+    - assets/pricing_screen/
+    - assets/exercise_screen/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

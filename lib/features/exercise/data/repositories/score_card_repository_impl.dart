@@ -1,8 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/core/network/app_cancel_token.dart';
+import 'package:vocabik_app/core/network/dio_cancel_token.dart';
 import 'package:vocabik_app/features/exercise/data/datasources/score_card_remote_datasource.dart';
 import 'package:vocabik_app/features/exercise/data/models/score_card_request.dart';
 import 'package:vocabik_app/features/exercise/domain/repositories/score_card_repository.dart';
@@ -15,15 +16,24 @@ class ScoreCardRepositoryImpl implements ScoreCardRepository {
 
   @override
   Future<Either<Failure, String>> createScoreCard({
-    required ScoreCardRequest request,
-    CancelToken? cancelToken,
+    required String videoId,
+    required String cefrLevel,
+    required int accuracyScore,
+    AppCancelToken? cancelToken,
   }) async {
     try {
+      final request = ScoreCardRequest(
+        videoId: videoId,
+        cefrLevel: cefrLevel,
+        accuracyScore: accuracyScore,
+      );
       final scoreCardId = await remoteDataSource.createScoreCard(
         request: request,
-        cancelToken: cancelToken,
+        cancelToken: cancelToken.toDio(),
       );
       return Right(scoreCardId);
+    } on RequestCancelledException {
+      return const Left(CancelledFailure());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
@@ -36,3 +46,4 @@ class ScoreCardRepositoryImpl implements ScoreCardRepository {
     return remoteDataSource.getScoreCardImageUrl(scoreCardId);
   }
 }
+

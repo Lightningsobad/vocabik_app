@@ -1,6 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/core/network/app_cancel_token.dart';
+import 'package:vocabik_app/core/network/dio_cancel_token.dart';
+import 'package:vocabik_app/core/utils/string_extensions.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_entity.dart';
 import 'package:vocabik_app/features/exercise/domain/usecases/get_exercise_usecase.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.dart';
@@ -8,7 +11,7 @@ import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.
 @injectable
 class ExerciseCubit extends Cubit<ExerciseState> {
   final GetExerciseUseCase getExerciseUseCase;
-  CancelToken? _cancelToken;
+  AppCancelToken? _cancelToken;
 
   ExerciseCubit(this.getExerciseUseCase) : super(ExerciseInitial());
 
@@ -18,7 +21,7 @@ class ExerciseCubit extends Cubit<ExerciseState> {
     required String versionId,
   }) async {
     _cancelToken?.cancel();
-    _cancelToken = CancelToken();
+    _cancelToken = DioCancelToken();
 
     emit(ExerciseLoading());
     final result = await getExerciseUseCase(
@@ -34,7 +37,7 @@ class ExerciseCubit extends Cubit<ExerciseState> {
 
     result.fold(
       (failure) {
-        if (failure.message == 'Request cancelled') return;
+        if (failure is CancelledFailure) return;
         emit(ExerciseError(failure.message));
       },
       (exercise) {
@@ -73,8 +76,8 @@ class ExerciseCubit extends Cubit<ExerciseState> {
         orElse: () => ExerciseBlankEntity(blankIndex: currentBlankIndex, correctAnswer: ''),
       );
       
-      final cleanedUserAnswer = _normalizeAnswer(answer);
-      final cleanedCorrectAnswer = _normalizeAnswer(blankData.correctAnswer);
+      final cleanedUserAnswer = answer.normalizeAnswer();
+      final cleanedCorrectAnswer = blankData.correctAnswer.normalizeAnswer();
       final isCorrect = cleanedCorrectAnswer.isNotEmpty &&
           cleanedUserAnswer == cleanedCorrectAnswer;
 
@@ -86,13 +89,6 @@ class ExerciseCubit extends Cubit<ExerciseState> {
         checkResults: newCheckResults,
       ));
     }
-  }
-
-  String _normalizeAnswer(String text) {
-    return text
-        .trim()
-        .toLowerCase()
-        .replaceAll(RegExp(r'[.,!?:;"\u201C\u201D\u2018\u2019\(\)\[\]]'), '');
   }
 
   void checkAnswer() {
@@ -135,3 +131,4 @@ class ExerciseCubit extends Cubit<ExerciseState> {
     }
   }
 }
+
