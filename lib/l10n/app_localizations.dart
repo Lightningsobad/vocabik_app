@@ -1933,6 +1933,72 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Được hoàn tiền trong vòng 7 ngày kể từ lúc thanh toán.'**
   String get pricingFaq4A;
+
+  /// No description provided for @forgotPasswordHeading.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quên mật khẩu?'**
+  String get forgotPasswordHeading;
+
+  /// No description provided for @forgotPasswordSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập email, chúng tôi sẽ gửi link đặt lại.'**
+  String get forgotPasswordSubtitle;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quay lại đăng nhập'**
+  String get backToLogin;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi link đặt lại →'**
+  String get sendResetLink;
+
+  /// No description provided for @resetPasswordHeading.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt mật khẩu mới'**
+  String get resetPasswordHeading;
+
+  /// No description provided for @newPasswordHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu mới'**
+  String get newPasswordHint;
+
+  /// No description provided for @confirmPasswordHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận mật khẩu'**
+  String get confirmPasswordHint;
+
+  /// No description provided for @resetPasswordAction.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt lại mật khẩu →'**
+  String get resetPasswordAction;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu xác nhận không khớp'**
+  String get passwordsDoNotMatch;
+
+  /// No description provided for @emailSentSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Link đặt lại mật khẩu đã được gửi đến email.'**
+  String get emailSentSuccess;
+
+  /// No description provided for @resetPasswordSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại.'**
+  String get resetPasswordSuccess;
 }
 
 class _AppLocalizationsDelegate

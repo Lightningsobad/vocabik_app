@@ -22,13 +22,13 @@ void main() async {
   await configureDependencies();
 
   // Initialize Deep Links
-  getIt<DeepLinkService>().init();
-  getIt<DeepLinkService>().onTokenReceived.listen((token) {
-    // Navigate to Verify Email Screen passing the token
-    // Actually the user wants to jump directly to CEFR Selection or handle it in VerifyEmailCubit.
-    // Let's navigate to the verify email screen which will trigger verifyWithToken, 
-    // or we can dispatch an event to AuthBloc/VerifyEmailCubit from here.
+  final deepLinkService = getIt<DeepLinkService>();
+  deepLinkService.init();
+  deepLinkService.onTokenReceived.listen((token) {
     appRouter.go('/verify-email', extra: {'token': token});
+  });
+  deepLinkService.onResetPasswordTokenReceived.listen((token) {
+    appRouter.go('/reset-password', extra: {'token': token});
   });
 
   runApp(const VocabikApp());

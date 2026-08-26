@@ -155,7 +155,7 @@ class _LoginViewState extends State<LoginView> {
             Align(
               alignment: Alignment.centerRight,
               child: BounceWrapper(
-                onTap: () {},
+                onTap: () => context.push('/forgot-password'),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: Text(

@@ -464,5 +464,16 @@
   "pricingFaq3Q": "Is there a free trial?",
   "pricingFaq3A": "The Free plan is a permanent trial.",
   "pricingFaq4Q": "Can I get an annual refund?",
-  "pricingFaq4A": "Within 7 days of payment."
+  "pricingFaq4A": "Within 7 days of payment.",
+  "forgotPasswordHeading": "Forgot password?",
+  "forgotPasswordSubtitle": "Enter your email, we will send you a reset link.",
+  "backToLogin": "Back to login",
+  "sendResetLink": "Send reset link →",
+  "resetPasswordHeading": "Set new password",
+  "newPasswordHint": "New password",
+  "confirmPasswordHint": "Confirm password",
+  "resetPasswordAction": "Reset password →",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "emailSentSuccess": "A password reset link has been sent to your email.",
+  "resetPasswordSuccess": "Password updated successfully. You may now sign in."
 }

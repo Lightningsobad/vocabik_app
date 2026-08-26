@@ -21,19 +21,27 @@ import '../../features/auth/data/data_sources/auth_remote_data_source.dart'
 import '../../features/auth/data/repositories/auth_repository_impl.dart'
     as _i153;
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
+import '../../features/auth/domain/use_cases/forgot_password_use_case.dart'
+    as _i897;
 import '../../features/auth/domain/use_cases/get_me_use_case.dart' as _i477;
 import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
 import '../../features/auth/domain/use_cases/register_use_case.dart' as _i1010;
 import '../../features/auth/domain/use_cases/resend_email_use_case.dart'
     as _i518;
+import '../../features/auth/domain/use_cases/reset_password_use_case.dart'
+    as _i169;
 import '../../features/auth/domain/use_cases/set_cefr_skipped_use_case.dart'
     as _i773;
 import '../../features/auth/domain/use_cases/sign_out_use_case.dart' as _i131;
 import '../../features/auth/domain/use_cases/verify_email_use_case.dart'
     as _i421;
 import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
+import '../../features/auth/presentation/bloc/forgot_password_cubit.dart'
+    as _i679;
 import '../../features/auth/presentation/bloc/login_cubit.dart' as _i281;
 import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
+import '../../features/auth/presentation/bloc/reset_password_cubit.dart'
+    as _i165;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
 import '../../features/classroom/data/datasources/classroom_remote_data_source.dart'
     as _i309;
@@ -269,15 +277,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i50.ExerciseRepository>(
       () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
     );
-    gh.lazySingleton<_i86.ClassroomRepository>(
-      () =>
-          _i360.ClassroomRepositoryImpl(gh<_i309.ClassroomRemoteDataSource>()),
-    );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
         gh<_i25.AuthRemoteDataSource>(),
         gh<_i606.AuthLocalDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i86.ClassroomRepository>(
+      () =>
+          _i360.ClassroomRepositoryImpl(gh<_i309.ClassroomRemoteDataSource>()),
     );
     gh.singleton<_i97.LocalizationCubit>(
       () => _i97.LocalizationCubit(
@@ -300,11 +308,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i421.VerifyEmailUseCase>(
       () => _i421.VerifyEmailUseCase(gh<_i787.AuthRepository>()),
     );
+    gh.lazySingleton<_i897.ForgotPasswordUseCase>(
+      () => _i897.ForgotPasswordUseCase(gh<_i787.AuthRepository>()),
+    );
     gh.lazySingleton<_i477.GetMeUseCase>(
       () => _i477.GetMeUseCase(gh<_i787.AuthRepository>()),
     );
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
+    );
+
+    gh.lazySingleton<_i169.ResetPasswordUseCase>(
+      () => _i169.ResetPasswordUseCase(gh<_i787.AuthRepository>()),
     );
     gh.lazySingleton<_i697.ScoreCardRepository>(
       () => _i384.ScoreCardRepositoryImpl(gh<_i62.ScoreCardRemoteDataSource>()),
@@ -313,6 +328,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i76.HomeRepositoryImpl(
         remoteDataSource: gh<_i362.HomeRemoteDataSource>(),
       ),
+    );
+    gh.factory<_i679.ForgotPasswordCubit>(
+      () => _i679.ForgotPasswordCubit(gh<_i897.ForgotPasswordUseCase>()),
+    );
+    gh.factory<_i165.ResetPasswordCubit>(
+      () => _i165.ResetPasswordCubit(gh<_i169.ResetPasswordUseCase>()),
     );
     gh.lazySingleton<_i785.ProgressRepository>(
       () => _i779.ProgressRepositoryImpl(gh<_i854.ProgressRemoteDataSource>()),
@@ -370,6 +391,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i241.SendVideoReactionUseCase>(
       () => _i241.SendVideoReactionUseCase(gh<_i291.VideoDetailRepository>()),
     );
+    gh.factory<_i281.LoginCubit>(
+      () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),
+    );
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
     );
@@ -413,9 +437,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1038.LoginUseCase>(),
         gh<_i797.AuthBloc>(),
       ),
-    );
-    gh.factory<_i281.LoginCubit>(
-      () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),
     );
     gh.factory<_i748.ProgressCubit>(
       () => _i748.ProgressCubit(

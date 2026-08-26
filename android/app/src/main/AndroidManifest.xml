@@ -29,8 +29,18 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Supports https://vocabik.com/auth/verify-email -->
+                <!-- Supports https://vocabik.com -->
                 <data android:scheme="https" android:host="vocabik.com" android:pathPrefix="/auth/verify-email" />
+                <data android:scheme="https" android:host="vocabik.com" android:pathPrefix="/reset-password" />
+                <data android:scheme="https" android:host="vocabik.com" android:pathPrefix="/auth/reset-password" />
+            </intent-filter>
+
+            <!-- Custom URL Scheme Intent Filter (e.g. vocabik://reset-password?token=...) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="vocabik" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
