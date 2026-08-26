@@ -216,7 +216,7 @@ class DailyPickCard extends StatelessWidget {
                       // Title
                       Text(
                         dailyPick.title.trim(),
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.custom(
                           color: Colors.white,

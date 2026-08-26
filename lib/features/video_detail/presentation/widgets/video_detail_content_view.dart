@@ -107,21 +107,23 @@ class VideoDetailContentView extends StatelessWidget {
                   border: Border.all(color: colors.tagCategoryBorder, width: 1),
                   borderRadius: BorderRadius.circular(AppRadius.md),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                    vertical: AppSpacing.tn,
+                    horizontal: AppSpacing.sm2,
+                    vertical: AppSpacing.xs,
                   ),
-                  leadingIcon: SvgPicture.asset(
-                    'assets/video_detail/music_icon.svg',
+                  leadingIcon: Image.asset(
+                    'assets/home_screen/music_icon.png',
                     width: 16,
                     height: 16,
+                    alignment: Alignment.center,
                   ),
                 ),
                 if (video.durationSeconds > 0) ...[
                   const SizedBox(width: AppSpacing.sm2),
-                  Icon(
-                    Icons.timer_outlined,
-                    size: 15,
-                    color: colors.videoDurationText,
+                  Image.asset(
+                    'assets/home_screen/timer_icon.png',
+                    width: 14,
+                    height: 14,
+                    alignment: Alignment.center,
                   ),
                   const SizedBox(width: AppSpacing.tnn),
                   Text(
