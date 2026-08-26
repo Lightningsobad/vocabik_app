@@ -21,18 +21,18 @@ class DiscoverSearchQueryChanged extends DiscoverEvent {
 class DiscoverFilterChanged extends DiscoverEvent {
   final String? cefr;
   final String? genre;
-  final String? window;
+  final String? exerciseType;
   final String? duration;
 
   const DiscoverFilterChanged({
     this.cefr,
     this.genre,
-    this.window,
+    this.exerciseType,
     this.duration,
   });
 
   @override
-  List<Object?> get props => [cefr, genre, window, duration];
+  List<Object?> get props => [cefr, genre, exerciseType, duration];
 }
 
 class DiscoverRefreshRequested extends DiscoverEvent {}

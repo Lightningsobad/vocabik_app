@@ -259,7 +259,40 @@ class AppLocalizationsVi extends AppLocalizations {
   String get discoverFilterAll => 'Tất cả';
 
   @override
-  String get discoverTrendingTitle => 'Trending 🔥';
+  String get genreMusic => 'Âm nhạc';
+
+  @override
+  String get genreVlog => 'Vlog';
+
+  @override
+  String get genreNews => 'Tin tức';
+
+  @override
+  String get genreEducation => 'Giáo dục';
+
+  @override
+  String get genreEntertainment => 'Giải trí';
+
+  @override
+  String get genreTedTalks => 'TED Talks';
+
+  @override
+  String get genreNewsEnglish => 'Tin tức Tiếng Anh';
+
+  @override
+  String get genreOther => 'Khác';
+
+  @override
+  String get exerciseTypeMc => 'Trắc nghiệm';
+
+  @override
+  String get exerciseTypeFreeText => 'Điền từ';
+
+  @override
+  String get exerciseTypeSentenceReorder => 'Sắp xếp câu';
+
+  @override
+  String get discoverTrendingTitle => 'Trending';
 
   @override
   String get discoverPlaylistTitle => 'Playlist tuyển chọn';

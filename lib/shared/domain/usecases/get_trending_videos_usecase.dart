@@ -10,7 +10,15 @@ class GetTrendingVideosUseCase {
 
   GetTrendingVideosUseCase(this.repository);
 
-  Future<Either<Failure, List<VideoEntity>>> call({String? cefr}) {
-    return repository.getTrendingVideos(cefr: cefr);
+  Future<Either<Failure, List<VideoEntity>>> call({
+    String? cefr,
+    String? genre,
+    String? duration,
+  }) {
+    return repository.getTrendingVideos(
+      cefr: cefr,
+      genre: genre,
+      duration: duration,
+    );
   }
 }

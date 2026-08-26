@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 enum SectionHeaderSize { large, medium, small }
 
@@ -16,6 +18,7 @@ class SectionHeader extends StatelessWidget {
   final Color? actionTextColor;
   final bool isIconTrailing;
   final SectionHeaderSize size;
+  final bool isLoading;
 
   const SectionHeader({
     super.key,
@@ -27,6 +30,7 @@ class SectionHeader extends StatelessWidget {
     this.actionTextColor,
     this.isIconTrailing = false,
     this.size = SectionHeaderSize.large,
+    this.isLoading = false,
   });
 
   @override
@@ -85,7 +89,7 @@ class SectionHeader extends StatelessWidget {
 
     final textSpan = TextSpan(
       text: title,
-      style: GoogleFonts.nunito(
+      style: AppTextStyles.custom(
         color: color,
         fontSize: fontSize,
         fontWeight: fontWeight,
@@ -102,23 +106,42 @@ class SectionHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  if (!isIconTrailing && iconWidgetSpan != null) iconWidgetSpan,
-                  textSpan,
-                  if (isIconTrailing && iconWidgetSpan != null) iconWidgetSpan,
-                ],
+          if (isLoading)
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: AppShimmer(
+                  child: Container(
+                    width: 140,
+                    height: fontSize * 1.15,
+                    decoration: BoxDecoration(
+                      color: colors.surfaceCard,
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          else
+            Expanded(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    if (!isIconTrailing && iconWidgetSpan != null)
+                      iconWidgetSpan,
+                    textSpan,
+                    if (isIconTrailing && iconWidgetSpan != null)
+                      iconWidgetSpan,
+                  ],
+                ),
               ),
             ),
-          ),
-          if (actionText != null)
+          if (!isLoading && actionText != null)
             GestureDetector(
               onTap: onActionTap,
               child: Text(
                 actionText!,
-                style: GoogleFonts.nunito(
+                style: AppTextStyles.custom(
                   color:
                       actionTextColor ?? Theme.of(context).colorScheme.primary,
                   fontSize: AppFontSize.md,

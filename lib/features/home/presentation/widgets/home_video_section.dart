@@ -46,6 +46,7 @@ class HomeVideoSection extends StatelessWidget {
             actionText: actionText,
             onActionTap: onActionTap,
             size: SectionHeaderSize.medium,
+            isLoading: isLoading,
           ),
           if (isLoading)
             Padding(
