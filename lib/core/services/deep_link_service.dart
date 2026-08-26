@@ -12,6 +12,10 @@ class DeepLinkService {
   final _tokenController = StreamController<String>.broadcast();
   Stream<String> get onTokenReceived => _tokenController.stream;
 
+  final _resetPasswordTokenController = StreamController<String>.broadcast();
+  Stream<String> get onResetPasswordTokenReceived =>
+      _resetPasswordTokenController.stream;
+
   DeepLinkService() : _appLinks = AppLinks();
 
   void init() {
@@ -42,11 +46,20 @@ class DeepLinkService {
 
   void _handleUri(Uri uri) {
     debugPrint('Received DeepLink: $uri');
-    // Expected link format: https://vocabik.com/auth/verify-email?token=xxx
-    if (uri.path.contains('/auth/verify-email')) {
+    // Expected link format: https://vocabik.com/auth/verify-email?token=xxx or vocabik://verify-email?token=xxx
+    if (uri.path.contains('/auth/verify-email') ||
+        uri.path.contains('/verify-email') ||
+        uri.host == 'verify-email') {
       final token = uri.queryParameters['token'];
       if (token != null && token.isNotEmpty) {
         _tokenController.add(token);
+      }
+    } else if (uri.path.contains('/reset-password') ||
+        uri.path.contains('/auth/reset-password') ||
+        uri.host == 'reset-password') {
+      final token = uri.queryParameters['token'];
+      if (token != null && token.isNotEmpty) {
+        _resetPasswordTokenController.add(token);
       }
     }
   }
@@ -54,5 +67,6 @@ class DeepLinkService {
   void dispose() {
     _linkSubscription?.cancel();
     _tokenController.close();
+    _resetPasswordTokenController.close();
   }
 }

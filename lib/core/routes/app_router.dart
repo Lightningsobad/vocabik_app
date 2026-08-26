@@ -10,6 +10,8 @@ import '../../features/profile/presentation/widgets/integration/integration_cont
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/verify_email_screen.dart';
+import '../../features/auth/presentation/screens/forgot_password_screen.dart';
+import '../../features/auth/presentation/screens/reset_password_screen.dart';
 import '../../features/profile/presentation/screens/cefr_selection_screen.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../../features/video_detail/presentation/screens/video_detail_screen.dart';
@@ -50,6 +52,8 @@ final GoRouter appRouter = GoRouter(
       '/login',
       '/register',
       '/verify-email',
+      '/forgot-password',
+      '/reset-password',
       '/terms-of-service',
       '/privacy-policy',
     ];
@@ -82,7 +86,9 @@ final GoRouter appRouter = GoRouter(
       }
 
       if (state.matchedLocation == '/login' ||
-          state.matchedLocation == '/register') {
+          state.matchedLocation == '/register' ||
+          state.matchedLocation == '/forgot-password' ||
+          state.matchedLocation == '/reset-password') {
         return '/home';
       }
     }
@@ -101,6 +107,20 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/register',
       builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      path: '/forgot-password',
+      builder: (context, state) => const ForgotPasswordScreen(),
+    ),
+    GoRoute(
+      path: '/reset-password',
+      builder: (context, state) {
+        final token =
+            state.uri.queryParameters['token'] ??
+            (state.extra as Map<String, dynamic>?)?['token'] as String? ??
+            '';
+        return ResetPasswordScreen(token: token);
+      },
     ),
     GoRoute(
       path: '/terms-of-service',

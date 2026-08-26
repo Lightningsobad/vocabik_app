@@ -985,4 +985,39 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get pricingFaq4A =>
       'Được hoàn tiền trong vòng 7 ngày kể từ lúc thanh toán.';
+
+  @override
+  String get forgotPasswordHeading => 'Quên mật khẩu?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Nhập email, chúng tôi sẽ gửi link đặt lại.';
+
+  @override
+  String get backToLogin => 'Quay lại đăng nhập';
+
+  @override
+  String get sendResetLink => 'Gửi link đặt lại →';
+
+  @override
+  String get resetPasswordHeading => 'Đặt mật khẩu mới';
+
+  @override
+  String get newPasswordHint => 'Mật khẩu mới';
+
+  @override
+  String get confirmPasswordHint => 'Xác nhận mật khẩu';
+
+  @override
+  String get resetPasswordAction => 'Đặt lại mật khẩu →';
+
+  @override
+  String get passwordsDoNotMatch => 'Mật khẩu xác nhận không khớp';
+
+  @override
+  String get emailSentSuccess => 'Link đặt lại mật khẩu đã được gửi đến email.';
+
+  @override
+  String get resetPasswordSuccess =>
+      'Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại.';
 }

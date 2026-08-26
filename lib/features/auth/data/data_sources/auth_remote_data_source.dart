@@ -16,6 +16,8 @@ abstract class AuthRemoteDataSource {
   Future<void> register(RegisterRequestModel request, {CancelToken? cancelToken});
   Future<AuthResponseModel> verifyEmail(String token, {CancelToken? cancelToken});
   Future<void> resendVerificationEmail(String email, {CancelToken? cancelToken});
+  Future<String> forgotPassword(String email, {CancelToken? cancelToken});
+  Future<String> resetPassword(String token, String newPassword, {CancelToken? cancelToken});
 }
 
 AuthResponseModel _parseAuthResponse(Map<String, dynamic> data) => AuthResponseModel.fromJson(data);
@@ -146,6 +148,67 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         cancelToken: cancelToken,
       );
     } catch (e) {
+      throw const NetworkException();
+    }
+  }
+
+  @override
+  Future<String> forgotPassword(String email, {CancelToken? cancelToken}) async {
+    try {
+      final response = await _dio.post(
+        '/auth/forgot-password',
+        data: {'email': email},
+        cancelToken: cancelToken,
+      );
+      final data = response.data;
+      if (data is Map<String, dynamic> && data.containsKey('message')) {
+        return data['message'] as String;
+      }
+      return 'If an account with that email exists, a password reset link has been sent.';
+    } catch (e) {
+      if (e is DioException) {
+        final statusCode = e.response?.statusCode;
+        final data = e.response?.data;
+        if (data is Map<String, dynamic> && data.containsKey('message')) {
+          throw ServerException(data['message'].toString());
+        }
+        if (statusCode != null && statusCode >= 500) {
+          throw const ServerException();
+        }
+      }
+      throw const NetworkException();
+    }
+  }
+
+  @override
+  Future<String> resetPassword(String token, String newPassword, {CancelToken? cancelToken}) async {
+    try {
+      final response = await _dio.post(
+        '/auth/reset-password',
+        data: {
+          'token': token,
+          'newPassword': newPassword,
+        },
+        cancelToken: cancelToken,
+      );
+      final data = response.data;
+      if (data is Map<String, dynamic> && data.containsKey('message')) {
+        return data['message'] as String;
+      }
+      return 'Password updated successfully. You may now sign in.';
+    } catch (e) {
+      if (e is DioException) {
+        final statusCode = e.response?.statusCode;
+        final data = e.response?.data;
+        if (data is Map<String, dynamic> && data.containsKey('message')) {
+          throw ServerException(data['message'].toString());
+        }
+        if (statusCode == 400 || statusCode == 401) {
+          throw const ServerException('Token không hợp lệ hoặc đã hết hạn.');
+        } else if (statusCode != null && statusCode >= 500) {
+          throw const ServerException();
+        }
+      }
       throw const NetworkException();
     }
   }

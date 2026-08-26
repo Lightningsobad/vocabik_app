@@ -464,5 +464,16 @@
   "pricingFaq3Q": "Có bản dùng thử không?",
   "pricingFaq3A": "Gói Miễn phí (Free) chính là bản dùng thử vĩnh viễn.",
   "pricingFaq4Q": "Tôi có được hoàn tiền gói năm không?",
-  "pricingFaq4A": "Được hoàn tiền trong vòng 7 ngày kể từ lúc thanh toán."
+  "pricingFaq4A": "Được hoàn tiền trong vòng 7 ngày kể từ lúc thanh toán.",
+  "forgotPasswordHeading": "Quên mật khẩu?",
+  "forgotPasswordSubtitle": "Nhập email, chúng tôi sẽ gửi link đặt lại.",
+  "backToLogin": "Quay lại đăng nhập",
+  "sendResetLink": "Gửi link đặt lại →",
+  "resetPasswordHeading": "Đặt mật khẩu mới",
+  "newPasswordHint": "Mật khẩu mới",
+  "confirmPasswordHint": "Xác nhận mật khẩu",
+  "resetPasswordAction": "Đặt lại mật khẩu →",
+  "passwordsDoNotMatch": "Mật khẩu xác nhận không khớp",
+  "emailSentSuccess": "Link đặt lại mật khẩu đã được gửi đến email.",
+  "resetPasswordSuccess": "Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại."
 }

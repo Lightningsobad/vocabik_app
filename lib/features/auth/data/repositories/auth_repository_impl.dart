@@ -162,4 +162,39 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(const CacheFailure('Không thể lưu trạng thái.'));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> forgotPassword(String email) async {
+    try {
+      final message = await _remoteDataSource.forgotPassword(email);
+      return right(message);
+    } on NetworkException {
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(const ServerFailure('Lỗi hệ thống không xác định.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> resetPassword({
+    required String token,
+    required String newPassword,
+  }) async {
+    try {
+      final message = await _remoteDataSource.resetPassword(token, newPassword);
+      return right(message);
+    } on NetworkException {
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(const ServerFailure('Lỗi hệ thống không xác định.'));
+    }
+  }
 }

@@ -10,4 +10,6 @@ abstract class AuthRepository {
   Future<Either<Failure, User>> verifyEmail(String token);
   Future<Either<Failure, void>> resendVerificationEmail(String email);
   Future<Either<Failure, void>> setCefrSkipped(bool value);
+  Future<Either<Failure, String>> forgotPassword(String email);
+  Future<Either<Failure, String>> resetPassword({required String token, required String newPassword});
 }

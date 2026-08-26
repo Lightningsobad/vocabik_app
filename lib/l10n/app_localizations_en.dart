@@ -982,4 +982,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pricingFaq4A => 'Within 7 days of payment.';
+
+  @override
+  String get forgotPasswordHeading => 'Forgot password?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Enter your email, we will send you a reset link.';
+
+  @override
+  String get backToLogin => 'Back to login';
+
+  @override
+  String get sendResetLink => 'Send reset link →';
+
+  @override
+  String get resetPasswordHeading => 'Set new password';
+
+  @override
+  String get newPasswordHint => 'New password';
+
+  @override
+  String get confirmPasswordHint => 'Confirm password';
+
+  @override
+  String get resetPasswordAction => 'Reset password →';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get emailSentSuccess =>
+      'A password reset link has been sent to your email.';
+
+  @override
+  String get resetPasswordSuccess =>
+      'Password updated successfully. You may now sign in.';
 }
