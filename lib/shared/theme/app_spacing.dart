@@ -30,9 +30,7 @@ class AppSpacing {
   static const double xl12_2 = 120.0;
   static const double xl13 = 220.0;
   static const double cardWidth = 260.0;
-
   static const double headerHeight = 56.0;
-
   static const double radiusSm = 8.0;
   static const double radiusMd = 12.0;
   static const double radiusLg = 16.0;
