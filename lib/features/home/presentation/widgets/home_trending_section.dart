@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_trending_bloc.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_trending_state.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_video_section.dart';
@@ -28,7 +29,7 @@ class HomeTrendingSection extends StatelessWidget {
           title: l10n.homeTrending,
           iconAsset: 'assets/home_screen/streak_icon.svg',
           actionText: l10n.homeViewAll,
-          onActionTap: () {},
+          onActionTap: () => context.go('/discover'),
           isLoading: isLoading,
           videos: videos,
           emptyText: l10n.emptyVideos,

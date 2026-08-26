@@ -24,11 +24,15 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
     String? cefr,
     String? genre,
     String? window,
+    String? duration,
+    String? exerciseType,
   }) async {
     final isDefaultQuery = page == 1 &&
         (cefr == null || cefr.isEmpty || cefr.toLowerCase() == 'all') &&
         (genre == null || genre.isEmpty || genre.toLowerCase() == 'all') &&
-        (window == null || window.isEmpty);
+        (window == null || window.isEmpty) &&
+        (duration == null || duration.isEmpty) &&
+        (exerciseType == null || exerciseType.isEmpty);
 
     // Return cache immediately if available and it's a default query
     if (isDefaultQuery && _defaultCachedVideos != null) {
@@ -44,6 +48,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
         cefr: cefr,
         genre: genre,
         window: window,
+        duration: duration,
+        exerciseType: exerciseType,
       );
       
       final entity = response.toEntity();
@@ -68,9 +74,17 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
   }
 
   @override
-  Future<Either<Failure, List<VideoEntity>>> getTrendingVideos({String? cefr}) async {
+  Future<Either<Failure, List<VideoEntity>>> getTrendingVideos({
+    String? cefr,
+    String? genre,
+    String? duration,
+  }) async {
     try {
-      final response = await remoteDataSource.getTrendingVideos(cefr: cefr);
+      final response = await remoteDataSource.getTrendingVideos(
+        cefr: cefr,
+        genre: genre,
+        duration: duration,
+      );
       final entities = response.map((model) => model.toEntity()).toList();
       return right(entities);
     } on ServerException catch (e) {

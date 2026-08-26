@@ -272,7 +272,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
     gh.factory<_i987.DiscoverBloc>(
-      () => _i987.DiscoverBloc(gh<_i552.GetVideosUseCase>()),
+      () => _i987.DiscoverBloc(
+        gh<_i552.GetVideosUseCase>(),
+        gh<_i821.GetTrendingVideosUseCase>(),
+      ),
     );
     gh.lazySingleton<_i50.ExerciseRepository>(
       () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),

@@ -260,6 +260,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverFilterAll => 'All';
 
   @override
+  String get genreMusic => 'Music';
+
+  @override
+  String get genreVlog => 'Vlog';
+
+  @override
+  String get genreNews => 'News';
+
+  @override
+  String get genreEducation => 'Education';
+
+  @override
+  String get genreEntertainment => 'Entertainment';
+
+  @override
+  String get genreTedTalks => 'TED Talks';
+
+  @override
+  String get genreNewsEnglish => 'News English';
+
+  @override
+  String get genreOther => 'Other';
+
+  @override
+  String get exerciseTypeMc => 'MC';
+
+  @override
+  String get exerciseTypeFreeText => 'Free-text';
+
+  @override
+  String get exerciseTypeSentenceReorder => 'Sentence reorder';
+
+  @override
   String get discoverTrendingTitle => 'Trending';
 
   @override

@@ -578,10 +578,76 @@ abstract class AppLocalizations {
   /// **'Tất cả'**
   String get discoverFilterAll;
 
+  /// No description provided for @genreMusic.
+  ///
+  /// In vi, this message translates to:
+  /// **'Âm nhạc'**
+  String get genreMusic;
+
+  /// No description provided for @genreVlog.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vlog'**
+  String get genreVlog;
+
+  /// No description provided for @genreNews.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tin tức'**
+  String get genreNews;
+
+  /// No description provided for @genreEducation.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giáo dục'**
+  String get genreEducation;
+
+  /// No description provided for @genreEntertainment.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giải trí'**
+  String get genreEntertainment;
+
+  /// No description provided for @genreTedTalks.
+  ///
+  /// In vi, this message translates to:
+  /// **'TED Talks'**
+  String get genreTedTalks;
+
+  /// No description provided for @genreNewsEnglish.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tin tức Tiếng Anh'**
+  String get genreNewsEnglish;
+
+  /// No description provided for @genreOther.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khác'**
+  String get genreOther;
+
+  /// No description provided for @exerciseTypeMc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trắc nghiệm'**
+  String get exerciseTypeMc;
+
+  /// No description provided for @exerciseTypeFreeText.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điền từ'**
+  String get exerciseTypeFreeText;
+
+  /// No description provided for @exerciseTypeSentenceReorder.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sắp xếp câu'**
+  String get exerciseTypeSentenceReorder;
+
   /// No description provided for @discoverTrendingTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Trending 🔥'**
+  /// **'Trending'**
   String get discoverTrendingTitle;
 
   /// No description provided for @discoverPlaylistTitle.

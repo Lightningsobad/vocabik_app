@@ -17,6 +17,8 @@ class GetVideosUseCase {
     String? cefr,
     String? genre,
     String? window,
+    String? duration,
+    String? exerciseType,
   }) {
     return repository.getVideos(
       page: page,
@@ -24,6 +26,8 @@ class GetVideosUseCase {
       cefr: cefr,
       genre: genre,
       window: window,
+      duration: duration,
+      exerciseType: exerciseType,
     );
   }
 }

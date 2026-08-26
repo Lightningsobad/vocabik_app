@@ -5,19 +5,23 @@ enum DiscoverStatus { initial, loading, success, failure }
 
 class DiscoverState extends Equatable {
   final DiscoverStatus status;
-  final List<VideoEntity> allFetchedVideos; // Original list from API
-  final List<VideoEntity> displayedVideos; // Filtered list
+  final DiscoverStatus trendingStatus;
+  final List<VideoEntity> trendingVideos;
+  final List<VideoEntity> allFetchedVideos; // Original library list from API
+  final List<VideoEntity> displayedVideos; // Filtered library list
   final int currentPage;
   final bool hasReachedMax;
   final String searchQuery;
   final String cefr;
   final String genre;
-  final String window;
+  final String exerciseType;
   final String duration;
   final String errorMessage;
 
   const DiscoverState({
     this.status = DiscoverStatus.initial,
+    this.trendingStatus = DiscoverStatus.initial,
+    this.trendingVideos = const [],
     this.allFetchedVideos = const [],
     this.displayedVideos = const [],
     this.currentPage = 1,
@@ -25,13 +29,15 @@ class DiscoverState extends Equatable {
     this.searchQuery = '',
     this.cefr = '',
     this.genre = '',
-    this.window = '',
+    this.exerciseType = '',
     this.duration = '',
     this.errorMessage = '',
   });
 
   DiscoverState copyWith({
     DiscoverStatus? status,
+    DiscoverStatus? trendingStatus,
+    List<VideoEntity>? trendingVideos,
     List<VideoEntity>? allFetchedVideos,
     List<VideoEntity>? displayedVideos,
     int? currentPage,
@@ -39,12 +45,14 @@ class DiscoverState extends Equatable {
     String? searchQuery,
     String? cefr,
     String? genre,
-    String? window,
+    String? exerciseType,
     String? duration,
     String? errorMessage,
   }) {
     return DiscoverState(
       status: status ?? this.status,
+      trendingStatus: trendingStatus ?? this.trendingStatus,
+      trendingVideos: trendingVideos ?? this.trendingVideos,
       allFetchedVideos: allFetchedVideos ?? this.allFetchedVideos,
       displayedVideos: displayedVideos ?? this.displayedVideos,
       currentPage: currentPage ?? this.currentPage,
@@ -52,7 +60,7 @@ class DiscoverState extends Equatable {
       searchQuery: searchQuery ?? this.searchQuery,
       cefr: cefr ?? this.cefr,
       genre: genre ?? this.genre,
-      window: window ?? this.window,
+      exerciseType: exerciseType ?? this.exerciseType,
       duration: duration ?? this.duration,
       errorMessage: errorMessage ?? this.errorMessage,
     );
@@ -61,6 +69,8 @@ class DiscoverState extends Equatable {
   @override
   List<Object> get props => [
         status,
+        trendingStatus,
+        trendingVideos,
         allFetchedVideos,
         displayedVideos,
         currentPage,
@@ -68,7 +78,7 @@ class DiscoverState extends Equatable {
         searchQuery,
         cefr,
         genre,
-        window,
+        exerciseType,
         duration,
         errorMessage,
       ];

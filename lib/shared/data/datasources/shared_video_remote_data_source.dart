@@ -23,9 +23,15 @@ abstract class SharedVideoRemoteDataSource {
     String? cefr,
     String? genre,
     String? window,
+    String? duration,
+    String? exerciseType,
   });
 
-  Future<List<VideoModel>> getTrendingVideos({String? cefr});
+  Future<List<VideoModel>> getTrendingVideos({
+    String? cefr,
+    String? genre,
+    String? duration,
+  });
 }
 
 @LazySingleton(as: SharedVideoRemoteDataSource)
@@ -41,6 +47,8 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
     String? cefr,
     String? genre,
     String? window,
+    String? duration,
+    String? exerciseType,
   }) async {
     try {
       final queryParameters = <String, dynamic>{
@@ -51,6 +59,8 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
       if (cefr != null && cefr.isNotEmpty && cefr.toLowerCase() != 'all') queryParameters['cefr'] = cefr;
       if (genre != null && genre.isNotEmpty && genre.toLowerCase() != 'all') queryParameters['genre'] = genre;
       if (window != null && window.isNotEmpty) queryParameters['window'] = window;
+      if (duration != null && duration.isNotEmpty) queryParameters['duration'] = duration;
+      if (exerciseType != null && exerciseType.isNotEmpty) queryParameters['exerciseType'] = exerciseType;
 
       final response = await dio.get(
         '/public/videos',
@@ -70,11 +80,21 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
   }
 
   @override
-  Future<List<VideoModel>> getTrendingVideos({String? cefr}) async {
+  Future<List<VideoModel>> getTrendingVideos({
+    String? cefr,
+    String? genre,
+    String? duration,
+  }) async {
     try {
       final queryParameters = <String, dynamic>{};
       if (cefr != null && cefr.isNotEmpty && cefr.toLowerCase() != 'all') {
         queryParameters['cefr'] = cefr;
+      }
+      if (genre != null && genre.isNotEmpty && genre.toLowerCase() != 'all') {
+        queryParameters['genre'] = genre;
+      }
+      if (duration != null && duration.isNotEmpty) {
+        queryParameters['duration'] = duration;
       }
 
       final response = await dio.get(
