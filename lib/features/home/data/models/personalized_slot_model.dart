@@ -8,6 +8,8 @@ class PersonalizedSlotModel extends PersonalizedSlotEntity {
     required super.thumbnailUrl,
     required super.youtubeVideoId,
     required super.cefrLevel,
+    super.durationSeconds,
+    super.category,
   });
 
   factory PersonalizedSlotModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +20,8 @@ class PersonalizedSlotModel extends PersonalizedSlotEntity {
       thumbnailUrl: json['thumbnailUrl'] as String? ?? '',
       youtubeVideoId: json['youtubeVideoId'] as String? ?? '',
       cefrLevel: json['cefrLevel'] as String? ?? '',
+      durationSeconds: (json['durationSeconds'] as num?)?.toInt() ?? 0,
+      category: json['category'] as String? ?? '',
     );
   }
 
@@ -29,6 +33,8 @@ class PersonalizedSlotModel extends PersonalizedSlotEntity {
       'thumbnailUrl': thumbnailUrl,
       'youtubeVideoId': youtubeVideoId,
       'cefrLevel': cefrLevel,
+      'durationSeconds': durationSeconds,
+      'category': category,
     };
   }
 }

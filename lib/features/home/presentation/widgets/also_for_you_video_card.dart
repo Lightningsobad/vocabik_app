@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vocabik_app/core/utils/string_extensions.dart';
 import 'package:vocabik_app/features/home/domain/entities/personalized_slot_entity.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/course_tag_badge.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
@@ -14,9 +15,25 @@ class AlsoForYouVideoCard extends StatelessWidget {
 
   const AlsoForYouVideoCard({super.key, required this.slot});
 
+  String _formatDuration(int seconds) {
+    if (seconds <= 0) return '';
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+
+    final List<String> metadataParts = [];
+    if (slot.category.isNotEmpty) {
+      metadataParts.add(slot.category.capitalize());
+    }
+    if (slot.durationSeconds > 0) {
+      metadataParts.add(_formatDuration(slot.durationSeconds));
+    }
+    final metadataText = metadataParts.join(' · ');
 
     return BounceWrapper(
       onTap: () {
@@ -113,8 +130,29 @@ class AlsoForYouVideoCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  if (slot.cefrLevel.isNotEmpty)
-                    Row(children: [CourseTagBadge(text: slot.cefrLevel)]),
+                  if (slot.cefrLevel.isNotEmpty || metadataText.isNotEmpty)
+                    Row(
+                      children: [
+                        if (slot.cefrLevel.isNotEmpty) ...[
+                          CourseTagBadge(text: slot.cefrLevel),
+                          if (metadataText.isNotEmpty)
+                            const SizedBox(width: AppSpacing.sm),
+                        ],
+                        if (metadataText.isNotEmpty)
+                          Expanded(
+                            child: Text(
+                              metadataText,
+                              style: AppTextStyles.custom(
+                                color: colors.textSecondary,
+                                fontSize: AppFontSize.sm,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ],
+                    ),
                 ],
               ),
             ),

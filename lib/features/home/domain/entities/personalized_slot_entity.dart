@@ -7,6 +7,8 @@ class PersonalizedSlotEntity extends Equatable {
   final String thumbnailUrl;
   final String youtubeVideoId;
   final String cefrLevel;
+  final int durationSeconds;
+  final String category;
 
   const PersonalizedSlotEntity({
     required this.position,
@@ -15,6 +17,8 @@ class PersonalizedSlotEntity extends Equatable {
     required this.thumbnailUrl,
     required this.youtubeVideoId,
     required this.cefrLevel,
+    this.durationSeconds = 0,
+    this.category = '',
   });
 
   @override
@@ -25,5 +29,7 @@ class PersonalizedSlotEntity extends Equatable {
         thumbnailUrl,
         youtubeVideoId,
         cefrLevel,
+        durationSeconds,
+        category,
       ];
 }
