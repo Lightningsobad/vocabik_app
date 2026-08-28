@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
-import '../../domain/entities/gamification.dart';
+import '../../domain/entities/progress_summary.dart';
 import 'stat_card_widget.dart';
 
 class StatsGridView extends StatelessWidget {
   final bool isLoading;
-  final Gamification? gamification;
+  final ProgressSummary? summary;
 
-  const StatsGridView({
-    super.key,
-    this.isLoading = false,
-    this.gamification,
-  });
+  const StatsGridView({super.key, this.isLoading = false, this.summary});
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
     final format = NumberFormat.decimalPattern();
-    final exercisesDoneStr = gamification?.exercisesDone != null ? format.format(gamification!.exercisesDone) : '--';
-    final accuracyStr = gamification?.accuracy != null ? '${gamification!.accuracy!.toStringAsFixed(0)}%' : '--';
+
+    final streakValue = summary?.streak.currentStreak.toString() ?? '0';
+    final xpValue = format.format(summary?.level.totalXp ?? 0);
+    final exercisesDoneStr = summary?.stats.exercisesCompleted != null
+        ? format.format(summary!.stats.exercisesCompleted)
+        : '0';
+    final accuracyStr = summary?.stats.accuracyPct != null
+        ? '${summary!.stats.accuracyPct}%'
+        : '--';
 
     return GridView.count(
       crossAxisCount: 2,
@@ -26,30 +33,38 @@ class StatsGridView extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: AppSpacing.md,
       crossAxisSpacing: AppSpacing.md,
-      childAspectRatio: 1.2,
+      childAspectRatio: 1.27,
       children: [
         StatCardWidget(
-          title: 'day streak',
-          value: gamification?.currentStreak.toString() ?? '0',
-          icon: '🔥',
+          title: l10n.progressDayStreak,
+          value: streakValue,
+          iconAsset: 'assets/progress_screen/streak_icon.svg',
+          iconBgColor: colors.streakCardBackground,
+          iconBorderColor: colors.streakCardBorder,
           isLoading: isLoading,
         ),
         StatCardWidget(
-          title: 'XP',
-          value: format.format(gamification?.xp ?? 0),
-          icon: '⚡',
+          title: l10n.progressXP,
+          value: xpValue,
+          iconAsset: 'assets/progress_screen/xp_icon.svg',
+          iconBgColor: colors.xpCardBackground,
+          iconBorderColor: colors.xpCardBorder,
           isLoading: isLoading,
         ),
         StatCardWidget(
-          title: 'exercises done',
+          title: l10n.progressExercisesDone,
           value: exercisesDoneStr,
-          icon: '📚', 
+          iconAsset: 'assets/progress_screen/book_icon.svg',
+          iconBgColor: colors.accentCardBackground,
+          iconBorderColor: colors.accentCardBorder,
           isLoading: isLoading,
         ),
         StatCardWidget(
-          title: 'accuracy',
+          title: l10n.progressAccuracy,
           value: accuracyStr,
-          icon: '🎯',
+          iconAsset: 'assets/progress_screen/accuracy_icon.svg',
+          iconBgColor: colors.successBackground,
+          iconBorderColor: colors.successBorder,
           isLoading: isLoading,
         ),
       ],

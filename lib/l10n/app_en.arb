@@ -258,6 +258,53 @@
   "progressWeeklyXP": "Weekly XP",
   "progressAreasToImprove": "Areas to improve",
   "progressLearningHistory": "Learning history",
+  "progressAchievements": "Achievements",
+  "progressLeaderboard": "Leaderboard",
+  "progressDayStreak": "day streak",
+  "progressXP": "XP",
+  "progressExercisesDone": "exercises done",
+  "progressAccuracy": "accuracy",
+  "progress30DayStreak": "30-day streak",
+  "progressStreakFreezeCount": "Streak Freeze: {count} left",
+  "@progressStreakFreezeCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "progressXpRatio": "{current} / {max} XP",
+  "@progressXpRatio": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "progressNextLevel": "→ Next: {title}",
+  "@progressNextLevel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "progressMaxLevelReached": "Max level reached! 🎉",
+  "progressNoAreasToImprove": "No weak points data yet",
+  "progressPracticeTarget": "Practice {category} →",
+  "@progressPracticeTarget": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "progressNoLearningHistory": "No recent learning history",
+  "progressDateToday": "Today",
+  "progressDateYesterday": "Yesterday",
   "exerciseTitle": "PRACTICE",
   "exerciseCorrect": "Correct!",
   "exerciseCorrectAwesome": "Awesome!",
@@ -486,5 +533,88 @@
   "resetPasswordAction": "Reset password →",
   "passwordsDoNotMatch": "Passwords do not match",
   "emailSentSuccess": "A password reset link has been sent to your email.",
-  "resetPasswordSuccess": "Password updated successfully. You may now sign in."
+  "resetPasswordSuccess": "Password updated successfully. You may now sign in.",
+  "achievementsYourAchievements": "Your achievements",
+  "achievementsBadgesUnlocked": "{count} / {total} badges unlocked",
+  "@achievementsBadgesUnlocked": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsUnlockedHeader": "UNLOCKED",
+  "achievementsLockedHeader": "LOCKED",
+  "achievementsEmpty": "No achievements available yet.",
+  "achievementsFilterAll": "All",
+  "achievementsFilterMilestones": "Milestones",
+  "achievementsFilterStreak": "Streak",
+  "achievementsFilterGenre": "Genre",
+  "achievementsFilterVocabulary": "Vocabulary",
+  "dailyChallengeTitle": "Daily Challenge",
+  "dailyChallengeJoinNow": "Join now! →",
+  "dailyChallengeTopToday": "Top today",
+  "dailyChallengeStreakDays": "You've joined {count} days in a row!",
+  "@dailyChallengeStreakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyChallengeStreakKeep": "Join today to start or keep your streak!",
+  "dailyChallengeParticipants": "{count} participants",
+  "@dailyChallengeParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyChallengeNoParticipants": "No participants yet today. Be the first!",
+  "dailyChallengeNotConfigured": "No challenge available for today",
+  "xpLeaderboardTitle": "XP Leaderboard",
+  "xpLeaderboardResetsIn": "Resets in: {time}",
+  "@xpLeaderboardResetsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "xpLeaderboardResetsInDays": "Resets in: {days} days",
+  "@xpLeaderboardResetsInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResetsInHours": "Resets in: {hours} hours",
+  "@xpLeaderboardResetsInHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResetsInMinutes": "Resets in: {minutes} mins",
+  "@xpLeaderboardResetsInMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResettingSoon": "Resetting soon",
+  "xpLeaderboardFilterThisWeek": "This week",
+  "xpLeaderboardFilterLastWeek": "Last week",
+  "xpLeaderboardFilterThisMonth": "This month",
+  "xpLeaderboardFilterGlobal": "Global",
+  "xpLeaderboardFilterFriends": "Friends",
+  "xpLeaderboardYourRank": "Your rank",
+  "xpLeaderboardEmpty": "No leaderboard data found"
 }

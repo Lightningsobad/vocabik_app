@@ -1,56 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import 'shimmer_block.dart';
 
 class StatCardWidget extends StatelessWidget {
   final String title;
   final String value;
-  final String icon;
+  final String iconAsset;
+  final Color iconBgColor;
+  final Color iconBorderColor;
   final bool isLoading;
 
   const StatCardWidget({
     super.key,
     required this.title,
     required this.value,
-    required this.icon,
+    required this.iconAsset,
+    required this.iconBgColor,
+    required this.iconBorderColor,
     this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.sm,
+      ),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0)),
+        color: colors.surfaceCard,
+        borderRadius: BorderRadius.circular(AppRadius.lg2),
+        border: Border.all(color: colors.borderSubtle),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(icon, style: const TextStyle(fontSize: 24)),
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: iconBgColor,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: SvgPicture.asset(iconAsset, width: 22, height: 22),
+          ),
           const SizedBox(height: AppSpacing.sm),
           if (isLoading)
             const ShimmerBlock(height: 28, width: 60)
           else
             Text(
               value,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: colors.textPrimary,
-                  ),
+              style: AppTextStyles.custom(
+                fontSize: AppFontSize.xl6,
+                fontWeight: FontWeight.w900,
+                color: colors.textPrimary,
+              ),
             ),
           const SizedBox(height: 4),
           Text(
             title,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: colors.textSecondary,
-                ),
+            style: AppTextStyles.custom(
+              fontSize: AppFontSize.mdt,
+              fontWeight: FontWeight.w600,
+              color: colors.textSecondary,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

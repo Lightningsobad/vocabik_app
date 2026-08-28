@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/di/injection.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_daily_challenge_bloc.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_daily_challenge_event.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_daily_pick_bloc.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_daily_pick_event.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_newly_bloc.dart';
@@ -51,6 +53,11 @@ class HomeScreen extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => getIt<HomeNewlyBloc>()..add(const FetchNewlyVideos()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<HomeDailyChallengeBloc>()
+                ..add(const FetchHomeDailyChallenge()),
         ),
       ],
       child: const _HomeScreenContent(),
@@ -111,8 +118,9 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
 
-    final List<String> tags =
-        CefrLevel.values.map((level) => level.getLocalizedName(l10n)).toList();
+    final List<String> tags = CefrLevel.values
+        .map((level) => level.getLocalizedName(l10n))
+        .toList();
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -125,40 +133,32 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
           );
           context.read<HomeTrendingBloc>().add(const RefreshTrendingVideos());
           context.read<HomeNewlyBloc>().add(const RefreshNewlyVideos());
+          context.read<HomeDailyChallengeBloc>().add(
+            const RefreshHomeDailyChallenge(),
+          );
         },
         child: CustomScrollView(
           controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.sm2),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm2)),
 
             // 1. Daily Pick Section
             const HomeDailyPickSection(),
 
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.sm),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
 
             // 2. Recommended / Also For You Section
             const HomeRecommendedSection(),
 
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.sm),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
 
             // 3. Today Progress Card
             const SliverToBoxAdapter(
-              child: TodayProgressCard(
-                completedLessons: 2,
-                totalLessons: 5,
-              ),
+              child: TodayProgressCard(completedLessons: 2, totalLessons: 5),
             ),
 
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.xl),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
 
             // 4. Tag Filters
             SliverToBoxAdapter(
@@ -171,14 +171,14 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                       _selectedTabIndex.value = newIndex;
                       final cefrLevel = CefrLevel.fromIndex(newIndex);
                       context.read<HomeVideosBloc>().add(
-                            ChangeCefrFilter(cefrLevel.code),
-                          );
+                        ChangeCefrFilter(cefrLevel.code),
+                      );
                       context.read<HomeTrendingBloc>().add(
-                            ChangeTrendingCefrFilter(cefrLevel.code),
-                          );
+                        ChangeTrendingCefrFilter(cefrLevel.code),
+                      );
                       context.read<HomeNewlyBloc>().add(
-                            ChangeNewlyCefrFilter(cefrLevel.code),
-                          );
+                        ChangeNewlyCefrFilter(cefrLevel.code),
+                      );
                     },
                     tabs: tags,
                   );
@@ -186,30 +186,22 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
               ),
             ),
 
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.xl),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl3)),
 
             // 5. Daily Challenge
             const SliverToBoxAdapter(child: DailyChallengeCard()),
 
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.lg),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
             // 6. Trending Section
             const HomeTrendingSection(),
 
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.lg),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
             // 7. Recently Added (Newly added) Section
             const HomeNewlyAddedSection(),
 
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.lg),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
             // 8. Library Section (Grid of all videos)
             const HomeLibrarySection(),

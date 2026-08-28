@@ -1,0 +1,23 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+
+import '../../domain/usecases/get_badges_usecase.dart';
+import 'achievements_state.dart';
+
+@injectable
+class AchievementsCubit extends Cubit<AchievementsState> {
+  final GetBadgesUseCase _getBadgesUseCase;
+
+  AchievementsCubit(this._getBadgesUseCase)
+      : super(const AchievementsInitial());
+
+  Future<void> fetchBadges() async {
+    emit(const AchievementsLoading());
+
+    final result = await _getBadgesUseCase();
+    result.fold(
+      (failure) => emit(AchievementsError(failure.message)),
+      (badges) => emit(AchievementsLoaded(badges)),
+    );
+  }
+}

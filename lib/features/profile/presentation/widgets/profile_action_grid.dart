@@ -23,13 +23,19 @@ class ProfileActionGrid extends StatelessWidget {
   const ProfileActionGrid({super.key});
 
   List<ActionItemData> _getItems(BuildContext context, AppLocalizations l10n) => [
-    ActionItemData(title: l10n.actionAchievements, emoji: '🏅', onTap: () {}),
+    ActionItemData(title: l10n.actionAchievements, emoji: '🏅', onTap: () {
+      context.push('/profile/achievements');
+    }),
     ActionItemData(title: l10n.actionNotebook, emoji: '📖', onTap: () {}),
-    ActionItemData(title: l10n.actionLeaderboard, emoji: '🏆', onTap: () {}),
+    ActionItemData(title: l10n.actionLeaderboard, emoji: '🏆', onTap: () {
+      context.push('/profile/leaderboard');
+    }),
     ActionItemData(title: l10n.actionClassroom, emoji: '🎓', onTap: () {
       context.push('/profile/classrooms');
     }),
-    ActionItemData(title: l10n.actionDailyChallenge, emoji: '🔥', onTap: () {}),
+    ActionItemData(title: l10n.actionDailyChallenge, emoji: '🔥', onTap: () {
+      context.push('/profile/daily-challenge');
+    }),
     ActionItemData(title: l10n.actionBotIntegration, emoji: '✈️', onTap: () {
       context.push('/profile/integration');
     }),

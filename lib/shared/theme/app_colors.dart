@@ -65,6 +65,13 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color streakCardBorder;
   final Color badgeCardBackground;
   final Color badgeCardBorder;
+  final Color accentCardBackground;
+  final Color accentCardBorder;
+  final Color streakCellActive;
+  final Color streakCellInactive;
+  final Color weeklyXpBarStart;
+  final Color weeklyXpBarEnd;
+  final Color levelProgressBar;
   final Color practicedText;
 
   const AppColorsExtension({
@@ -123,6 +130,13 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.streakCardBorder,
     required this.badgeCardBackground,
     required this.badgeCardBorder,
+    required this.accentCardBackground,
+    required this.accentCardBorder,
+    required this.streakCellActive,
+    required this.streakCellInactive,
+    required this.weeklyXpBarStart,
+    required this.weeklyXpBarEnd,
+    required this.levelProgressBar,
     required this.practicedText,
   });
 
@@ -183,6 +197,13 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? streakCardBorder,
     Color? badgeCardBackground,
     Color? badgeCardBorder,
+    Color? accentCardBackground,
+    Color? accentCardBorder,
+    Color? streakCellActive,
+    Color? streakCellInactive,
+    Color? weeklyXpBarStart,
+    Color? weeklyXpBarEnd,
+    Color? levelProgressBar,
     Color? practicedText,
   }) {
     return AppColorsExtension(
@@ -248,6 +269,13 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       streakCardBorder: streakCardBorder ?? this.streakCardBorder,
       badgeCardBackground: badgeCardBackground ?? this.badgeCardBackground,
       badgeCardBorder: badgeCardBorder ?? this.badgeCardBorder,
+      accentCardBackground: accentCardBackground ?? this.accentCardBackground,
+      accentCardBorder: accentCardBorder ?? this.accentCardBorder,
+      streakCellActive: streakCellActive ?? this.streakCellActive,
+      streakCellInactive: streakCellInactive ?? this.streakCellInactive,
+      weeklyXpBarStart: weeklyXpBarStart ?? this.weeklyXpBarStart,
+      weeklyXpBarEnd: weeklyXpBarEnd ?? this.weeklyXpBarEnd,
+      levelProgressBar: levelProgressBar ?? this.levelProgressBar,
       practicedText: practicedText ?? this.practicedText,
     );
   }
@@ -311,7 +339,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       )!,
       inputBackground: Color.lerp(inputBackground, other.inputBackground, t)!,
       inputBorder: Color.lerp(inputBorder, other.inputBorder, t)!,
-      socialBackground: Color.lerp(socialBackground, other.socialBackground, t)!,
+      socialBackground: Color.lerp(
+        socialBackground,
+        other.socialBackground,
+        t,
+      )!,
       socialBorder: Color.lerp(socialBorder, other.socialBorder, t)!,
       hintText: Color.lerp(hintText, other.hintText, t)!,
       logoPlay: Color.lerp(logoPlay, other.logoPlay, t)!,
@@ -329,11 +361,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.versionSelectedBorder,
         t,
       )!,
-      versionSubtitle: Color.lerp(
-        versionSubtitle,
-        other.versionSubtitle,
-        t,
-      )!,
+      versionSubtitle: Color.lerp(versionSubtitle, other.versionSubtitle, t)!,
       shareText: Color.lerp(shareText, other.shareText, t)!,
       historyCardBackground: Color.lerp(
         historyCardBackground,
@@ -350,36 +378,12 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.tagNewBackground,
         t,
       )!,
-      tagNewText: Color.lerp(
-        tagNewText,
-        other.tagNewText,
-        t,
-      )!,
-      tagLevelA: Color.lerp(
-        tagLevelA,
-        other.tagLevelA,
-        t,
-      )!,
-      tagLevelB1: Color.lerp(
-        tagLevelB1,
-        other.tagLevelB1,
-        t,
-      )!,
-      tagLevelB2: Color.lerp(
-        tagLevelB2,
-        other.tagLevelB2,
-        t,
-      )!,
-      tagLevelC1: Color.lerp(
-        tagLevelC1,
-        other.tagLevelC1,
-        t,
-      )!,
-      tagLevelText: Color.lerp(
-        tagLevelText,
-        other.tagLevelText,
-        t,
-      )!,
+      tagNewText: Color.lerp(tagNewText, other.tagNewText, t)!,
+      tagLevelA: Color.lerp(tagLevelA, other.tagLevelA, t)!,
+      tagLevelB1: Color.lerp(tagLevelB1, other.tagLevelB1, t)!,
+      tagLevelB2: Color.lerp(tagLevelB2, other.tagLevelB2, t)!,
+      tagLevelC1: Color.lerp(tagLevelC1, other.tagLevelC1, t)!,
+      tagLevelText: Color.lerp(tagLevelText, other.tagLevelText, t)!,
       tagCategoryBackground: Color.lerp(
         tagCategoryBackground,
         other.tagCategoryBackground,
@@ -395,11 +399,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.videoDurationText,
         t,
       )!,
-      hintButtonText: Color.lerp(
-        hintButtonText,
-        other.hintButtonText,
-        t,
-      )!,
+      hintButtonText: Color.lerp(hintButtonText, other.hintButtonText, t)!,
       scoreCardButtonBackground: Color.lerp(
         scoreCardButtonBackground,
         other.scoreCardButtonBackground,
@@ -415,11 +415,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.xpCardBackground,
         t,
       )!,
-      xpCardBorder: Color.lerp(
-        xpCardBorder,
-        other.xpCardBorder,
-        t,
-      )!,
+      xpCardBorder: Color.lerp(xpCardBorder, other.xpCardBorder, t)!,
       streakCardBackground: Color.lerp(
         streakCardBackground,
         other.streakCardBackground,
@@ -435,16 +431,43 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.badgeCardBackground,
         t,
       )!,
-      badgeCardBorder: Color.lerp(
-        badgeCardBorder,
-        other.badgeCardBorder,
+      badgeCardBorder: Color.lerp(badgeCardBorder, other.badgeCardBorder, t)!,
+      accentCardBackground: Color.lerp(
+        accentCardBackground,
+        other.accentCardBackground,
         t,
       )!,
-      practicedText: Color.lerp(
-        practicedText,
-        other.practicedText,
+      accentCardBorder: Color.lerp(
+        accentCardBorder,
+        other.accentCardBorder,
         t,
       )!,
+      streakCellActive: Color.lerp(
+        streakCellActive,
+        other.streakCellActive,
+        t,
+      )!,
+      streakCellInactive: Color.lerp(
+        streakCellInactive,
+        other.streakCellInactive,
+        t,
+      )!,
+      weeklyXpBarStart: Color.lerp(
+        weeklyXpBarStart,
+        other.weeklyXpBarStart,
+        t,
+      )!,
+      weeklyXpBarEnd: Color.lerp(
+        weeklyXpBarEnd,
+        other.weeklyXpBarEnd,
+        t,
+      )!,
+      levelProgressBar: Color.lerp(
+        levelProgressBar,
+        other.levelProgressBar,
+        t,
+      )!,
+      practicedText: Color.lerp(practicedText, other.practicedText, t)!,
     );
   }
 
@@ -500,10 +523,17 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     scoreCardButtonBorder: Color(0xFFD7D7DE),
     xpCardBackground: Color(0xFFE6F8FA),
     xpCardBorder: Color(0xFFB2EBF2),
-    streakCardBackground: Color(0xFFFFF8E7),
-    streakCardBorder: Color(0xFFFFE0B2),
+    streakCardBackground: Color(0xFFF5E9DC),
+    streakCardBorder: Color(0xFFF2CB9B),
     badgeCardBackground: Color(0xFFF3E8FF),
     badgeCardBorder: Color(0xFFE9D5FF),
+    accentCardBackground: Color(0xFFE0F7FA),
+    accentCardBorder: Color(0xFFB2EBF2),
+    streakCellActive: Color(0xFFF0890C),
+    streakCellInactive: Color(0xFFEDEDF5),
+    weeklyXpBarStart: Color(0xFF00C9B2),
+    weeklyXpBarEnd: Color(0xFF5CF2E3),
+    levelProgressBar: Color(0xFF2FEBD8),
     practicedText: Color(0xFF6D6D87),
   );
 
@@ -557,12 +587,19 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     hintButtonText: Color(0xFFFFB13D),
     scoreCardButtonBackground: Color(0xFF1D1D36),
     scoreCardButtonBorder: Color(0xFF38384F),
-    xpCardBackground: Color(0xFF0D252E),
+    xpCardBackground: Color(0xFF163645),
     xpCardBorder: Color(0xFF15535E),
-    streakCardBackground: Color(0xFF291E13),
-    streakCardBorder: Color(0xFF5E4018),
+    streakCardBackground: Color(0xFF332720),
+    streakCardBorder: Color(0xFF735229),
     badgeCardBackground: Color(0xFF1B1B33),
     badgeCardBorder: Color(0xFF33335A),
+    accentCardBackground: Color(0xFF163645),
+    accentCardBorder: Color(0xFF155E68),
+    streakCellActive: Color(0xFFFFB13D),
+    streakCellInactive: Color(0xFF13131F),
+    weeklyXpBarStart: Color(0xFF00C9B2),
+    weeklyXpBarEnd: Color(0xFF5CF2E3),
+    levelProgressBar: Color(0xFF37EDD8),
     practicedText: Color(0xFF8585A1),
   );
 }

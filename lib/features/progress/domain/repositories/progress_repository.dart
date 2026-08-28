@@ -1,9 +1,11 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/errors/failures.dart';
-import '../entities/gamification.dart';
-import '../entities/daily_streak.dart';
+import '../entities/progress_summary.dart';
+import '../entities/progress_history.dart';
+import '../entities/progress_error_insights.dart';
 
 abstract class ProgressRepository {
-  Future<Either<Failure, Gamification>> getGamificationMe();
-  Future<Either<Failure, DailyStreak>> getDailyChallengeStreak();
+  Future<Either<Failure, ProgressSummary>> getProgressSummary();
+  Future<Either<Failure, ProgressHistory>> getProgressHistory();
+  Future<Either<Failure, ProgressErrorInsights>> getProgressErrorInsights();
 }

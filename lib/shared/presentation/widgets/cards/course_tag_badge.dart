@@ -84,7 +84,7 @@ class CourseTagBadge extends StatelessWidget {
 
     String displayText = text;
     if (type == CourseTagType.category && text.isNotEmpty) {
-      displayText = text.capitalize();
+      displayText = text.replaceAll('_', ' ').capitalize();
     }
 
     final isCompactCircle = type == CourseTagType.completed && text.isEmpty;

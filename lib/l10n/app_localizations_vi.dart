@@ -548,13 +548,69 @@ class AppLocalizationsVi extends AppLocalizations {
   String get progressYourProgress => 'Tiến độ của bạn';
 
   @override
-  String get progressWeeklyXP => 'XP hàng tuần';
+  String get progressWeeklyXP => 'XP theo tuần';
 
   @override
-  String get progressAreasToImprove => 'Cần cải thiện';
+  String get progressAreasToImprove => 'Điểm cần cải thiện';
 
   @override
   String get progressLearningHistory => 'Lịch sử học tập';
+
+  @override
+  String get progressAchievements => 'Thành tích';
+
+  @override
+  String get progressLeaderboard => 'Xếp hạng';
+
+  @override
+  String get progressDayStreak => 'ngày streak';
+
+  @override
+  String get progressXP => 'XP';
+
+  @override
+  String get progressExercisesDone => 'bài đã làm';
+
+  @override
+  String get progressAccuracy => 'độ chính xác';
+
+  @override
+  String get progress30DayStreak => 'Streak 30 ngày';
+
+  @override
+  String progressStreakFreezeCount(int count) {
+    return 'Streak Freeze: $count còn lại';
+  }
+
+  @override
+  String progressXpRatio(int current, int max) {
+    return '$current / $max XP';
+  }
+
+  @override
+  String progressNextLevel(String title) {
+    return '→ Tiếp theo: $title';
+  }
+
+  @override
+  String get progressMaxLevelReached => 'Đã đạt cấp độ cao nhất! 🎉';
+
+  @override
+  String get progressNoAreasToImprove => 'Chưa có dữ liệu lỗi cần cải thiện';
+
+  @override
+  String progressPracticeTarget(String category) {
+    return 'Luyện tập $category →';
+  }
+
+  @override
+  String get progressNoLearningHistory => 'Chưa có lịch sử làm bài gần đây';
+
+  @override
+  String get progressDateToday => 'Hôm nay';
+
+  @override
+  String get progressDateYesterday => 'Hôm qua';
 
   @override
   String get exerciseTitle => 'ĐANG LUYỆN';
@@ -1053,4 +1109,113 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get resetPasswordSuccess =>
       'Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại.';
+
+  @override
+  String get achievementsYourAchievements => 'Thành tích của bạn';
+
+  @override
+  String achievementsBadgesUnlocked(int count, int total) {
+    return '$count / $total badges đã mở khóa';
+  }
+
+  @override
+  String get achievementsUnlockedHeader => 'ĐÃ MỞ KHÓA';
+
+  @override
+  String get achievementsLockedHeader => 'CHƯA MỞ KHÓA';
+
+  @override
+  String get achievementsEmpty => 'Chưa có thành tích nào.';
+
+  @override
+  String get achievementsFilterAll => 'Tất cả';
+
+  @override
+  String get achievementsFilterMilestones => 'Cột mốc';
+
+  @override
+  String get achievementsFilterStreak => 'Streak';
+
+  @override
+  String get achievementsFilterGenre => 'Thể loại';
+
+  @override
+  String get achievementsFilterVocabulary => 'Từ vựng';
+
+  @override
+  String get dailyChallengeTitle => 'Daily Challenge';
+
+  @override
+  String get dailyChallengeJoinNow => 'Tham gia ngay! →';
+
+  @override
+  String get dailyChallengeTopToday => 'Top hôm nay';
+
+  @override
+  String dailyChallengeStreakDays(int count) {
+    return 'Bạn đã tham gia $count ngày liên tiếp!';
+  }
+
+  @override
+  String get dailyChallengeStreakKeep =>
+      'Tham gia hôm nay để duy trì chuỗi ngày!';
+
+  @override
+  String dailyChallengeParticipants(int count) {
+    return '$count đang tham gia';
+  }
+
+  @override
+  String get dailyChallengeNoParticipants =>
+      'Chưa có ai tham gia hôm nay. Hãy là người đầu tiên!';
+
+  @override
+  String get dailyChallengeNotConfigured => 'Chưa có thử thách nào cho hôm nay';
+
+  @override
+  String get xpLeaderboardTitle => 'Bảng xếp hạng XP';
+
+  @override
+  String xpLeaderboardResetsIn(String time) {
+    return 'Làm mới sau: $time';
+  }
+
+  @override
+  String xpLeaderboardResetsInDays(int days) {
+    return 'Làm mới sau: $days ngày';
+  }
+
+  @override
+  String xpLeaderboardResetsInHours(int hours) {
+    return 'Làm mới sau: $hours giờ';
+  }
+
+  @override
+  String xpLeaderboardResetsInMinutes(int minutes) {
+    return 'Làm mới sau: $minutes phút';
+  }
+
+  @override
+  String get xpLeaderboardResettingSoon => 'Sắp làm mới';
+
+  @override
+  String get xpLeaderboardFilterThisWeek => 'Tuần này';
+
+  @override
+  String get xpLeaderboardFilterLastWeek => 'Tuần trước';
+
+  @override
+  String get xpLeaderboardFilterThisMonth => 'Tháng này';
+
+  @override
+  String get xpLeaderboardFilterGlobal => 'Toàn cầu';
+
+  @override
+  String get xpLeaderboardFilterFriends => 'Bạn bè';
+
+  @override
+  String get xpLeaderboardYourRank => 'Hạng của bạn';
+
+  @override
+  String get xpLeaderboardEmpty => 'Chưa có dữ liệu bảng xếp hạng';
 }

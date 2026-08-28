@@ -165,71 +165,9 @@ Lấy phân tích các lỗi ngữ pháp thường gặp và tỉ lệ chính x�
 
 ---
 
-### 2.5. `POST /api/v1/progress` (Ghi nhận kết quả làm bài)
 
-Gửi khi người dùng hoàn thành một bài luyện nghe điền từ / bài tập video.
 
-#### Yêu cầu:
-- **Method**: `POST`
-- **Path**: `/api/v1/progress`
-- **Body**:
-```json
-{
-  "video_id": "dQw4w9WgXcQ",
-  "cefr_level": "B1",
-  "version_id": "v1",
-  "completed_at": "2026-08-26T03:45:00.000Z",
-  "accuracy_score": 85,
-  "time_taken_seconds": 120,
-  "correct_answers": 17,
-  "blank_answers": [
-    { "blank_index": 0, "is_correct": true, "grammar_category": "preposition" },
-    { "blank_index": 1, "is_correct": false, "grammar_category": "article" }
-  ]
-}
-```
 
-#### Phản hồi:
-- `204 No Content`: Ghi nhận thành công.
-- Side effects tự động xử lý trên Server:
-  1. Tích lũy điểm XP.
-  2. Cập nhật chuỗi Streak ngày.
-  3. Mở khóa Huy hiệu (Achievements / Badges) nếu đạt điều kiện.
-
----
-
-## 3. Bản Đồ Giao Diện Mobile (UI Mapping Guide)
-
-Dưới đây là cách Mobile Dev map các trường API vào từng phần của giao diện Progress:
-
-```
-+-------------------------------------------------------------+
-| Header:  🔥 {streak.currentStreak}        ⚡ {level.totalXp} |
-+-------------------------------------------------------------+
-| Card 1: Lịch học 30 ngày (Streak Heatmap)                   |
-|  - 30 ô vuông: {streak.heatmap30Days} (xanh = true)         |
-|  - Footer: ❄️ Streak Freeze: {streak.freezeCount} còn lại   |
-+-------------------------------------------------------------+
-| Card 2: Cấp độ & Kinh nghiệm (Level XP Card)                |
-|  - Danh hiệu: {level.level} — {level.currentTitle}          |
-|  - Điểm: {level.currentXpInLevel} / {level.xpRequiredForNextLevel} XP |
-|  - Progress Bar: {level.progressPct}%                       |
-|  - Subtext: "→ Tiếp theo: {level.nextTitle}"                |
-+-------------------------------------------------------------+
-| Card 3: Biểu đồ XP 4 tuần (Weekly XP Bar Chart)             |
-|  - Cột T1..T4: {weeklyXp[i].label} -> {weeklyXp[i].xp} XP   |
-+-------------------------------------------------------------+
-| Card 4: Điểm cần cải thiện (Weak Points)                    |
-|  - Prepositions: 45% (Từ GET /error-insights)               |
-|  - Articles: 62%                                            |
-|  - Phrasal verbs: 71%                                       |
-+-------------------------------------------------------------+
-| Card 5: Lịch sử học gần đây (Learning History)              |
-|  - Danh sách bài từ: GET /progress/history                  |
-+-------------------------------------------------------------+
-```
-
----
 
 ## 4. Mã Lỗi & Xử Lý Ngoại Lệ (Error Handling)
 
