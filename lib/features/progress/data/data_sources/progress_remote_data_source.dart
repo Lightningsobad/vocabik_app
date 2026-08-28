@@ -3,16 +3,24 @@ import 'package:injectable/injectable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../core/errors/exceptions.dart';
-import '../models/gamification_model.dart';
-import '../models/daily_streak_model.dart';
+import '../models/progress_summary_model.dart';
+import '../models/progress_history_model.dart';
+import '../models/progress_error_insights_model.dart';
 
 abstract class ProgressRemoteDataSource {
-  Future<GamificationModel> getGamificationMe({CancelToken? cancelToken});
-  Future<DailyStreakModel> getDailyChallengeStreak({CancelToken? cancelToken});
+  Future<ProgressSummaryModel> getProgressSummary({CancelToken? cancelToken});
+  Future<ProgressHistoryModel> getProgressHistory({CancelToken? cancelToken});
+  Future<ProgressErrorInsightsModel> getProgressErrorInsights({CancelToken? cancelToken});
 }
 
-GamificationModel _parseGamification(Map<String, dynamic> data) => GamificationModel.fromJson(data);
-DailyStreakModel _parseDailyStreak(dynamic data) => DailyStreakModel.fromJson(data);
+ProgressSummaryModel _parseProgressSummary(Map<String, dynamic> data) =>
+    ProgressSummaryModel.fromJson(data);
+
+ProgressHistoryModel _parseProgressHistory(Map<String, dynamic> data) =>
+    ProgressHistoryModel.fromJson(data);
+
+ProgressErrorInsightsModel _parseProgressErrorInsights(Map<String, dynamic> data) =>
+    ProgressErrorInsightsModel.fromJson(data);
 
 @LazySingleton(as: ProgressRemoteDataSource)
 class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
@@ -21,21 +29,21 @@ class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
   ProgressRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<GamificationModel> getGamificationMe({CancelToken? cancelToken}) async {
+  Future<ProgressSummaryModel> getProgressSummary({CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
-        '/gamification/me',
+        '/progress/summary',
         cancelToken: cancelToken,
       );
-      return await compute(_parseGamification, response.data as Map<String, dynamic>);
+      return await compute(
+        _parseProgressSummary,
+        response.data as Map<String, dynamic>,
+      );
     } catch (e) {
       if (e is DioException) {
-        if (e.type == DioExceptionType.connectionError || e.type == DioExceptionType.connectionTimeout) {
+        if (e.type == DioExceptionType.connectionError ||
+            e.type == DioExceptionType.connectionTimeout) {
           throw const NetworkException();
-        }
-        if (e.response?.statusCode == 401) {
-          final authHeader = e.requestOptions.headers['Authorization']?.toString() ?? 'null';
-          print('[DEBUG 401 on /gamification/me] AuthHeader: $authHeader');
         }
         throw ServerException('API Error: ${e.response?.statusCode} - ${e.message}');
       }
@@ -44,21 +52,44 @@ class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
   }
 
   @override
-  Future<DailyStreakModel> getDailyChallengeStreak({CancelToken? cancelToken}) async {
+  Future<ProgressHistoryModel> getProgressHistory({CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
-        '/daily-challenge/streak',
+        '/progress/history',
         cancelToken: cancelToken,
       );
-      return await compute(_parseDailyStreak, response.data);
+      return await compute(
+        _parseProgressHistory,
+        response.data as Map<String, dynamic>,
+      );
     } catch (e) {
       if (e is DioException) {
-        if (e.type == DioExceptionType.connectionError || e.type == DioExceptionType.connectionTimeout) {
+        if (e.type == DioExceptionType.connectionError ||
+            e.type == DioExceptionType.connectionTimeout) {
           throw const NetworkException();
         }
-        if (e.response?.statusCode == 401) {
-          final authHeader = e.requestOptions.headers['Authorization']?.toString() ?? 'null';
-          print('[DEBUG 401 on /daily-challenge/streak] AuthHeader: $authHeader');
+        throw ServerException('API Error: ${e.response?.statusCode} - ${e.message}');
+      }
+      throw ServerException('Parse Error: $e');
+    }
+  }
+
+  @override
+  Future<ProgressErrorInsightsModel> getProgressErrorInsights({CancelToken? cancelToken}) async {
+    try {
+      final response = await _dio.get(
+        '/progress/error-insights',
+        cancelToken: cancelToken,
+      );
+      return await compute(
+        _parseProgressErrorInsights,
+        response.data as Map<String, dynamic>,
+      );
+    } catch (e) {
+      if (e is DioException) {
+        if (e.type == DioExceptionType.connectionError ||
+            e.type == DioExceptionType.connectionTimeout) {
+          throw const NetworkException();
         }
         throw ServerException('API Error: ${e.response?.statusCode} - ${e.message}');
       }

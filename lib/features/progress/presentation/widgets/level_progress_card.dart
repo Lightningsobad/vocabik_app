@@ -1,36 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/widgets/app_progress_bar.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
-import '../../domain/entities/gamification.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
+import '../../domain/entities/progress_summary.dart';
 import 'shimmer_block.dart';
 
 class LevelProgressCard extends StatelessWidget {
   final bool isLoading;
-  final Gamification? gamification;
+  final ProgressLevel? level;
 
-  const LevelProgressCard({
-    super.key,
-    this.isLoading = false,
-    this.gamification,
-  });
+  const LevelProgressCard({super.key, this.isLoading = false, this.level});
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
-    final levelInfo = gamification?.levelInfo;
-    final currentXp = levelInfo?.currentXpInLevel ?? 0;
-    final maxXp = levelInfo?.maxXpInLevel ?? 100;
-    final progress = maxXp > 0 ? (currentXp / maxXp).clamp(0.0, 1.0) : 0.0;
-    
+    final l10n = AppLocalizations.of(context)!;
+
+    final currentXp = level?.currentXpInLevel ?? 0;
+    final maxXp = level?.xpRequiredForNextLevel ?? 500;
+    final progress = level != null && level!.progressPct > 0
+        ? (level!.progressPct / 100.0).clamp(0.0, 1.0)
+        : (maxXp > 0 ? (currentXp / maxXp).clamp(0.0, 1.0) : 0.0);
+
+    final title = level?.currentTitle ?? 'Fluent Challenger';
+    final nextTitle = level?.nextTitle;
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.xl,
+      ),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0)),
+        color: colors.surfaceCard,
+        borderRadius: BorderRadius.circular(AppRadius.lg2),
+        border: Border.all(color: colors.borderSubtle),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,47 +47,50 @@ class LevelProgressCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (isLoading)
-                const ShimmerBlock(width: 120, height: 24)
+                const ShimmerBlock(width: 140, height: 22)
               else
                 Text(
-                  levelInfo?.currentLevel ?? 'Beginner',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colors.textPrimary,
-                      ),
+                  title,
+                  style: AppTextStyles.custom(
+                    fontSize: AppFontSize.xl,
+                    fontWeight: FontWeight.w900,
+                    color: colors.textPrimary,
+                  ),
                 ),
               if (isLoading)
                 const ShimmerBlock(width: 80, height: 16)
               else
                 Text(
-                  '$currentXp / $maxXp XP',
-                  style: TextStyle(color: colors.textSecondary, fontSize: 12),
+                  l10n.progressXpRatio(currentXp, maxXp),
+                  style: AppTextStyles.custom(
+                    color: colors.textSecondary,
+                    fontSize: AppFontSize.mdt,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
           if (isLoading)
-            const ShimmerBlock(height: 8)
+            const ShimmerBlock(height: 8, borderRadius: 4.0)
           else
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4.0),
-              child: LinearProgressIndicator(
-                value: progress,
-                backgroundColor: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.cyan),
-                minHeight: 8.0,
-              ),
+            AppProgressBar(
+              progress: progress,
+              height: 8.0,
+              color: colors.levelProgressBar,
             ),
           const SizedBox(height: AppSpacing.sm),
           if (isLoading)
-            const ShimmerBlock(width: 150, height: 16)
+            const ShimmerBlock(width: 160, height: 16)
           else
             Text(
-              '→ Next: ${levelInfo?.nextLevel ?? 'Intermediate'}',
-              style: TextStyle(
+              nextTitle != null
+                  ? l10n.progressNextLevel(nextTitle)
+                  : l10n.progressMaxLevelReached,
+              style: AppTextStyles.custom(
                 color: colors.textSecondary,
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
+                fontSize: AppFontSize.md,
+                fontWeight: FontWeight.w800,
               ),
             ),
         ],

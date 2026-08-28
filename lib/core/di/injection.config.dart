@@ -14,6 +14,16 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../features/achievements/data/datasources/badge_remote_data_source.dart'
+    as _i991;
+import '../../features/achievements/data/repositories/badge_repository_impl.dart'
+    as _i344;
+import '../../features/achievements/domain/repositories/badge_repository.dart'
+    as _i65;
+import '../../features/achievements/domain/usecases/get_badges_usecase.dart'
+    as _i467;
+import '../../features/achievements/presentation/cubit/achievements_cubit.dart'
+    as _i693;
 import '../../features/auth/data/data_sources/auth_local_data_source.dart'
     as _i606;
 import '../../features/auth/data/data_sources/auth_remote_data_source.dart'
@@ -59,6 +69,20 @@ import '../../features/classroom/presentation/cubit/classroom_detail_cubit.dart'
     as _i51;
 import '../../features/classroom/presentation/cubit/classroom_list_cubit.dart'
     as _i292;
+import '../../features/daily_challenge/data/datasources/daily_challenge_remote_data_source.dart'
+    as _i951;
+import '../../features/daily_challenge/data/repositories/daily_challenge_repository_impl.dart'
+    as _i617;
+import '../../features/daily_challenge/domain/repositories/daily_challenge_repository.dart'
+    as _i134;
+import '../../features/daily_challenge/domain/usecases/get_daily_challenge_config_usecase.dart'
+    as _i155;
+import '../../features/daily_challenge/domain/usecases/get_daily_challenge_leaderboard_usecase.dart'
+    as _i1016;
+import '../../features/daily_challenge/domain/usecases/get_daily_challenge_streak_usecase.dart'
+    as _i935;
+import '../../features/daily_challenge/presentation/bloc/daily_challenge_bloc.dart'
+    as _i838;
 import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
 import '../../features/exercise/data/datasources/exercise_remote_datasource.dart'
     as _i913;
@@ -87,6 +111,8 @@ import '../../features/home/domain/usecases/get_daily_pick_usecase.dart'
     as _i327;
 import '../../features/home/domain/usecases/get_personalized_slots_usecase.dart'
     as _i1011;
+import '../../features/home/presentation/bloc/home_daily_challenge_bloc.dart'
+    as _i860;
 import '../../features/home/presentation/bloc/home_daily_pick_bloc.dart'
     as _i562;
 import '../../features/home/presentation/bloc/home_newly_bloc.dart' as _i850;
@@ -94,6 +120,16 @@ import '../../features/home/presentation/bloc/home_personalized_bloc.dart'
     as _i764;
 import '../../features/home/presentation/bloc/home_trending_bloc.dart' as _i649;
 import '../../features/home/presentation/bloc/home_videos_bloc.dart' as _i294;
+import '../../features/leaderboard/data/datasources/leaderboard_remote_data_source.dart'
+    as _i386;
+import '../../features/leaderboard/data/repositories/leaderboard_repository_impl.dart'
+    as _i1008;
+import '../../features/leaderboard/domain/repositories/leaderboard_repository.dart'
+    as _i655;
+import '../../features/leaderboard/domain/use_cases/get_xp_leaderboard_use_case.dart'
+    as _i970;
+import '../../features/leaderboard/presentation/cubit/xp_leaderboard_cubit.dart'
+    as _i347;
 import '../../features/profile/data/data_sources/profile_remote_data_source.dart'
     as _i1012;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -110,10 +146,14 @@ import '../../features/progress/data/repositories/progress_repository_impl.dart'
     as _i779;
 import '../../features/progress/domain/repositories/progress_repository.dart'
     as _i785;
-import '../../features/progress/domain/use_cases/get_gamification_summary_use_case.dart'
-    as _i474;
-import '../../features/progress/presentation/cubit/progress_cubit.dart'
+import '../../features/progress/domain/use_cases/get_progress_error_insights_use_case.dart'
     as _i748;
+import '../../features/progress/domain/use_cases/get_progress_history_use_case.dart'
+    as _i774;
+import '../../features/progress/domain/use_cases/get_progress_summary_use_case.dart'
+    as _i74;
+import '../../features/progress/presentation/cubit/progress_cubit.dart'
+    as _i749;
 import '../../features/video_detail/data/datasources/video_detail_remote_data_source.dart'
     as _i268;
 import '../../features/video_detail/data/repositories/video_detail_repository_impl.dart'
@@ -230,6 +270,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i294.HomeVideosBloc>(
       () => _i294.HomeVideosBloc(gh<_i552.GetVideosUseCase>()),
     );
+    gh.lazySingleton<_i386.LeaderboardRemoteDataSource>(
+      () => _i386.LeaderboardRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i25.AuthRemoteDataSource>(
       () => _i25.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -241,6 +284,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i913.ExerciseRemoteDataSource>(
       () => _i913.ExerciseRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i655.LeaderboardRepository>(
+      () => _i1008.LeaderboardRepositoryImpl(
+        gh<_i386.LeaderboardRemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i62.ScoreCardRemoteDataSource>(
       () => _i62.ScoreCardRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -263,13 +311,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(gh<_i1012.ProfileRemoteDataSource>()),
     );
+    gh.lazySingleton<_i951.DailyChallengeRemoteDataSource>(
+      () => _i951.DailyChallengeRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i291.VideoDetailRepository>(
       () => _i272.VideoDetailRepositoryImpl(
         gh<_i268.VideoDetailRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i991.BadgeRemoteDataSource>(
+      () => _i991.BadgeRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.factory<_i521.SoundSettingsCubit>(
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
+    );
+    gh.lazySingleton<_i65.BadgeRepository>(
+      () => _i344.BadgeRepositoryImpl(gh<_i991.BadgeRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i970.GetXpLeaderboardUseCase>(
+      () => _i970.GetXpLeaderboardUseCase(gh<_i655.LeaderboardRepository>()),
+    );
+    gh.lazySingleton<_i50.ExerciseRepository>(
+      () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
     );
     gh.factory<_i987.DiscoverBloc>(
       () => _i987.DiscoverBloc(
@@ -277,18 +340,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i821.GetTrendingVideosUseCase>(),
       ),
     );
-    gh.lazySingleton<_i50.ExerciseRepository>(
-      () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
+    gh.lazySingleton<_i86.ClassroomRepository>(
+      () =>
+          _i360.ClassroomRepositoryImpl(gh<_i309.ClassroomRemoteDataSource>()),
     );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
         gh<_i25.AuthRemoteDataSource>(),
         gh<_i606.AuthLocalDataSource>(),
       ),
-    );
-    gh.lazySingleton<_i86.ClassroomRepository>(
-      () =>
-          _i360.ClassroomRepositoryImpl(gh<_i309.ClassroomRemoteDataSource>()),
     );
     gh.singleton<_i97.LocalizationCubit>(
       () => _i97.LocalizationCubit(
@@ -320,7 +380,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
     );
-
     gh.lazySingleton<_i169.ResetPasswordUseCase>(
       () => _i169.ResetPasswordUseCase(gh<_i787.AuthRepository>()),
     );
@@ -394,17 +453,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i241.SendVideoReactionUseCase>(
       () => _i241.SendVideoReactionUseCase(gh<_i291.VideoDetailRepository>()),
     );
-    gh.factory<_i281.LoginCubit>(
-      () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),
+    gh.lazySingleton<_i134.DailyChallengeRepository>(
+      () => _i617.DailyChallengeRepositoryImpl(
+        gh<_i951.DailyChallengeRemoteDataSource>(),
+      ),
     );
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
+    );
+    gh.lazySingleton<_i467.GetBadgesUseCase>(
+      () => _i467.GetBadgesUseCase(gh<_i65.BadgeRepository>()),
+    );
+    gh.factory<_i347.XpLeaderboardCubit>(
+      () => _i347.XpLeaderboardCubit(gh<_i970.GetXpLeaderboardUseCase>()),
     );
     gh.factory<_i497.GetExerciseUseCase>(
       () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
     );
     gh.factory<_i6.SubmitProgressUseCase>(
       () => _i6.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
+    );
+    gh.factory<_i693.AchievementsCubit>(
+      () => _i693.AchievementsCubit(gh<_i467.GetBadgesUseCase>()),
     );
     gh.factory<_i764.HomePersonalizedBloc>(
       () =>
@@ -418,8 +488,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i241.SendVideoReactionUseCase>(),
       ),
     );
-    gh.lazySingleton<_i474.GetGamificationSummaryUseCase>(
-      () => _i474.GetGamificationSummaryUseCase(gh<_i785.ProgressRepository>()),
+    gh.lazySingleton<_i748.GetProgressErrorInsightsUseCase>(
+      () =>
+          _i748.GetProgressErrorInsightsUseCase(gh<_i785.ProgressRepository>()),
+    );
+    gh.lazySingleton<_i774.GetProgressHistoryUseCase>(
+      () => _i774.GetProgressHistoryUseCase(gh<_i785.ProgressRepository>()),
+    );
+    gh.lazySingleton<_i74.GetProgressSummaryUseCase>(
+      () => _i74.GetProgressSummaryUseCase(gh<_i785.ProgressRepository>()),
     );
     gh.factory<_i67.ExerciseCubit>(
       () => _i67.ExerciseCubit(gh<_i497.GetExerciseUseCase>()),
@@ -441,10 +518,42 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i797.AuthBloc>(),
       ),
     );
-    gh.factory<_i748.ProgressCubit>(
-      () => _i748.ProgressCubit(
-        gh<_i474.GetGamificationSummaryUseCase>(),
+    gh.factory<_i281.LoginCubit>(
+      () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),
+    );
+    gh.lazySingleton<_i155.GetDailyChallengeConfigUseCase>(
+      () => _i155.GetDailyChallengeConfigUseCase(
+        gh<_i134.DailyChallengeRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1016.GetDailyChallengeLeaderboardUseCase>(
+      () => _i1016.GetDailyChallengeLeaderboardUseCase(
+        gh<_i134.DailyChallengeRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i935.GetDailyChallengeStreakUseCase>(
+      () => _i935.GetDailyChallengeStreakUseCase(
+        gh<_i134.DailyChallengeRepository>(),
+      ),
+    );
+    gh.factory<_i749.ProgressCubit>(
+      () => _i749.ProgressCubit(
+        gh<_i74.GetProgressSummaryUseCase>(),
+        gh<_i774.GetProgressHistoryUseCase>(),
+        gh<_i748.GetProgressErrorInsightsUseCase>(),
         gh<_i561.GamificationGlobalCubit>(),
+      ),
+    );
+    gh.factory<_i860.HomeDailyChallengeBloc>(
+      () => _i860.HomeDailyChallengeBloc(
+        gh<_i155.GetDailyChallengeConfigUseCase>(),
+      ),
+    );
+    gh.factory<_i838.DailyChallengeBloc>(
+      () => _i838.DailyChallengeBloc(
+        gh<_i155.GetDailyChallengeConfigUseCase>(),
+        gh<_i1016.GetDailyChallengeLeaderboardUseCase>(),
+        gh<_i935.GetDailyChallengeStreakUseCase>(),
       ),
     );
     return this;

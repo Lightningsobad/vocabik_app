@@ -27,6 +27,10 @@ import '../../features/pricing/presentation/screens/pricing_screen.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../shared/domain/entities/video_entity.dart';
 import '../../shared/domain/enums/exercise_type.dart';
+import '../../features/achievements/presentation/screens/achievements_screen.dart';
+import '../../features/daily_challenge/presentation/screens/daily_challenge_screen.dart';
+import '../../features/daily_challenge/domain/entities/daily_challenge_config_entity.dart';
+import '../../features/leaderboard/presentation/screens/xp_leaderboard_screen.dart';
 
 class PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -243,6 +247,13 @@ final GoRouter appRouter = GoRouter(
                     );
                   },
                 ),
+                GoRoute(
+                  path: 'daily-challenge',
+                  builder: (context, state) {
+                    final config = state.extra as DailyChallengeResponseEntity?;
+                    return DailyChallengeScreen(initialConfig: config);
+                  },
+                ),
               ],
             ),
           ],
@@ -269,6 +280,16 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/progress',
               builder: (context, state) => const ProgressScreen(),
+              routes: [
+                GoRoute(
+                  path: 'achievements',
+                  builder: (context, state) => const AchievementsScreen(),
+                ),
+                GoRoute(
+                  path: 'leaderboard',
+                  builder: (context, state) => const XpLeaderboardScreen(),
+                ),
+              ],
             ),
           ],
         ),
@@ -279,8 +300,23 @@ final GoRouter appRouter = GoRouter(
               builder: (context, state) => const ProfileScreen(),
               routes: [
                 GoRoute(
+                  path: 'achievements',
+                  builder: (context, state) => const AchievementsScreen(),
+                ),
+                GoRoute(
+                  path: 'leaderboard',
+                  builder: (context, state) => const XpLeaderboardScreen(),
+                ),
+                GoRoute(
                   path: 'integration',
                   builder: (context, state) => const IntegrationContentView(),
+                ),
+                GoRoute(
+                  path: 'daily-challenge',
+                  builder: (context, state) {
+                    final config = state.extra as DailyChallengeResponseEntity?;
+                    return DailyChallengeScreen(initialConfig: config);
+                  },
                 ),
                 GoRoute(
                   path: 'classrooms',

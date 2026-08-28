@@ -255,9 +255,56 @@
   "noAccount": "Chưa có tài khoản? ",
   "signUpFreeAction": "Đăng ký miễn phí →",
   "progressYourProgress": "Tiến độ của bạn",
-  "progressWeeklyXP": "XP hàng tuần",
-  "progressAreasToImprove": "Cần cải thiện",
+  "progressWeeklyXP": "XP theo tuần",
+  "progressAreasToImprove": "Điểm cần cải thiện",
   "progressLearningHistory": "Lịch sử học tập",
+  "progressAchievements": "Thành tích",
+  "progressLeaderboard": "Xếp hạng",
+  "progressDayStreak": "ngày streak",
+  "progressXP": "XP",
+  "progressExercisesDone": "bài đã làm",
+  "progressAccuracy": "độ chính xác",
+  "progress30DayStreak": "Streak 30 ngày",
+  "progressStreakFreezeCount": "Streak Freeze: {count} còn lại",
+  "@progressStreakFreezeCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "progressXpRatio": "{current} / {max} XP",
+  "@progressXpRatio": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "progressNextLevel": "→ Tiếp theo: {title}",
+  "@progressNextLevel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "progressMaxLevelReached": "Đã đạt cấp độ cao nhất! 🎉",
+  "progressNoAreasToImprove": "Chưa có dữ liệu lỗi cần cải thiện",
+  "progressPracticeTarget": "Luyện tập {category} →",
+  "@progressPracticeTarget": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "progressNoLearningHistory": "Chưa có lịch sử làm bài gần đây",
+  "progressDateToday": "Hôm nay",
+  "progressDateYesterday": "Hôm qua",
   "exerciseTitle": "ĐANG LUYỆN",
   "exerciseCorrect": "Chính xác!",
   "exerciseCorrectAwesome": "Tuyệt vời!",
@@ -486,5 +533,88 @@
   "resetPasswordAction": "Đặt lại mật khẩu →",
   "passwordsDoNotMatch": "Mật khẩu xác nhận không khớp",
   "emailSentSuccess": "Link đặt lại mật khẩu đã được gửi đến email.",
-  "resetPasswordSuccess": "Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại."
+  "resetPasswordSuccess": "Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại.",
+  "achievementsYourAchievements": "Thành tích của bạn",
+  "achievementsBadgesUnlocked": "{count} / {total} badges đã mở khóa",
+  "@achievementsBadgesUnlocked": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsUnlockedHeader": "ĐÃ MỞ KHÓA",
+  "achievementsLockedHeader": "CHƯA MỞ KHÓA",
+  "achievementsEmpty": "Chưa có thành tích nào.",
+  "achievementsFilterAll": "Tất cả",
+  "achievementsFilterMilestones": "Cột mốc",
+  "achievementsFilterStreak": "Streak",
+  "achievementsFilterGenre": "Thể loại",
+  "achievementsFilterVocabulary": "Từ vựng",
+  "dailyChallengeTitle": "Daily Challenge",
+  "dailyChallengeJoinNow": "Tham gia ngay! →",
+  "dailyChallengeTopToday": "Top hôm nay",
+  "dailyChallengeStreakDays": "Bạn đã tham gia {count} ngày liên tiếp!",
+  "@dailyChallengeStreakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyChallengeStreakKeep": "Tham gia hôm nay để duy trì chuỗi ngày!",
+  "dailyChallengeParticipants": "{count} đang tham gia",
+  "@dailyChallengeParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyChallengeNoParticipants": "Chưa có ai tham gia hôm nay. Hãy là người đầu tiên!",
+  "dailyChallengeNotConfigured": "Chưa có thử thách nào cho hôm nay",
+  "xpLeaderboardTitle": "Bảng xếp hạng XP",
+  "xpLeaderboardResetsIn": "Làm mới sau: {time}",
+  "@xpLeaderboardResetsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "xpLeaderboardResetsInDays": "Làm mới sau: {days} ngày",
+  "@xpLeaderboardResetsInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResetsInHours": "Làm mới sau: {hours} giờ",
+  "@xpLeaderboardResetsInHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResetsInMinutes": "Làm mới sau: {minutes} phút",
+  "@xpLeaderboardResetsInMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResettingSoon": "Sắp làm mới",
+  "xpLeaderboardFilterThisWeek": "Tuần này",
+  "xpLeaderboardFilterLastWeek": "Tuần trước",
+  "xpLeaderboardFilterThisMonth": "Tháng này",
+  "xpLeaderboardFilterGlobal": "Toàn cầu",
+  "xpLeaderboardFilterFriends": "Bạn bè",
+  "xpLeaderboardYourRank": "Hạng của bạn",
+  "xpLeaderboardEmpty": "Chưa có dữ liệu bảng xếp hạng"
 }

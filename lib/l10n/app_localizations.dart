@@ -1133,13 +1133,13 @@ abstract class AppLocalizations {
   /// No description provided for @progressWeeklyXP.
   ///
   /// In vi, this message translates to:
-  /// **'XP hàng tuần'**
+  /// **'XP theo tuần'**
   String get progressWeeklyXP;
 
   /// No description provided for @progressAreasToImprove.
   ///
   /// In vi, this message translates to:
-  /// **'Cần cải thiện'**
+  /// **'Điểm cần cải thiện'**
   String get progressAreasToImprove;
 
   /// No description provided for @progressLearningHistory.
@@ -1147,6 +1147,102 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Lịch sử học tập'**
   String get progressLearningHistory;
+
+  /// No description provided for @progressAchievements.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thành tích'**
+  String get progressAchievements;
+
+  /// No description provided for @progressLeaderboard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xếp hạng'**
+  String get progressLeaderboard;
+
+  /// No description provided for @progressDayStreak.
+  ///
+  /// In vi, this message translates to:
+  /// **'ngày streak'**
+  String get progressDayStreak;
+
+  /// No description provided for @progressXP.
+  ///
+  /// In vi, this message translates to:
+  /// **'XP'**
+  String get progressXP;
+
+  /// No description provided for @progressExercisesDone.
+  ///
+  /// In vi, this message translates to:
+  /// **'bài đã làm'**
+  String get progressExercisesDone;
+
+  /// No description provided for @progressAccuracy.
+  ///
+  /// In vi, this message translates to:
+  /// **'độ chính xác'**
+  String get progressAccuracy;
+
+  /// No description provided for @progress30DayStreak.
+  ///
+  /// In vi, this message translates to:
+  /// **'Streak 30 ngày'**
+  String get progress30DayStreak;
+
+  /// No description provided for @progressStreakFreezeCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Streak Freeze: {count} còn lại'**
+  String progressStreakFreezeCount(int count);
+
+  /// No description provided for @progressXpRatio.
+  ///
+  /// In vi, this message translates to:
+  /// **'{current} / {max} XP'**
+  String progressXpRatio(int current, int max);
+
+  /// No description provided for @progressNextLevel.
+  ///
+  /// In vi, this message translates to:
+  /// **'→ Tiếp theo: {title}'**
+  String progressNextLevel(String title);
+
+  /// No description provided for @progressMaxLevelReached.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã đạt cấp độ cao nhất! 🎉'**
+  String get progressMaxLevelReached;
+
+  /// No description provided for @progressNoAreasToImprove.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có dữ liệu lỗi cần cải thiện'**
+  String get progressNoAreasToImprove;
+
+  /// No description provided for @progressPracticeTarget.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện tập {category} →'**
+  String progressPracticeTarget(String category);
+
+  /// No description provided for @progressNoLearningHistory.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có lịch sử làm bài gần đây'**
+  String get progressNoLearningHistory;
+
+  /// No description provided for @progressDateToday.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hôm nay'**
+  String get progressDateToday;
+
+  /// No description provided for @progressDateYesterday.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hôm qua'**
+  String get progressDateYesterday;
 
   /// No description provided for @exerciseTitle.
   ///
@@ -2065,6 +2161,192 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại.'**
   String get resetPasswordSuccess;
+
+  /// No description provided for @achievementsYourAchievements.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thành tích của bạn'**
+  String get achievementsYourAchievements;
+
+  /// No description provided for @achievementsBadgesUnlocked.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} / {total} badges đã mở khóa'**
+  String achievementsBadgesUnlocked(int count, int total);
+
+  /// No description provided for @achievementsUnlockedHeader.
+  ///
+  /// In vi, this message translates to:
+  /// **'ĐÃ MỞ KHÓA'**
+  String get achievementsUnlockedHeader;
+
+  /// No description provided for @achievementsLockedHeader.
+  ///
+  /// In vi, this message translates to:
+  /// **'CHƯA MỞ KHÓA'**
+  String get achievementsLockedHeader;
+
+  /// No description provided for @achievementsEmpty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có thành tích nào.'**
+  String get achievementsEmpty;
+
+  /// No description provided for @achievementsFilterAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả'**
+  String get achievementsFilterAll;
+
+  /// No description provided for @achievementsFilterMilestones.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cột mốc'**
+  String get achievementsFilterMilestones;
+
+  /// No description provided for @achievementsFilterStreak.
+  ///
+  /// In vi, this message translates to:
+  /// **'Streak'**
+  String get achievementsFilterStreak;
+
+  /// No description provided for @achievementsFilterGenre.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thể loại'**
+  String get achievementsFilterGenre;
+
+  /// No description provided for @achievementsFilterVocabulary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ vựng'**
+  String get achievementsFilterVocabulary;
+
+  /// No description provided for @dailyChallengeTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Daily Challenge'**
+  String get dailyChallengeTitle;
+
+  /// No description provided for @dailyChallengeJoinNow.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tham gia ngay! →'**
+  String get dailyChallengeJoinNow;
+
+  /// No description provided for @dailyChallengeTopToday.
+  ///
+  /// In vi, this message translates to:
+  /// **'Top hôm nay'**
+  String get dailyChallengeTopToday;
+
+  /// No description provided for @dailyChallengeStreakDays.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn đã tham gia {count} ngày liên tiếp!'**
+  String dailyChallengeStreakDays(int count);
+
+  /// No description provided for @dailyChallengeStreakKeep.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tham gia hôm nay để duy trì chuỗi ngày!'**
+  String get dailyChallengeStreakKeep;
+
+  /// No description provided for @dailyChallengeParticipants.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} đang tham gia'**
+  String dailyChallengeParticipants(int count);
+
+  /// No description provided for @dailyChallengeNoParticipants.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có ai tham gia hôm nay. Hãy là người đầu tiên!'**
+  String get dailyChallengeNoParticipants;
+
+  /// No description provided for @dailyChallengeNotConfigured.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có thử thách nào cho hôm nay'**
+  String get dailyChallengeNotConfigured;
+
+  /// No description provided for @xpLeaderboardTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảng xếp hạng XP'**
+  String get xpLeaderboardTitle;
+
+  /// No description provided for @xpLeaderboardResetsIn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm mới sau: {time}'**
+  String xpLeaderboardResetsIn(String time);
+
+  /// No description provided for @xpLeaderboardResetsInDays.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm mới sau: {days} ngày'**
+  String xpLeaderboardResetsInDays(int days);
+
+  /// No description provided for @xpLeaderboardResetsInHours.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm mới sau: {hours} giờ'**
+  String xpLeaderboardResetsInHours(int hours);
+
+  /// No description provided for @xpLeaderboardResetsInMinutes.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm mới sau: {minutes} phút'**
+  String xpLeaderboardResetsInMinutes(int minutes);
+
+  /// No description provided for @xpLeaderboardResettingSoon.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sắp làm mới'**
+  String get xpLeaderboardResettingSoon;
+
+  /// No description provided for @xpLeaderboardFilterThisWeek.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tuần này'**
+  String get xpLeaderboardFilterThisWeek;
+
+  /// No description provided for @xpLeaderboardFilterLastWeek.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tuần trước'**
+  String get xpLeaderboardFilterLastWeek;
+
+  /// No description provided for @xpLeaderboardFilterThisMonth.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tháng này'**
+  String get xpLeaderboardFilterThisMonth;
+
+  /// No description provided for @xpLeaderboardFilterGlobal.
+  ///
+  /// In vi, this message translates to:
+  /// **'Toàn cầu'**
+  String get xpLeaderboardFilterGlobal;
+
+  /// No description provided for @xpLeaderboardFilterFriends.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn bè'**
+  String get xpLeaderboardFilterFriends;
+
+  /// No description provided for @xpLeaderboardYourRank.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hạng của bạn'**
+  String get xpLeaderboardYourRank;
+
+  /// No description provided for @xpLeaderboardEmpty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có dữ liệu bảng xếp hạng'**
+  String get xpLeaderboardEmpty;
 }
 
 class _AppLocalizationsDelegate

@@ -557,6 +557,62 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progressLearningHistory => 'Learning history';
 
   @override
+  String get progressAchievements => 'Achievements';
+
+  @override
+  String get progressLeaderboard => 'Leaderboard';
+
+  @override
+  String get progressDayStreak => 'day streak';
+
+  @override
+  String get progressXP => 'XP';
+
+  @override
+  String get progressExercisesDone => 'exercises done';
+
+  @override
+  String get progressAccuracy => 'accuracy';
+
+  @override
+  String get progress30DayStreak => '30-day streak';
+
+  @override
+  String progressStreakFreezeCount(int count) {
+    return 'Streak Freeze: $count left';
+  }
+
+  @override
+  String progressXpRatio(int current, int max) {
+    return '$current / $max XP';
+  }
+
+  @override
+  String progressNextLevel(String title) {
+    return '→ Next: $title';
+  }
+
+  @override
+  String get progressMaxLevelReached => 'Max level reached! 🎉';
+
+  @override
+  String get progressNoAreasToImprove => 'No weak points data yet';
+
+  @override
+  String progressPracticeTarget(String category) {
+    return 'Practice $category →';
+  }
+
+  @override
+  String get progressNoLearningHistory => 'No recent learning history';
+
+  @override
+  String get progressDateToday => 'Today';
+
+  @override
+  String get progressDateYesterday => 'Yesterday';
+
+  @override
   String get exerciseTitle => 'PRACTICE';
 
   @override
@@ -1051,4 +1107,113 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get resetPasswordSuccess =>
       'Password updated successfully. You may now sign in.';
+
+  @override
+  String get achievementsYourAchievements => 'Your achievements';
+
+  @override
+  String achievementsBadgesUnlocked(int count, int total) {
+    return '$count / $total badges unlocked';
+  }
+
+  @override
+  String get achievementsUnlockedHeader => 'UNLOCKED';
+
+  @override
+  String get achievementsLockedHeader => 'LOCKED';
+
+  @override
+  String get achievementsEmpty => 'No achievements available yet.';
+
+  @override
+  String get achievementsFilterAll => 'All';
+
+  @override
+  String get achievementsFilterMilestones => 'Milestones';
+
+  @override
+  String get achievementsFilterStreak => 'Streak';
+
+  @override
+  String get achievementsFilterGenre => 'Genre';
+
+  @override
+  String get achievementsFilterVocabulary => 'Vocabulary';
+
+  @override
+  String get dailyChallengeTitle => 'Daily Challenge';
+
+  @override
+  String get dailyChallengeJoinNow => 'Join now! →';
+
+  @override
+  String get dailyChallengeTopToday => 'Top today';
+
+  @override
+  String dailyChallengeStreakDays(int count) {
+    return 'You\'ve joined $count days in a row!';
+  }
+
+  @override
+  String get dailyChallengeStreakKeep =>
+      'Join today to start or keep your streak!';
+
+  @override
+  String dailyChallengeParticipants(int count) {
+    return '$count participants';
+  }
+
+  @override
+  String get dailyChallengeNoParticipants =>
+      'No participants yet today. Be the first!';
+
+  @override
+  String get dailyChallengeNotConfigured => 'No challenge available for today';
+
+  @override
+  String get xpLeaderboardTitle => 'XP Leaderboard';
+
+  @override
+  String xpLeaderboardResetsIn(String time) {
+    return 'Resets in: $time';
+  }
+
+  @override
+  String xpLeaderboardResetsInDays(int days) {
+    return 'Resets in: $days days';
+  }
+
+  @override
+  String xpLeaderboardResetsInHours(int hours) {
+    return 'Resets in: $hours hours';
+  }
+
+  @override
+  String xpLeaderboardResetsInMinutes(int minutes) {
+    return 'Resets in: $minutes mins';
+  }
+
+  @override
+  String get xpLeaderboardResettingSoon => 'Resetting soon';
+
+  @override
+  String get xpLeaderboardFilterThisWeek => 'This week';
+
+  @override
+  String get xpLeaderboardFilterLastWeek => 'Last week';
+
+  @override
+  String get xpLeaderboardFilterThisMonth => 'This month';
+
+  @override
+  String get xpLeaderboardFilterGlobal => 'Global';
+
+  @override
+  String get xpLeaderboardFilterFriends => 'Friends';
+
+  @override
+  String get xpLeaderboardYourRank => 'Your rank';
+
+  @override
+  String get xpLeaderboardEmpty => 'No leaderboard data found';
 }

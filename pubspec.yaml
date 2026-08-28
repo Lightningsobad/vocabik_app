@@ -120,6 +120,10 @@ flutter:
     - assets/video_detail/
     - assets/pricing_screen/
     - assets/exercise_screen/
+    - assets/progress_screen/
+    - assets/archievements_screen/
+    - assets/daily_challenge_screen/
+    - assets/xp_leaderboard_screen/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
