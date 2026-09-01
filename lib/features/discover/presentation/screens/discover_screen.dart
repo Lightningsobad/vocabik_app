@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/features/discover/presentation/bloc/discover_bloc.dart';
 import 'package:vocabik_app/features/discover/presentation/bloc/discover_event.dart';
@@ -9,6 +10,7 @@ import 'package:vocabik_app/features/discover/presentation/utils/discover_l10n_e
 import 'package:vocabik_app/features/discover/presentation/widgets/discover_error_state.dart';
 import 'package:vocabik_app/features/discover/presentation/widgets/discover_filter_section.dart';
 import 'package:vocabik_app/features/discover/presentation/widgets/discover_horizontal_library_section.dart';
+import 'package:vocabik_app/features/discover/presentation/widgets/discover_playlist_section.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_video_section.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -119,7 +121,8 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                 // Error State
                 if (state.status == DiscoverStatus.failure &&
                     state.displayedVideos.isEmpty &&
-                    state.trendingVideos.isEmpty) {
+                    state.trendingVideos.isEmpty &&
+                    state.playlists.isEmpty) {
                   return DiscoverErrorState(
                     onRetry: () {
                       context.read<DiscoverBloc>().add(
@@ -140,6 +143,9 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                 final isLibraryLoading =
                     state.status == DiscoverStatus.loading ||
                     state.status == DiscoverStatus.initial;
+                final isPlaylistLoading =
+                    state.playlistStatus == DiscoverStatus.loading ||
+                    state.playlistStatus == DiscoverStatus.initial;
 
                 return SliverMainAxisGroup(
                   slivers: [
@@ -167,6 +173,20 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                         context.read<DiscoverBloc>().add(
                           DiscoverVideosFetched(),
                         );
+                      },
+                    ),
+
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: AppSpacing.lg),
+                    ),
+
+                    // 3. Curated Playlists Section
+                    DiscoverPlaylistSection(
+                      title: l10n.discoverPlaylistTitle,
+                      isLoading: isPlaylistLoading,
+                      playlists: state.playlists,
+                      onPlaylistTap: (playlist) {
+                        context.push('/discover/playlist/${playlist.slug}');
                       },
                     ),
 
