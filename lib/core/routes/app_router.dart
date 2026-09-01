@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../features/main_shell/presentation/screens/main_shell_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/discover/presentation/screens/discover_screen.dart';
+import '../../features/discover/presentation/screens/playlist_detail_screen.dart';
 import '../../features/progress/presentation/screens/progress_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/profile/presentation/widgets/integration/integration_content_view.dart';
@@ -269,6 +270,13 @@ final GoRouter appRouter = GoRouter(
                   builder: (context, state) {
                     final id = state.pathParameters['id']!;
                     return VideoDetailScreen(videoId: id);
+                  },
+                ),
+                GoRoute(
+                  path: 'playlist/:slug',
+                  builder: (context, state) {
+                    final slug = state.pathParameters['slug']!;
+                    return PlaylistDetailScreen(slug: slug);
                   },
                 ),
               ],

@@ -83,7 +83,19 @@ import '../../features/daily_challenge/domain/usecases/get_daily_challenge_strea
     as _i935;
 import '../../features/daily_challenge/presentation/bloc/daily_challenge_bloc.dart'
     as _i838;
+import '../../features/discover/data/datasources/discover_playlist_remote_data_source.dart'
+    as _i287;
+import '../../features/discover/data/repositories/playlist_repository_impl.dart'
+    as _i899;
+import '../../features/discover/domain/repositories/playlist_repository.dart'
+    as _i772;
+import '../../features/discover/domain/usecases/get_playlist_detail_usecase.dart'
+    as _i493;
+import '../../features/discover/domain/usecases/get_playlists_usecase.dart'
+    as _i880;
 import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
+import '../../features/discover/presentation/cubit/playlist_detail_cubit.dart'
+    as _i691;
 import '../../features/exercise/data/datasources/exercise_remote_datasource.dart'
     as _i913;
 import '../../features/exercise/data/datasources/score_card_remote_datasource.dart'
@@ -295,6 +307,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i62.ScoreCardRemoteDataSource>(
       () => _i62.ScoreCardRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i287.DiscoverPlaylistRemoteDataSource>(
+      () => _i287.DiscoverPlaylistRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i268.VideoDetailRemoteDataSource>(
       () => _i268.VideoDetailRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -335,12 +350,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i50.ExerciseRepository>(
       () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
-    );
-    gh.factory<_i987.DiscoverBloc>(
-      () => _i987.DiscoverBloc(
-        gh<_i552.GetVideosUseCase>(),
-        gh<_i821.GetTrendingVideosUseCase>(),
-      ),
     );
     gh.lazySingleton<_i86.ClassroomRepository>(
       () =>
@@ -404,6 +413,17 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i186.UpdateProfileUseCase>(
       () => _i186.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i772.PlaylistRepository>(
+      () => _i899.PlaylistRepositoryImpl(
+        remoteDataSource: gh<_i287.DiscoverPlaylistRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i493.GetPlaylistDetailUseCase>(
+      () => _i493.GetPlaylistDetailUseCase(gh<_i772.PlaylistRepository>()),
+    );
+    gh.factory<_i880.GetPlaylistsUseCase>(
+      () => _i880.GetPlaylistsUseCase(gh<_i772.PlaylistRepository>()),
     );
     gh.factory<_i327.GetDailyPickUseCase>(
       () => _i327.GetDailyPickUseCase(gh<_i0.HomeRepository>()),
@@ -478,6 +498,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i6.SubmitProgressUseCase>(
       () => _i6.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
     );
+    gh.factory<_i691.PlaylistDetailCubit>(
+      () => _i691.PlaylistDetailCubit(gh<_i493.GetPlaylistDetailUseCase>()),
+    );
     gh.factory<_i693.AchievementsCubit>(
       () => _i693.AchievementsCubit(gh<_i467.GetBadgesUseCase>()),
     );
@@ -528,6 +551,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i281.LoginCubit>(
       () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),
+    );
+    gh.factory<_i987.DiscoverBloc>(
+      () => _i987.DiscoverBloc(
+        gh<_i552.GetVideosUseCase>(),
+        gh<_i821.GetTrendingVideosUseCase>(),
+        gh<_i880.GetPlaylistsUseCase>(),
+      ),
     );
     gh.lazySingleton<_i155.GetDailyChallengeConfigUseCase>(
       () => _i155.GetDailyChallengeConfigUseCase(

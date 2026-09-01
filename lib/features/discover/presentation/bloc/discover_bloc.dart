@@ -1,6 +1,8 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/features/discover/domain/entities/playlist_entity.dart';
+import 'package:vocabik_app/features/discover/domain/usecases/get_playlists_usecase.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/domain/usecases/get_trending_videos_usecase.dart';
 import 'package:vocabik_app/shared/domain/usecases/get_videos_usecase.dart';
@@ -12,11 +14,13 @@ import 'discover_state.dart';
 class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
   final GetVideosUseCase _getVideosUseCase;
   final GetTrendingVideosUseCase _getTrendingVideosUseCase;
+  final GetPlaylistsUseCase _getPlaylistsUseCase;
   static const int _pageSize = 20;
 
   DiscoverBloc(
     this._getVideosUseCase,
     this._getTrendingVideosUseCase,
+    this._getPlaylistsUseCase,
   ) : super(const DiscoverState()) {
     on<DiscoverVideosFetched>(_onVideosFetched, transformer: droppable());
     on<DiscoverSearchQueryChanged>(
@@ -129,8 +133,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       exerciseType: targetExerciseType,
       status: DiscoverStatus.loading,
       trendingStatus: DiscoverStatus.loading,
+      playlistStatus: DiscoverStatus.loading,
       displayedVideos: const [],
       trendingVideos: const [],
+      playlists: const [],
       allFetchedVideos: const [],
     ));
 
@@ -149,8 +155,14 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       exerciseType: targetExerciseType,
     );
 
+    final playlistsFuture = _getPlaylistsUseCase(
+      page: 1,
+      pageSize: 10,
+    );
+
     final trendingResult = await trendingFuture;
     final libraryResult = await libraryFuture;
+    final playlistsResult = await playlistsFuture;
 
     List<VideoEntity> trendingVideos = [];
     DiscoverStatus trendingStatus = DiscoverStatus.success;
@@ -159,12 +171,21 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       (data) => trendingVideos = data,
     );
 
+    List<PlaylistEntity> playlists = [];
+    DiscoverStatus playlistStatus = DiscoverStatus.success;
+    playlistsResult.fold(
+      (failure) => playlistStatus = DiscoverStatus.failure,
+      (data) => playlists = data.items,
+    );
+
     libraryResult.fold(
       (failure) => emit(
         state.copyWith(
           status: DiscoverStatus.failure,
           trendingStatus: trendingStatus,
           trendingVideos: trendingVideos,
+          playlistStatus: playlistStatus,
+          playlists: playlists,
           errorMessage: failure.message,
         ),
       ),
@@ -179,6 +200,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
             status: DiscoverStatus.success,
             trendingStatus: trendingStatus,
             trendingVideos: trendingVideos,
+            playlistStatus: playlistStatus,
+            playlists: playlists,
             allFetchedVideos: allVideos,
             displayedVideos: displayedVideos,
             hasReachedMax: paginatedResult.totalPages <= 1,
