@@ -646,6 +646,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get viewVietnameseTranslation => 'Xem dịch tiếng Việt';
 
   @override
+  String get hideVietnameseTranslation => 'Ẩn dịch tiếng Việt';
+
+  @override
   String get nameCannotBeEmpty => 'Tên không được để trống';
 
   @override

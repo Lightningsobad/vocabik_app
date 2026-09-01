@@ -1310,6 +1310,12 @@ abstract class AppLocalizations {
   /// **'Xem dịch tiếng Việt'**
   String get viewVietnameseTranslation;
 
+  /// No description provided for @hideVietnameseTranslation.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ẩn dịch tiếng Việt'**
+  String get hideVietnameseTranslation;
+
   /// No description provided for @nameCannotBeEmpty.
   ///
   /// In vi, this message translates to:

@@ -10,6 +10,7 @@ class AppTextStyles {
   static TextStyle custom({
     required double fontSize,
     FontWeight fontWeight = FontWeight.normal,
+    FontStyle? fontStyle,
     Color? color,
     double? height = 1.2,
     double? letterSpacing = 0,
@@ -19,6 +20,7 @@ class AppTextStyles {
     return GoogleFonts.nunito(
       fontSize: fontSize,
       fontWeight: fontWeight,
+      fontStyle: fontStyle,
       color: color,
       height: height,
       letterSpacing: letterSpacing,
@@ -33,6 +35,7 @@ extension AppTypographyExtension on BuildContext {
   TextStyle appTextStyle({
     required double fontSize,
     FontWeight fontWeight = FontWeight.normal,
+    FontStyle? fontStyle,
     Color? color,
     double? height = 1.2,
     double? letterSpacing = 0,
@@ -42,6 +45,7 @@ extension AppTypographyExtension on BuildContext {
     return AppTextStyles.custom(
       fontSize: fontSize,
       fontWeight: fontWeight,
+      fontStyle: fontStyle,
       color: color ?? Theme.of(this).colorScheme.onSurface,
       height: height,
       letterSpacing: letterSpacing,

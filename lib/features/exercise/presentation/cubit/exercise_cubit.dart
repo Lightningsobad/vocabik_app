@@ -5,15 +5,21 @@ import 'package:vocabik_app/core/network/app_cancel_token.dart';
 import 'package:vocabik_app/core/network/dio_cancel_token.dart';
 import 'package:vocabik_app/core/utils/string_extensions.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_entity.dart';
+import 'package:vocabik_app/features/exercise/domain/entities/translation_entity.dart';
 import 'package:vocabik_app/features/exercise/domain/usecases/get_exercise_usecase.dart';
+import 'package:vocabik_app/features/exercise/domain/usecases/get_video_translations_usecase.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.dart';
 
 @injectable
 class ExerciseCubit extends Cubit<ExerciseState> {
   final GetExerciseUseCase getExerciseUseCase;
+  final GetVideoTranslationsUseCase getVideoTranslationsUseCase;
   AppCancelToken? _cancelToken;
 
-  ExerciseCubit(this.getExerciseUseCase) : super(ExerciseInitial());
+  ExerciseCubit(
+    this.getExerciseUseCase,
+    this.getVideoTranslationsUseCase,
+  ) : super(ExerciseInitial());
 
   Future<void> loadExercise({
     required String videoId,
@@ -24,18 +30,30 @@ class ExerciseCubit extends Cubit<ExerciseState> {
     _cancelToken = DioCancelToken();
 
     emit(ExerciseLoading());
-    final result = await getExerciseUseCase(
-      GetExerciseParams(
-        videoId: videoId,
-        cefrLevel: cefrLevel,
-        versionId: versionId,
-        cancelToken: _cancelToken,
+
+    final results = await Future.wait([
+      getExerciseUseCase(
+        GetExerciseParams(
+          videoId: videoId,
+          cefrLevel: cefrLevel,
+          versionId: versionId,
+          cancelToken: _cancelToken,
+        ),
       ),
-    );
+      getVideoTranslationsUseCase(
+        GetVideoTranslationsParams(
+          videoId: videoId,
+          cancelToken: _cancelToken,
+        ),
+      ),
+    ]);
 
     if (isClosed) return;
 
-    result.fold(
+    final exerciseResult = results[0] as dynamic;
+    final translationResult = results[1] as dynamic;
+
+    exerciseResult.fold(
       (failure) {
         if (failure is CancelledFailure) return;
         emit(ExerciseError(failure.message));
@@ -43,9 +61,23 @@ class ExerciseCubit extends Cubit<ExerciseState> {
       (exercise) {
         final initialBlankIndex =
             exercise.blanks.isNotEmpty ? exercise.blanks.first.blankIndex : 0;
+
+        final Map<int, String> translationsMap = {};
+        translationResult.fold(
+          (failure) {
+            // Ignore translation failure to allow exercise to be played
+          },
+          (List<TranslationEntity> translations) {
+            for (final t in translations) {
+              translationsMap[t.lineIndex] = t.text;
+            }
+          },
+        );
+
         emit(ExerciseLoaded(
           exercise: exercise,
           currentBlankIndex: initialBlankIndex,
+          translations: translationsMap,
         ));
       },
     );
@@ -110,6 +142,15 @@ class ExerciseCubit extends Cubit<ExerciseState> {
     }
   }
 
+  void toggleTranslation() {
+    if (state is ExerciseLoaded) {
+      final currentState = state as ExerciseLoaded;
+      emit(currentState.copyWith(
+        isTranslationVisible: !currentState.isTranslationVisible,
+      ));
+    }
+  }
+
   void nextBlank() {
     if (state is ExerciseLoaded) {
       final currentState = state as ExerciseLoaded;
@@ -124,6 +165,7 @@ class ExerciseCubit extends Cubit<ExerciseState> {
         emit(currentState.copyWith(
           currentBlankIndex: nextBlankIndex,
           hintUsedForCurrentBlank: false,
+          isTranslationVisible: false,
         ));
       } else {
         emit(currentState.copyWith(isFinished: true));

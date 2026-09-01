@@ -10,6 +10,8 @@ import 'package:vocabik_app/features/exercise/domain/entities/exercise_entity.da
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_result_summary.dart';
 import 'package:vocabik_app/features/exercise/domain/repositories/exercise_repository.dart';
 
+import 'package:vocabik_app/features/exercise/domain/entities/translation_entity.dart';
+
 @LazySingleton(as: ExerciseRepository)
 class ExerciseRepositoryImpl implements ExerciseRepository {
   final ExerciseRemoteDataSource remoteDataSource;
@@ -31,6 +33,30 @@ class ExerciseRepositoryImpl implements ExerciseRepository {
         cancelToken: cancelToken.toDio(),
       );
       return Right(model.toEntity());
+    } on RequestCancelledException {
+      return const Left(CancelledFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TranslationEntity>>> getVideoTranslations({
+    required String videoId,
+    String lang = 'vi',
+    String language = 'vi',
+    AppCancelToken? cancelToken,
+  }) async {
+    try {
+      final models = await remoteDataSource.getVideoTranslations(
+        videoId: videoId,
+        lang: lang,
+        language: language,
+        cancelToken: cancelToken.toDio(),
+      );
+      return Right(models.map((m) => m.toEntity()).toList());
     } on RequestCancelledException {
       return const Left(CancelledFailure());
     } on ServerException catch (e) {

@@ -98,6 +98,8 @@ import '../../features/exercise/domain/repositories/score_card_repository.dart'
     as _i697;
 import '../../features/exercise/domain/usecases/get_exercise_usecase.dart'
     as _i497;
+import '../../features/exercise/domain/usecases/get_video_translations_usecase.dart'
+    as _i310;
 import '../../features/exercise/domain/usecases/submit_progress_usecase.dart'
     as _i6;
 import '../../features/exercise/presentation/cubit/exercise_cubit.dart' as _i67;
@@ -470,6 +472,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i497.GetExerciseUseCase>(
       () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
     );
+    gh.factory<_i310.GetVideoTranslationsUseCase>(
+      () => _i310.GetVideoTranslationsUseCase(gh<_i50.ExerciseRepository>()),
+    );
     gh.factory<_i6.SubmitProgressUseCase>(
       () => _i6.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
     );
@@ -498,13 +503,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i74.GetProgressSummaryUseCase>(
       () => _i74.GetProgressSummaryUseCase(gh<_i785.ProgressRepository>()),
     );
-    gh.factory<_i67.ExerciseCubit>(
-      () => _i67.ExerciseCubit(gh<_i497.GetExerciseUseCase>()),
-    );
     gh.factory<_i293.ResultCubit>(
       () => _i293.ResultCubit(
         gh<_i697.ScoreCardRepository>(),
         gh<_i6.SubmitProgressUseCase>(),
+      ),
+    );
+    gh.factory<_i67.ExerciseCubit>(
+      () => _i67.ExerciseCubit(
+        gh<_i497.GetExerciseUseCase>(),
+        gh<_i310.GetVideoTranslationsUseCase>(),
       ),
     );
     gh.factory<_i51.ClassroomDetailCubit>(

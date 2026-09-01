@@ -275,15 +275,23 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                                 Center(
                                   child: TextButton.icon(
                                     onPressed: () {
-                                      // TODO: Show translation
+                                      context
+                                          .read<ExerciseCubit>()
+                                          .toggleTranslation();
                                     },
                                     icon: SvgPicture.asset(
                                       'assets/exercise_screen/global.svg',
                                       width: 20,
                                       height: 20,
+                                      colorFilter: ColorFilter.mode(
+                                        colors.primaryAccent,
+                                        BlendMode.srcIn,
+                                      ),
                                     ),
                                     label: Text(
-                                      l10n.viewVietnameseTranslation,
+                                      state.isTranslationVisible
+                                          ? l10n.hideVietnameseTranslation
+                                          : l10n.viewVietnameseTranslation,
                                       style: AppTextStyles.custom(
                                         fontWeight: FontWeight.w800,
                                         fontSize: AppFontSize.lg,
@@ -292,7 +300,31 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: AppSpacing.tn),
+                                if (state.isTranslationVisible &&
+                                    state.translations[state.activeLine.lineIndex] !=
+                                        null &&
+                                    state.translations[state.activeLine.lineIndex]!
+                                        .isNotEmpty) ...[
+                                  const SizedBox(height: AppSpacing.xs),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: AppSpacing.md,
+                                    ),
+                                    child: Text(
+                                      state.translations[
+                                          state.activeLine.lineIndex]!,
+                                      textAlign: TextAlign.center,
+                                      style: AppTextStyles.custom(
+                                        color: colors.textSecondary,
+                                        fontSize: AppFontSize.mdt,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppSpacing.sm2),
+                                ] else
+                                  const SizedBox(height: AppSpacing.tn),
                                 // Interaction Area: Type the answer OR Multiple Choice
                                 if (widget.exerciseType == 'Type the answer')
                                   const TypeAnswerInteractionArea()

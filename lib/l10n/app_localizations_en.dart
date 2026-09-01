@@ -646,6 +646,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewVietnameseTranslation => 'Show Vietnamese';
 
   @override
+  String get hideVietnameseTranslation => 'Hide translation';
+
+  @override
   String get nameCannotBeEmpty => 'Name cannot be empty';
 
   @override

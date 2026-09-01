@@ -27,6 +27,8 @@ class ExerciseLoaded extends ExerciseState {
   final Map<int, bool> checkResults; // true if correct, false if incorrect
   final bool isFinished;
   final bool hintUsedForCurrentBlank;
+  final Map<int, String> translations;
+  final bool isTranslationVisible;
   final Map<int, int> blankEndMsMap;
   final List<int> stopPointMs;
   final Map<int, ExerciseLineEntity> activeLineMap;
@@ -38,6 +40,8 @@ class ExerciseLoaded extends ExerciseState {
     this.checkResults = const {},
     this.isFinished = false,
     this.hintUsedForCurrentBlank = false,
+    this.translations = const {},
+    this.isTranslationVisible = false,
     Map<int, int>? blankEndMsMap,
     List<int>? stopPointMs,
     Map<int, ExerciseLineEntity>? activeLineMap,
@@ -94,6 +98,8 @@ class ExerciseLoaded extends ExerciseState {
     Map<int, bool>? checkResults,
     bool? isFinished,
     bool? hintUsedForCurrentBlank,
+    Map<int, String>? translations,
+    bool? isTranslationVisible,
   }) {
     return ExerciseLoaded(
       exercise: exercise ?? this.exercise,
@@ -103,6 +109,8 @@ class ExerciseLoaded extends ExerciseState {
       isFinished: isFinished ?? this.isFinished,
       hintUsedForCurrentBlank:
           hintUsedForCurrentBlank ?? this.hintUsedForCurrentBlank,
+      translations: translations ?? this.translations,
+      isTranslationVisible: isTranslationVisible ?? this.isTranslationVisible,
       blankEndMsMap: exercise != null ? null : blankEndMsMap,
       stopPointMs: exercise != null ? null : stopPointMs,
       activeLineMap: exercise != null ? null : activeLineMap,
@@ -131,6 +139,8 @@ class ExerciseLoaded extends ExerciseState {
         checkResults,
         isFinished,
         hintUsedForCurrentBlank,
+        translations,
+        isTranslationVisible,
         blankEndMsMap,
         stopPointMs,
         activeLineMap,

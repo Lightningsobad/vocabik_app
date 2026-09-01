@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/features/exercise/data/models/exercise_model.dart';
 import 'package:vocabik_app/features/exercise/data/models/progress_request.dart';
+import 'package:vocabik_app/features/exercise/data/models/translation_model.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 
 abstract class ExerciseRemoteDataSource {
@@ -10,6 +11,13 @@ abstract class ExerciseRemoteDataSource {
     required String videoId,
     required String cefrLevel,
     required String versionId,
+    CancelToken? cancelToken,
+  });
+
+  Future<List<TranslationModel>> getVideoTranslations({
+    required String videoId,
+    required String lang,
+    required String language,
     CancelToken? cancelToken,
   });
 
@@ -62,6 +70,40 @@ class ExerciseRemoteDataSourceImpl implements ExerciseRemoteDataSource {
   }
 
   @override
+  Future<List<TranslationModel>> getVideoTranslations({
+    required String videoId,
+    required String lang,
+    required String language,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final response = await dio.get(
+        '/public/videos/$videoId/translations',
+        queryParameters: {
+          'lang': lang,
+          'language': language,
+        },
+        cancelToken: cancelToken,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final data = response.data;
+        if (data is List) {
+          return await compute(_parseTranslationList, data);
+        }
+        return [];
+      } else {
+        throw ServerException('Failed to load translations');
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.cancel) {
+        throw const RequestCancelledException();
+      }
+      throw ServerException(e.message ?? 'Failed to load translations');
+    }
+  }
+
+  @override
   Future<void> submitProgress({
     required ProgressRequest request,
     CancelToken? cancelToken,
@@ -91,4 +133,13 @@ class ExerciseRemoteDataSourceImpl implements ExerciseRemoteDataSource {
 
 ExerciseModel _parseExerciseModel(Map<String, dynamic> json) {
   return ExerciseModel.fromJson(json);
+}
+
+List<TranslationModel> _parseTranslationList(dynamic data) {
+  if (data is List) {
+    return data
+        .map((item) => TranslationModel.fromJson(item as Map<String, dynamic>))
+        .toList();
+  }
+  return [];
 }

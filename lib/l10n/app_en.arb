@@ -316,6 +316,7 @@
   "exercisePlayingVideo": "Playing video...",
   "exerciseCompleted": "Exercise completed!",
   "viewVietnameseTranslation": "Show Vietnamese",
+  "hideVietnameseTranslation": "Hide translation",
   "nameCannotBeEmpty": "Name cannot be empty",
   "termsText": "Terms",
   "securityText": "Security",
