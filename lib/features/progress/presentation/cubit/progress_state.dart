@@ -12,18 +12,16 @@ class ProgressInitial extends ProgressState {}
 class ProgressLoading extends ProgressState {}
 
 class ProgressLoaded extends ProgressState {
-  final ProgressSummary summary;
   final ProgressHistory? history;
   final ProgressErrorInsights? errorInsights;
 
   const ProgressLoaded({
-    required this.summary,
     this.history,
     this.errorInsights,
   });
 
   @override
-  List<Object?> get props => [summary, history, errorInsights];
+  List<Object?> get props => [history, errorInsights];
 }
 
 class ProgressError extends ProgressState {

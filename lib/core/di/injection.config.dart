@@ -144,6 +144,8 @@ import '../../features/leaderboard/domain/use_cases/get_xp_leaderboard_use_case.
     as _i970;
 import '../../features/leaderboard/presentation/cubit/xp_leaderboard_cubit.dart'
     as _i347;
+import '../../features/main_shell/presentation/cubit/main_shell_cubit.dart'
+    as _i481;
 import '../../features/profile/data/data_sources/profile_remote_data_source.dart'
     as _i1012;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -574,12 +576,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i134.DailyChallengeRepository>(),
       ),
     );
+    gh.lazySingleton<_i481.MainShellCubit>(
+      () => _i481.MainShellCubit(
+        gh<_i74.GetProgressSummaryUseCase>(),
+        gh<_i561.GamificationGlobalCubit>(),
+      ),
+    );
     gh.factory<_i749.ProgressCubit>(
       () => _i749.ProgressCubit(
-        gh<_i74.GetProgressSummaryUseCase>(),
         gh<_i774.GetProgressHistoryUseCase>(),
         gh<_i748.GetProgressErrorInsightsUseCase>(),
-        gh<_i561.GamificationGlobalCubit>(),
       ),
     );
     gh.factory<_i860.HomeDailyChallengeBloc>(

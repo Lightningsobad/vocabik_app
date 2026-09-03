@@ -8,10 +8,15 @@ part 'gamification_global_state.dart';
 class GamificationGlobalCubit extends Cubit<GamificationGlobalState> {
   GamificationGlobalCubit() : super(const GamificationGlobalState());
 
+  void setLoading(bool isLoading) {
+    emit(state.copyWith(isLoading: isLoading));
+  }
+
   void updateStats({required int streak, required int xp}) {
     emit(state.copyWith(
       streak: streak,
       xp: xp,
+      isLoading: false,
     ));
   }
 }

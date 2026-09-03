@@ -11,6 +11,7 @@ import 'package:vocabik_app/shared/settings/cubit/sound_settings_cubit.dart';
 import 'package:vocabik_app/shared/gamification/cubit/gamification_global_cubit.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
+import 'package:vocabik_app/features/main_shell/presentation/cubit/main_shell_cubit.dart';
 import 'core/di/injection.dart';
 import 'core/routes/app_router.dart';
 import 'core/services/deep_link_service.dart';
@@ -52,6 +53,7 @@ class VocabikApp extends StatelessWidget {
           return bloc;
         }),
         BlocProvider(create: (_) => getIt<GamificationGlobalCubit>()),
+        BlocProvider(create: (_) => getIt<MainShellCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {

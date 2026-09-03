@@ -14,6 +14,8 @@ import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/cubit/theme_cubit.dart';
 import 'package:vocabik_app/shared/localization/cubit/localization_cubit.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
+import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
+import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/gamification/cubit/gamification_global_cubit.dart';
 
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -43,6 +45,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     
     final streak = context.select((GamificationGlobalCubit cubit) => cubit.state.streak);
     final xp = context.select((GamificationGlobalCubit cubit) => cubit.state.xp);
+    final isLoading = context.select((GamificationGlobalCubit cubit) => cubit.state.isLoading);
     
     final topPadding = MediaQuery.paddingOf(context).top;
 
@@ -77,6 +80,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             BounceWrapper(
               onTap: onHomeTap,
               child: const Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   VocabikLogo(),
                   SizedBox(width: AppSpacing.sm),
@@ -85,45 +89,84 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
 
+            const SizedBox(width: AppSpacing.sm),
+
             // Right Section: Stats & Actions
-            Wrap(
-              spacing: AppSpacing.md,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                StatBadge(
-                  iconAsset: 'assets/home_screen/streak_icon.svg',
-                  valueText: streak.toString(),
-                  color: AppColors.streak, // streak color
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (isLoading)
+                      AppShimmer(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 30,
+                              height: 18,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(AppRadius.sm),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.tnn),
+                            Container(
+                              width: 38,
+                              height: 18,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(AppRadius.sm),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    else ...[
+                      StatBadge(
+                        iconAsset: 'assets/home_screen/streak_icon.svg',
+                        valueText: streak.toString(),
+                        color: AppColors.streak, // streak color
+                      ),
+                      const SizedBox(width: AppSpacing.sm2),
+                      StatBadge(
+                        iconAsset: 'assets/home_screen/xp_icon.svg',
+                        valueText: _numberFormat.format(xp),
+                        color: colors.primaryAccent, // xp color
+                      ),
+                    ],
+                    const SizedBox(width: AppSpacing.sm2),
+                    HeaderPillButton(
+                      text: displayLanguage,
+                      onTap: () {
+                        final newLang = currentLang == 'vi' ? 'en' : 'vi';
+                        context.read<LocalizationCubit>().changeLanguage(newLang);
+                      },
+                    ),
+                    const SizedBox(width: AppSpacing.sm2),
+                    HeaderCircleButton(
+                      icon: SvgPicture.asset(
+                        isDarkMode ? 'assets/home_screen/moon_icon.svg' : 'assets/home_screen/sun.svg',
+                        width: 16,
+                        height: 16,
+                      ),
+                      onTap: onThemeTap ?? () => context.read<ThemeCubit>().toggleTheme(),
+                    ),
+                    const SizedBox(width: AppSpacing.sm2),
+                    HeaderCircleButton(
+                      icon: Icon(
+                        LucideIcons.layoutGrid,
+                        size: 16,
+                        color: colors.textSecondary,
+                      ),
+                      onTap: onMenuTap ?? () {},
+                    ),
+                  ],
                 ),
-                StatBadge(
-                  iconAsset: 'assets/home_screen/xp_icon.svg',
-                  valueText: _numberFormat.format(xp),
-                  color: colors.primaryAccent, // xp color
-                ),
-                HeaderPillButton(
-                  text: displayLanguage,
-                  onTap: () {
-                    final newLang = currentLang == 'vi' ? 'en' : 'vi';
-                    context.read<LocalizationCubit>().changeLanguage(newLang);
-                  },
-                ),
-                HeaderCircleButton(
-                  icon: SvgPicture.asset(
-                    isDarkMode ? 'assets/home_screen/moon_icon.svg' : 'assets/home_screen/sun.svg',
-                    width: 16,
-                    height: 16,
-                  ),
-                  onTap: onThemeTap ?? () => context.read<ThemeCubit>().toggleTheme(),
-                ),
-                HeaderCircleButton(
-                  icon: Icon(
-                    LucideIcons.layoutGrid,
-                    size: 16,
-                    color: colors.textSecondary,
-                  ),
-                  onTap: onMenuTap ?? () {},
-                ),
-              ],
+              ),
             ),
           ],
         ),
