@@ -356,6 +356,36 @@ abstract class AppLocalizations {
   /// **'Phiên đăng nhập'**
   String get securityTab_activeSessionsTitle;
 
+  /// No description provided for @securityTab_sessionEmpty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có phiên hoạt động nào'**
+  String get securityTab_sessionEmpty;
+
+  /// No description provided for @securityTab_sessionRetry.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get securityTab_sessionRetry;
+
+  /// No description provided for @securityTab_sessionLoadError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải danh sách phiên đăng nhập.'**
+  String get securityTab_sessionLoadError;
+
+  /// No description provided for @securityTab_sessionShowMore.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem thêm ({count})'**
+  String securityTab_sessionShowMore(int count);
+
+  /// No description provided for @securityTab_sessionShowLess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thu gọn'**
+  String get securityTab_sessionShowLess;
+
   /// No description provided for @action_show.
   ///
   /// In vi, this message translates to:

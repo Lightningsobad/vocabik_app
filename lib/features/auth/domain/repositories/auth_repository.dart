@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
 import '../entities/user.dart';
+import '../entities/user_session.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, User>> login({required String email, required String password});
@@ -12,4 +13,5 @@ abstract class AuthRepository {
   Future<Either<Failure, void>> setCefrSkipped(bool value);
   Future<Either<Failure, String>> forgotPassword(String email);
   Future<Either<Failure, String>> resetPassword({required String token, required String newPassword});
+  Future<Either<Failure, List<UserSession>>> getSessions();
 }

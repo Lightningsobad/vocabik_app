@@ -57,6 +57,18 @@
   "securityTab_newPasswordLabel": "Mật khẩu mới",
   "securityTab_updateButton": "Cập nhật",
   "securityTab_activeSessionsTitle": "Phiên đăng nhập",
+  "securityTab_sessionEmpty": "Không có phiên hoạt động nào",
+  "securityTab_sessionRetry": "Thử lại",
+  "securityTab_sessionLoadError": "Không thể tải danh sách phiên đăng nhập.",
+  "securityTab_sessionShowMore": "Xem thêm ({count})",
+  "@securityTab_sessionShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "securityTab_sessionShowLess": "Thu gọn",
   "action_show": "Hiện",
   "action_hide": "Ẩn",
   "integrationScreenTitle": "Tích hợp",

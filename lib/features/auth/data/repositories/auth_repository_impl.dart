@@ -4,6 +4,7 @@ import 'package:vocabik_app/core/errors/failures.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 
 import '../../domain/entities/user.dart';
+import '../../domain/entities/user_session.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_sources/auth_local_data_source.dart';
 import '../data_sources/auth_remote_data_source.dart';
@@ -187,6 +188,22 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final message = await _remoteDataSource.resetPassword(token, newPassword);
       return right(message);
+    } on NetworkException {
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(const ServerFailure('Lỗi hệ thống không xác định.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserSession>>> getSessions() async {
+    try {
+      final sessions = await _remoteDataSource.getSessions();
+      return right(sessions);
     } on NetworkException {
       return left(
         const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),

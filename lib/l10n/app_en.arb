@@ -57,6 +57,18 @@
   "securityTab_newPasswordLabel": "New password",
   "securityTab_updateButton": "Update",
   "securityTab_activeSessionsTitle": "Active sessions",
+  "securityTab_sessionEmpty": "No active sessions",
+  "securityTab_sessionRetry": "Retry",
+  "securityTab_sessionLoadError": "Unable to load active sessions.",
+  "securityTab_sessionShowMore": "Show more ({count})",
+  "@securityTab_sessionShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "securityTab_sessionShowLess": "Show less",
   "action_show": "Show",
   "action_hide": "Hide",
   "integrationScreenTitle": "Integration",
