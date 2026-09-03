@@ -142,6 +142,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get securityTab_activeSessionsTitle => 'Active sessions';
 
   @override
+  String get securityTab_sessionEmpty => 'No active sessions';
+
+  @override
+  String get securityTab_sessionRetry => 'Retry';
+
+  @override
+  String get securityTab_sessionLoadError => 'Unable to load active sessions.';
+
+  @override
+  String securityTab_sessionShowMore(int count) {
+    return 'Show more ($count)';
+  }
+
+  @override
+  String get securityTab_sessionShowLess => 'Show less';
+
+  @override
   String get action_show => 'Show';
 
   @override

@@ -6,6 +6,7 @@ import '../models/login_request_model.dart';
 import '../models/register_request_model.dart';
 import '../models/auth_response_model.dart';
 import '../models/user_model.dart';
+import '../models/user_session_model.dart';
 
 import 'package:flutter/foundation.dart';
 
@@ -18,10 +19,13 @@ abstract class AuthRemoteDataSource {
   Future<void> resendVerificationEmail(String email, {CancelToken? cancelToken});
   Future<String> forgotPassword(String email, {CancelToken? cancelToken});
   Future<String> resetPassword(String token, String newPassword, {CancelToken? cancelToken});
+  Future<List<UserSessionModel>> getSessions({CancelToken? cancelToken});
 }
 
 AuthResponseModel _parseAuthResponse(Map<String, dynamic> data) => AuthResponseModel.fromJson(data);
 UserModel _parseUserModel(Map<String, dynamic> data) => UserModel.fromJson(data);
+List<UserSessionModel> _parseUserSessions(List<dynamic> list) =>
+    list.map((e) => UserSessionModel.fromJson(e as Map<String, dynamic>)).toList();
 
 @LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -207,6 +211,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           throw const ServerException('Token không hợp lệ hoặc đã hết hạn.');
         } else if (statusCode != null && statusCode >= 500) {
           throw const ServerException();
+        }
+      }
+      throw const NetworkException();
+    }
+  }
+
+  @override
+  Future<List<UserSessionModel>> getSessions({CancelToken? cancelToken}) async {
+    try {
+      final response = await _dio.get(
+        '/auth/sessions',
+        cancelToken: cancelToken,
+        options: Options(
+          headers: {'accept': 'application/json'},
+        ),
+      );
+      final data = response.data;
+      if (data is List) {
+        return await compute(_parseUserSessions, data);
+      }
+      return [];
+    } catch (e) {
+      if (e is DioException) {
+        final statusCode = e.response?.statusCode;
+        if (statusCode == 401) {
+          throw const ServerException('Phiên đăng nhập đã hết hạn.');
+        } else if (statusCode != null && statusCode >= 500) {
+          throw const ServerException('Lỗi máy chủ, vui lòng thử lại sau.');
         }
       }
       throw const NetworkException();

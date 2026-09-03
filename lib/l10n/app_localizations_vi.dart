@@ -142,6 +142,24 @@ class AppLocalizationsVi extends AppLocalizations {
   String get securityTab_activeSessionsTitle => 'Phiên đăng nhập';
 
   @override
+  String get securityTab_sessionEmpty => 'Không có phiên hoạt động nào';
+
+  @override
+  String get securityTab_sessionRetry => 'Thử lại';
+
+  @override
+  String get securityTab_sessionLoadError =>
+      'Không thể tải danh sách phiên đăng nhập.';
+
+  @override
+  String securityTab_sessionShowMore(int count) {
+    return 'Xem thêm ($count)';
+  }
+
+  @override
+  String get securityTab_sessionShowLess => 'Thu gọn';
+
+  @override
   String get action_show => 'Hiện';
 
   @override

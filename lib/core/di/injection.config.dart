@@ -34,6 +34,8 @@ import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
 import '../../features/auth/domain/use_cases/forgot_password_use_case.dart'
     as _i897;
 import '../../features/auth/domain/use_cases/get_me_use_case.dart' as _i477;
+import '../../features/auth/domain/use_cases/get_sessions_use_case.dart'
+    as _i1058;
 import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
 import '../../features/auth/domain/use_cases/register_use_case.dart' as _i1010;
 import '../../features/auth/domain/use_cases/resend_email_use_case.dart'
@@ -152,6 +154,8 @@ import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
 import '../../features/profile/domain/use_cases/update_profile_use_case.dart'
     as _i186;
+import '../../features/profile/presentation/cubit/active_sessions_cubit.dart'
+    as _i312;
 import '../../features/profile/presentation/cubit/cefr_selection_cubit.dart'
     as _i498;
 import '../../features/progress/data/data_sources/progress_remote_data_source.dart'
@@ -388,6 +392,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i477.GetMeUseCase>(
       () => _i477.GetMeUseCase(gh<_i787.AuthRepository>()),
     );
+    gh.lazySingleton<_i1058.GetSessionsUseCase>(
+      () => _i1058.GetSessionsUseCase(gh<_i787.AuthRepository>()),
+    );
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
     );
@@ -452,6 +459,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i797.AuthBloc>(
       () =>
           _i797.AuthBloc(gh<_i131.SignOutUseCase>(), gh<_i477.GetMeUseCase>()),
+    );
+    gh.factory<_i312.ActiveSessionsCubit>(
+      () => _i312.ActiveSessionsCubit(gh<_i1058.GetSessionsUseCase>()),
     );
     gh.factory<_i292.ClassroomListCubit>(
       () => _i292.ClassroomListCubit(
