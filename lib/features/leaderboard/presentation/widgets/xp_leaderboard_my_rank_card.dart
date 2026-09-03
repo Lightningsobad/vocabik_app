@@ -21,10 +21,17 @@ class XpLeaderboardMyRankCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (ownRank == null) return const SizedBox.shrink();
+    if (ownRank == null && (totalParticipants == null || totalParticipants == 0)) {
+      return const SizedBox.shrink();
+    }
 
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context);
+
+    final rankDisplay = ownRank != null ? '#${ownRank!.rank}' : '#--';
+    final xpDisplay = ownRank != null
+        ? '${ownRank!.xp.toFormattedCommas()} XP'
+        : '0 XP';
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
@@ -56,7 +63,7 @@ class XpLeaderboardMyRankCard extends StatelessWidget {
 
             // 2. Rank Number
             Text(
-              '#${ownRank!.rank}',
+              rankDisplay,
               style: AppTextStyles.custom(
                 color: colors.primaryAccent,
                 fontSize: AppFontSize.xl4,
@@ -87,7 +94,7 @@ class XpLeaderboardMyRankCard extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.xs),
             Text(
-              '${ownRank!.xp.toFormattedCommas()} XP',
+              xpDisplay,
               style: AppTextStyles.custom(
                 color: colors.primaryAccent,
                 fontSize: AppFontSize.xl,

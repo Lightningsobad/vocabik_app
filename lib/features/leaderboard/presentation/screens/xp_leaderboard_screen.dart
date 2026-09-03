@@ -126,10 +126,12 @@ class _XpLeaderboardView extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg2),
 
                   // 3. My Rank Card
-                  if (data?.ownRank != null) ...[
+                  if (data?.ownRank != null ||
+                      (data?.totalUsers != null && data!.totalUsers! > 0) ||
+                      (data?.totalParticipants != null && data!.totalParticipants! > 0)) ...[
                     XpLeaderboardMyRankCard(
                       ownRank: data?.ownRank,
-                      totalParticipants: data?.totalParticipants,
+                      totalParticipants: data?.totalUsers ?? data?.totalParticipants,
                     ),
                     const SizedBox(height: AppSpacing.lg),
                   ],

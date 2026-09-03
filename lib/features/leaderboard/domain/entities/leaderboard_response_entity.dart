@@ -8,6 +8,7 @@ class LeaderboardResponseEntity extends Equatable {
   final List<LeaderboardEntryEntity> entries;
   final LeaderboardEntryEntity? ownRank;
   final List<LeaderboardEntryEntity>? surrounding;
+  final int? totalUsers;
   final int? totalParticipants;
 
   const LeaderboardResponseEntity({
@@ -17,8 +18,9 @@ class LeaderboardResponseEntity extends Equatable {
     required this.entries,
     this.ownRank,
     this.surrounding,
-    this.totalParticipants,
-  });
+    this.totalUsers,
+    int? totalParticipants,
+  }) : totalParticipants = totalParticipants ?? totalUsers;
 
   @override
   List<Object?> get props => [
@@ -28,6 +30,7 @@ class LeaderboardResponseEntity extends Equatable {
         entries,
         ownRank,
         surrounding,
+        totalUsers,
         totalParticipants,
       ];
 }
