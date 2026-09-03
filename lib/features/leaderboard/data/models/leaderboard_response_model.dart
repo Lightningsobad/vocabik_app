@@ -9,6 +9,7 @@ class LeaderboardResponseModel extends LeaderboardResponseEntity {
     required List<LeaderboardEntryModel> super.entries,
     LeaderboardEntryModel? super.ownRank,
     List<LeaderboardEntryModel>? super.surrounding,
+    super.totalUsers,
     super.totalParticipants,
   });
 
@@ -43,6 +44,15 @@ class LeaderboardResponseModel extends LeaderboardResponseEntity {
       );
     }).toList();
 
+    if (ownRankModel == null) {
+      for (final entry in entries) {
+        if (entry.isCurrentUser) {
+          ownRankModel = entry;
+          break;
+        }
+      }
+    }
+
     List<LeaderboardEntryModel>? surrounding;
     if (json['surrounding'] != null && json['surrounding'] is List) {
       final rawSurrounding = json['surrounding'] as List<dynamic>;
@@ -59,9 +69,11 @@ class LeaderboardResponseModel extends LeaderboardResponseEntity {
       }).toList();
     }
 
-    final totalParticipants = json['totalParticipants'] as int? ??
+    final totalUsers = (json['totalUsers'] as num?)?.toInt() ??
+        (json['totalParticipants'] as num?)?.toInt() ??
         (json['ownRank'] is Map<String, dynamic>
-            ? (json['ownRank'] as Map<String, dynamic>)['totalParticipants'] as int?
+            ? ((json['ownRank'] as Map<String, dynamic>)['totalUsers'] as num?)?.toInt() ??
+                ((json['ownRank'] as Map<String, dynamic>)['totalParticipants'] as num?)?.toInt()
             : null);
 
     return LeaderboardResponseModel(
@@ -71,7 +83,8 @@ class LeaderboardResponseModel extends LeaderboardResponseEntity {
       entries: entries,
       ownRank: ownRankModel,
       surrounding: surrounding,
-      totalParticipants: totalParticipants,
+      totalUsers: totalUsers,
+      totalParticipants: totalUsers,
     );
   }
 }
