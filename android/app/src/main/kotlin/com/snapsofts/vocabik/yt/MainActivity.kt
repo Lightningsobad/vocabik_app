@@ -1,4 +1,4 @@
-package com.example.vocabik_app
+package com.snapsofts.vocabik.yt
 
 import io.flutter.embedding.android.FlutterActivity
 
