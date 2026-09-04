@@ -33,9 +33,7 @@ class FriendSelectionTile extends StatelessWidget {
             vertical: AppSpacing.md,
           ),
           decoration: BoxDecoration(
-            color: isSelected
-                ? const Color(0xFF0F262B)
-                : colors.surfaceCard,
+            color: isSelected ? const Color(0xFF0F262B) : colors.surfaceCard,
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: isSelected ? colors.primaryAccent : colors.borderSubtle,
@@ -57,7 +55,7 @@ class FriendSelectionTile extends StatelessWidget {
                     Text(
                       friend.displayName,
                       style: AppTextStyles.custom(
-                        fontSize: AppFontSize.md2,
+                        fontSize: AppFontSize.md,
                         fontWeight: FontWeight.w700,
                         color: colors.textPrimary,
                       ),
@@ -69,7 +67,7 @@ class FriendSelectionTile extends StatelessWidget {
                       Text(
                         friend.formattedStats,
                         style: AppTextStyles.custom(
-                          fontSize: AppFontSize.sm2,
+                          fontSize: AppFontSize.sm,
                           fontWeight: FontWeight.w500,
                           color: colors.textSecondary,
                         ),
@@ -100,7 +98,8 @@ class FriendSelectionTile extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => _buildInitialsAvatar(colors, size),
+          errorBuilder: (context, error, stackTrace) =>
+              _buildInitialsAvatar(colors, size),
         ),
       );
     }
@@ -149,10 +148,7 @@ class FriendSelectionTile extends StatelessWidget {
       height: 24,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(
-          color: const Color(0xFF3B3B52),
-          width: 1.8,
-        ),
+        border: Border.all(color: const Color(0xFF3B3B52), width: 1.8),
       ),
     );
   }

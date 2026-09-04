@@ -51,7 +51,7 @@ class ChallengeSentScreen extends StatelessWidget {
           Text(
             l10n.challengeSentTitle,
             style: AppTextStyles.custom(
-              fontSize: AppFontSize.xxl,
+              fontSize: AppFontSize.xl5,
               fontWeight: FontWeight.w800,
               color: colors.textPrimary,
             ),
@@ -141,7 +141,7 @@ class ChallengeSentScreen extends StatelessWidget {
               Text(
                 friend.displayName,
                 style: AppTextStyles.custom(
-                  fontSize: AppFontSize.sm2,
+                  fontSize: AppFontSize.sm,
                   fontWeight: FontWeight.w700,
                   color: colors.textPrimary,
                 ),
@@ -186,7 +186,7 @@ class ChallengeSentScreen extends StatelessWidget {
       child: Text(
         friend.initials,
         style: AppTextStyles.custom(
-          fontSize: AppFontSize.xs,
+          fontSize: AppFontSize.tn,
           fontWeight: FontWeight.w800,
           color: colors.textPrimary,
         ),
@@ -250,10 +250,7 @@ class ChallengeSentScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 2),
-          child: icon,
-        ),
+        Padding(padding: const EdgeInsets.only(top: 2), child: icon),
         const SizedBox(width: AppSpacing.md),
         Expanded(
           child: Column(
@@ -271,7 +268,7 @@ class ChallengeSentScreen extends StatelessWidget {
               Text(
                 desc,
                 style: AppTextStyles.custom(
-                  fontSize: AppFontSize.sm2,
+                  fontSize: AppFontSize.sm,
                   fontWeight: FontWeight.w500,
                   color: colors.textSecondary,
                 ),
@@ -305,7 +302,10 @@ class ChallengeSentScreen extends StatelessWidget {
               SnackBar(
                 content: Text(
                   l10n.challengeLinkCopied,
-                  style: AppTextStyles.custom(fontWeight: FontWeight.w600),
+                  style: AppTextStyles.custom(
+                    fontSize: AppFontSize.md,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 backgroundColor: colors.surfaceCard,
                 behavior: SnackBarBehavior.floating,
@@ -364,7 +364,7 @@ class ChallengeSentScreen extends StatelessWidget {
             Text(
               label,
               style: AppTextStyles.custom(
-                fontSize: AppFontSize.md2,
+                fontSize: AppFontSize.md,
                 fontWeight: FontWeight.w700,
                 color: colors.textPrimary,
               ),

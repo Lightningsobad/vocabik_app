@@ -74,7 +74,10 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
             SnackBar(
               content: Text(
                 state.sendErrorMessage ?? l10n.challengeCreateLinkError,
-                style: AppTextStyles.custom(color: Colors.white),
+                style: AppTextStyles.custom(
+                  fontSize: AppFontSize.md,
+                  color: Colors.white,
+                ),
               ),
               backgroundColor: colors.danger,
               behavior: SnackBarBehavior.floating,
@@ -91,9 +94,7 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -159,7 +160,7 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
                         Text(
                           l10n.challengeFriendsSection,
                           style: AppTextStyles.custom(
-                            fontSize: AppFontSize.sm2,
+                            fontSize: AppFontSize.sm,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.8,
                             color: colors.textSecondary,
@@ -170,7 +171,7 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
                               ? l10n.challengeSelectedCount(selectedCount)
                               : l10n.challengePickAtLeastOne,
                           style: AppTextStyles.custom(
-                            fontSize: AppFontSize.sm2,
+                            fontSize: AppFontSize.sm,
                             fontWeight: FontWeight.w600,
                             color: colors.textSecondary,
                           ),
@@ -208,11 +209,7 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              LucideIcons.chevronLeft,
-              size: 16,
-              color: colors.textPrimary,
-            ),
+            Icon(LucideIcons.chevronLeft, size: 16, color: colors.textPrimary),
             const SizedBox(width: 4),
             Text(
               'Back',
@@ -311,6 +308,7 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
                 child: Text(
                   l10n.homeRetry,
                   style: AppTextStyles.custom(
+                    fontSize: AppFontSize.md,
                     fontWeight: FontWeight.bold,
                     color: colors.primaryAccent,
                   ),
@@ -387,9 +385,7 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
-              color: isEnabled
-                  ? colors.primaryAccent
-                  : const Color(0xFF1E1E34),
+              color: isEnabled ? colors.primaryAccent : const Color(0xFF1E1E34),
               borderRadius: BorderRadius.circular(28),
             ),
             child: Center(
