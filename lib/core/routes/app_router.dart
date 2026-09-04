@@ -32,6 +32,10 @@ import '../../features/achievements/presentation/screens/achievements_screen.dar
 import '../../features/daily_challenge/presentation/screens/daily_challenge_screen.dart';
 import '../../features/daily_challenge/domain/entities/daily_challenge_config_entity.dart';
 import '../../features/leaderboard/presentation/screens/xp_leaderboard_screen.dart';
+import '../../features/challenge_friend/presentation/models/challenge_friend_args.dart';
+import '../../features/challenge_friend/presentation/models/challenge_sent_args.dart';
+import '../../features/challenge_friend/presentation/screens/challenge_friend_screen.dart';
+import '../../features/challenge_friend/presentation/screens/challenge_sent_screen.dart';
 
 class PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -255,6 +259,20 @@ final GoRouter appRouter = GoRouter(
                     return DailyChallengeScreen(initialConfig: config);
                   },
                 ),
+                GoRoute(
+                  path: 'challenge-friend',
+                  builder: (context, state) {
+                    final args = state.extra as ChallengeFriendArgs;
+                    return ChallengeFriendScreen(args: args);
+                  },
+                ),
+                GoRoute(
+                  path: 'challenge-sent',
+                  builder: (context, state) {
+                    final args = state.extra as ChallengeSentArgs;
+                    return ChallengeSentScreen(args: args);
+                  },
+                ),
               ],
             ),
           ],
@@ -412,6 +430,14 @@ extension ExerciseNavigationExtension on BuildContext {
 
   void goToExerciseResult(ExerciseResultArgs args) {
     go('/home/exercise-result', extra: args);
+  }
+
+  void pushToChallengeFriend(ChallengeFriendArgs args) {
+    push('/home/challenge-friend', extra: args);
+  }
+
+  void pushToChallengeSent(ChallengeSentArgs args) {
+    pushReplacement('/home/challenge-sent', extra: args);
   }
 }
 

@@ -629,5 +629,78 @@
   "xpLeaderboardFilterGlobal": "Toàn cầu",
   "xpLeaderboardFilterFriends": "Bạn bè",
   "xpLeaderboardYourRank": "Hạng của bạn",
-  "xpLeaderboardEmpty": "Chưa có dữ liệu bảng xếp hạng"
+  "xpLeaderboardEmpty": "Chưa có dữ liệu bảng xếp hạng",
+  "challengeFriendTitle": "Thách đấu bạn bè",
+  "challengeFriendSubtitle": "Chọn bạn bè để cùng làm bài tập này. Điểm cao hơn sẽ chiến thắng.",
+  "challengeSearchFriendsHint": "Tìm kiếm bạn bè...",
+  "challengeFriendsSection": "BẠN BÈ TRÊN VOCABIK",
+  "challengePickAtLeastOne": "Chọn ít nhất 1",
+  "challengeSelectedCount": "Đã chọn {count}",
+  "@challengeSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeSend": "Gửi lời thách đấu",
+  "challengeSendWithCount": "Gửi lời thách đấu ({count}) →",
+  "@challengeSendWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeBlanksCount": "{count} chỗ trống",
+  "@challengeBlanksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeNoFriendsFound": "Không tìm thấy bạn bè nào",
+  "challengeLoadingFriends": "Đang tải danh sách bạn bè...",
+  "challengeLoadFriendsError": "Không thể tải danh sách bạn bè",
+  "challengeCreateLinkError": "Không thể tạo liên kết thách đấu",
+  "challengeSentTitle": "Đã gửi lời thách đấu!",
+  "challengeSentSubtitleSingle": "Điểm {score}% của bạn trong bài “{title}” đã được gửi tới {friend}.",
+  "@challengeSentSubtitleSingle": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "friend": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeSentSubtitleMultiple": "Điểm {score}% của bạn trong bài “{title}” đã được gửi tới {count} người bạn.",
+  "@challengeSentSubtitleMultiple": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeInfo24HoursTitle": "Họ có 24 giờ để phản hồi",
+  "challengeInfo24HoursDesc": "Nếu hết thời gian, bạn sẽ mặc định chiến thắng.",
+  "challengeInfoNotifiedTitle": "Bạn sẽ nhận được thông báo",
+  "challengeInfoNotifiedDesc": "Ngay khi có người hoàn thành bài tập thách đấu.",
+  "challengeInfoWinXpTitle": "Chiến thắng nhận +50 XP",
+  "challengeInfoWinXpDesc": "Vượt điểm đối thủ để giành chiến thắng.",
+  "challengeCopyLink": "Sao chép link thách đấu",
+  "challengeViewLeaderboard": "Xem bảng xếp hạng →",
+  "challengeBackToLibrary": "Về thư viện",
+  "challengeLinkCopied": "Đã sao chép liên kết thách đấu vào bộ nhớ tạm!"
 }
