@@ -53,7 +53,8 @@ class ChallengeExerciseSummaryCard extends StatelessWidget {
                   ? Image.network(
                       'https://img.youtube.com/vi/$youtubeVideoId/mqdefault.jpg',
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => _buildGradientBox(),
+                      errorBuilder: (context, error, stackTrace) =>
+                          _buildGradientBox(),
                     )
                   : _buildGradientBox(),
             ),
@@ -69,7 +70,7 @@ class ChallengeExerciseSummaryCard extends StatelessWidget {
                 Text(
                   videoTitle.isNotEmpty ? videoTitle : 'Exercise',
                   style: AppTextStyles.custom(
-                    fontSize: AppFontSize.md2,
+                    fontSize: AppFontSize.md,
                     fontWeight: FontWeight.w700,
                     color: colors.textPrimary,
                   ),
@@ -80,7 +81,7 @@ class ChallengeExerciseSummaryCard extends StatelessWidget {
                 Text(
                   subtitleText,
                   style: AppTextStyles.custom(
-                    fontSize: AppFontSize.sm2,
+                    fontSize: AppFontSize.sm,
                     fontWeight: FontWeight.w500,
                     color: colors.textSecondary,
                   ),
