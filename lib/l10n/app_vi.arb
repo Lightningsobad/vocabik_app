@@ -629,5 +629,24 @@
   "xpLeaderboardFilterGlobal": "Toàn cầu",
   "xpLeaderboardFilterFriends": "Bạn bè",
   "xpLeaderboardYourRank": "Hạng của bạn",
-  "xpLeaderboardEmpty": "Chưa có dữ liệu bảng xếp hạng"
+  "xpLeaderboardEmpty": "Chưa có dữ liệu bảng xếp hạng",
+  "notebookTitle": "Sổ từ vựng",
+  "wordsCount": "{count} từ",
+  "@wordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchWordsPlaceholder": "Tìm kiếm từ vựng...",
+  "tabList": "Danh sách",
+  "tabFlashcard": "Thẻ ghi nhớ",
+  "tapToFlip": "Chạm để lật",
+  "reviewAgain": "Ôn lại",
+  "gotIt": "Đã thuộc",
+  "emptyNotebook": "Chưa có từ vựng nào được lưu.",
+  "noSearchResults": "Không tìm thấy từ vựng phù hợp.",
+  "reviewFinishedTitle": "Đã hoàn thành!",
+  "reviewFinishedDesc": "Bạn đã ôn tập xong tất cả các thẻ từ vựng."
 }

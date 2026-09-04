@@ -1236,4 +1236,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get xpLeaderboardEmpty => 'No leaderboard data found';
+
+  @override
+  String get notebookTitle => 'Notebook';
+
+  @override
+  String wordsCount(int count) {
+    return '$count words';
+  }
+
+  @override
+  String get searchWordsPlaceholder => 'Search words...';
+
+  @override
+  String get tabList => 'List';
+
+  @override
+  String get tabFlashcard => 'Flashcard';
+
+  @override
+  String get tapToFlip => 'Tap to flip';
+
+  @override
+  String get reviewAgain => 'Review again';
+
+  @override
+  String get gotIt => 'Got it';
+
+  @override
+  String get emptyNotebook => 'No words saved yet.';
+
+  @override
+  String get noSearchResults => 'No words found matching your search.';
+
+  @override
+  String get reviewFinishedTitle => 'All caught up!';
+
+  @override
+  String get reviewFinishedDesc => 'You have reviewed all your flashcards.';
 }

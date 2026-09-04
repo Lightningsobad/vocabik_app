@@ -2383,6 +2383,78 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Chưa có dữ liệu bảng xếp hạng'**
   String get xpLeaderboardEmpty;
+
+  /// No description provided for @notebookTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sổ từ vựng'**
+  String get notebookTitle;
+
+  /// No description provided for @wordsCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} từ'**
+  String wordsCount(int count);
+
+  /// No description provided for @searchWordsPlaceholder.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm kiếm từ vựng...'**
+  String get searchWordsPlaceholder;
+
+  /// No description provided for @tabList.
+  ///
+  /// In vi, this message translates to:
+  /// **'Danh sách'**
+  String get tabList;
+
+  /// No description provided for @tabFlashcard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thẻ ghi nhớ'**
+  String get tabFlashcard;
+
+  /// No description provided for @tapToFlip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chạm để lật'**
+  String get tapToFlip;
+
+  /// No description provided for @reviewAgain.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ôn lại'**
+  String get reviewAgain;
+
+  /// No description provided for @gotIt.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã thuộc'**
+  String get gotIt;
+
+  /// No description provided for @emptyNotebook.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có từ vựng nào được lưu.'**
+  String get emptyNotebook;
+
+  /// No description provided for @noSearchResults.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy từ vựng phù hợp.'**
+  String get noSearchResults;
+
+  /// No description provided for @reviewFinishedTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã hoàn thành!'**
+  String get reviewFinishedTitle;
+
+  /// No description provided for @reviewFinishedDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn đã ôn tập xong tất cả các thẻ từ vựng.'**
+  String get reviewFinishedDesc;
 }
 
 class _AppLocalizationsDelegate

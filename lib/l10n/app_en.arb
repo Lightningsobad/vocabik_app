@@ -629,5 +629,24 @@
   "xpLeaderboardFilterGlobal": "Global",
   "xpLeaderboardFilterFriends": "Friends",
   "xpLeaderboardYourRank": "Your rank",
-  "xpLeaderboardEmpty": "No leaderboard data found"
+  "xpLeaderboardEmpty": "No leaderboard data found",
+  "notebookTitle": "Notebook",
+  "wordsCount": "{count} words",
+  "@wordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchWordsPlaceholder": "Search words...",
+  "tabList": "List",
+  "tabFlashcard": "Flashcard",
+  "tapToFlip": "Tap to flip",
+  "reviewAgain": "Review again",
+  "gotIt": "Got it",
+  "emptyNotebook": "No words saved yet.",
+  "noSearchResults": "No words found matching your search.",
+  "reviewFinishedTitle": "All caught up!",
+  "reviewFinishedDesc": "You have reviewed all your flashcards."
 }
