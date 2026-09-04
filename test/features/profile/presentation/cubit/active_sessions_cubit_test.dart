@@ -40,6 +40,13 @@ class FakeAuthRepository implements AuthRepository {
       throw UnimplementedError();
 
   @override
+  Future<Either<Failure, User>> loginWithGoogle(
+    String idToken, {
+    String? anonymousSessionId,
+  }) async =>
+      throw UnimplementedError();
+
+  @override
   Future<Either<Failure, void>> register({
     required String email,
     required String password,

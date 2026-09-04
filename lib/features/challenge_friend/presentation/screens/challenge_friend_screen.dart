@@ -308,6 +308,7 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
                 child: Text(
                   l10n.homeRetry,
                   style: AppTextStyles.custom(
+                    fontSize: AppFontSize.md,
                     fontWeight: FontWeight.bold,
                     color: colors.primaryAccent,
                     fontSize: AppFontSize.md,

@@ -37,6 +37,8 @@ import '../../features/auth/domain/use_cases/get_me_use_case.dart' as _i477;
 import '../../features/auth/domain/use_cases/get_sessions_use_case.dart'
     as _i1058;
 import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
+import '../../features/auth/domain/use_cases/login_with_google_use_case.dart'
+    as _i490;
 import '../../features/auth/domain/use_cases/register_use_case.dart' as _i1010;
 import '../../features/auth/domain/use_cases/resend_email_use_case.dart'
     as _i518;
@@ -234,6 +236,7 @@ import '../../shared/theme/data/repositories/theme_repository_impl.dart'
     as _i108;
 import '../../shared/theme/domain/repositories/theme_repository.dart' as _i416;
 import '../services/deep_link_service.dart' as _i391;
+import '../services/social_auth_service.dart' as _i723;
 import 'app_module.dart' as _i461;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -254,6 +257,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i416.ThemeRepository>(
       () => _i108.ThemeRepositoryImpl(prefs: gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i723.SocialAuthService>(
+      () => _i723.GoogleAuthServiceImpl(),
     );
     gh.lazySingleton<_i431.SettingsLocalDataSource>(
       () => _i431.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
@@ -415,6 +421,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
     );
+    gh.lazySingleton<_i490.LoginWithGoogleUseCase>(
+      () => _i490.LoginWithGoogleUseCase(gh<_i787.AuthRepository>()),
+    );
     gh.lazySingleton<_i169.ResetPasswordUseCase>(
       () => _i169.ResetPasswordUseCase(gh<_i787.AuthRepository>()),
     );
@@ -470,9 +479,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i773.SetCefrSkippedUseCase>(),
       ),
     );
-    gh.factory<_i690.RegisterBloc>(
-      () => _i690.RegisterBloc(gh<_i1010.RegisterUseCase>()),
-    );
     gh.lazySingleton<_i1013.ChallengeFriendRepository>(
       () => _i594.ChallengeFriendRepositoryImpl(
         gh<_i344.ChallengeFriendRemoteDataSource>(),
@@ -514,6 +520,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
+    );
+    gh.factory<_i690.RegisterBloc>(
+      () => _i690.RegisterBloc(
+        gh<_i1010.RegisterUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
+      ),
     );
     gh.lazySingleton<_i467.GetBadgesUseCase>(
       () => _i467.GetBadgesUseCase(gh<_i65.BadgeRepository>()),
@@ -589,14 +603,19 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i797.AuthBloc>(),
       ),
     );
-    gh.factory<_i281.LoginCubit>(
-      () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),
-    );
     gh.factory<_i987.DiscoverBloc>(
       () => _i987.DiscoverBloc(
         gh<_i552.GetVideosUseCase>(),
         gh<_i821.GetTrendingVideosUseCase>(),
         gh<_i880.GetPlaylistsUseCase>(),
+      ),
+    );
+    gh.factory<_i281.LoginCubit>(
+      () => _i281.LoginCubit(
+        gh<_i1038.LoginUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
       ),
     );
     gh.lazySingleton<_i155.GetDailyChallengeConfigUseCase>(

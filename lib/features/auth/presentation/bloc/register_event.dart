@@ -34,3 +34,8 @@ class RegisterPasswordChanged extends RegisterEvent {
 class RegisterSubmitted extends RegisterEvent {
   const RegisterSubmitted();
 }
+
+class RegisterWithGoogleSubmitted extends RegisterEvent {
+  const RegisterWithGoogleSubmitted();
+}
+
