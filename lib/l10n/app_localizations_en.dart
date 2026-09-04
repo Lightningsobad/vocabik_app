@@ -1323,8 +1323,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get challengeViewLeaderboard => 'View leaderboard →';
 
   @override
-  String get challengeBackToLibrary => 'Back to library';
+  String get challengeLinkCopied => 'Challenge link copied to clipboard!';
 
   @override
-  String get challengeLinkCopied => 'Challenge link copied to clipboard!';
+  String get notebookTitle => 'Notebook';
+
+  @override
+  String wordsCount(int count) {
+    return '$count words';
+  }
+
+  @override
+  String get searchWordsPlaceholder => 'Search words...';
+
+  @override
+  String get tabList => 'List';
+
+  @override
+  String get tabFlashcard => 'Flashcard';
+
+  @override
+  String get tapToFlip => 'Tap to flip';
+
+  @override
+  String get reviewAgain => 'Review again';
+
+  @override
+  String get gotIt => 'Got it';
+
+  @override
+  String get emptyNotebook => 'No words saved yet.';
+
+  @override
+  String get noSearchResults => 'No words found matching your search.';
+
+  @override
+  String get reviewFinishedTitle => 'All caught up!';
+
+  @override
+  String get reviewFinishedDesc => 'You have reviewed all your flashcards.';
 }

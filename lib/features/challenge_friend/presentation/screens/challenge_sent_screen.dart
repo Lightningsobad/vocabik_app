@@ -328,7 +328,7 @@ class ChallengeSentScreen extends StatelessWidget {
 
         // Back to Library
         _buildActionButton(
-          label: l10n.challengeBackToLibrary,
+          label: l10n.resultBackToLibrary,
           colors: colors,
           onTap: () {
             context.go('/home');

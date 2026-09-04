@@ -701,6 +701,24 @@
   "challengeInfoWinXpDesc": "Vượt điểm đối thủ để giành chiến thắng.",
   "challengeCopyLink": "Sao chép link thách đấu",
   "challengeViewLeaderboard": "Xem bảng xếp hạng →",
-  "challengeBackToLibrary": "Về thư viện",
-  "challengeLinkCopied": "Đã sao chép liên kết thách đấu vào bộ nhớ tạm!"
+  "challengeLinkCopied": "Đã sao chép liên kết thách đấu vào bộ nhớ tạm!",
+  "notebookTitle": "Sổ từ vựng",
+  "wordsCount": "{count} từ",
+  "@wordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchWordsPlaceholder": "Tìm kiếm từ vựng...",
+  "tabList": "Danh sách",
+  "tabFlashcard": "Thẻ ghi nhớ",
+  "tapToFlip": "Chạm để lật",
+  "reviewAgain": "Ôn lại",
+  "gotIt": "Đã thuộc",
+  "emptyNotebook": "Chưa có từ vựng nào được lưu.",
+  "noSearchResults": "Không tìm thấy từ vựng phù hợp.",
+  "reviewFinishedTitle": "Đã hoàn thành!",
+  "reviewFinishedDesc": "Bạn đã ôn tập xong tất cả các thẻ từ vựng."
 }
