@@ -230,6 +230,24 @@ abstract class AppLocalizations {
   /// **'Tên của bạn'**
   String get profileYourName;
 
+  /// No description provided for @profileUpdateSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật tên thành công!'**
+  String get profileUpdateSuccess;
+
+  /// No description provided for @actionSave.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lưu'**
+  String get actionSave;
+
+  /// No description provided for @actionEdit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chỉnh sửa'**
+  String get actionEdit;
+
   /// No description provided for @profileEmail.
   ///
   /// In vi, this message translates to:

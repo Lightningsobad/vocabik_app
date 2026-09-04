@@ -160,6 +160,8 @@ import '../../features/profile/presentation/cubit/active_sessions_cubit.dart'
     as _i312;
 import '../../features/profile/presentation/cubit/cefr_selection_cubit.dart'
     as _i498;
+import '../../features/profile/presentation/cubit/update_profile_cubit.dart'
+    as _i575;
 import '../../features/progress/data/data_sources/progress_remote_data_source.dart'
     as _i854;
 import '../../features/progress/data/repositories/progress_repository_impl.dart'
@@ -560,6 +562,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1038.LoginUseCase>(),
         gh<_i797.AuthBloc>(),
       ),
+    );
+    gh.factory<_i575.UpdateProfileCubit>(
+      () => _i575.UpdateProfileCubit(gh<_i186.UpdateProfileUseCase>()),
     );
     gh.factory<_i281.LoginCubit>(
       () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),

@@ -4,9 +4,10 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/errors/exceptions.dart';
 import '../models/update_profile_request_model.dart';
+import '../models/update_profile_response_model.dart';
 
 abstract class ProfileRemoteDataSource {
-  Future<void> updateProfile(UpdateProfileRequestModel request);
+  Future<UpdateProfileResponseModel> updateProfile(UpdateProfileRequestModel request);
 }
 
 @LazySingleton(as: ProfileRemoteDataSource)
@@ -16,17 +17,25 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   ProfileRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<void> updateProfile(UpdateProfileRequestModel request) async {
+  Future<UpdateProfileResponseModel> updateProfile(UpdateProfileRequestModel request) async {
     try {
-      await _dio.patch(
+      final response = await _dio.patch(
         '/users/me/profile',
         data: request.toJson(),
       );
+      if (response.data is Map<String, dynamic>) {
+        return UpdateProfileResponseModel.fromJson(response.data as Map<String, dynamic>);
+      }
+      return const UpdateProfileResponseModel();
     } catch (e) {
       if (e is DioException) {
         final statusCode = e.response?.statusCode;
         if (statusCode == 400) {
-          throw const ServerException('Dữ liệu không hợp lệ.');
+          final dynamic data = e.response?.data;
+          final message = data is Map && data['message'] != null
+              ? data['message'].toString()
+              : 'Dữ liệu không hợp lệ.';
+          throw ServerException(message);
         } else if (statusCode == 401) {
           final authHeader = e.requestOptions.headers['Authorization']?.toString() ?? 'null';
           debugPrint('========================================');

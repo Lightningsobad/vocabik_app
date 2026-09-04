@@ -27,7 +27,7 @@ class CefrSelectionCubit extends Cubit<CefrSelectionState> {
 
     emit(state.copyWith(status: CefrSelectionStatus.loading));
 
-    final result = await _updateProfileUseCase(state.selectedLevel!);
+    final result = await _updateProfileUseCase(cefrLevel: state.selectedLevel!);
     
     result.fold(
       (failure) => emit(state.copyWith(

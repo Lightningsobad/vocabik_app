@@ -77,6 +77,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profileYourName => 'Tên của bạn';
 
   @override
+  String get profileUpdateSuccess => 'Cập nhật tên thành công!';
+
+  @override
+  String get actionSave => 'Lưu';
+
+  @override
+  String get actionEdit => 'Chỉnh sửa';
+
+  @override
   String get profileEmail => 'Email: ';
 
   @override
