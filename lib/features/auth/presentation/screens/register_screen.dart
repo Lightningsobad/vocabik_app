@@ -99,6 +99,8 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
               'email': state.email.value,
               'password': state.password.value,
             });
+          } else if (state.status == RegisterStatus.socialSuccess) {
+            context.go('/home');
           }
         },
         child: AuthCardWrapper(
@@ -139,9 +141,9 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                   fontSize: 17,
                 ),
               ),
-              onPressed: () {
-                // TODO: Implement Google Sign Up
-              },
+              onPressed: () => context
+                  .read<RegisterBloc>()
+                  .add(const RegisterWithGoogleSubmitted()),
             ),
             const SizedBox(height: 18),
 

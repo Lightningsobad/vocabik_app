@@ -479,9 +479,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i773.SetCefrSkippedUseCase>(),
       ),
     );
-    gh.factory<_i690.RegisterBloc>(
-      () => _i690.RegisterBloc(gh<_i1010.RegisterUseCase>()),
-    );
     gh.lazySingleton<_i1013.ChallengeFriendRepository>(
       () => _i594.ChallengeFriendRepositoryImpl(
         gh<_i344.ChallengeFriendRemoteDataSource>(),
@@ -523,6 +520,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
+    );
+    gh.factory<_i690.RegisterBloc>(
+      () => _i690.RegisterBloc(
+        gh<_i1010.RegisterUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
+      ),
     );
     gh.lazySingleton<_i467.GetBadgesUseCase>(
       () => _i467.GetBadgesUseCase(gh<_i65.BadgeRepository>()),

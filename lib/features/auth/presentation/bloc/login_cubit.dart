@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:injectable/injectable.dart';
@@ -95,31 +96,39 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(status: LoginStatus.loading));
 
     try {
+      debugPrint('[LoginCubit] Triggering loginWithGoogle...');
       final idToken = await _socialAuthService.getGoogleIdToken();
       if (idToken == null || idToken.isEmpty) {
-        // Người dùng hủy bỏ đăng nhập Google
+        debugPrint('[LoginCubit] Google Sign-In cancelled by user.');
         emit(state.copyWith(status: LoginStatus.initial));
         return;
       }
 
+      debugPrint('[LoginCubit] Sending Google idToken to Backend API...');
       final result = await _loginWithGoogleUseCase(idToken: idToken);
 
       result.fold(
         (failure) {
+          debugPrint('[LoginCubit] Backend Google Login failed: ${failure.message}');
           emit(state.copyWith(
             status: LoginStatus.failure,
             errorMessage: failure.message,
           ));
         },
         (user) {
+          debugPrint('[LoginCubit] Backend Google Login succeeded for user: ${user.email}');
           _authBloc.add(UserAuthenticated(user));
           emit(state.copyWith(status: LoginStatus.success));
         },
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('[LoginCubit] Google Sign-In error: $e\n$stackTrace');
+      final errorMsg = e.toString().replaceAll('Exception: ', '');
       emit(state.copyWith(
         status: LoginStatus.failure,
-        errorMessage: 'Đăng nhập Google không thành công. Vui lòng thử lại.',
+        errorMessage: errorMsg.isNotEmpty
+            ? errorMsg
+            : 'Đăng nhập Google không thành công. Vui lòng thử lại.',
       ));
     }
   }
