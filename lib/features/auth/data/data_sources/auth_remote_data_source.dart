@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 
 abstract class AuthRemoteDataSource {
   Future<AuthResponseModel> login(LoginRequestModel request, {CancelToken? cancelToken});
+  Future<AuthResponseModel> loginWithGoogle(String idToken, {String? anonymousSessionId, CancelToken? cancelToken});
   Future<UserModel> getMe({CancelToken? cancelToken});
   Future<void> signOut({CancelToken? cancelToken});
   Future<void> register(RegisterRequestModel request, {CancelToken? cancelToken});
@@ -52,6 +53,49 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           throw const InvalidCredentialsException();
         } else if (statusCode == 403) {
           throw const NotVerifiedException();
+        } else if (statusCode != null && statusCode >= 500) {
+          throw const ServerException();
+        }
+      }
+      throw const NetworkException();
+    }
+  }
+
+  @override
+  Future<AuthResponseModel> loginWithGoogle(
+    String idToken, {
+    String? anonymousSessionId,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final data = <String, dynamic>{
+        'idToken': idToken,
+        if (anonymousSessionId != null && anonymousSessionId.isNotEmpty)
+          'anonymousSessionId': anonymousSessionId,
+      };
+
+      final response = await _dio.post(
+        '/auth/google/mobile',
+        data: data,
+        options: Options(
+          headers: {'x-client-type': 'mobile'},
+        ),
+        cancelToken: cancelToken,
+      );
+      return await compute(_parseAuthResponse, response.data as Map<String, dynamic>);
+    } catch (e) {
+      if (e is DioException) {
+        final statusCode = e.response?.statusCode;
+        final responseData = e.response?.data;
+        if (responseData is Map<String, dynamic> && responseData['error'] is Map<String, dynamic>) {
+          final error = responseData['error'] as Map<String, dynamic>;
+          final message = error['message'] as String?;
+          if (message != null && message.isNotEmpty) {
+            throw ServerException(message);
+          }
+        }
+        if (statusCode == 400 || statusCode == 401) {
+          throw const InvalidCredentialsException('Đăng nhập Google không hợp lệ hoặc đã hết hạn.');
         } else if (statusCode != null && statusCode >= 500) {
           throw const ServerException();
         }

@@ -57,6 +57,45 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, User>> loginWithGoogle(
+    String idToken, {
+    String? anonymousSessionId,
+  }) async {
+    try {
+      final response = await _remoteDataSource.loginWithGoogle(
+        idToken,
+        anonymousSessionId: anonymousSessionId,
+      );
+      await _localDataSource.saveTokens(
+        response.accessToken,
+        response.refreshToken,
+      );
+      try {
+        final user = await _remoteDataSource.getMe();
+        return right(user);
+      } catch (_) {
+        return right(response.user);
+      }
+    } on NetworkException {
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
+    } on InvalidCredentialsException catch (e) {
+      return left(
+        InvalidCredentialsFailure(e.message),
+      );
+    } on NotVerifiedException {
+      return left(
+        const NotVerifiedFailure('Tài khoản chưa được xác thực email.'),
+      );
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message.isNotEmpty ? e.message : 'Lỗi máy chủ, vui lòng thử lại sau.'));
+    } catch (e) {
+      return left(const ServerFailure('Lỗi hệ thống không xác định.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, User>> getMe() async {
     try {
       final user = await _remoteDataSource.getMe();

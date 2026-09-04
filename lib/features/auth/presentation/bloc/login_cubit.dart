@@ -6,16 +6,22 @@ import 'package:vocabik_app/core/errors/failures.dart';
 import '../models/email_input.dart';
 import '../models/password_input.dart';
 import '../../domain/use_cases/login_use_case.dart';
+import '../../domain/use_cases/login_with_google_use_case.dart';
+import '../../../../core/services/social_auth_service.dart';
 import 'auth_bloc.dart';
 import 'login_state.dart';
 
 @injectable
 class LoginCubit extends Cubit<LoginState> {
   final LoginUseCase _loginUseCase;
+  final LoginWithGoogleUseCase _loginWithGoogleUseCase;
+  final SocialAuthService _socialAuthService;
   final AuthBloc _authBloc;
 
   LoginCubit(
     this._loginUseCase,
+    this._loginWithGoogleUseCase,
+    this._socialAuthService,
     this._authBloc,
   ) : super(const LoginState());
 
@@ -83,5 +89,38 @@ class LoginCubit extends Cubit<LoginState> {
         emit(state.copyWith(status: LoginStatus.success));
       },
     );
+  }
+
+  Future<void> loginWithGoogle() async {
+    emit(state.copyWith(status: LoginStatus.loading));
+
+    try {
+      final idToken = await _socialAuthService.getGoogleIdToken();
+      if (idToken == null || idToken.isEmpty) {
+        // Người dùng hủy bỏ đăng nhập Google
+        emit(state.copyWith(status: LoginStatus.initial));
+        return;
+      }
+
+      final result = await _loginWithGoogleUseCase(idToken: idToken);
+
+      result.fold(
+        (failure) {
+          emit(state.copyWith(
+            status: LoginStatus.failure,
+            errorMessage: failure.message,
+          ));
+        },
+        (user) {
+          _authBloc.add(UserAuthenticated(user));
+          emit(state.copyWith(status: LoginStatus.success));
+        },
+      );
+    } catch (e) {
+      emit(state.copyWith(
+        status: LoginStatus.failure,
+        errorMessage: 'Đăng nhập Google không thành công. Vui lòng thử lại.',
+      ));
+    }
   }
 }
