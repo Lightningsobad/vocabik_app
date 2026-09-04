@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../../features/achievements/data/datasources/badge_remote_data_source.dart'
     as _i991;
 import '../../features/achievements/data/repositories/badge_repository_impl.dart'
-    as _i344;
+    as _i345;
 import '../../features/achievements/domain/repositories/badge_repository.dart'
     as _i65;
 import '../../features/achievements/domain/usecases/get_badges_usecase.dart'
@@ -55,6 +55,18 @@ import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
 import '../../features/auth/presentation/bloc/reset_password_cubit.dart'
     as _i165;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
+import '../../features/challenge_friend/data/datasources/challenge_friend_remote_datasource.dart'
+    as _i344;
+import '../../features/challenge_friend/data/repositories/challenge_friend_repository_impl.dart'
+    as _i594;
+import '../../features/challenge_friend/domain/repositories/challenge_friend_repository.dart'
+    as _i1013;
+import '../../features/challenge_friend/domain/usecases/create_challenge_link_usecase.dart'
+    as _i228;
+import '../../features/challenge_friend/domain/usecases/get_friends_usecase.dart'
+    as _i71;
+import '../../features/challenge_friend/presentation/cubit/challenge_friend_cubit.dart'
+    as _i719;
 import '../../features/classroom/data/datasources/classroom_remote_data_source.dart'
     as _i309;
 import '../../features/classroom/data/repositories/classroom_repository_impl.dart'
@@ -348,8 +360,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i521.SoundSettingsCubit>(
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
+    gh.lazySingleton<_i344.ChallengeFriendRemoteDataSource>(
+      () => _i344.ChallengeFriendRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i65.BadgeRepository>(
-      () => _i344.BadgeRepositoryImpl(gh<_i991.BadgeRemoteDataSource>()),
+      () => _i345.BadgeRepositoryImpl(gh<_i991.BadgeRemoteDataSource>()),
     );
     gh.lazySingleton<_i970.GetXpLeaderboardUseCase>(
       () => _i970.GetXpLeaderboardUseCase(gh<_i655.LeaderboardRepository>()),
@@ -458,6 +473,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i690.RegisterBloc>(
       () => _i690.RegisterBloc(gh<_i1010.RegisterUseCase>()),
     );
+    gh.lazySingleton<_i1013.ChallengeFriendRepository>(
+      () => _i594.ChallengeFriendRepositoryImpl(
+        gh<_i344.ChallengeFriendRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i797.AuthBloc>(
       () =>
           _i797.AuthBloc(gh<_i131.SignOutUseCase>(), gh<_i477.GetMeUseCase>()),
@@ -528,6 +548,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i241.SendVideoReactionUseCase>(),
       ),
     );
+    gh.factory<_i228.CreateChallengeLinkUseCase>(
+      () => _i228.CreateChallengeLinkUseCase(
+        gh<_i1013.ChallengeFriendRepository>(),
+      ),
+    );
+    gh.factory<_i71.GetFriendsUseCase>(
+      () => _i71.GetFriendsUseCase(gh<_i1013.ChallengeFriendRepository>()),
+    );
     gh.lazySingleton<_i748.GetProgressErrorInsightsUseCase>(
       () =>
           _i748.GetProgressErrorInsightsUseCase(gh<_i785.ProgressRepository>()),
@@ -590,6 +618,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i481.MainShellCubit(
         gh<_i74.GetProgressSummaryUseCase>(),
         gh<_i561.GamificationGlobalCubit>(),
+      ),
+    );
+    gh.factory<_i719.ChallengeFriendCubit>(
+      () => _i719.ChallengeFriendCubit(
+        gh<_i71.GetFriendsUseCase>(),
+        gh<_i228.CreateChallengeLinkUseCase>(),
       ),
     );
     gh.factory<_i749.ProgressCubit>(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/di/injection.dart';
+import 'package:vocabik_app/core/routes/app_router.dart';
+import 'package:vocabik_app/features/challenge_friend/presentation/models/challenge_friend_args.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_entity.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/result_cubit.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/result_state.dart';
@@ -48,6 +50,7 @@ class ResultScreen extends StatelessWidget {
         ),
       child: ResultScreenView(
         exercise: exercise,
+        durationMs: durationMs,
         youtubeVideoId: youtubeVideoId,
         videoTitle: videoTitle,
         exerciseType: exerciseType,
@@ -59,6 +62,7 @@ class ResultScreen extends StatelessWidget {
 
 class ResultScreenView extends StatelessWidget {
   final ExerciseEntity exercise;
+  final int durationMs;
   final String youtubeVideoId;
   final String videoTitle;
   final String exerciseType;
@@ -67,6 +71,7 @@ class ResultScreenView extends StatelessWidget {
   const ResultScreenView({
     super.key,
     required this.exercise,
+    required this.durationMs,
     this.youtubeVideoId = '',
     this.videoTitle = '',
     this.exerciseType = 'Multiple choice',
@@ -153,6 +158,19 @@ class ResultScreenView extends StatelessWidget {
                               cefrLevel: exercise.cefrLevel,
                               accuracyScore: state.summary!.accuracyScore,
                             );
+                          },
+                          onChallengeFriend: () {
+                            if (state.summary != null) {
+                              context.pushToChallengeFriend(
+                                ChallengeFriendArgs(
+                                  exercise: exercise,
+                                  durationMs: durationMs,
+                                  accuracyScore: state.summary!.accuracyScore,
+                                  videoTitle: videoTitle,
+                                  youtubeVideoId: youtubeVideoId,
+                                ),
+                              );
+                            }
                           },
                         ),
 
