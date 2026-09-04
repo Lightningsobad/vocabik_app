@@ -701,6 +701,24 @@
   "challengeInfoWinXpDesc": "Beat their score to win.",
   "challengeCopyLink": "Copy challenge link",
   "challengeViewLeaderboard": "View leaderboard →",
-  "challengeBackToLibrary": "Back to library",
-  "challengeLinkCopied": "Challenge link copied to clipboard!"
+  "challengeLinkCopied": "Challenge link copied to clipboard!",
+  "notebookTitle": "Notebook",
+  "wordsCount": "{count} words",
+  "@wordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchWordsPlaceholder": "Search words...",
+  "tabList": "List",
+  "tabFlashcard": "Flashcard",
+  "tapToFlip": "Tap to flip",
+  "reviewAgain": "Review again",
+  "gotIt": "Got it",
+  "emptyNotebook": "No words saved yet.",
+  "noSearchResults": "No words found matching your search.",
+  "reviewFinishedTitle": "All caught up!",
+  "reviewFinishedDesc": "You have reviewed all your flashcards."
 }

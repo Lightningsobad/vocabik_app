@@ -75,8 +75,8 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
               content: Text(
                 state.sendErrorMessage ?? l10n.challengeCreateLinkError,
                 style: AppTextStyles.custom(
-                  fontSize: AppFontSize.md,
                   color: Colors.white,
+                  fontSize: AppFontSize.md,
                 ),
               ),
               backgroundColor: colors.danger,
@@ -311,6 +311,7 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
                     fontSize: AppFontSize.md,
                     fontWeight: FontWeight.bold,
                     color: colors.primaryAccent,
+                    fontSize: AppFontSize.md,
                   ),
                 ),
               ),

@@ -1327,9 +1327,44 @@ class AppLocalizationsVi extends AppLocalizations {
   String get challengeViewLeaderboard => 'Xem bảng xếp hạng →';
 
   @override
-  String get challengeBackToLibrary => 'Về thư viện';
-
-  @override
   String get challengeLinkCopied =>
       'Đã sao chép liên kết thách đấu vào bộ nhớ tạm!';
+
+  @override
+  String get notebookTitle => 'Sổ từ vựng';
+
+  @override
+  String wordsCount(int count) {
+    return '$count từ';
+  }
+
+  @override
+  String get searchWordsPlaceholder => 'Tìm kiếm từ vựng...';
+
+  @override
+  String get tabList => 'Danh sách';
+
+  @override
+  String get tabFlashcard => 'Thẻ ghi nhớ';
+
+  @override
+  String get tapToFlip => 'Chạm để lật';
+
+  @override
+  String get reviewAgain => 'Ôn lại';
+
+  @override
+  String get gotIt => 'Đã thuộc';
+
+  @override
+  String get emptyNotebook => 'Chưa có từ vựng nào được lưu.';
+
+  @override
+  String get noSearchResults => 'Không tìm thấy từ vựng phù hợp.';
+
+  @override
+  String get reviewFinishedTitle => 'Đã hoàn thành!';
+
+  @override
+  String get reviewFinishedDesc => 'Bạn đã ôn tập xong tất cả các thẻ từ vựng.';
 }

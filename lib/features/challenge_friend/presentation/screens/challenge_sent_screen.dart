@@ -303,8 +303,8 @@ class ChallengeSentScreen extends StatelessWidget {
                 content: Text(
                   l10n.challengeLinkCopied,
                   style: AppTextStyles.custom(
-                    fontSize: AppFontSize.md,
                     fontWeight: FontWeight.w600,
+                    fontSize: AppFontSize.md,
                   ),
                 ),
                 backgroundColor: colors.surfaceCard,
@@ -328,7 +328,7 @@ class ChallengeSentScreen extends StatelessWidget {
 
         // Back to Library
         _buildActionButton(
-          label: l10n.challengeBackToLibrary,
+          label: l10n.resultBackToLibrary,
           colors: colors,
           onTap: () {
             context.go('/home');
