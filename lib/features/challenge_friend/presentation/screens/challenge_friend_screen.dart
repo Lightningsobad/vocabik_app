@@ -311,7 +311,6 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
                     fontSize: AppFontSize.md,
                     fontWeight: FontWeight.bold,
                     color: colors.primaryAccent,
-                    fontSize: AppFontSize.md,
                   ),
                 ),
               ),
