@@ -10,7 +10,7 @@ abstract class SocialAuthService {
 @LazySingleton(as: SocialAuthService)
 class GoogleAuthServiceImpl implements SocialAuthService {
   static const String _googleClientId =
-      '279107911867-8264icmn4fndpq9c6t5jakcjol5n9sv9.apps.googleusercontent.com';
+      '279107911867-9gc8jc0retm3e0de609t3g8171qege8o.apps.googleusercontent.com';
 
   final GoogleSignIn _googleSignIn;
   bool _isInitialized = false;
