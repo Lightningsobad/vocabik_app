@@ -21,3 +21,13 @@ class UserAuthenticated extends AuthEvent {
   @override
   List<Object> get props => [user];
 }
+
+class UserProfileUpdated extends AuthEvent {
+  final User user;
+
+  const UserProfileUpdated(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+

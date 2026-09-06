@@ -28,6 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       transformer: droppable(),
     );
     on<UserAuthenticated>(_onUserAuthenticated);
+    on<UserProfileUpdated>(_onUserProfileUpdated);
   }
 
   void _onUserAuthenticated(
@@ -36,6 +37,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) {
     emit(state.copyWith(
       status: AuthStatus.success,
+      user: event.user,
+    ));
+  }
+
+  void _onUserProfileUpdated(
+    UserProfileUpdated event,
+    Emitter<AuthState> emit,
+  ) {
+    emit(state.copyWith(
       user: event.user,
     ));
   }

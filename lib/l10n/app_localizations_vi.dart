@@ -77,6 +77,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profileYourName => 'Tên của bạn';
 
   @override
+  String get profileUpdateSuccess => 'Cập nhật tên thành công!';
+
+  @override
+  String get actionSave => 'Lưu';
+
+  @override
+  String get actionEdit => 'Chỉnh sửa';
+
+  @override
   String get profileEmail => 'Email: ';
 
   @override
@@ -86,6 +95,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String profileMemberSince(String date) {
     return 'Thành viên từ: $date';
   }
+
+  @override
+  String get profileLoadError => 'Không thể tải thông tin hồ sơ.';
+
+  @override
+  String get profileRetry => 'Thử lại';
+
+  @override
+  String get profileDefaultUser => 'Người dùng';
 
   @override
   String get appearance => 'Giao diện';

@@ -29,6 +29,9 @@
   "actionBotIntegration": "Tích hợp Bot",
   "profileChangePhoto": "Đổi ảnh",
   "profileYourName": "Tên của bạn",
+  "profileUpdateSuccess": "Cập nhật tên thành công!",
+  "actionSave": "Lưu",
+  "actionEdit": "Chỉnh sửa",
   "profileEmail": "Email: ",
   "profileReadOnly": " (chỉ xem)",
   "profileMemberSince": "Thành viên từ: {date}",
@@ -39,6 +42,9 @@
       }
     }
   },
+  "profileLoadError": "Không thể tải thông tin hồ sơ.",
+  "profileRetry": "Thử lại",
+  "profileDefaultUser": "Người dùng",
   "appearance": "Giao diện",
   "themeDark": "Dark",
   "themeLight": "Light",

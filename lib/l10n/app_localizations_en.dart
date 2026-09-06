@@ -77,6 +77,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileYourName => 'Your name';
 
   @override
+  String get profileUpdateSuccess => 'Name updated successfully!';
+
+  @override
+  String get actionSave => 'Save';
+
+  @override
+  String get actionEdit => 'Edit';
+
+  @override
   String get profileEmail => 'Email: ';
 
   @override
@@ -86,6 +95,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String profileMemberSince(String date) {
     return 'Member since: $date';
   }
+
+  @override
+  String get profileLoadError => 'Could not load profile information.';
+
+  @override
+  String get profileRetry => 'Retry';
+
+  @override
+  String get profileDefaultUser => 'User';
 
   @override
   String get appearance => 'Appearance';

@@ -230,6 +230,24 @@ abstract class AppLocalizations {
   /// **'Tên của bạn'**
   String get profileYourName;
 
+  /// No description provided for @profileUpdateSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật tên thành công!'**
+  String get profileUpdateSuccess;
+
+  /// No description provided for @actionSave.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lưu'**
+  String get actionSave;
+
+  /// No description provided for @actionEdit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chỉnh sửa'**
+  String get actionEdit;
+
   /// No description provided for @profileEmail.
   ///
   /// In vi, this message translates to:
@@ -247,6 +265,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Thành viên từ: {date}'**
   String profileMemberSince(String date);
+
+  /// No description provided for @profileLoadError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải thông tin hồ sơ.'**
+  String get profileLoadError;
+
+  /// No description provided for @profileRetry.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get profileRetry;
+
+  /// No description provided for @profileDefaultUser.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người dùng'**
+  String get profileDefaultUser;
 
   /// No description provided for @appearance.
   ///

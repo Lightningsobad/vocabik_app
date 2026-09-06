@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 
 import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   l10n.profileSettingsTitle,
-                  style: GoogleFonts.nunito(
+                  style: AppTextStyles.custom(
                     color: colors.textPrimary,
                     fontSize: 28.0,
                     fontWeight: FontWeight.w900,
@@ -85,7 +85,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.all(32.0),
                     child: Text(
                       l10n.tabNotImplemented(_selectedTabIndex),
-                      style: TextStyle(color: colors.textSecondary),
+                      style: AppTextStyles.custom(
+                        fontSize: 14.0,
+                        color: colors.textSecondary,
+                      ),
                     ),
                   ),
                 ),

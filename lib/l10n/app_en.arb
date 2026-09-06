@@ -29,6 +29,9 @@
   "actionBotIntegration": "Bot integration",
   "profileChangePhoto": "Change photo",
   "profileYourName": "Your name",
+  "profileUpdateSuccess": "Name updated successfully!",
+  "actionSave": "Save",
+  "actionEdit": "Edit",
   "profileEmail": "Email: ",
   "profileReadOnly": " (readonly)",
   "profileMemberSince": "Member since: {date}",
@@ -39,6 +42,9 @@
       }
     }
   },
+  "profileLoadError": "Could not load profile information.",
+  "profileRetry": "Retry",
+  "profileDefaultUser": "User",
   "appearance": "Appearance",
   "themeDark": "Dark",
   "themeLight": "Light",
