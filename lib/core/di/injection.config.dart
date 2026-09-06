@@ -162,6 +162,18 @@ import '../../features/leaderboard/presentation/cubit/xp_leaderboard_cubit.dart'
     as _i347;
 import '../../features/main_shell/presentation/cubit/main_shell_cubit.dart'
     as _i481;
+import '../../features/notebook/data/datasources/notebook_remote_data_source.dart'
+    as _i828;
+import '../../features/notebook/data/repositories/notebook_repository_impl.dart'
+    as _i168;
+import '../../features/notebook/domain/repositories/notebook_repository.dart'
+    as _i718;
+import '../../features/notebook/domain/usecases/get_notebook_words_usecase.dart'
+    as _i755;
+import '../../features/notebook/domain/usecases/update_word_review_status_usecase.dart'
+    as _i872;
+import '../../features/notebook/presentation/cubit/notebook_cubit.dart'
+    as _i720;
 import '../../features/profile/data/data_sources/profile_remote_data_source.dart'
     as _i1012;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -342,6 +354,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i362.HomeRemoteDataSource>(
       () => _i362.HomeRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i828.NotebookRemoteDataSource>(
+      () => _i828.NotebookRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i738.GetLanguageUseCase>(
       () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
     );
@@ -432,6 +447,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i697.ScoreCardRepository>(
       () => _i384.ScoreCardRepositoryImpl(gh<_i62.ScoreCardRemoteDataSource>()),
     );
+    gh.lazySingleton<_i718.NotebookRepository>(
+      () => _i168.NotebookRepositoryImpl(gh<_i828.NotebookRemoteDataSource>()),
+    );
     gh.lazySingleton<_i0.HomeRepository>(
       () => _i76.HomeRepositoryImpl(
         remoteDataSource: gh<_i362.HomeRemoteDataSource>(),
@@ -445,6 +463,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i785.ProgressRepository>(
       () => _i779.ProgressRepositoryImpl(gh<_i854.ProgressRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i755.GetNotebookWordsUseCase>(
+      () => _i755.GetNotebookWordsUseCase(gh<_i718.NotebookRepository>()),
+    );
+    gh.lazySingleton<_i872.UpdateWordReviewStatusUseCase>(
+      () => _i872.UpdateWordReviewStatusUseCase(gh<_i718.NotebookRepository>()),
     );
     gh.factory<_i186.UpdateProfileUseCase>(
       () => _i186.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
@@ -615,6 +639,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i880.GetPlaylistsUseCase>(),
       ),
     );
+    gh.factory<_i720.NotebookCubit>(
+      () => _i720.NotebookCubit(
+        gh<_i755.GetNotebookWordsUseCase>(),
+        gh<_i872.UpdateWordReviewStatusUseCase>(),
     gh.factory<_i281.LoginCubit>(
       () => _i281.LoginCubit(
         gh<_i1038.LoginUseCase>(),

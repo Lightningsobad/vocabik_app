@@ -32,6 +32,9 @@ import '../../features/achievements/presentation/screens/achievements_screen.dar
 import '../../features/daily_challenge/presentation/screens/daily_challenge_screen.dart';
 import '../../features/daily_challenge/domain/entities/daily_challenge_config_entity.dart';
 import '../../features/leaderboard/presentation/screens/xp_leaderboard_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../features/notebook/presentation/cubit/notebook_cubit.dart';
+import '../../features/notebook/presentation/screens/notebook_screen.dart';
 import '../../features/challenge_friend/presentation/models/challenge_friend_args.dart';
 import '../../features/challenge_friend/presentation/models/challenge_sent_args.dart';
 import '../../features/challenge_friend/presentation/screens/challenge_friend_screen.dart';
@@ -332,6 +335,13 @@ final GoRouter appRouter = GoRouter(
                 GoRoute(
                   path: 'leaderboard',
                   builder: (context, state) => const XpLeaderboardScreen(),
+                ),
+                GoRoute(
+                  path: 'notebook',
+                  builder: (context, state) => BlocProvider(
+                    create: (context) => getIt<NotebookCubit>()..fetchWords(),
+                    child: const NotebookScreen(),
+                  ),
                 ),
                 GoRoute(
                   path: 'integration',
