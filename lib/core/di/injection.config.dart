@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../../features/achievements/data/datasources/badge_remote_data_source.dart'
     as _i991;
 import '../../features/achievements/data/repositories/badge_repository_impl.dart'
-    as _i344;
+    as _i345;
 import '../../features/achievements/domain/repositories/badge_repository.dart'
     as _i65;
 import '../../features/achievements/domain/usecases/get_badges_usecase.dart'
@@ -37,6 +37,8 @@ import '../../features/auth/domain/use_cases/get_me_use_case.dart' as _i477;
 import '../../features/auth/domain/use_cases/get_sessions_use_case.dart'
     as _i1058;
 import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
+import '../../features/auth/domain/use_cases/login_with_google_use_case.dart'
+    as _i490;
 import '../../features/auth/domain/use_cases/register_use_case.dart' as _i1010;
 import '../../features/auth/domain/use_cases/resend_email_use_case.dart'
     as _i518;
@@ -55,6 +57,18 @@ import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
 import '../../features/auth/presentation/bloc/reset_password_cubit.dart'
     as _i165;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
+import '../../features/challenge_friend/data/datasources/challenge_friend_remote_datasource.dart'
+    as _i344;
+import '../../features/challenge_friend/data/repositories/challenge_friend_repository_impl.dart'
+    as _i594;
+import '../../features/challenge_friend/domain/repositories/challenge_friend_repository.dart'
+    as _i1013;
+import '../../features/challenge_friend/domain/usecases/create_challenge_link_usecase.dart'
+    as _i228;
+import '../../features/challenge_friend/domain/usecases/get_friends_usecase.dart'
+    as _i71;
+import '../../features/challenge_friend/presentation/cubit/challenge_friend_cubit.dart'
+    as _i719;
 import '../../features/classroom/data/datasources/classroom_remote_data_source.dart'
     as _i309;
 import '../../features/classroom/data/repositories/classroom_repository_impl.dart'
@@ -224,6 +238,7 @@ import '../../shared/theme/data/repositories/theme_repository_impl.dart'
     as _i108;
 import '../../shared/theme/domain/repositories/theme_repository.dart' as _i416;
 import '../services/deep_link_service.dart' as _i391;
+import '../services/social_auth_service.dart' as _i723;
 import 'app_module.dart' as _i461;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -244,6 +259,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i416.ThemeRepository>(
       () => _i108.ThemeRepositoryImpl(prefs: gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i723.SocialAuthService>(
+      () => _i723.GoogleAuthServiceImpl(),
     );
     gh.lazySingleton<_i431.SettingsLocalDataSource>(
       () => _i431.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
@@ -350,8 +368,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i521.SoundSettingsCubit>(
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
+    gh.lazySingleton<_i344.ChallengeFriendRemoteDataSource>(
+      () => _i344.ChallengeFriendRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i65.BadgeRepository>(
-      () => _i344.BadgeRepositoryImpl(gh<_i991.BadgeRemoteDataSource>()),
+      () => _i345.BadgeRepositoryImpl(gh<_i991.BadgeRemoteDataSource>()),
     );
     gh.lazySingleton<_i970.GetXpLeaderboardUseCase>(
       () => _i970.GetXpLeaderboardUseCase(gh<_i655.LeaderboardRepository>()),
@@ -401,6 +422,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i490.LoginWithGoogleUseCase>(
+      () => _i490.LoginWithGoogleUseCase(gh<_i787.AuthRepository>()),
     );
     gh.lazySingleton<_i169.ResetPasswordUseCase>(
       () => _i169.ResetPasswordUseCase(gh<_i787.AuthRepository>()),
@@ -457,8 +481,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i773.SetCefrSkippedUseCase>(),
       ),
     );
-    gh.factory<_i690.RegisterBloc>(
-      () => _i690.RegisterBloc(gh<_i1010.RegisterUseCase>()),
+    gh.lazySingleton<_i1013.ChallengeFriendRepository>(
+      () => _i594.ChallengeFriendRepositoryImpl(
+        gh<_i344.ChallengeFriendRemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i797.AuthBloc>(
       () =>
@@ -497,6 +523,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
     );
+    gh.factory<_i690.RegisterBloc>(
+      () => _i690.RegisterBloc(
+        gh<_i1010.RegisterUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
+      ),
+    );
     gh.lazySingleton<_i467.GetBadgesUseCase>(
       () => _i467.GetBadgesUseCase(gh<_i65.BadgeRepository>()),
     );
@@ -529,6 +563,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i209.GetLatestVideoProgressUseCase>(),
         gh<_i241.SendVideoReactionUseCase>(),
       ),
+    );
+    gh.factory<_i228.CreateChallengeLinkUseCase>(
+      () => _i228.CreateChallengeLinkUseCase(
+        gh<_i1013.ChallengeFriendRepository>(),
+      ),
+    );
+    gh.factory<_i71.GetFriendsUseCase>(
+      () => _i71.GetFriendsUseCase(gh<_i1013.ChallengeFriendRepository>()),
     );
     gh.lazySingleton<_i748.GetProgressErrorInsightsUseCase>(
       () =>
@@ -566,14 +608,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i575.UpdateProfileCubit>(
       () => _i575.UpdateProfileCubit(gh<_i186.UpdateProfileUseCase>()),
     );
-    gh.factory<_i281.LoginCubit>(
-      () => _i281.LoginCubit(gh<_i1038.LoginUseCase>(), gh<_i797.AuthBloc>()),
-    );
     gh.factory<_i987.DiscoverBloc>(
       () => _i987.DiscoverBloc(
         gh<_i552.GetVideosUseCase>(),
         gh<_i821.GetTrendingVideosUseCase>(),
         gh<_i880.GetPlaylistsUseCase>(),
+      ),
+    );
+    gh.factory<_i281.LoginCubit>(
+      () => _i281.LoginCubit(
+        gh<_i1038.LoginUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
       ),
     );
     gh.lazySingleton<_i155.GetDailyChallengeConfigUseCase>(
@@ -595,6 +642,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i481.MainShellCubit(
         gh<_i74.GetProgressSummaryUseCase>(),
         gh<_i561.GamificationGlobalCubit>(),
+      ),
+    );
+    gh.factory<_i719.ChallengeFriendCubit>(
+      () => _i719.ChallengeFriendCubit(
+        gh<_i71.GetFriendsUseCase>(),
+        gh<_i228.CreateChallengeLinkUseCase>(),
       ),
     );
     gh.factory<_i749.ProgressCubit>(

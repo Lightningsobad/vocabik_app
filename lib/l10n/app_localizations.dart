@@ -2419,6 +2419,228 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Chưa có dữ liệu bảng xếp hạng'**
   String get xpLeaderboardEmpty;
+
+  /// No description provided for @challengeFriendTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thách đấu bạn bè'**
+  String get challengeFriendTitle;
+
+  /// No description provided for @challengeFriendSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn bạn bè để cùng làm bài tập này. Điểm cao hơn sẽ chiến thắng.'**
+  String get challengeFriendSubtitle;
+
+  /// No description provided for @challengeSearchFriendsHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm kiếm bạn bè...'**
+  String get challengeSearchFriendsHint;
+
+  /// No description provided for @challengeFriendsSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'BẠN BÈ TRÊN VOCABIK'**
+  String get challengeFriendsSection;
+
+  /// No description provided for @challengePickAtLeastOne.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn ít nhất 1'**
+  String get challengePickAtLeastOne;
+
+  /// No description provided for @challengeSelectedCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã chọn {count}'**
+  String challengeSelectedCount(int count);
+
+  /// No description provided for @challengeSend.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lời thách đấu'**
+  String get challengeSend;
+
+  /// No description provided for @challengeSendWithCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lời thách đấu ({count}) →'**
+  String challengeSendWithCount(int count);
+
+  /// No description provided for @challengeBlanksCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} chỗ trống'**
+  String challengeBlanksCount(int count);
+
+  /// No description provided for @challengeNoFriendsFound.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy bạn bè nào'**
+  String get challengeNoFriendsFound;
+
+  /// No description provided for @challengeLoadingFriends.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang tải danh sách bạn bè...'**
+  String get challengeLoadingFriends;
+
+  /// No description provided for @challengeLoadFriendsError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải danh sách bạn bè'**
+  String get challengeLoadFriendsError;
+
+  /// No description provided for @challengeCreateLinkError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tạo liên kết thách đấu'**
+  String get challengeCreateLinkError;
+
+  /// No description provided for @challengeSentTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã gửi lời thách đấu!'**
+  String get challengeSentTitle;
+
+  /// No description provided for @challengeSentSubtitleSingle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điểm {score}% của bạn trong bài “{title}” đã được gửi tới {friend}.'**
+  String challengeSentSubtitleSingle(int score, String title, String friend);
+
+  /// No description provided for @challengeSentSubtitleMultiple.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điểm {score}% của bạn trong bài “{title}” đã được gửi tới {count} người bạn.'**
+  String challengeSentSubtitleMultiple(int score, String title, int count);
+
+  /// No description provided for @challengeInfo24HoursTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Họ có 24 giờ để phản hồi'**
+  String get challengeInfo24HoursTitle;
+
+  /// No description provided for @challengeInfo24HoursDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nếu hết thời gian, bạn sẽ mặc định chiến thắng.'**
+  String get challengeInfo24HoursDesc;
+
+  /// No description provided for @challengeInfoNotifiedTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn sẽ nhận được thông báo'**
+  String get challengeInfoNotifiedTitle;
+
+  /// No description provided for @challengeInfoNotifiedDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngay khi có người hoàn thành bài tập thách đấu.'**
+  String get challengeInfoNotifiedDesc;
+
+  /// No description provided for @challengeInfoWinXpTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chiến thắng nhận +50 XP'**
+  String get challengeInfoWinXpTitle;
+
+  /// No description provided for @challengeInfoWinXpDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vượt điểm đối thủ để giành chiến thắng.'**
+  String get challengeInfoWinXpDesc;
+
+  /// No description provided for @challengeCopyLink.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sao chép link thách đấu'**
+  String get challengeCopyLink;
+
+  /// No description provided for @challengeViewLeaderboard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem bảng xếp hạng →'**
+  String get challengeViewLeaderboard;
+
+  /// No description provided for @challengeLinkCopied.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã sao chép liên kết thách đấu vào bộ nhớ tạm!'**
+  String get challengeLinkCopied;
+
+  /// No description provided for @notebookTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sổ từ vựng'**
+  String get notebookTitle;
+
+  /// No description provided for @wordsCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} từ'**
+  String wordsCount(int count);
+
+  /// No description provided for @searchWordsPlaceholder.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm kiếm từ vựng...'**
+  String get searchWordsPlaceholder;
+
+  /// No description provided for @tabList.
+  ///
+  /// In vi, this message translates to:
+  /// **'Danh sách'**
+  String get tabList;
+
+  /// No description provided for @tabFlashcard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thẻ ghi nhớ'**
+  String get tabFlashcard;
+
+  /// No description provided for @tapToFlip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chạm để lật'**
+  String get tapToFlip;
+
+  /// No description provided for @reviewAgain.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ôn lại'**
+  String get reviewAgain;
+
+  /// No description provided for @gotIt.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã thuộc'**
+  String get gotIt;
+
+  /// No description provided for @emptyNotebook.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có từ vựng nào được lưu.'**
+  String get emptyNotebook;
+
+  /// No description provided for @noSearchResults.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy từ vựng phù hợp.'**
+  String get noSearchResults;
+
+  /// No description provided for @reviewFinishedTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã hoàn thành!'**
+  String get reviewFinishedTitle;
+
+  /// No description provided for @reviewFinishedDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn đã ôn tập xong tất cả các thẻ từ vựng.'**
+  String get reviewFinishedDesc;
 }
 
 class _AppLocalizationsDelegate

@@ -14,12 +14,14 @@ class ScoreCardShareSection extends StatelessWidget {
   final ScoreCardStatus status;
   final String? imageUrl;
   final VoidCallback onRetry;
+  final VoidCallback? onChallengeFriend;
 
   const ScoreCardShareSection({
     super.key,
     required this.status,
     required this.imageUrl,
     required this.onRetry,
+    this.onChallengeFriend,
   });
 
   void _onSharePressed(BuildContext context, String message) {
@@ -142,8 +144,13 @@ class ScoreCardShareSection extends StatelessWidget {
             height: 20,
           ),
           label: l10n.resultChallengeFriend,
-          onTap: () =>
-              _onSharePressed(context, l10n.resultFeatureInDevelopment),
+          onTap: () {
+            if (onChallengeFriend != null) {
+              onChallengeFriend!();
+            } else {
+              _onSharePressed(context, l10n.resultFeatureInDevelopment);
+            }
+          },
         ),
         const SizedBox(height: AppSpacing.md),
       ],

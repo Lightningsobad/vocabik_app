@@ -1257,4 +1257,132 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get xpLeaderboardEmpty => 'Chưa có dữ liệu bảng xếp hạng';
+
+  @override
+  String get challengeFriendTitle => 'Thách đấu bạn bè';
+
+  @override
+  String get challengeFriendSubtitle =>
+      'Chọn bạn bè để cùng làm bài tập này. Điểm cao hơn sẽ chiến thắng.';
+
+  @override
+  String get challengeSearchFriendsHint => 'Tìm kiếm bạn bè...';
+
+  @override
+  String get challengeFriendsSection => 'BẠN BÈ TRÊN VOCABIK';
+
+  @override
+  String get challengePickAtLeastOne => 'Chọn ít nhất 1';
+
+  @override
+  String challengeSelectedCount(int count) {
+    return 'Đã chọn $count';
+  }
+
+  @override
+  String get challengeSend => 'Gửi lời thách đấu';
+
+  @override
+  String challengeSendWithCount(int count) {
+    return 'Gửi lời thách đấu ($count) →';
+  }
+
+  @override
+  String challengeBlanksCount(int count) {
+    return '$count chỗ trống';
+  }
+
+  @override
+  String get challengeNoFriendsFound => 'Không tìm thấy bạn bè nào';
+
+  @override
+  String get challengeLoadingFriends => 'Đang tải danh sách bạn bè...';
+
+  @override
+  String get challengeLoadFriendsError => 'Không thể tải danh sách bạn bè';
+
+  @override
+  String get challengeCreateLinkError => 'Không thể tạo liên kết thách đấu';
+
+  @override
+  String get challengeSentTitle => 'Đã gửi lời thách đấu!';
+
+  @override
+  String challengeSentSubtitleSingle(int score, String title, String friend) {
+    return 'Điểm $score% của bạn trong bài “$title” đã được gửi tới $friend.';
+  }
+
+  @override
+  String challengeSentSubtitleMultiple(int score, String title, int count) {
+    return 'Điểm $score% của bạn trong bài “$title” đã được gửi tới $count người bạn.';
+  }
+
+  @override
+  String get challengeInfo24HoursTitle => 'Họ có 24 giờ để phản hồi';
+
+  @override
+  String get challengeInfo24HoursDesc =>
+      'Nếu hết thời gian, bạn sẽ mặc định chiến thắng.';
+
+  @override
+  String get challengeInfoNotifiedTitle => 'Bạn sẽ nhận được thông báo';
+
+  @override
+  String get challengeInfoNotifiedDesc =>
+      'Ngay khi có người hoàn thành bài tập thách đấu.';
+
+  @override
+  String get challengeInfoWinXpTitle => 'Chiến thắng nhận +50 XP';
+
+  @override
+  String get challengeInfoWinXpDesc =>
+      'Vượt điểm đối thủ để giành chiến thắng.';
+
+  @override
+  String get challengeCopyLink => 'Sao chép link thách đấu';
+
+  @override
+  String get challengeViewLeaderboard => 'Xem bảng xếp hạng →';
+
+  @override
+  String get challengeLinkCopied =>
+      'Đã sao chép liên kết thách đấu vào bộ nhớ tạm!';
+
+  @override
+  String get notebookTitle => 'Sổ từ vựng';
+
+  @override
+  String wordsCount(int count) {
+    return '$count từ';
+  }
+
+  @override
+  String get searchWordsPlaceholder => 'Tìm kiếm từ vựng...';
+
+  @override
+  String get tabList => 'Danh sách';
+
+  @override
+  String get tabFlashcard => 'Thẻ ghi nhớ';
+
+  @override
+  String get tapToFlip => 'Chạm để lật';
+
+  @override
+  String get reviewAgain => 'Ôn lại';
+
+  @override
+  String get gotIt => 'Đã thuộc';
+
+  @override
+  String get emptyNotebook => 'Chưa có từ vựng nào được lưu.';
+
+  @override
+  String get noSearchResults => 'Không tìm thấy từ vựng phù hợp.';
+
+  @override
+  String get reviewFinishedTitle => 'Đã hoàn thành!';
+
+  @override
+  String get reviewFinishedDesc => 'Bạn đã ôn tập xong tất cả các thẻ từ vựng.';
 }

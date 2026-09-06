@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:formz/formz.dart';
@@ -10,6 +11,9 @@ import '../models/password_input.dart';
 import '../models/display_name_input.dart';
 import '../models/password_strength.dart';
 import '../../domain/use_cases/register_use_case.dart';
+import '../../domain/use_cases/login_with_google_use_case.dart';
+import '../../../../core/services/social_auth_service.dart';
+import 'auth_bloc.dart';
 
 EventTransformer<Event> debounce<Event>(Duration duration) {
   return (events, mapper) => events.debounce(duration).switchMap(mapper);
@@ -18,8 +22,16 @@ EventTransformer<Event> debounce<Event>(Duration duration) {
 @injectable
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final RegisterUseCase _registerUseCase;
+  final LoginWithGoogleUseCase _loginWithGoogleUseCase;
+  final SocialAuthService _socialAuthService;
+  final AuthBloc _authBloc;
 
-  RegisterBloc(this._registerUseCase) : super(const RegisterState()) {
+  RegisterBloc(
+    this._registerUseCase,
+    this._loginWithGoogleUseCase,
+    this._socialAuthService,
+    this._authBloc,
+  ) : super(const RegisterState()) {
     on<RegisterDisplayNameChanged>(
       _onDisplayNameChanged,
       transformer: debounce(const Duration(milliseconds: 300)),
@@ -33,6 +45,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       transformer: debounce(const Duration(milliseconds: 300)),
     );
     on<RegisterSubmitted>(_onSubmitted);
+    on<RegisterWithGoogleSubmitted>(_onGoogleSubmitted);
   }
 
   PasswordStrength _evaluatePasswordStrength(String password) {
@@ -129,5 +142,49 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       ),
       (_) => emit(state.copyWith(status: RegisterStatus.success)),
     );
+  }
+
+  Future<void> _onGoogleSubmitted(
+    RegisterWithGoogleSubmitted event,
+    Emitter<RegisterState> emit,
+  ) async {
+    emit(state.copyWith(status: RegisterStatus.loading));
+
+    try {
+      debugPrint('[RegisterBloc] Triggering RegisterWithGoogleSubmitted...');
+      final idToken = await _socialAuthService.getGoogleIdToken();
+      if (idToken == null || idToken.isEmpty) {
+        debugPrint('[RegisterBloc] Google Sign-Up cancelled by user.');
+        emit(state.copyWith(status: RegisterStatus.initial));
+        return;
+      }
+
+      debugPrint('[RegisterBloc] Sending Google idToken to Backend API...');
+      final result = await _loginWithGoogleUseCase(idToken: idToken);
+
+      result.fold(
+        (failure) {
+          debugPrint('[RegisterBloc] Backend Google Sign-Up failed: ${failure.message}');
+          emit(state.copyWith(
+            status: RegisterStatus.failure,
+            errorMessage: failure.message,
+          ));
+        },
+        (user) {
+          debugPrint('[RegisterBloc] Backend Google Sign-Up succeeded for user: ${user.email}');
+          _authBloc.add(UserAuthenticated(user));
+          emit(state.copyWith(status: RegisterStatus.socialSuccess));
+        },
+      );
+    } catch (e, stackTrace) {
+      debugPrint('[RegisterBloc] Google Sign-Up/Sign-In error: $e\n$stackTrace');
+      final errorMsg = e.toString().replaceAll('Exception: ', '');
+      emit(state.copyWith(
+        status: RegisterStatus.failure,
+        errorMessage: errorMsg.isNotEmpty
+            ? errorMsg
+            : 'Đăng ký với Google không thành công. Vui lòng thử lại.',
+      ));
+    }
   }
 }

@@ -106,22 +106,9 @@ class _LoginViewState extends State<LoginView> {
                   fontSize: 17,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () => context.read<LoginCubit>().loginWithGoogle(),
             ),
-            const SizedBox(height: 10),
-            SocialLoginButton(
-              text: l10n.continueWithFacebook,
-              icon: const Text(
-                'f',
-                style: TextStyle(
-                  color: Color(0xFF1877F2),
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w900,
-                  fontSize: 17,
-                ),
-              ),
-              onPressed: () {},
-            ),
+            // Facebook login hidden for future implementation
             const SizedBox(height: 18),
             const AuthDivider(),
             const SizedBox(height: 18),
