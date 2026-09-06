@@ -45,7 +45,7 @@ class FlashcardFlipCard extends StatelessWidget {
               ..rotateY(angle),
             child: Container(
               width: double.infinity,
-              constraints: const BoxConstraints(minHeight: 280.0),
+              height: 320.0,
               padding: const EdgeInsets.all(AppSpacing.xl),
               decoration: BoxDecoration(
                 color: colors.surfaceCard,

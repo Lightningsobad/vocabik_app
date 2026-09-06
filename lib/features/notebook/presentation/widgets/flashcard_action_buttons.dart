@@ -24,9 +24,6 @@ class FlashcardActionButtons extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
 
-    // Success color (emerald green)
-    const successColor = Color(0xFF10B981);
-
     return Row(
       children: [
         // Review again (Danger red outline)
@@ -71,10 +68,10 @@ class FlashcardActionButtons extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
               decoration: BoxDecoration(
-                color: successColor.withValues(alpha: 0.1),
+                color: colors.success.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppRadius.full),
                 border: Border.all(
-                  color: successColor,
+                  color: colors.success,
                   width: 1.5,
                 ),
               ),
@@ -89,7 +86,7 @@ class FlashcardActionButtons extends StatelessWidget {
                     style: AppTextStyles.custom(
                       fontSize: AppFontSize.md,
                       fontWeight: FontWeight.w800,
-                      color: successColor,
+                      color: colors.success,
                     ),
                   ),
                 ],

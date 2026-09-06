@@ -110,6 +110,9 @@ class FlashcardStudyView extends StatelessWidget {
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
+      padding: EdgeInsets.only(
+        bottom: 88.0 + MediaQuery.paddingOf(context).bottom,
+      ),
       child: Column(
         children: [
           const SizedBox(height: AppSpacing.md),

@@ -29,7 +29,7 @@ class NotebookState extends Equatable {
   });
 
   WordEntity? get currentFlashcard {
-    final list = filteredWords.isNotEmpty ? filteredWords : words;
+    final list = searchQuery.isNotEmpty ? filteredWords : words;
     if (list.isEmpty || currentFlashcardIndex < 0 || currentFlashcardIndex >= list.length) {
       return null;
     }
@@ -37,7 +37,7 @@ class NotebookState extends Equatable {
   }
 
   int get totalFlashcards {
-    final list = filteredWords.isNotEmpty ? filteredWords : words;
+    final list = searchQuery.isNotEmpty ? filteredWords : words;
     return list.length;
   }
 
