@@ -5,6 +5,7 @@ import '../entities/user_session.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, User>> login({required String email, required String password});
+  Future<Either<Failure, User>> loginWithGoogle(String idToken, {String? anonymousSessionId});
   Future<Either<Failure, User>> getMe();
   Future<Either<Failure, void>> signOut();
   Future<Either<Failure, void>> register({required String email, required String password, required String displayName});

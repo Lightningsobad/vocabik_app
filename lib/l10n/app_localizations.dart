@@ -230,6 +230,24 @@ abstract class AppLocalizations {
   /// **'Tên của bạn'**
   String get profileYourName;
 
+  /// No description provided for @profileUpdateSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật tên thành công!'**
+  String get profileUpdateSuccess;
+
+  /// No description provided for @actionSave.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lưu'**
+  String get actionSave;
+
+  /// No description provided for @actionEdit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chỉnh sửa'**
+  String get actionEdit;
+
   /// No description provided for @profileEmail.
   ///
   /// In vi, this message translates to:
@@ -247,6 +265,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Thành viên từ: {date}'**
   String profileMemberSince(String date);
+
+  /// No description provided for @profileLoadError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải thông tin hồ sơ.'**
+  String get profileLoadError;
+
+  /// No description provided for @profileRetry.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get profileRetry;
+
+  /// No description provided for @profileDefaultUser.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người dùng'**
+  String get profileDefaultUser;
 
   /// No description provided for @appearance.
   ///
@@ -2383,6 +2419,156 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Chưa có dữ liệu bảng xếp hạng'**
   String get xpLeaderboardEmpty;
+
+  /// No description provided for @challengeFriendTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thách đấu bạn bè'**
+  String get challengeFriendTitle;
+
+  /// No description provided for @challengeFriendSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn bạn bè để cùng làm bài tập này. Điểm cao hơn sẽ chiến thắng.'**
+  String get challengeFriendSubtitle;
+
+  /// No description provided for @challengeSearchFriendsHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm kiếm bạn bè...'**
+  String get challengeSearchFriendsHint;
+
+  /// No description provided for @challengeFriendsSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'BẠN BÈ TRÊN VOCABIK'**
+  String get challengeFriendsSection;
+
+  /// No description provided for @challengePickAtLeastOne.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn ít nhất 1'**
+  String get challengePickAtLeastOne;
+
+  /// No description provided for @challengeSelectedCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã chọn {count}'**
+  String challengeSelectedCount(int count);
+
+  /// No description provided for @challengeSend.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lời thách đấu'**
+  String get challengeSend;
+
+  /// No description provided for @challengeSendWithCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lời thách đấu ({count}) →'**
+  String challengeSendWithCount(int count);
+
+  /// No description provided for @challengeBlanksCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} chỗ trống'**
+  String challengeBlanksCount(int count);
+
+  /// No description provided for @challengeNoFriendsFound.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy bạn bè nào'**
+  String get challengeNoFriendsFound;
+
+  /// No description provided for @challengeLoadingFriends.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang tải danh sách bạn bè...'**
+  String get challengeLoadingFriends;
+
+  /// No description provided for @challengeLoadFriendsError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải danh sách bạn bè'**
+  String get challengeLoadFriendsError;
+
+  /// No description provided for @challengeCreateLinkError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tạo liên kết thách đấu'**
+  String get challengeCreateLinkError;
+
+  /// No description provided for @challengeSentTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã gửi lời thách đấu!'**
+  String get challengeSentTitle;
+
+  /// No description provided for @challengeSentSubtitleSingle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điểm {score}% của bạn trong bài “{title}” đã được gửi tới {friend}.'**
+  String challengeSentSubtitleSingle(int score, String title, String friend);
+
+  /// No description provided for @challengeSentSubtitleMultiple.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điểm {score}% của bạn trong bài “{title}” đã được gửi tới {count} người bạn.'**
+  String challengeSentSubtitleMultiple(int score, String title, int count);
+
+  /// No description provided for @challengeInfo24HoursTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Họ có 24 giờ để phản hồi'**
+  String get challengeInfo24HoursTitle;
+
+  /// No description provided for @challengeInfo24HoursDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nếu hết thời gian, bạn sẽ mặc định chiến thắng.'**
+  String get challengeInfo24HoursDesc;
+
+  /// No description provided for @challengeInfoNotifiedTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn sẽ nhận được thông báo'**
+  String get challengeInfoNotifiedTitle;
+
+  /// No description provided for @challengeInfoNotifiedDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngay khi có người hoàn thành bài tập thách đấu.'**
+  String get challengeInfoNotifiedDesc;
+
+  /// No description provided for @challengeInfoWinXpTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chiến thắng nhận +50 XP'**
+  String get challengeInfoWinXpTitle;
+
+  /// No description provided for @challengeInfoWinXpDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vượt điểm đối thủ để giành chiến thắng.'**
+  String get challengeInfoWinXpDesc;
+
+  /// No description provided for @challengeCopyLink.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sao chép link thách đấu'**
+  String get challengeCopyLink;
+
+  /// No description provided for @challengeViewLeaderboard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem bảng xếp hạng →'**
+  String get challengeViewLeaderboard;
+
+  /// No description provided for @challengeLinkCopied.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã sao chép liên kết thách đấu vào bộ nhớ tạm!'**
+  String get challengeLinkCopied;
 
   /// No description provided for @notebookTitle.
   ///

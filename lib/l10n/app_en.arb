@@ -29,6 +29,9 @@
   "actionBotIntegration": "Bot integration",
   "profileChangePhoto": "Change photo",
   "profileYourName": "Your name",
+  "profileUpdateSuccess": "Name updated successfully!",
+  "actionSave": "Save",
+  "actionEdit": "Edit",
   "profileEmail": "Email: ",
   "profileReadOnly": " (readonly)",
   "profileMemberSince": "Member since: {date}",
@@ -39,6 +42,9 @@
       }
     }
   },
+  "profileLoadError": "Could not load profile information.",
+  "profileRetry": "Retry",
+  "profileDefaultUser": "User",
   "appearance": "Appearance",
   "themeDark": "Dark",
   "themeLight": "Light",
@@ -630,6 +636,78 @@
   "xpLeaderboardFilterFriends": "Friends",
   "xpLeaderboardYourRank": "Your rank",
   "xpLeaderboardEmpty": "No leaderboard data found",
+  "challengeFriendTitle": "Challenge a friend",
+  "challengeFriendSubtitle": "Pick friends to take this exercise. Higher score wins.",
+  "challengeSearchFriendsHint": "Search friends...",
+  "challengeFriendsSection": "FRIENDS ON VOCABIK",
+  "challengePickAtLeastOne": "Pick at least 1",
+  "challengeSelectedCount": "{count} selected",
+  "@challengeSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeSend": "Send challenge",
+  "challengeSendWithCount": "Send challenge ({count}) →",
+  "@challengeSendWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeBlanksCount": "{count} blanks",
+  "@challengeBlanksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeNoFriendsFound": "No friends found",
+  "challengeLoadingFriends": "Loading friends...",
+  "challengeLoadFriendsError": "Failed to load friends",
+  "challengeCreateLinkError": "Failed to create challenge link",
+  "challengeSentTitle": "Challenge sent!",
+  "challengeSentSubtitleSingle": "Your score {score}% on “{title}” was sent to {friend}.",
+  "@challengeSentSubtitleSingle": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "friend": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeSentSubtitleMultiple": "Your score {score}% on “{title}” was sent to {count} friends.",
+  "@challengeSentSubtitleMultiple": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeInfo24HoursTitle": "They have 24 hours to reply",
+  "challengeInfo24HoursDesc": "If they run out of time, you win by default.",
+  "challengeInfoNotifiedTitle": "You'll be notified",
+  "challengeInfoNotifiedDesc": "As soon as someone finishes the challenge.",
+  "challengeInfoWinXpTitle": "Win to earn +50 XP",
+  "challengeInfoWinXpDesc": "Beat their score to win.",
+  "challengeCopyLink": "Copy challenge link",
+  "challengeViewLeaderboard": "View leaderboard →",
+  "challengeLinkCopied": "Challenge link copied to clipboard!",
   "notebookTitle": "Notebook",
   "wordsCount": "{count} words",
   "@wordsCount": {

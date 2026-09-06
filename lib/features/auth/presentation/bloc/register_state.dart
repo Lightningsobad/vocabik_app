@@ -5,7 +5,7 @@ import '../models/password_input.dart';
 import '../models/display_name_input.dart';
 import '../widgets/password_strength_indicator.dart';
 
-enum RegisterStatus { initial, loading, success, failure }
+enum RegisterStatus { initial, loading, success, socialSuccess, failure }
 
 
 class RegisterState extends Equatable {

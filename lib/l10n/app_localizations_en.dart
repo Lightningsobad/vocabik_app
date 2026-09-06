@@ -77,6 +77,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileYourName => 'Your name';
 
   @override
+  String get profileUpdateSuccess => 'Name updated successfully!';
+
+  @override
+  String get actionSave => 'Save';
+
+  @override
+  String get actionEdit => 'Edit';
+
+  @override
   String get profileEmail => 'Email: ';
 
   @override
@@ -86,6 +95,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String profileMemberSince(String date) {
     return 'Member since: $date';
   }
+
+  @override
+  String get profileLoadError => 'Could not load profile information.';
+
+  @override
+  String get profileRetry => 'Retry';
+
+  @override
+  String get profileDefaultUser => 'User';
 
   @override
   String get appearance => 'Appearance';
@@ -1236,6 +1254,94 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get xpLeaderboardEmpty => 'No leaderboard data found';
+
+  @override
+  String get challengeFriendTitle => 'Challenge a friend';
+
+  @override
+  String get challengeFriendSubtitle =>
+      'Pick friends to take this exercise. Higher score wins.';
+
+  @override
+  String get challengeSearchFriendsHint => 'Search friends...';
+
+  @override
+  String get challengeFriendsSection => 'FRIENDS ON VOCABIK';
+
+  @override
+  String get challengePickAtLeastOne => 'Pick at least 1';
+
+  @override
+  String challengeSelectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get challengeSend => 'Send challenge';
+
+  @override
+  String challengeSendWithCount(int count) {
+    return 'Send challenge ($count) →';
+  }
+
+  @override
+  String challengeBlanksCount(int count) {
+    return '$count blanks';
+  }
+
+  @override
+  String get challengeNoFriendsFound => 'No friends found';
+
+  @override
+  String get challengeLoadingFriends => 'Loading friends...';
+
+  @override
+  String get challengeLoadFriendsError => 'Failed to load friends';
+
+  @override
+  String get challengeCreateLinkError => 'Failed to create challenge link';
+
+  @override
+  String get challengeSentTitle => 'Challenge sent!';
+
+  @override
+  String challengeSentSubtitleSingle(int score, String title, String friend) {
+    return 'Your score $score% on “$title” was sent to $friend.';
+  }
+
+  @override
+  String challengeSentSubtitleMultiple(int score, String title, int count) {
+    return 'Your score $score% on “$title” was sent to $count friends.';
+  }
+
+  @override
+  String get challengeInfo24HoursTitle => 'They have 24 hours to reply';
+
+  @override
+  String get challengeInfo24HoursDesc =>
+      'If they run out of time, you win by default.';
+
+  @override
+  String get challengeInfoNotifiedTitle => 'You\'ll be notified';
+
+  @override
+  String get challengeInfoNotifiedDesc =>
+      'As soon as someone finishes the challenge.';
+
+  @override
+  String get challengeInfoWinXpTitle => 'Win to earn +50 XP';
+
+  @override
+  String get challengeInfoWinXpDesc => 'Beat their score to win.';
+
+  @override
+  String get challengeCopyLink => 'Copy challenge link';
+
+  @override
+  String get challengeViewLeaderboard => 'View leaderboard →';
+
+  @override
+  String get challengeLinkCopied => 'Challenge link copied to clipboard!';
 
   @override
   String get notebookTitle => 'Notebook';
