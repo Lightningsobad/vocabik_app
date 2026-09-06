@@ -42,6 +42,9 @@
       }
     }
   },
+  "profileLoadError": "Could not load profile information.",
+  "profileRetry": "Retry",
+  "profileDefaultUser": "User",
   "appearance": "Appearance",
   "themeDark": "Dark",
   "themeLight": "Light",

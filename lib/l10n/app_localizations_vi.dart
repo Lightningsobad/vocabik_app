@@ -97,6 +97,15 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
+  String get profileLoadError => 'Không thể tải thông tin hồ sơ.';
+
+  @override
+  String get profileRetry => 'Thử lại';
+
+  @override
+  String get profileDefaultUser => 'Người dùng';
+
+  @override
   String get appearance => 'Giao diện';
 
   @override

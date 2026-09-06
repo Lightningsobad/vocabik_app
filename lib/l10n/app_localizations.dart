@@ -266,6 +266,24 @@ abstract class AppLocalizations {
   /// **'Thành viên từ: {date}'**
   String profileMemberSince(String date);
 
+  /// No description provided for @profileLoadError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải thông tin hồ sơ.'**
+  String get profileLoadError;
+
+  /// No description provided for @profileRetry.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get profileRetry;
+
+  /// No description provided for @profileDefaultUser.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người dùng'**
+  String get profileDefaultUser;
+
   /// No description provided for @appearance.
   ///
   /// In vi, this message translates to:

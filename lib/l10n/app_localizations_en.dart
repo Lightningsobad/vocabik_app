@@ -97,6 +97,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get profileLoadError => 'Could not load profile information.';
+
+  @override
+  String get profileRetry => 'Retry';
+
+  @override
+  String get profileDefaultUser => 'User';
+
+  @override
   String get appearance => 'Appearance';
 
   @override
