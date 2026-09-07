@@ -643,6 +643,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i720.NotebookCubit(
         gh<_i755.GetNotebookWordsUseCase>(),
         gh<_i872.UpdateWordReviewStatusUseCase>(),
+      ),
+    );
     gh.factory<_i281.LoginCubit>(
       () => _i281.LoginCubit(
         gh<_i1038.LoginUseCase>(),
