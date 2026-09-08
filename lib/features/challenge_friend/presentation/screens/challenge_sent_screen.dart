@@ -12,26 +12,115 @@ import '../../../../shared/theme/app_text_style.dart';
 import '../../domain/entities/friend_entity.dart';
 import '../models/challenge_sent_args.dart';
 
-class ChallengeSentScreen extends StatelessWidget {
+class ChallengeSentScreen extends StatefulWidget {
   final ChallengeSentArgs args;
 
   const ChallengeSentScreen({super.key, required this.args});
+
+  @override
+  State<ChallengeSentScreen> createState() => _ChallengeSentScreenState();
+}
+
+class _ChallengeSentScreenState extends State<ChallengeSentScreen>
+    with TickerProviderStateMixin {
+  late final AnimationController _entranceController;
+  late final AnimationController _pulseController;
+
+  late final Animation<double> _iconScale;
+  late final Animation<double> _iconOpacity;
+  late final Animation<double> _cardOffset;
+  late final Animation<double> _cardOpacity;
+  late final Animation<double> _buttonsOffset;
+  late final Animation<double> _buttonsOpacity;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _entranceController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2000),
+    );
+
+    // 1. Glowing Icon Pop-up: Starts at 200ms (0.17) -> finishes at 700ms (0.58)
+    _iconScale = Tween<double>(begin: 0.15, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: const Interval(0.17, 0.58, curve: Curves.easeOutBack),
+      ),
+    );
+
+    _iconOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: const Interval(0.17, 0.42, curve: Curves.easeIn),
+      ),
+    );
+
+    // 2. Info Card Float-up: Starts at 450ms (0.38) -> finishes at 850ms (0.71)
+    _cardOffset = Tween<double>(begin: 35.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: const Interval(0.38, 0.71, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    _cardOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: const Interval(0.38, 0.71, curve: Curves.easeIn),
+      ),
+    );
+
+    // 3. Action Buttons Fade & Slide: Starts at 700ms (0.58) -> finishes at 1000ms (0.83)
+    _buttonsOffset = Tween<double>(begin: 25.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: const Interval(0.58, 0.83, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    _buttonsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: const Interval(0.58, 0.83, curve: Curves.easeIn),
+      ),
+    );
+
+    _entranceController.forward().then((_) {
+      if (mounted) {
+        _pulseController.repeat(reverse: true);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _entranceController.dispose();
+    _pulseController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
 
-    final subtitleText = args.selectedFriends.length == 1
+    final subtitleText = widget.args.selectedFriends.length == 1
         ? l10n.challengeSentSubtitleSingle(
-            args.accuracyScore,
-            args.videoTitle,
-            args.selectedFriends.first.displayName,
+            widget.args.accuracyScore,
+            widget.args.videoTitle,
+            widget.args.selectedFriends.first.displayName,
           )
         : l10n.challengeSentSubtitleMultiple(
-            args.accuracyScore,
-            args.videoTitle,
-            args.selectedFriends.length,
+            widget.args.accuracyScore,
+            widget.args.videoTitle,
+            widget.args.selectedFriends.length,
           );
 
     return SingleChildScrollView(
@@ -92,31 +181,48 @@ class ChallengeSentScreen extends StatelessWidget {
   }
 
   Widget _buildGlowIcon(AppColorsExtension colors) {
-    return Container(
-      width: 96,
-      height: 96,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: const Color(0xFF10282C),
-        border: Border.all(
-          color: colors.primaryAccent.withValues(alpha: 0.6),
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: colors.primaryAccent.withValues(alpha: 0.35),
-            blurRadius: 32,
-            spreadRadius: 4,
+    return AnimatedBuilder(
+      animation: Listenable.merge([_entranceController, _pulseController]),
+      builder: (context, child) {
+        final pulseValue = _pulseController.value;
+        final glowSpread = 4.0 + 4.0 * pulseValue;
+        final glowBlur = 28.0 + 14.0 * pulseValue;
+
+        return Transform.scale(
+          scale: _iconScale.value,
+          child: Opacity(
+            opacity: _iconOpacity.value.clamp(0.0, 1.0),
+            child: Container(
+              width: 96,
+              height: 96,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFF10282C),
+                border: Border.all(
+                  color: colors.tagNewBackground
+                      .withValues(alpha: 0.6 + 0.3 * pulseValue),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors.tagNewBackground
+                        .withValues(alpha: 0.4 + 0.3 * pulseValue),
+                    blurRadius: glowBlur,
+                    spreadRadius: glowSpread,
+                  ),
+                ],
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/result_screen/challenge_icon.svg',
+                  width: 44,
+                  height: 44,
+                ),
+              ),
+            ),
           ),
-        ],
-      ),
-      child: Center(
-        child: SvgPicture.asset(
-          'assets/result_screen/challenge_icon.svg',
-          width: 44,
-          height: 44,
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -125,7 +231,7 @@ class ChallengeSentScreen extends StatelessWidget {
       alignment: WrapAlignment.center,
       spacing: AppSpacing.sm2,
       runSpacing: AppSpacing.sm2,
-      children: args.selectedFriends.map((friend) {
+      children: widget.args.selectedFriends.map((friend) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
@@ -195,48 +301,60 @@ class ChallengeSentScreen extends StatelessWidget {
   }
 
   Widget _buildInfoCard(AppColorsExtension colors, AppLocalizations l10n) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: colors.surfaceCard,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: colors.borderSubtle, width: 1),
-      ),
-      child: Column(
-        children: [
-          _buildInfoRow(
-            icon: Icon(
-              Icons.timer_outlined,
-              color: colors.textSecondary,
-              size: 24,
-            ),
-            title: l10n.challengeInfo24HoursTitle,
-            desc: l10n.challengeInfo24HoursDesc,
-            colors: colors,
+    return AnimatedBuilder(
+      animation: _entranceController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, _cardOffset.value),
+          child: Opacity(
+            opacity: _cardOpacity.value.clamp(0.0, 1.0),
+            child: child,
           ),
-          const SizedBox(height: AppSpacing.md2),
-          _buildInfoRow(
-            icon: const Icon(
-              Icons.notifications_active_rounded,
-              color: Color(0xFFFFB800),
-              size: 24,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        decoration: BoxDecoration(
+          color: colors.surfaceCard,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: colors.borderSubtle, width: 1),
+        ),
+        child: Column(
+          children: [
+            _buildInfoRow(
+              icon: Icon(
+                Icons.timer_outlined,
+                color: colors.textSecondary,
+                size: 24,
+              ),
+              title: l10n.challengeInfo24HoursTitle,
+              desc: l10n.challengeInfo24HoursDesc,
+              colors: colors,
             ),
-            title: l10n.challengeInfoNotifiedTitle,
-            desc: l10n.challengeInfoNotifiedDesc,
-            colors: colors,
-          ),
-          const SizedBox(height: AppSpacing.md2),
-          _buildInfoRow(
-            icon: const Icon(
-              Icons.bolt_rounded,
-              color: Color(0xFFFF9500),
-              size: 24,
+            const SizedBox(height: AppSpacing.md2),
+            _buildInfoRow(
+              icon: const Icon(
+                Icons.notifications_active_rounded,
+                color: Color(0xFFFFB800),
+                size: 24,
+              ),
+              title: l10n.challengeInfoNotifiedTitle,
+              desc: l10n.challengeInfoNotifiedDesc,
+              colors: colors,
             ),
-            title: l10n.challengeInfoWinXpTitle,
-            desc: l10n.challengeInfoWinXpDesc,
-            colors: colors,
-          ),
-        ],
+            const SizedBox(height: AppSpacing.md2),
+            _buildInfoRow(
+              icon: const Icon(
+                Icons.bolt_rounded,
+                color: Color(0xFFFF9500),
+                size: 24,
+              ),
+              title: l10n.challengeInfoWinXpTitle,
+              desc: l10n.challengeInfoWinXpDesc,
+              colors: colors,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -285,56 +403,69 @@ class ChallengeSentScreen extends StatelessWidget {
     AppColorsExtension colors,
     AppLocalizations l10n,
   ) {
-    return Column(
-      children: [
-        // Copy Challenge Link
-        _buildActionButton(
-          label: l10n.challengeCopyLink,
-          leadingIcon: Icon(
-            LucideIcons.link,
-            size: 20,
-            color: colors.textPrimary,
+    return AnimatedBuilder(
+      animation: _entranceController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, _buttonsOffset.value),
+          child: Opacity(
+            opacity: _buttonsOpacity.value.clamp(0.0, 1.0),
+            child: child,
           ),
-          colors: colors,
-          onTap: () {
-            Clipboard.setData(ClipboardData(text: args.challengeLink.url));
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  l10n.challengeLinkCopied,
-                  style: AppTextStyles.custom(
-                    fontWeight: FontWeight.w600,
-                    fontSize: AppFontSize.md,
+        );
+      },
+      child: Column(
+        children: [
+          // Copy Challenge Link
+          _buildActionButton(
+            label: l10n.challengeCopyLink,
+            leadingIcon: Icon(
+              LucideIcons.link,
+              size: 20,
+              color: colors.textPrimary,
+            ),
+            colors: colors,
+            onTap: () {
+              Clipboard.setData(
+                  ClipboardData(text: widget.args.challengeLink.url));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    l10n.challengeLinkCopied,
+                    style: AppTextStyles.custom(
+                      fontWeight: FontWeight.w600,
+                      fontSize: AppFontSize.md,
+                    ),
                   ),
+                  backgroundColor: colors.surfaceCard,
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 2),
                 ),
-                backgroundColor: colors.surfaceCard,
-                behavior: SnackBarBehavior.floating,
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          },
-        ),
-        const SizedBox(height: AppSpacing.sm2),
+              );
+            },
+          ),
+          const SizedBox(height: AppSpacing.sm2),
 
-        // View Leaderboard
-        _buildActionButton(
-          label: l10n.challengeViewLeaderboard,
-          colors: colors,
-          onTap: () {
-            context.go('/progress/leaderboard');
-          },
-        ),
-        const SizedBox(height: AppSpacing.sm2),
+          // View Leaderboard
+          _buildActionButton(
+            label: l10n.challengeViewLeaderboard,
+            colors: colors,
+            onTap: () {
+              context.go('/progress/leaderboard');
+            },
+          ),
+          const SizedBox(height: AppSpacing.sm2),
 
-        // Back to Library
-        _buildActionButton(
-          label: l10n.resultBackToLibrary,
-          colors: colors,
-          onTap: () {
-            context.go('/home');
-          },
-        ),
-      ],
+          // Back to Library
+          _buildActionButton(
+            label: l10n.resultBackToLibrary,
+            colors: colors,
+            onTap: () {
+              context.go('/home');
+            },
+          ),
+        ],
+      ),
     );
   }
 

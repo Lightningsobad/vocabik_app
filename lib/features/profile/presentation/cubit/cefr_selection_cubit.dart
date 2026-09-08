@@ -15,7 +15,15 @@ class CefrSelectionCubit extends Cubit<CefrSelectionState> {
     this._setCefrSkippedUseCase,
   ) : super(const CefrSelectionState());
 
+  @override
+  void emit(CefrSelectionState state) {
+    if (!isClosed) {
+      super.emit(state);
+    }
+  }
+
   void selectLevel(String level) {
+    if (isClosed) return;
     emit(state.copyWith(
       selectedLevel: level,
       status: CefrSelectionStatus.initial,
@@ -23,19 +31,25 @@ class CefrSelectionCubit extends Cubit<CefrSelectionState> {
   }
 
   Future<void> submit() async {
-    if (state.selectedLevel == null) return;
+    if (state.selectedLevel == null || isClosed) return;
 
     emit(state.copyWith(status: CefrSelectionStatus.loading));
 
     final result = await _updateProfileUseCase(cefrLevel: state.selectedLevel!);
     
+    if (isClosed) return;
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: CefrSelectionStatus.failure,
-        errorMessage: failure.message,
-      )),
+      (failure) {
+        if (isClosed) return;
+        emit(state.copyWith(
+          status: CefrSelectionStatus.failure,
+          errorMessage: failure.message,
+        ));
+      },
       (_) async {
         await _setCefrSkippedUseCase(true);
+        if (isClosed) return;
         emit(state.copyWith(status: CefrSelectionStatus.success));
       },
     );
@@ -43,6 +57,7 @@ class CefrSelectionCubit extends Cubit<CefrSelectionState> {
 
   Future<void> skip() async {
     await _setCefrSkippedUseCase(true);
+    if (isClosed) return;
     emit(state.copyWith(status: CefrSelectionStatus.success));
   }
 }

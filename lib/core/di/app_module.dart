@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
+import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
+import '../network/auth_interceptor.dart';
+import 'injection.dart';
 
 @module
 abstract class AppModule {
@@ -20,13 +23,13 @@ abstract class AppModule {
     );
 
     dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          final token = authLocalDataSource.getAccessToken();
-          if (token != null) {
-            options.headers['Authorization'] = 'Bearer $token';
+      AuthInterceptor(
+        dio: dio,
+        authLocalDataSource: authLocalDataSource,
+        onSessionExpired: () {
+          if (getIt.isRegistered<AuthBloc>()) {
+            getIt<AuthBloc>().add(const SessionExpired());
           }
-          return handler.next(options);
         },
       ),
     );

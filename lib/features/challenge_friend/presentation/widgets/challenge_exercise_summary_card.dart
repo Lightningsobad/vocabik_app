@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../shared/presentation/widgets/app_shimmer.dart';
 import '../../../../shared/theme/app_colors.dart';
 import '../../../../shared/theme/app_font_size.dart';
 import '../../../../shared/theme/app_spacing.dart';
@@ -55,6 +56,12 @@ class ChallengeExerciseSummaryCard extends StatelessWidget {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) =>
                           _buildGradientBox(),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const AppShimmer(
+                          child: ColoredBox(color: Colors.white),
+                        );
+                      },
                     )
                   : _buildGradientBox(),
             ),

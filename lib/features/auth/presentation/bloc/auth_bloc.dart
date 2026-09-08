@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../data/data_sources/auth_local_data_source.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/use_cases/get_me_use_case.dart';
 import '../../domain/use_cases/sign_out_use_case.dart';
@@ -14,13 +15,19 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignOutUseCase _signOutUseCase;
   final GetMeUseCase _getMeUseCase;
+  final AuthLocalDataSource _authLocalDataSource;
 
   AuthBloc(
     this._signOutUseCase,
     this._getMeUseCase,
+    this._authLocalDataSource,
   ) : super(const AuthState()) {
     on<LogoutRequested>(
       _onLogoutRequested,
+      transformer: droppable(),
+    );
+    on<SessionExpired>(
+      _onSessionExpired,
       transformer: droppable(),
     );
     on<GetMeRequested>(
@@ -29,6 +36,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
     on<UserAuthenticated>(_onUserAuthenticated);
     on<UserProfileUpdated>(_onUserProfileUpdated);
+  }
+
+  Future<void> _onSessionExpired(
+    SessionExpired event,
+    Emitter<AuthState> emit,
+  ) async {
+    await _authLocalDataSource.clear();
+    emit(const AuthState(status: AuthStatus.unauthenticated));
   }
 
   void _onUserAuthenticated(

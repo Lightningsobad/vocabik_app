@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../core/routes/app_router.dart';
+import '../../../../shared/presentation/widgets/header/app_header.dart';
+import '../../../../shared/presentation/widgets/buttons/primary_button.dart';
 import '../../../../shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import '../../../../shared/theme/app_colors.dart';
 import '../../../../shared/theme/app_font_size.dart';
@@ -54,51 +57,53 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocConsumer<ChallengeFriendCubit, ChallengeFriendState>(
-      listenWhen: (previous, current) =>
-          previous.createdChallengeLink != current.createdChallengeLink ||
-          previous.sendErrorMessage != current.sendErrorMessage,
-      listener: (context, state) {
-        if (state.createdChallengeLink != null) {
-          context.go(
-            '/home/challenge-sent',
-            extra: ChallengeSentArgs(
-              challengeLink: state.createdChallengeLink!,
-              selectedFriends: state.selectedFriends.toList(),
-              videoTitle: widget.args.videoTitle,
-              accuracyScore: widget.args.accuracyScore,
-            ),
-          );
-        } else if (state.sendErrorMessage != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.sendErrorMessage ?? l10n.challengeCreateLinkError,
-                style: AppTextStyles.custom(
-                  color: Colors.white,
-                  fontSize: AppFontSize.md,
-                ),
+    return Scaffold(
+      backgroundColor: colors.background,
+      appBar: const AppHeader(),
+      body: BlocConsumer<ChallengeFriendCubit, ChallengeFriendState>(
+        listenWhen: (previous, current) =>
+            previous.createdChallengeLink != current.createdChallengeLink ||
+            previous.sendErrorMessage != current.sendErrorMessage,
+        listener: (context, state) {
+          if (state.createdChallengeLink != null) {
+            context.pushReplacementToChallengeSent(
+              ChallengeSentArgs(
+                challengeLink: state.createdChallengeLink!,
+                selectedFriends: state.selectedFriends.toList(),
+                videoTitle: widget.args.videoTitle,
+                accuracyScore: widget.args.accuracyScore,
               ),
-              backgroundColor: colors.danger,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-        }
-      },
-      builder: (context, state) {
-        final cubit = context.read<ChallengeFriendCubit>();
-        final selectedCount = state.selectedFriends.length;
-        final hasSelection = selectedCount > 0;
+            );
+          } else if (state.sendErrorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  state.sendErrorMessage ?? l10n.challengeCreateLinkError,
+                  style: AppTextStyles.custom(
+                    color: Colors.white,
+                    fontSize: AppFontSize.md,
+                  ),
+                ),
+                backgroundColor: colors.danger,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          final cubit = context.read<ChallengeFriendCubit>();
+          final selectedCount = state.selectedFriends.length;
+          final hasSelection = selectedCount > 0;
 
-        return Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: AppSpacing.sm),
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: AppSpacing.sm),
 
                     // Back Button Pill
                     _buildBackButton(context, colors),
@@ -193,12 +198,19 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
           ],
         );
       },
+    ),
     );
   }
 
   Widget _buildBackButton(BuildContext context, AppColorsExtension colors) {
     return BounceWrapper(
-      onTap: () => context.pop(),
+      onTap: () {
+        if (context.canPop()) {
+          context.pop();
+        } else {
+          context.go('/home');
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
@@ -379,39 +391,18 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
       ),
       child: SafeArea(
         top: false,
-        child: BounceWrapper(
-          onTap: isEnabled ? () => cubit.sendChallenge(widget.args) : null,
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: BoxDecoration(
-              color: isEnabled ? colors.primaryAccent : const Color(0xFF1E1E34),
-              borderRadius: BorderRadius.circular(28),
-            ),
-            child: Center(
-              child: state.isSending
-                  ? const SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        color: Color(0xFF0D0D1A),
-                      ),
-                    )
-                  : Text(
-                      selectedCount > 0
-                          ? l10n.challengeSendWithCount(selectedCount)
-                          : l10n.challengeSend,
-                      style: AppTextStyles.custom(
-                        fontSize: AppFontSize.lg,
-                        fontWeight: FontWeight.w800,
-                        color: isEnabled
-                            ? const Color(0xFF0D0D1A)
-                            : colors.textSecondary,
-                      ),
-                    ),
-            ),
+        child: PrimaryButton(
+          text: selectedCount > 0
+              ? l10n.challengeSendWithCount(selectedCount)
+              : l10n.challengeSend,
+          isLoading: state.isSending,
+          backgroundColor: isEnabled ? colors.primaryAccent : const Color(0xFF1E1E34),
+          textColor: isEnabled ? const Color(0xFF0D0D1A) : colors.textSecondary,
+          textStyle: AppTextStyles.custom(
+            fontSize: AppFontSize.lg,
+            fontWeight: FontWeight.w800,
           ),
+          onPressed: isEnabled ? () => cubit.sendChallenge(widget.args) : null,
         ),
       ),
     );

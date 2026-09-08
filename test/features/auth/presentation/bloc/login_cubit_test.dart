@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
 import 'package:vocabik_app/core/services/social_auth_service.dart';
+import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
 import 'package:vocabik_app/features/auth/domain/entities/user.dart';
 import 'package:vocabik_app/features/auth/domain/entities/user_session.dart';
 import 'package:vocabik_app/features/auth/domain/repositories/auth_repository.dart';
@@ -12,6 +13,39 @@ import 'package:vocabik_app/features/auth/domain/use_cases/sign_out_use_case.dar
 import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/login_state.dart';
+
+class FakeAuthLocalDataSource implements AuthLocalDataSource {
+  String? accessToken;
+  String? refreshToken;
+  bool skipped = false;
+
+  @override
+  Future<void> clear() async {
+    accessToken = null;
+    refreshToken = null;
+    skipped = false;
+  }
+
+  @override
+  String? getAccessToken() => accessToken;
+
+  @override
+  String? getRefreshToken() => refreshToken;
+
+  @override
+  bool isCefrSkipped() => skipped;
+
+  @override
+  Future<void> saveTokens(String accessToken, String refreshToken) async {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+  }
+
+  @override
+  Future<void> setCefrSkipped(bool value) async {
+    skipped = value;
+  }
+}
 
 class MockSocialAuthService implements SocialAuthService {
   String? mockIdToken;
@@ -118,6 +152,7 @@ void main() {
     authBloc = AuthBloc(
       SignOutUseCase(repository),
       GetMeUseCase(repository),
+      FakeAuthLocalDataSource(),
     );
     cubit = LoginCubit(
       loginUseCase,

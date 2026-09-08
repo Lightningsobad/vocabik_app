@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class AuthLocalDataSource {
   Future<void> saveTokens(String accessToken, String refreshToken);
   String? getAccessToken();
+  String? getRefreshToken();
   Future<void> clear();
   Future<void> setCefrSkipped(bool value);
   bool isCefrSkipped();
@@ -27,6 +28,11 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   String? getAccessToken() {
     return _prefs.getString(_accessTokenKey);
+  }
+
+  @override
+  String? getRefreshToken() {
+    return _prefs.getString(_refreshTokenKey);
   }
 
   @override

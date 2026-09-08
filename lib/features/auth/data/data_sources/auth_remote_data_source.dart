@@ -21,6 +21,7 @@ abstract class AuthRemoteDataSource {
   Future<String> forgotPassword(String email, {CancelToken? cancelToken});
   Future<String> resetPassword(String token, String newPassword, {CancelToken? cancelToken});
   Future<List<UserSessionModel>> getSessions({CancelToken? cancelToken});
+  Future<AuthResponseModel> refreshToken(String refreshToken, {CancelToken? cancelToken});
 }
 
 AuthResponseModel _parseAuthResponse(Map<String, dynamic> data) => AuthResponseModel.fromJson(data);
@@ -283,6 +284,35 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           throw const ServerException('Phiên đăng nhập đã hết hạn.');
         } else if (statusCode != null && statusCode >= 500) {
           throw const ServerException('Lỗi máy chủ, vui lòng thử lại sau.');
+        }
+      }
+      throw const NetworkException();
+    }
+  }
+
+  @override
+  Future<AuthResponseModel> refreshToken(String refreshToken, {CancelToken? cancelToken}) async {
+    try {
+      final response = await _dio.post(
+        '/auth/refresh',
+        data: {'refreshToken': refreshToken},
+        options: Options(
+          headers: {
+            'accept': '*/*',
+            'x-client-type': 'mobile',
+            'Content-Type': 'application/json',
+          },
+        ),
+        cancelToken: cancelToken,
+      );
+      return await compute(_parseAuthResponse, response.data as Map<String, dynamic>);
+    } catch (e) {
+      if (e is DioException) {
+        final statusCode = e.response?.statusCode;
+        if (statusCode == 400 || statusCode == 401) {
+          throw const InvalidCredentialsException('Phiên đăng nhập đã hết hạn hoặc refresh token không hợp lệ.');
+        } else if (statusCode != null && statusCode >= 500) {
+          throw const ServerException('Lỗi máy chủ khi làm mới phiên đăng nhập.');
         }
       }
       throw const NetworkException();
