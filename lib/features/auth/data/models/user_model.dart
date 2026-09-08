@@ -29,4 +29,35 @@ class UserModel extends User {
       createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt'].toString()) : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'displayName': displayName,
+      'tier': tier,
+      'emailVerified': emailVerified,
+      'role': role,
+      'subscription': subscription,
+      'cefrLevel': cefrLevel,
+      'hintMode': hintMode,
+      'createdAt': createdAt?.toIso8601String(),
+    };
+  }
+
+  factory UserModel.fromEntity(User user) {
+    if (user is UserModel) return user;
+    return UserModel(
+      id: user.id,
+      email: user.email,
+      displayName: user.displayName,
+      tier: user.tier,
+      emailVerified: user.emailVerified,
+      role: user.role,
+      subscription: user.subscription,
+      cefrLevel: user.cefrLevel,
+      hintMode: user.hintMode,
+      createdAt: user.createdAt,
+    );
+  }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/data_sources/auth_local_data_source.dart';
+import '../../data/models/user_model.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/use_cases/get_me_use_case.dart';
 import '../../domain/use_cases/sign_out_use_case.dart';
@@ -21,7 +22,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this._signOutUseCase,
     this._getMeUseCase,
     this._authLocalDataSource,
-  ) : super(const AuthState()) {
+  ) : super(_getInitialState(_authLocalDataSource)) {
+    on<AuthCheckRequested>(
+      _onAuthCheckRequested,
+      transformer: droppable(),
+    );
     on<LogoutRequested>(
       _onLogoutRequested,
       transformer: droppable(),
@@ -38,6 +43,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UserProfileUpdated>(_onUserProfileUpdated);
   }
 
+  static AuthState _getInitialState(AuthLocalDataSource localDataSource) {
+    final token = localDataSource.getAccessToken();
+    final cachedUser = localDataSource.getUser();
+    if (token != null && token.isNotEmpty) {
+      if (cachedUser != null) {
+        return AuthState(status: AuthStatus.success, user: cachedUser);
+      }
+      return const AuthState(status: AuthStatus.loading);
+    }
+    return const AuthState(status: AuthStatus.unauthenticated);
+  }
+
+  Future<void> _onAuthCheckRequested(
+    AuthCheckRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    final token = _authLocalDataSource.getAccessToken();
+    if (token == null || token.isEmpty) {
+      emit(const AuthState(status: AuthStatus.unauthenticated));
+      return;
+    }
+    final cachedUser = _authLocalDataSource.getUser();
+    if (cachedUser != null) {
+      emit(state.copyWith(status: AuthStatus.success, user: cachedUser));
+    }
+    add(const GetMeRequested());
+  }
+
   Future<void> _onSessionExpired(
     SessionExpired event,
     Emitter<AuthState> emit,
@@ -50,6 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     UserAuthenticated event,
     Emitter<AuthState> emit,
   ) {
+    _authLocalDataSource.saveUser(UserModel.fromEntity(event.user));
     emit(state.copyWith(
       status: AuthStatus.success,
       user: event.user,
@@ -60,6 +94,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     UserProfileUpdated event,
     Emitter<AuthState> emit,
   ) {
+    _authLocalDataSource.saveUser(UserModel.fromEntity(event.user));
     emit(state.copyWith(
       user: event.user,
     ));
@@ -84,17 +119,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     GetMeRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(state.copyWith(status: AuthStatus.loading));
+    final cachedUser = state.user ?? _authLocalDataSource.getUser();
+    if (cachedUser != null) {
+      emit(state.copyWith(
+        status: AuthStatus.success,
+        user: cachedUser,
+      ));
+    } else {
+      emit(state.copyWith(status: AuthStatus.loading));
+    }
     final result = await _getMeUseCase();
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: AuthStatus.failure,
-        errorMessage: failure.message,
-      )),
-      (user) => emit(state.copyWith(
-        status: AuthStatus.success,
-        user: user,
-      )),
+      (failure) {
+        if (state.user != null) {
+          emit(state.copyWith(
+            status: AuthStatus.success,
+            errorMessage: failure.message,
+          ));
+        } else {
+          emit(state.copyWith(
+            status: AuthStatus.failure,
+            errorMessage: failure.message,
+          ));
+        }
+      },
+      (user) {
+        _authLocalDataSource.saveUser(UserModel.fromEntity(user));
+        emit(state.copyWith(
+          status: AuthStatus.success,
+          user: user,
+        ));
+      },
     );
   }
 }

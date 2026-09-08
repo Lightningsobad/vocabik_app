@@ -48,7 +48,7 @@ class VocabikApp extends StatelessWidget {
         BlocProvider(create: (_) {
           final bloc = getIt<AuthBloc>();
           if (getIt<AuthLocalDataSource>().getAccessToken() != null) {
-            bloc.add(const GetMeRequested());
+            bloc.add(const AuthCheckRequested());
           }
           return bloc;
         }),
