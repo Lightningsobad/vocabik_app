@@ -12,17 +12,31 @@ class ActiveSessionsCubit extends Cubit<ActiveSessionsState> {
   ActiveSessionsCubit(this._getSessionsUseCase)
       : super(const ActiveSessionsState());
 
+  @override
+  void emit(ActiveSessionsState state) {
+    if (!isClosed) {
+      super.emit(state);
+    }
+  }
+
   Future<void> loadSessions() async {
+    if (isClosed) return;
     emit(state.copyWith(status: ActiveSessionsStatus.loading));
 
     final result = await _getSessionsUseCase();
 
+    if (isClosed) return;
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: ActiveSessionsStatus.failure,
-        errorMessage: failure.message,
-      )),
+      (failure) {
+        if (isClosed) return;
+        emit(state.copyWith(
+          status: ActiveSessionsStatus.failure,
+          errorMessage: failure.message,
+        ));
+      },
       (sessions) {
+        if (isClosed) return;
         final sortedSessions = List<UserSession>.from(sessions)
           ..sort((a, b) {
             if (a.current != b.current) {
@@ -39,6 +53,8 @@ class ActiveSessionsCubit extends Cubit<ActiveSessionsState> {
             }
             return 0;
           });
+
+        if (isClosed) return;
 
         emit(state.copyWith(
           status: ActiveSessionsStatus.success,

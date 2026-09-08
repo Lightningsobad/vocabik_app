@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
@@ -70,11 +71,8 @@ class DailyChallengeVideoCard extends StatelessWidget {
                   ),
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress == null) return child;
-                    return Container(
-                      color: colors.surfaceCard,
-                      child: const Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
+                    return const AppShimmer(
+                      child: ColoredBox(color: Colors.white),
                     );
                   },
                 ),

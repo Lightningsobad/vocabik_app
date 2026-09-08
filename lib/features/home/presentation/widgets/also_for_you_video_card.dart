@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/core/utils/string_extensions.dart';
 import 'package:vocabik_app/features/home/domain/entities/personalized_slot_entity.dart';
+import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/course_tag_badge.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -80,13 +81,8 @@ class AlsoForYouVideoCard extends StatelessWidget {
                               ),
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
-                            return Container(
-                              color: colors.surfaceCard,
-                              child: const Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              ),
+                            return const AppShimmer(
+                              child: ColoredBox(color: Colors.white),
                             );
                           },
                         ),

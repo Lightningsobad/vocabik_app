@@ -8,6 +8,7 @@ import 'package:vocabik_app/features/discover/presentation/cubit/playlist_detail
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
+import 'package:vocabik_app/shared/presentation/widgets/shared_empty_state.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
@@ -149,6 +150,12 @@ class PlaylistDetailScreenView extends StatelessWidget {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) =>
                           _buildGradientBanner(),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const AppShimmer(
+                          child: ColoredBox(color: Colors.white),
+                        );
+                      },
                     )
                   else
                     _buildGradientBanner(),
@@ -245,36 +252,31 @@ class PlaylistDetailScreenView extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xl),
 
-          // Video Cards Grid / List
+          // Video Cards Grid
           if (playlist.videos.isNotEmpty) ...[
-            ListView.separated(
+            GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: AppSpacing.md2,
+                mainAxisSpacing: AppSpacing.md2,
+                childAspectRatio: 0.85,
+              ),
               itemCount: playlist.videos.length,
-              separatorBuilder: (context, index) =>
-                  const SizedBox(height: AppSpacing.md),
               itemBuilder: (context, index) {
                 final video = playlist.videos[index];
-                return SizedBox(
-                  height: 263,
-                  child: SharedCourseCard(
-                    video: video,
-                    width: double.infinity,
-                  ),
+                return SharedCourseCard(
+                  video: video,
+                  width: double.infinity,
                 );
               },
             ),
           ] else ...[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.xl),
-                child: Text(
-                  l10n.emptyVideos,
-                  style: AppTextStyles.custom(
-                    color: colors.textSecondary,
-                    fontSize: AppFontSize.md,
-                  ),
-                ),
+            SharedEmptyState(
+              message: l10n.emptyVideos,
+              padding: const EdgeInsets.symmetric(
+                vertical: AppSpacing.xl,
               ),
             ),
           ],
@@ -344,11 +346,21 @@ class PlaylistDetailScreenView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.xl),
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                color: colors.surfaceCard,
-                borderRadius: BorderRadius.circular(AppRadius.lg),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: AppSpacing.md2,
+                mainAxisSpacing: AppSpacing.md2,
+                childAspectRatio: 0.85,
+              ),
+              itemCount: 4,
+              itemBuilder: (context, index) => Container(
+                decoration: BoxDecoration(
+                  color: colors.surfaceCard,
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                ),
               ),
             ),
           ],

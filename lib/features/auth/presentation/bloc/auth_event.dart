@@ -9,6 +9,10 @@ abstract class AuthEvent extends Equatable {
 
 class LogoutRequested extends AuthEvent {}
 
+class SessionExpired extends AuthEvent {
+  const SessionExpired();
+}
+
 class GetMeRequested extends AuthEvent {
   const GetMeRequested();
 }

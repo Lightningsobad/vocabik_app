@@ -510,10 +510,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i344.ChallengeFriendRemoteDataSource>(),
       ),
     );
-    gh.lazySingleton<_i797.AuthBloc>(
-      () =>
-          _i797.AuthBloc(gh<_i131.SignOutUseCase>(), gh<_i477.GetMeUseCase>()),
-    );
     gh.factory<_i312.ActiveSessionsCubit>(
       () => _i312.ActiveSessionsCubit(gh<_i1058.GetSessionsUseCase>()),
     );
@@ -521,6 +517,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i292.ClassroomListCubit(
         gh<_i851.GetClassroomsUseCase>(),
         gh<_i822.CreateClassroomUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i797.AuthBloc>(
+      () => _i797.AuthBloc(
+        gh<_i131.SignOutUseCase>(),
+        gh<_i477.GetMeUseCase>(),
+        gh<_i606.AuthLocalDataSource>(),
       ),
     );
     gh.factory<_i209.GetLatestVideoProgressUseCase>(

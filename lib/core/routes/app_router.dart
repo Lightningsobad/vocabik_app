@@ -179,7 +179,7 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: '/exercise/:videoId',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final videoId = state.pathParameters['videoId']!;
         // Assuming we pass cefr_level and version_id as query params or default them
         final cefrLevel = state.uri.queryParameters['cefr_level'] ?? 'B1';
@@ -188,15 +188,44 @@ final GoRouter appRouter = GoRouter(
             state.uri.queryParameters['youtube_video_id'] ?? '';
         final videoTitle = state.uri.queryParameters['video_title'] ?? '';
         final exerciseType = state.uri.queryParameters['exercise_type'] ?? 'Multiple choice';
-        return ExerciseScreen(
-          videoId: videoId,
-          cefrLevel: cefrLevel,
-          versionId: versionId,
-          youtubeVideoId: youtubeVideoId,
-          videoTitle: videoTitle,
-          exerciseType: exerciseType,
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: ExerciseScreen(
+            videoId: videoId,
+            cefrLevel: cefrLevel,
+            versionId: versionId,
+            youtubeVideoId: youtubeVideoId,
+            videoTitle: videoTitle,
+            exerciseType: exerciseType,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
         );
       },
+    ),
+    GoRoute(
+      path: '/challenge-friend',
+      pageBuilder: (context, state) {
+        final args = state.extra as ChallengeFriendArgs;
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: ChallengeFriendScreen(args: args),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: '/challenge-sent',
+      redirect: (context, state) => '/home/challenge-sent',
     ),
     GoRoute(
       path: '/player',
@@ -241,19 +270,38 @@ final GoRouter appRouter = GoRouter(
                 ),
                 GoRoute(
                   path: 'exercise-result',
-                  builder: (context, state) {
+                  pageBuilder: (context, state) {
                     final args = state.extra as ExerciseResultArgs;
-                    return ResultScreen(
+                    return CustomTransitionPage(
                       key: ValueKey('${args.exercise.videoId}_${args.durationMs}_${args.selectedAnswers.hashCode}'),
-                      exercise: args.exercise,
-                      selectedAnswers: args.selectedAnswers,
-                      checkResults: args.checkResults,
-                      durationMs: args.durationMs,
-                      youtubeVideoId: args.youtubeVideoId,
-                      videoTitle: args.videoTitle,
-                      exerciseType: args.exerciseType,
+                      child: ResultScreen(
+                        key: ValueKey('${args.exercise.videoId}_${args.durationMs}_${args.selectedAnswers.hashCode}'),
+                        exercise: args.exercise,
+                        selectedAnswers: args.selectedAnswers,
+                        checkResults: args.checkResults,
+                        durationMs: args.durationMs,
+                        youtubeVideoId: args.youtubeVideoId,
+                        videoTitle: args.videoTitle,
+                        exerciseType: args.exerciseType,
+                      ),
+                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
                     );
                   },
+                  routes: [
+                    GoRoute(
+                      path: 'challenge-friend',
+                      redirect: (context, state) => '/challenge-friend',
+                    ),
+                    GoRoute(
+                      path: 'challenge-sent',
+                      redirect: (context, state) => '/home/challenge-sent',
+                    ),
+                  ],
                 ),
                 GoRoute(
                   path: 'daily-challenge',
@@ -264,16 +312,22 @@ final GoRouter appRouter = GoRouter(
                 ),
                 GoRoute(
                   path: 'challenge-friend',
-                  builder: (context, state) {
-                    final args = state.extra as ChallengeFriendArgs;
-                    return ChallengeFriendScreen(args: args);
-                  },
+                  redirect: (context, state) => '/challenge-friend',
                 ),
                 GoRoute(
                   path: 'challenge-sent',
-                  builder: (context, state) {
+                  pageBuilder: (context, state) {
                     final args = state.extra as ChallengeSentArgs;
-                    return ChallengeSentScreen(args: args);
+                    return CustomTransitionPage(
+                      key: state.pageKey,
+                      child: ChallengeSentScreen(args: args),
+                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                    );
                   },
                 ),
               ],
@@ -443,11 +497,15 @@ extension ExerciseNavigationExtension on BuildContext {
   }
 
   void pushToChallengeFriend(ChallengeFriendArgs args) {
-    push('/home/challenge-friend', extra: args);
+    push('/challenge-friend', extra: args);
+  }
+
+  void pushReplacementToChallengeSent(ChallengeSentArgs args) {
+    go('/home/challenge-sent', extra: args);
   }
 
   void pushToChallengeSent(ChallengeSentArgs args) {
-    pushReplacement('/home/challenge-sent', extra: args);
+    go('/home/challenge-sent', extra: args);
   }
 }
 

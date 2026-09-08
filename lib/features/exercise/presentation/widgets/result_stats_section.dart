@@ -92,10 +92,11 @@ class ResultStatsSection extends StatelessWidget {
 
             // Duration
             _buildStatItem(
-              icon: SvgPicture.asset(
-                'assets/result_screen/timer_icon.svg',
+              icon: Image.asset(
+                'assets/result_screen/timer_icon.png',
                 width: 16,
                 height: 16,
+                fit: BoxFit.contain,
               ),
               label: _formatDuration(summary.duration),
               textColor: colors.tabUnselectedText,

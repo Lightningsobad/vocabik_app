@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocabik_app/features/discover/domain/entities/playlist_entity.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
@@ -56,7 +57,9 @@ class DiscoverPlaylistCard extends StatelessWidget {
                             _buildFallbackCover(),
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
-                          return _buildFallbackCover();
+                          return const AppShimmer(
+                            child: ColoredBox(color: Colors.white),
+                          );
                         },
                       )
                     : _buildFallbackCover(),
