@@ -33,8 +33,10 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       try {
         final user = await _remoteDataSource.getMe();
+        await _localDataSource.saveUser(user);
         return right(user);
       } catch (_) {
+        await _localDataSource.saveUser(response.user);
         return right(response.user);
       }
     } on NetworkException {
@@ -72,8 +74,10 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       try {
         final user = await _remoteDataSource.getMe();
+        await _localDataSource.saveUser(user);
         return right(user);
       } catch (_) {
+        await _localDataSource.saveUser(response.user);
         return right(response.user);
       }
     } on NetworkException {
@@ -99,8 +103,13 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> getMe() async {
     try {
       final user = await _remoteDataSource.getMe();
+      await _localDataSource.saveUser(user);
       return right(user);
     } on NetworkException {
+      final cachedUser = _localDataSource.getUser();
+      if (cachedUser != null) {
+        return right(cachedUser);
+      }
       return left(
         const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
       );
@@ -162,8 +171,10 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       try {
         final user = await _remoteDataSource.getMe();
+        await _localDataSource.saveUser(user);
         return right(user);
       } catch (_) {
+        await _localDataSource.saveUser(response.user);
         return right(response.user);
       }
     } on NetworkException {

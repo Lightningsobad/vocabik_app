@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/user_model.dart';
 
 abstract class AuthLocalDataSource {
   Future<void> saveTokens(String accessToken, String refreshToken);
   String? getAccessToken();
   String? getRefreshToken();
+  Future<void> saveUser(UserModel user);
+  UserModel? getUser();
   Future<void> clear();
   Future<void> setCefrSkipped(bool value);
   bool isCefrSkipped();
@@ -16,6 +22,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const _accessTokenKey = 'ACCESS_TOKEN';
   static const _refreshTokenKey = 'REFRESH_TOKEN';
   static const _cefrSkippedKey = 'HAS_SKIPPED_CEFR_SELECTION';
+  static const _userKey = 'CACHED_USER_DATA';
 
   AuthLocalDataSourceImpl(this._prefs);
 
@@ -36,10 +43,29 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   @override
+  Future<void> saveUser(UserModel user) async {
+    final userJson = jsonEncode(user.toJson());
+    await _prefs.setString(_userKey, userJson);
+  }
+
+  @override
+  UserModel? getUser() {
+    final userString = _prefs.getString(_userKey);
+    if (userString == null || userString.isEmpty) return null;
+    try {
+      final jsonMap = jsonDecode(userString) as Map<String, dynamic>;
+      return UserModel.fromJson(jsonMap);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
   Future<void> clear() async {
     await _prefs.remove(_accessTokenKey);
     await _prefs.remove(_refreshTokenKey);
     await _prefs.remove(_cefrSkippedKey);
+    await _prefs.remove(_userKey);
   }
 
   @override

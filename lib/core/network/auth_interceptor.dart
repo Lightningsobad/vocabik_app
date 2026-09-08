@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
-import '../../features/auth/data/models/auth_response_model.dart';
 
 class AuthInterceptor extends QueuedInterceptor {
   final Dio dio;
@@ -96,15 +95,52 @@ class AuthInterceptor extends QueuedInterceptor {
 
       final dynamic data = refreshResponse.data;
       if (data is Map<String, dynamic>) {
-        final authResponse = AuthResponseModel.fromJson(data);
+        Map<String, dynamic>? tokensMap;
+        if (data['tokens'] is Map<String, dynamic>) {
+          tokensMap = data['tokens'] as Map<String, dynamic>;
+        } else if (data['data'] is Map<String, dynamic>) {
+          final nestedData = data['data'] as Map<String, dynamic>;
+          if (nestedData['tokens'] is Map<String, dynamic>) {
+            tokensMap = nestedData['tokens'] as Map<String, dynamic>;
+          } else {
+            tokensMap = nestedData;
+          }
+        }
+
+        final newAccessToken = (tokensMap?['accessToken'] ??
+            tokensMap?['token'] ??
+            data['accessToken'] ??
+            data['token'] ??
+            (data['data'] is Map<String, dynamic>
+                ? data['data']['accessToken'] ?? data['data']['token']
+                : null))
+            ?.toString();
+
+        final newRefreshToken = (tokensMap?['refreshToken'] ??
+            data['refreshToken'] ??
+            (data['data'] is Map<String, dynamic>
+                ? data['data']['refreshToken']
+                : null))
+            ?.toString();
+
+        if (newAccessToken == null || newAccessToken.isEmpty) {
+          throw const FormatException('Refresh response missing accessToken');
+        }
+
+        // Preserve current refreshToken if backend did not rotate/return a new one
+        final effectiveRefreshToken =
+            (newRefreshToken != null && newRefreshToken.isNotEmpty)
+                ? newRefreshToken
+                : refreshToken;
+
         await authLocalDataSource.saveTokens(
-          authResponse.accessToken,
-          authResponse.refreshToken,
+          newAccessToken,
+          effectiveRefreshToken,
         );
 
         // Update the header of the original request and retry
         final options = err.requestOptions;
-        options.headers['Authorization'] = 'Bearer ${authResponse.accessToken}';
+        options.headers['Authorization'] = 'Bearer $newAccessToken';
         final response = await dio.fetch(options);
         return handler.resolve(response);
       } else {
@@ -112,8 +148,22 @@ class AuthInterceptor extends QueuedInterceptor {
       }
     } catch (e) {
       debugPrint('[AuthInterceptor] Refresh token failed: $e');
-      await authLocalDataSource.clear();
-      onSessionExpired?.call();
+      bool shouldExpireSession = true;
+      if (e is DioException) {
+        final statusCode = e.response?.statusCode;
+        if (statusCode == null &&
+            (e.type == DioExceptionType.connectionTimeout ||
+                e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionError)) {
+          shouldExpireSession = false;
+        }
+      }
+
+      if (shouldExpireSession) {
+        await authLocalDataSource.clear();
+        onSessionExpired?.call();
+      }
       return handler.next(err);
     }
   }

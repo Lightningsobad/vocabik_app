@@ -17,6 +17,10 @@ class GetMeRequested extends AuthEvent {
   const GetMeRequested();
 }
 
+class AuthCheckRequested extends AuthEvent {
+  const AuthCheckRequested();
+}
+
 class UserAuthenticated extends AuthEvent {
   final User user;
 

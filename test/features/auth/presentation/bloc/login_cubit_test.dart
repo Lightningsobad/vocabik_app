@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
 import 'package:vocabik_app/core/services/social_auth_service.dart';
 import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
+import 'package:vocabik_app/features/auth/data/models/user_model.dart';
 import 'package:vocabik_app/features/auth/domain/entities/user.dart';
 import 'package:vocabik_app/features/auth/domain/entities/user_session.dart';
 import 'package:vocabik_app/features/auth/domain/repositories/auth_repository.dart';
@@ -17,12 +18,14 @@ import 'package:vocabik_app/features/auth/presentation/bloc/login_state.dart';
 class FakeAuthLocalDataSource implements AuthLocalDataSource {
   String? accessToken;
   String? refreshToken;
+  UserModel? user;
   bool skipped = false;
 
   @override
   Future<void> clear() async {
     accessToken = null;
     refreshToken = null;
+    user = null;
     skipped = false;
   }
 
@@ -40,6 +43,14 @@ class FakeAuthLocalDataSource implements AuthLocalDataSource {
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
   }
+
+  @override
+  Future<void> saveUser(UserModel user) async {
+    this.user = user;
+  }
+
+  @override
+  UserModel? getUser() => user;
 
   @override
   Future<void> setCefrSkipped(bool value) async {
