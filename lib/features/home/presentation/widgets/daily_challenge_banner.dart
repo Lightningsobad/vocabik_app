@@ -9,6 +9,7 @@ import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/app_text_style.dart';
+import 'package:vocabik_app/core/utils/number_format_utils.dart';
 import 'package:vocabik_app/features/daily_challenge/domain/entities/daily_challenge_config_entity.dart';
 
 class DailyChallengeBanner extends StatefulWidget {
@@ -109,7 +110,7 @@ class _DailyChallengeBannerState extends State<DailyChallengeBanner> {
           ];
 
     final subtitle =
-        '$videoTitle · ${l10n.dailyChallengeParticipants(participantCount)}';
+        '$videoTitle · ${l10n.dailyChallengeParticipants(NumberFormatUtils.formatWithCommas(participantCount))}';
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),

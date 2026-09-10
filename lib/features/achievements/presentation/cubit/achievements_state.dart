@@ -18,8 +18,9 @@ class AchievementsLoading extends AchievementsState {
 
 class AchievementsLoaded extends AchievementsState {
   final List<BadgeEntity> badges;
+  final String? selectedCategory;
 
-  const AchievementsLoaded(this.badges);
+  const AchievementsLoaded(this.badges, {this.selectedCategory});
 
   List<BadgeEntity> get unlockedBadges =>
       badges.where((b) => !b.locked).toList();
@@ -31,7 +32,7 @@ class AchievementsLoaded extends AchievementsState {
   int get totalCount => badges.length;
 
   @override
-  List<Object?> get props => [badges];
+  List<Object?> get props => [badges, selectedCategory];
 }
 
 class AchievementsError extends AchievementsState {

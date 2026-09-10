@@ -18,5 +18,6 @@ abstract class SharedVideoRepository {
     String? cefr,
     String? genre,
     String? duration,
+    String? exerciseType,
   });
 }

@@ -73,6 +73,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color weeklyXpBarEnd;
   final Color levelProgressBar;
   final Color practicedText;
+  final Color displayNameInputBackground;
+  final Color displayNameInputBorder;
+  final Color displayNameInputText;
 
   const AppColorsExtension({
     required this.primaryAccent,
@@ -138,6 +141,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.weeklyXpBarEnd,
     required this.levelProgressBar,
     required this.practicedText,
+    required this.displayNameInputBackground,
+    required this.displayNameInputBorder,
+    required this.displayNameInputText,
   });
 
   @override
@@ -205,6 +211,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? weeklyXpBarEnd,
     Color? levelProgressBar,
     Color? practicedText,
+    Color? displayNameInputBackground,
+    Color? displayNameInputBorder,
+    Color? displayNameInputText,
   }) {
     return AppColorsExtension(
       primaryAccent: primaryAccent ?? this.primaryAccent,
@@ -277,6 +286,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       weeklyXpBarEnd: weeklyXpBarEnd ?? this.weeklyXpBarEnd,
       levelProgressBar: levelProgressBar ?? this.levelProgressBar,
       practicedText: practicedText ?? this.practicedText,
+      displayNameInputBackground:
+          displayNameInputBackground ?? this.displayNameInputBackground,
+      displayNameInputBorder:
+          displayNameInputBorder ?? this.displayNameInputBorder,
+      displayNameInputText: displayNameInputText ?? this.displayNameInputText,
     );
   }
 
@@ -468,6 +482,21 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         t,
       )!,
       practicedText: Color.lerp(practicedText, other.practicedText, t)!,
+      displayNameInputBackground: Color.lerp(
+        displayNameInputBackground,
+        other.displayNameInputBackground,
+        t,
+      )!,
+      displayNameInputBorder: Color.lerp(
+        displayNameInputBorder,
+        other.displayNameInputBorder,
+        t,
+      )!,
+      displayNameInputText: Color.lerp(
+        displayNameInputText,
+        other.displayNameInputText,
+        t,
+      )!,
     );
   }
 
@@ -535,6 +564,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     weeklyXpBarEnd: Color(0xFF5CF2E3),
     levelProgressBar: Color(0xFF2FEBD8),
     practicedText: Color(0xFF6D6D87),
+    displayNameInputBackground: Color(0xFFEDEDF5),
+    displayNameInputBorder: Color(0xFFD2D2D9),
+    displayNameInputText: Color(0xFF757575),
   );
 
   static const dark = AppColorsExtension(
@@ -601,5 +633,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     weeklyXpBarEnd: Color(0xFF5CF2E3),
     levelProgressBar: Color(0xFF37EDD8),
     practicedText: Color(0xFF8585A1),
+    displayNameInputBackground: Color(0xFF13131F),
+    displayNameInputBorder: Color(0xFF31313B),
+    displayNameInputText: Color(0xFF6A6A6B),
   );
 }

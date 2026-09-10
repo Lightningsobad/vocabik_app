@@ -3,10 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/errors/exceptions.dart';
+import '../models/notebook_words_response_model.dart';
 import '../models/word_model.dart';
 
 abstract class NotebookRemoteDataSource {
-  Future<List<WordModel>> getWords({CancelToken? cancelToken});
+  Future<NotebookWordsResponseModel> getWords({
+    String? search,
+    CancelToken? cancelToken,
+  });
   Future<WordModel> updateReviewStatus({
     required String id,
     required bool needsReview,
@@ -14,22 +18,17 @@ abstract class NotebookRemoteDataSource {
   });
 }
 
-List<WordModel> _parseWords(dynamic data) {
-  if (data is List) {
-    return data
+NotebookWordsResponseModel _parseWordsResponse(dynamic data) {
+  if (data is Map<String, dynamic>) {
+    return NotebookWordsResponseModel.fromJson(data);
+  } else if (data is List) {
+    final words = data
         .whereType<Map<String, dynamic>>()
         .map((e) => WordModel.fromJson(e))
         .toList();
-  } else if (data is Map<String, dynamic>) {
-    final list = data['items'] ?? data['words'] ?? data['data'] ?? [];
-    if (list is List) {
-      return list
-          .whereType<Map<String, dynamic>>()
-          .map((e) => WordModel.fromJson(e))
-          .toList();
-    }
+    return NotebookWordsResponseModel(words: words, total: words.length);
   }
-  return [];
+  return const NotebookWordsResponseModel(words: [], total: 0);
 }
 
 WordModel _parseWord(dynamic data) {
@@ -46,13 +45,22 @@ class NotebookRemoteDataSourceImpl implements NotebookRemoteDataSource {
   NotebookRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<List<WordModel>> getWords({CancelToken? cancelToken}) async {
+  Future<NotebookWordsResponseModel> getWords({
+    String? search,
+    CancelToken? cancelToken,
+  }) async {
     try {
+      final queryParams = <String, dynamic>{};
+      if (search != null && search.trim().isNotEmpty) {
+        queryParams['search'] = search.trim();
+      }
+
       final response = await _dio.get(
         '/vocabulary/words',
+        queryParameters: queryParams.isNotEmpty ? queryParams : null,
         cancelToken: cancelToken,
       );
-      return await compute(_parseWords, response.data);
+      return await compute(_parseWordsResponse, response.data);
     } catch (e) {
       if (e is DioException) {
         if (e.type == DioExceptionType.connectionError ||

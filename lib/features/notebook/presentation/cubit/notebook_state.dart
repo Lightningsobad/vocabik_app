@@ -9,22 +9,26 @@ class NotebookState extends Equatable {
   final NotebookStatus status;
   final List<WordEntity> words;
   final List<WordEntity> filteredWords;
+  final int totalCount;
   final String searchQuery;
   final NotebookViewMode viewMode;
   final int currentFlashcardIndex;
   final bool isCardFlipped;
   final bool isUpdatingStatus;
+  final bool isSearching;
   final String? errorMessage;
 
   const NotebookState({
     this.status = NotebookStatus.initial,
     this.words = const [],
     this.filteredWords = const [],
+    this.totalCount = 0,
     this.searchQuery = '',
     this.viewMode = NotebookViewMode.list,
     this.currentFlashcardIndex = 0,
     this.isCardFlipped = false,
     this.isUpdatingStatus = false,
+    this.isSearching = false,
     this.errorMessage,
   });
 
@@ -50,23 +54,27 @@ class NotebookState extends Equatable {
     NotebookStatus? status,
     List<WordEntity>? words,
     List<WordEntity>? filteredWords,
+    int? totalCount,
     String? searchQuery,
     NotebookViewMode? viewMode,
     int? currentFlashcardIndex,
     bool? isCardFlipped,
     bool? isUpdatingStatus,
+    bool? isSearching,
     String? errorMessage,
   }) {
     return NotebookState(
       status: status ?? this.status,
       words: words ?? this.words,
       filteredWords: filteredWords ?? this.filteredWords,
+      totalCount: totalCount ?? this.totalCount,
       searchQuery: searchQuery ?? this.searchQuery,
       viewMode: viewMode ?? this.viewMode,
       currentFlashcardIndex:
           currentFlashcardIndex ?? this.currentFlashcardIndex,
       isCardFlipped: isCardFlipped ?? this.isCardFlipped,
       isUpdatingStatus: isUpdatingStatus ?? this.isUpdatingStatus,
+      isSearching: isSearching ?? this.isSearching,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -76,11 +84,13 @@ class NotebookState extends Equatable {
         status,
         words,
         filteredWords,
+        totalCount,
         searchQuery,
         viewMode,
         currentFlashcardIndex,
         isCardFlipped,
         isUpdatingStatus,
+        isSearching,
         errorMessage,
       ];
 }

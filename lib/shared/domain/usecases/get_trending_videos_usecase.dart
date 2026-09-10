@@ -14,11 +14,13 @@ class GetTrendingVideosUseCase {
     String? cefr,
     String? genre,
     String? duration,
+    String? exerciseType,
   }) {
     return repository.getTrendingVideos(
       cefr: cefr,
       genre: genre,
       duration: duration,
+      exerciseType: exerciseType,
     );
   }
 }

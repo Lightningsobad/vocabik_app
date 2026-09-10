@@ -228,6 +228,10 @@ final GoRouter appRouter = GoRouter(
       redirect: (context, state) => '/home/challenge-sent',
     ),
     GoRoute(
+      path: '/pricing',
+      redirect: (context, state) => '/home/pricing',
+    ),
+    GoRoute(
       path: '/player',
       builder: (context, state) =>
           const PlaceholderScreen(title: 'Player Screen'),
@@ -407,6 +411,10 @@ final GoRouter appRouter = GoRouter(
                     final config = state.extra as DailyChallengeResponseEntity?;
                     return DailyChallengeScreen(initialConfig: config);
                   },
+                ),
+                GoRoute(
+                  path: 'pricing',
+                  builder: (context, state) => const PricingScreen(),
                 ),
                 GoRoute(
                   path: 'classrooms',

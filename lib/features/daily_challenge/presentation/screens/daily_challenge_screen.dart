@@ -49,7 +49,7 @@ class _DailyChallengeView extends StatelessWidget {
     context.pushToExercise(
       videoId: config.videoSlug,
       videoTitle: config.videoTitle,
-      cefrLevel: 'B2',
+      cefrLevel: config.cefrLevel.isNotEmpty ? config.cefrLevel : 'B2',
       versionId: config.exerciseVersion.isNotEmpty
           ? config.exerciseVersion
           : 'v1',

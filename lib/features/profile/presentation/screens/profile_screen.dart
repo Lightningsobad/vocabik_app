@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 
@@ -32,11 +34,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         physics: const BouncingScrollPhysics(),
         child: Padding(
           // Dự phòng 56px cho FAB tương lai + 32px đệm + safe area dưới cùng
-          padding: EdgeInsets.only(bottom: 88.0 + MediaQuery.paddingOf(context).bottom),
+          padding: EdgeInsets.only(
+            bottom: 88.0 + MediaQuery.paddingOf(context).bottom,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 24.0),
+              const SizedBox(height: AppSpacing.lg3),
               // Title
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -44,16 +48,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   l10n.profileSettingsTitle,
                   style: AppTextStyles.custom(
                     color: colors.textPrimary,
-                    fontSize: 28.0,
+                    fontSize: AppFontSize.xl5_5,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
               ),
-              const SizedBox(height: 24.0),
-              
+              const SizedBox(height: AppSpacing.lg),
+
               // Tab Bar
               SharedSegmentedTabBar(
-                tabs: [l10n.profileTab, l10n.preferencesTab, l10n.subscriptionTab, l10n.securityTab, l10n.accountTab],
+                tabs: [
+                  l10n.profileTab,
+                  l10n.preferencesTab,
+                  l10n.subscriptionTab,
+                  l10n.securityTab,
+                  l10n.accountTab,
+                ],
                 selectedIndex: _selectedTabIndex,
                 onTabChanged: (index) {
                   setState(() {
@@ -61,12 +71,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 24.0),
-              
+              const SizedBox(height: AppSpacing.lg2),
+
               // Grid các nút hành động (Cố định ở mọi tab)
               const ProfileActionGrid(),
-              const SizedBox(height: 24.0),
-              
+              const SizedBox(height: AppSpacing.lg2),
+
               // Content based on selected tab
               if (_selectedTabIndex == 0) ...[
                 const UserProfileSection(),
@@ -92,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-              ]
+              ],
             ],
           ),
         ),

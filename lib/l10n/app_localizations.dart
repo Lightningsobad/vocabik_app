@@ -317,7 +317,7 @@ abstract class AppLocalizations {
   /// No description provided for @languageVietnamese.
   ///
   /// In vi, this message translates to:
-  /// **'Tiếng Việt'**
+  /// **'Vietnamese'**
   String get languageVietnamese;
 
   /// No description provided for @languageEnglish.
@@ -2270,11 +2270,11 @@ abstract class AppLocalizations {
   /// **'Tất cả'**
   String get achievementsFilterAll;
 
-  /// No description provided for @achievementsFilterMilestones.
+  /// No description provided for @achievementsFilterExercise.
   ///
   /// In vi, this message translates to:
-  /// **'Cột mốc'**
-  String get achievementsFilterMilestones;
+  /// **'Bài tập'**
+  String get achievementsFilterExercise;
 
   /// No description provided for @achievementsFilterStreak.
   ///
@@ -2282,17 +2282,47 @@ abstract class AppLocalizations {
   /// **'Streak'**
   String get achievementsFilterStreak;
 
-  /// No description provided for @achievementsFilterGenre.
+  /// No description provided for @achievementsFilterProficiency.
   ///
   /// In vi, this message translates to:
-  /// **'Thể loại'**
-  String get achievementsFilterGenre;
+  /// **'Trình độ'**
+  String get achievementsFilterProficiency;
+
+  /// No description provided for @achievementsFilterDiversity.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đa dạng'**
+  String get achievementsFilterDiversity;
 
   /// No description provided for @achievementsFilterVocabulary.
   ///
   /// In vi, this message translates to:
   /// **'Từ vựng'**
   String get achievementsFilterVocabulary;
+
+  /// No description provided for @achievementsFilterSpeed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tốc độ'**
+  String get achievementsFilterSpeed;
+
+  /// No description provided for @achievementsFilterGeneral.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chung'**
+  String get achievementsFilterGeneral;
+
+  /// No description provided for @achievementsFilterMilestones.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cột mốc'**
+  String get achievementsFilterMilestones;
+
+  /// No description provided for @achievementsFilterGenre.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thể loại'**
+  String get achievementsFilterGenre;
 
   /// No description provided for @dailyChallengeTitle.
   ///
@@ -2328,7 +2358,7 @@ abstract class AppLocalizations {
   ///
   /// In vi, this message translates to:
   /// **'{count} đang tham gia'**
-  String dailyChallengeParticipants(int count);
+  String dailyChallengeParticipants(String count);
 
   /// No description provided for @dailyChallengeNoParticipants.
   ///

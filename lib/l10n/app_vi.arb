@@ -50,7 +50,7 @@
   "themeLight": "Light",
   "soundDuringExercise": "Âm thanh khi làm bài",
   "interfaceLanguage": "Ngôn ngữ giao diện",
-  "languageVietnamese": "Tiếng Việt",
+  "languageVietnamese": "Vietnamese",
   "languageEnglish": "English",
   "botIntegrationTelegramZalo": "Tích hợp Bot (Telegram / Zalo)",
   "subscriptionFreePlanTitle": "Gói Free",
@@ -569,10 +569,15 @@
   "achievementsLockedHeader": "CHƯA MỞ KHÓA",
   "achievementsEmpty": "Chưa có thành tích nào.",
   "achievementsFilterAll": "Tất cả",
-  "achievementsFilterMilestones": "Cột mốc",
+  "achievementsFilterExercise": "Bài tập",
   "achievementsFilterStreak": "Streak",
-  "achievementsFilterGenre": "Thể loại",
+  "achievementsFilterProficiency": "Trình độ",
+  "achievementsFilterDiversity": "Đa dạng",
   "achievementsFilterVocabulary": "Từ vựng",
+  "achievementsFilterSpeed": "Tốc độ",
+  "achievementsFilterGeneral": "Chung",
+  "achievementsFilterMilestones": "Cột mốc",
+  "achievementsFilterGenre": "Thể loại",
   "dailyChallengeTitle": "Daily Challenge",
   "dailyChallengeJoinNow": "Tham gia ngay! →",
   "dailyChallengeTopToday": "Top hôm nay",
@@ -589,7 +594,7 @@
   "@dailyChallengeParticipants": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "String"
       }
     }
   },

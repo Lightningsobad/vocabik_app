@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/features/auth/domain/entities/user_session.dart';
 import 'package:vocabik_app/features/profile/presentation/cubit/active_sessions_cubit.dart';
 import 'package:vocabik_app/features/profile/presentation/cubit/active_sessions_state.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 import 'session_item_widget.dart';
 
@@ -28,10 +29,12 @@ class _ActiveSessionsCardContent extends StatefulWidget {
   const _ActiveSessionsCardContent();
 
   @override
-  State<_ActiveSessionsCardContent> createState() => _ActiveSessionsCardContentState();
+  State<_ActiveSessionsCardContent> createState() =>
+      _ActiveSessionsCardContentState();
 }
 
-class _ActiveSessionsCardContentState extends State<_ActiveSessionsCardContent> {
+class _ActiveSessionsCardContentState
+    extends State<_ActiveSessionsCardContent> {
   bool _isExpanded = false;
 
   Widget _buildLoadingState(AppColorsExtension colors) {
@@ -61,9 +64,9 @@ class _ActiveSessionsCardContentState extends State<_ActiveSessionsCardContent> 
       children: [
         Text(
           message ?? l10n.securityTab_sessionLoadError,
-          style: GoogleFonts.nunito(
+          style: AppTextStyles.custom(
             color: colors.textSecondary,
-            fontSize: 14.0,
+            fontSize: AppFontSize.md,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -71,9 +74,9 @@ class _ActiveSessionsCardContentState extends State<_ActiveSessionsCardContent> 
           onTap: () => context.read<ActiveSessionsCubit>().loadSessions(),
           child: Text(
             l10n.securityTab_sessionRetry,
-            style: GoogleFonts.nunito(
+            style: AppTextStyles.custom(
               color: colors.primaryAccent,
-              fontSize: 14.0,
+              fontSize: AppFontSize.md,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -91,9 +94,9 @@ class _ActiveSessionsCardContentState extends State<_ActiveSessionsCardContent> 
     if (sessions.isEmpty) {
       return Text(
         l10n.securityTab_sessionEmpty,
-        style: GoogleFonts.nunito(
+        style: AppTextStyles.custom(
           color: colors.textSecondary,
-          fontSize: 14.0,
+          fontSize: AppFontSize.md,
         ),
       );
     }
@@ -107,7 +110,9 @@ class _ActiveSessionsCardContentState extends State<_ActiveSessionsCardContent> 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ...displaySessions.map((session) => SessionItemWidget(session: session)),
+        ...displaySessions.map(
+          (session) => SessionItemWidget(session: session),
+        ),
         if (canExpand) ...[
           const SizedBox(height: 8.0),
           GestureDetector(
@@ -122,10 +127,11 @@ class _ActiveSessionsCardContentState extends State<_ActiveSessionsCardContent> 
                 _isExpanded
                     ? l10n.securityTab_sessionShowLess
                     : l10n.securityTab_sessionShowMore(
-                        sessions.length - maxCollapsedCount),
-                style: GoogleFonts.nunito(
+                        sessions.length - maxCollapsedCount,
+                      ),
+                style: AppTextStyles.custom(
                   color: colors.primaryAccent,
-                  fontSize: 13.5,
+                  fontSize: AppFontSize.md,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -154,9 +160,9 @@ class _ActiveSessionsCardContentState extends State<_ActiveSessionsCardContent> 
           children: [
             Text(
               l10n.securityTab_activeSessionsTitle,
-              style: GoogleFonts.nunito(
+              style: AppTextStyles.custom(
                 color: colors.textPrimary,
-                fontSize: 18.0,
+                fontSize: AppFontSize.lg2,
                 fontWeight: FontWeight.w800,
               ),
             ),

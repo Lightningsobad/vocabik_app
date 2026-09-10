@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/features/notebook/domain/entities/notebook_words_result.dart';
 import 'package:vocabik_app/features/notebook/domain/entities/word_entity.dart';
 import 'package:vocabik_app/features/notebook/domain/repositories/notebook_repository.dart';
 import 'package:vocabik_app/features/notebook/domain/usecases/get_notebook_words_usecase.dart';
@@ -22,8 +23,16 @@ class FakeNotebookRepository implements NotebookRepository {
   FakeNotebookRepository({this.words = const []});
 
   @override
-  Future<Either<Failure, List<WordEntity>>> getWords() async {
-    return Right(words);
+  Future<Either<Failure, NotebookWordsResult>> getWords({String? search}) async {
+    if (search != null && search.isNotEmpty) {
+      final filtered = words
+          .where((w) =>
+              w.word.toLowerCase().contains(search.toLowerCase()) ||
+              w.definitionVi.toLowerCase().contains(search.toLowerCase()))
+          .toList();
+      return Right(NotebookWordsResult(words: filtered, total: filtered.length));
+    }
+    return Right(NotebookWordsResult(words: words, total: words.length));
   }
 
   @override
@@ -145,11 +154,83 @@ void main() {
 
       // Search for non-existent word
       cubit.searchWords('non_existing_word_12345');
+      await tester.pump(const Duration(milliseconds: 400));
       await tester.pumpAndSettle();
 
       // Should show empty/no search results message, not crash
       expect(find.byType(FlashcardFlipCard), findsNothing);
       expect(tester.takeException(), isNull);
+
+      cubit.close();
+    });
+
+    testWidgets('displays total words count from API and renders song title in card', (tester) async {
+      final wordsWithSong = [
+        WordEntity(
+          id: 'w1',
+          word: 'know',
+          ipa: '/nəʊ/',
+          definitionVi: 'biết',
+          exampleSentence: "You don't know you beautiful",
+          videoSourceId: 'vid-1',
+          videoSourceTitle: 'What Makes You Beautiful',
+          cefrLevel: 'B2',
+          savedAt: DateTime(2026, 9, 4),
+          needsReview: false,
+        ),
+      ];
+
+      final repo = FakeNotebookRepository(words: wordsWithSong);
+      final cubit = NotebookCubit(
+        GetNotebookWordsUseCase(repo),
+        UpdateWordReviewStatusUseCase(repo),
+      );
+
+      await cubit.fetchWords();
+
+      await tester.pumpWidget(_buildTestWidget(cubit));
+      await tester.pumpAndSettle();
+
+      // Total count header displays 1 word
+      expect(find.text('1 từ'), findsOneWidget);
+
+      // Card displays song title with date
+      expect(find.text('What Makes You Beautiful · 04/09/2026'), findsOneWidget);
+
+      // Card displays word, IPA, CEFR badge, and definition
+      expect(find.text('know'), findsOneWidget);
+      expect(find.text('/nəʊ/'), findsOneWidget);
+      expect(find.text('B2'), findsOneWidget);
+      expect(find.text('biết'), findsOneWidget);
+
+      cubit.close();
+    });
+
+    testWidgets('searches words via API debounce and updates list', (tester) async {
+      final repo = FakeNotebookRepository(words: sampleWords);
+      final cubit = NotebookCubit(
+        GetNotebookWordsUseCase(repo),
+        UpdateWordReviewStatusUseCase(repo),
+      );
+
+      await cubit.fetchWords();
+
+      await tester.pumpWidget(_buildTestWidget(cubit));
+      await tester.pumpAndSettle();
+
+      expect(find.text('2 từ'), findsOneWidget);
+      expect(find.text('Persistent'), findsOneWidget);
+      expect(find.text('Eloquence'), findsOneWidget);
+
+      // Perform search for 'Elo'
+      cubit.searchWords('Elo');
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pumpAndSettle();
+
+      // Only Eloquence is displayed
+      expect(find.text('1 từ'), findsOneWidget);
+      expect(find.text('Eloquence'), findsOneWidget);
+      expect(find.text('Persistent'), findsNothing);
 
       cubit.close();
     });

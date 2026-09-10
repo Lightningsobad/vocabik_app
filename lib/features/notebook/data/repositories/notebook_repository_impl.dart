@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
+import '../../domain/entities/notebook_words_result.dart';
 import '../../domain/entities/word_entity.dart';
 import '../../domain/repositories/notebook_repository.dart';
 import '../datasources/notebook_remote_data_source.dart';
@@ -14,9 +15,9 @@ class NotebookRepositoryImpl implements NotebookRepository {
   NotebookRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<Either<Failure, List<WordEntity>>> getWords() async {
+  Future<Either<Failure, NotebookWordsResult>> getWords({String? search}) async {
     try {
-      final result = await _remoteDataSource.getWords();
+      final result = await _remoteDataSource.getWords(search: search);
       return Right(result);
     } on NetworkException {
       return const Left(NetworkFailure());

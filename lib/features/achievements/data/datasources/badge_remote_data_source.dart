@@ -6,7 +6,10 @@ import '../../../../core/errors/exceptions.dart';
 import '../models/badge_model.dart';
 
 abstract class BadgeRemoteDataSource {
-  Future<List<BadgeModel>> getBadges({CancelToken? cancelToken});
+  Future<List<BadgeModel>> getBadges({
+    String? category,
+    CancelToken? cancelToken,
+  });
 }
 
 List<BadgeModel> _parseBadges(dynamic data) {
@@ -30,10 +33,19 @@ class BadgeRemoteDataSourceImpl implements BadgeRemoteDataSource {
   BadgeRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<List<BadgeModel>> getBadges({CancelToken? cancelToken}) async {
+  Future<List<BadgeModel>> getBadges({
+    String? category,
+    CancelToken? cancelToken,
+  }) async {
     try {
+      final queryParameters = <String, dynamic>{};
+      if (category != null && category.trim().isNotEmpty) {
+        queryParameters['category'] = category.trim();
+      }
+
       final response = await _dio.get(
         '/me/badges',
+        queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
         cancelToken: cancelToken,
       );
       return await compute(_parseBadges, response.data);

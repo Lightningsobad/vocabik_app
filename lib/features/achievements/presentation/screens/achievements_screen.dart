@@ -15,6 +15,60 @@ import '../widgets/achievements_error_view.dart';
 import '../widgets/badge_section_widget.dart';
 import '../widgets/badge_skeleton_grid.dart';
 
+class _AchievementFilterCategory {
+  final String? key;
+  final String Function(AppLocalizations l10n) getTitle;
+
+  const _AchievementFilterCategory({
+    required this.key,
+    required this.getTitle,
+  });
+}
+
+const List<_AchievementFilterCategory> _categories = [
+  _AchievementFilterCategory(
+    key: null,
+    getTitle: _getAllTitle,
+  ),
+  _AchievementFilterCategory(
+    key: 'exercise',
+    getTitle: _getExerciseTitle,
+  ),
+  _AchievementFilterCategory(
+    key: 'streak',
+    getTitle: _getStreakTitle,
+  ),
+  _AchievementFilterCategory(
+    key: 'proficiency',
+    getTitle: _getProficiencyTitle,
+  ),
+  _AchievementFilterCategory(
+    key: 'diversity',
+    getTitle: _getDiversityTitle,
+  ),
+  _AchievementFilterCategory(
+    key: 'vocabulary',
+    getTitle: _getVocabularyTitle,
+  ),
+  _AchievementFilterCategory(
+    key: 'speed',
+    getTitle: _getSpeedTitle,
+  ),
+  _AchievementFilterCategory(
+    key: 'general',
+    getTitle: _getGeneralTitle,
+  ),
+];
+
+String _getAllTitle(AppLocalizations l10n) => l10n.achievementsFilterAll;
+String _getExerciseTitle(AppLocalizations l10n) => l10n.achievementsFilterExercise;
+String _getStreakTitle(AppLocalizations l10n) => l10n.achievementsFilterStreak;
+String _getProficiencyTitle(AppLocalizations l10n) => l10n.achievementsFilterProficiency;
+String _getDiversityTitle(AppLocalizations l10n) => l10n.achievementsFilterDiversity;
+String _getVocabularyTitle(AppLocalizations l10n) => l10n.achievementsFilterVocabulary;
+String _getSpeedTitle(AppLocalizations l10n) => l10n.achievementsFilterSpeed;
+String _getGeneralTitle(AppLocalizations l10n) => l10n.achievementsFilterGeneral;
+
 class AchievementsScreen extends StatelessWidget {
   const AchievementsScreen({super.key});
 
@@ -37,18 +91,26 @@ class _AchievementsView extends StatefulWidget {
 class _AchievementsViewState extends State<_AchievementsView> {
   int _selectedFilterIndex = 0;
 
+  void _onTabChanged(int index) {
+    if (_selectedFilterIndex == index) return;
+    setState(() {
+      _selectedFilterIndex = index;
+    });
+    final category = _categories[index].key;
+    context.read<AchievementsCubit>().selectCategory(category);
+  }
+
+  void _onRefresh() {
+    final category = _categories[_selectedFilterIndex].key;
+    context.read<AchievementsCubit>().fetchBadges(category: category);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
 
-    final filterTabs = [
-      l10n.achievementsFilterAll,
-      l10n.achievementsFilterMilestones,
-      l10n.achievementsFilterStreak,
-      l10n.achievementsFilterGenre,
-      l10n.achievementsFilterVocabulary,
-    ];
+    final filterTabs = _categories.map((c) => c.getTitle(l10n)).toList();
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -57,7 +119,7 @@ class _AchievementsViewState extends State<_AchievementsView> {
         child: BlocBuilder<AchievementsCubit, AchievementsState>(
           builder: (context, state) {
             return RefreshIndicator(
-              onRefresh: () => context.read<AchievementsCubit>().fetchBadges(),
+              onRefresh: () async => _onRefresh(),
               color: colors.primaryAccent,
               backgroundColor: colors.surfaceCard,
               child: SingleChildScrollView(
@@ -115,11 +177,7 @@ class _AchievementsViewState extends State<_AchievementsView> {
                     SharedSegmentedTabBar(
                       tabs: filterTabs,
                       selectedIndex: _selectedFilterIndex,
-                      onTabChanged: (index) {
-                        setState(() {
-                          _selectedFilterIndex = index;
-                        });
-                      },
+                      onTabChanged: _onTabChanged,
                     ),
                     const SizedBox(height: AppSpacing.xl),
 
@@ -157,7 +215,7 @@ class _AchievementsViewState extends State<_AchievementsView> {
     if (state is AchievementsError) {
       return AchievementsErrorView(
         message: state.message,
-        onRetry: () => context.read<AchievementsCubit>().fetchBadges(),
+        onRetry: _onRefresh,
       );
     }
 

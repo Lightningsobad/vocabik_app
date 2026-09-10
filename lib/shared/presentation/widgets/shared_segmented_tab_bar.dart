@@ -34,7 +34,7 @@ class SharedSegmentedTabBar extends StatelessWidget {
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 constraints: const BoxConstraints(
-                  minHeight: 39.0,
+                  minHeight: 42.0,
                   minWidth: 42.0,
                 ),
                 padding: const EdgeInsets.symmetric(

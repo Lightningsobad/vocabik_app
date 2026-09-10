@@ -53,7 +53,7 @@
   "languageVietnamese": "Vietnamese",
   "languageEnglish": "English",
   "botIntegrationTelegramZalo": "Bot Integration (Telegram / Zalo)",
-  "subscriptionFreePlanTitle": "Free Plan",
+  "subscriptionFreePlanTitle": "Free plan",
   "subscriptionFreePlanDesc": "Learn more richly with Premium.",
   "subscriptionUpgradeBtn": "Upgrade to Premium →",
   "accountExportData": "Export my data",
@@ -569,10 +569,15 @@
   "achievementsLockedHeader": "LOCKED",
   "achievementsEmpty": "No achievements available yet.",
   "achievementsFilterAll": "All",
-  "achievementsFilterMilestones": "Milestones",
+  "achievementsFilterExercise": "Exercise",
   "achievementsFilterStreak": "Streak",
-  "achievementsFilterGenre": "Genre",
+  "achievementsFilterProficiency": "Proficiency",
+  "achievementsFilterDiversity": "Diversity",
   "achievementsFilterVocabulary": "Vocabulary",
+  "achievementsFilterSpeed": "Speed",
+  "achievementsFilterGeneral": "General",
+  "achievementsFilterMilestones": "Milestones",
+  "achievementsFilterGenre": "Genre",
   "dailyChallengeTitle": "Daily Challenge",
   "dailyChallengeJoinNow": "Join now! →",
   "dailyChallengeTopToday": "Top today",
@@ -589,7 +594,7 @@
   "@dailyChallengeParticipants": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "String"
       }
     }
   },
