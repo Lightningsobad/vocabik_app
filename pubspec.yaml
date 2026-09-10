@@ -124,6 +124,8 @@ flutter:
     - assets/archievements_screen/
     - assets/daily_challenge_screen/
     - assets/xp_leaderboard_screen/
+    - assets/profile_screen/
+    - assets/notebook_screen/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

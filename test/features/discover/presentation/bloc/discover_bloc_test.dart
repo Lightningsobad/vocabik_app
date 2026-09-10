@@ -35,12 +35,16 @@ class FakeSharedVideoRepository implements SharedVideoRepository {
     );
   }
 
+  String? lastTrendingExerciseType;
+
   @override
   Future<Either<Failure, List<VideoEntity>>> getTrendingVideos({
     String? cefr,
     String? genre,
     String? duration,
+    String? exerciseType,
   }) async {
+    lastTrendingExerciseType = exerciseType;
     return right(const []);
   }
 }
@@ -160,6 +164,27 @@ void main() {
       );
 
       bloc.add(DiscoverVideosFetched());
+    });
+
+    test('passes exerciseType filter to trending videos usecase when DiscoverFilterChanged is dispatched', () async {
+      final bloc = DiscoverBloc(
+        getVideosUseCase,
+        getTrendingVideosUseCase,
+        getPlaylistsUseCase,
+      );
+
+      bloc.add(const DiscoverFilterChanged(exerciseType: 'MC'));
+
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<DiscoverState>((state) =>
+              state.status == DiscoverStatus.success &&
+              state.exerciseType == 'MC'),
+        ),
+      );
+
+      expect(videoRepo.lastTrendingExerciseType, equals('MC'));
     });
   });
 }

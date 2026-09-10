@@ -130,7 +130,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get botIntegrationTelegramZalo => 'Bot Integration (Telegram / Zalo)';
 
   @override
-  String get subscriptionFreePlanTitle => 'Free Plan';
+  String get subscriptionFreePlanTitle => 'Free plan';
 
   @override
   String get subscriptionFreePlanDesc => 'Learn more richly with Premium.';
@@ -1167,16 +1167,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get achievementsFilterAll => 'All';
 
   @override
-  String get achievementsFilterMilestones => 'Milestones';
+  String get achievementsFilterExercise => 'Exercise';
 
   @override
   String get achievementsFilterStreak => 'Streak';
 
   @override
-  String get achievementsFilterGenre => 'Genre';
+  String get achievementsFilterProficiency => 'Proficiency';
+
+  @override
+  String get achievementsFilterDiversity => 'Diversity';
 
   @override
   String get achievementsFilterVocabulary => 'Vocabulary';
+
+  @override
+  String get achievementsFilterSpeed => 'Speed';
+
+  @override
+  String get achievementsFilterGeneral => 'General';
+
+  @override
+  String get achievementsFilterMilestones => 'Milestones';
+
+  @override
+  String get achievementsFilterGenre => 'Genre';
 
   @override
   String get dailyChallengeTitle => 'Daily Challenge';
@@ -1197,7 +1212,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Join today to start or keep your streak!';
 
   @override
-  String dailyChallengeParticipants(int count) {
+  String dailyChallengeParticipants(String count) {
     return '$count participants';
   }
 

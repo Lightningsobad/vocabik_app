@@ -121,7 +121,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get interfaceLanguage => 'Ngôn ngữ giao diện';
 
   @override
-  String get languageVietnamese => 'Tiếng Việt';
+  String get languageVietnamese => 'Vietnamese';
 
   @override
   String get languageEnglish => 'English';
@@ -1170,16 +1170,31 @@ class AppLocalizationsVi extends AppLocalizations {
   String get achievementsFilterAll => 'Tất cả';
 
   @override
-  String get achievementsFilterMilestones => 'Cột mốc';
+  String get achievementsFilterExercise => 'Bài tập';
 
   @override
   String get achievementsFilterStreak => 'Streak';
 
   @override
-  String get achievementsFilterGenre => 'Thể loại';
+  String get achievementsFilterProficiency => 'Trình độ';
+
+  @override
+  String get achievementsFilterDiversity => 'Đa dạng';
 
   @override
   String get achievementsFilterVocabulary => 'Từ vựng';
+
+  @override
+  String get achievementsFilterSpeed => 'Tốc độ';
+
+  @override
+  String get achievementsFilterGeneral => 'Chung';
+
+  @override
+  String get achievementsFilterMilestones => 'Cột mốc';
+
+  @override
+  String get achievementsFilterGenre => 'Thể loại';
 
   @override
   String get dailyChallengeTitle => 'Daily Challenge';
@@ -1200,7 +1215,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Tham gia hôm nay để duy trì chuỗi ngày!';
 
   @override
-  String dailyChallengeParticipants(int count) {
+  String dailyChallengeParticipants(String count) {
     return '$count đang tham gia';
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../shared/presentation/widgets/app_progress_bar.dart';
 import '../../../../shared/theme/app_colors.dart';
 import '../../../../shared/theme/app_font_size.dart';
 import '../../../../shared/theme/app_radius.dart';
@@ -37,7 +38,7 @@ class BadgeCard extends StatelessWidget {
     0,
   ];
 
-  String _getIconAsset(String code) {
+  String _getIconAsset(String code, String? iconRef) {
     switch (code) {
       case 'first_b2':
         return 'assets/archievements_screen/first_B2_icon.png';
@@ -53,15 +54,34 @@ class BadgeCard extends StatelessWidget {
         return 'assets/archievements_screen/accuracy_icon.svg';
       case 'contributor':
         return 'assets/archievements_screen/centurion_icon.svg';
-      default:
-        return 'assets/archievements_screen/trophy.svg';
     }
+
+    if (iconRef != null) {
+      final lower = iconRef.toLowerCase();
+      if (lower.contains('first_b2')) {
+        return 'assets/archievements_screen/first_B2_icon.png';
+      } else if (lower.contains('streak')) {
+        return 'assets/archievements_screen/streak_icon.svg';
+      } else if (lower.contains('vocab')) {
+        return 'assets/archievements_screen/vocab_icon.svg';
+      } else if (lower.contains('music') || lower.contains('genre')) {
+        return 'assets/archievements_screen/music_icon.png';
+      } else if (lower.contains('xp') || lower.contains('speed')) {
+        return 'assets/archievements_screen/xp_icon.svg';
+      } else if (lower.contains('accuracy') || lower.contains('exercise')) {
+        return 'assets/archievements_screen/accuracy_icon.svg';
+      } else if (lower.contains('centurion') || lower.contains('contributor')) {
+        return 'assets/archievements_screen/centurion_icon.svg';
+      }
+    }
+
+    return 'assets/archievements_screen/trophy.svg';
   }
 
   Widget _buildIcon(String assetPath, bool isLocked) {
     final Widget iconWidget = assetPath.endsWith('.svg')
-        ? SvgPicture.asset(assetPath, width: 48, height: 48)
-        : Image.asset(assetPath, width: 48, height: 48, fit: BoxFit.contain);
+        ? SvgPicture.asset(assetPath, width: 44, height: 44)
+        : Image.asset(assetPath, width: 44, height: 44, fit: BoxFit.contain);
 
     if (isLocked) {
       return ColorFiltered(
@@ -73,11 +93,42 @@ class BadgeCard extends StatelessWidget {
     return iconWidget;
   }
 
+  Widget _buildProgressBar(
+    BuildContext context,
+    AppColorsExtension colors,
+    BadgeProgressEntity progress,
+  ) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppProgressBar(
+          progress: progress.percentage,
+          height: AppSpacing.sm,
+          color: colors.primaryAccent,
+          backgroundColor: colors.background,
+          animate: true,
+        ),
+        const SizedBox(height: AppSpacing.tn),
+        Text(
+          '${progress.current} / ${progress.target}',
+          style: AppTextStyles.custom(
+            fontSize: AppFontSize.tn2,
+            fontWeight: FontWeight.w700,
+            color: badge.locked ? colors.textSecondary : colors.primaryAccent,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final assetPath = _getIconAsset(badge.code);
+    final assetPath = _getIconAsset(badge.code, badge.iconRef);
     final isLocked = badge.locked;
+    final progress = badge.progress;
 
     String? formattedDate;
     if (badge.awardedAt != null) {
@@ -138,6 +189,8 @@ class BadgeCard extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
+          ] else if (isLocked && progress != null) ...[
+            _buildProgressBar(context, colors, progress),
           ] else if (isLocked && badge.description.isNotEmpty) ...[
             Text(
               badge.description,

@@ -7,17 +7,28 @@ import 'achievements_state.dart';
 @injectable
 class AchievementsCubit extends Cubit<AchievementsState> {
   final GetBadgesUseCase _getBadgesUseCase;
+  String? _selectedCategory;
 
   AchievementsCubit(this._getBadgesUseCase)
       : super(const AchievementsInitial());
 
-  Future<void> fetchBadges() async {
+  String? get selectedCategory => _selectedCategory;
+
+  Future<void> fetchBadges({String? category}) async {
+    _selectedCategory = category;
     emit(const AchievementsLoading());
 
-    final result = await _getBadgesUseCase();
+    final result = await _getBadgesUseCase(category: category);
     result.fold(
       (failure) => emit(AchievementsError(failure.message)),
-      (badges) => emit(AchievementsLoaded(badges)),
+      (badges) => emit(AchievementsLoaded(badges, selectedCategory: category)),
     );
+  }
+
+  Future<void> selectCategory(String? category) async {
+    if (_selectedCategory == category && state is AchievementsLoaded) {
+      return;
+    }
+    await fetchBadges(category: category);
   }
 }

@@ -144,6 +144,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       cefr: targetCefr,
       genre: targetGenre,
       duration: targetDuration,
+      exerciseType: targetExerciseType,
     );
 
     final libraryFuture = _getVideosUseCase(

@@ -78,12 +78,14 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
     String? cefr,
     String? genre,
     String? duration,
+    String? exerciseType,
   }) async {
     try {
       final response = await remoteDataSource.getTrendingVideos(
         cefr: cefr,
         genre: genre,
         duration: duration,
+        exerciseType: exerciseType,
       );
       final entities = response.map((model) => model.toEntity()).toList();
       return right(entities);

@@ -9,6 +9,8 @@ import 'package:vocabik_app/features/profile/presentation/cubit/update_profile_s
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class UserProfileSection extends StatelessWidget {
@@ -27,10 +29,12 @@ class _UserProfileSectionContent extends StatefulWidget {
   const _UserProfileSectionContent();
 
   @override
-  State<_UserProfileSectionContent> createState() => _UserProfileSectionContentState();
+  State<_UserProfileSectionContent> createState() =>
+      _UserProfileSectionContentState();
 }
 
-class _UserProfileSectionContentState extends State<_UserProfileSectionContent> {
+class _UserProfileSectionContentState
+    extends State<_UserProfileSectionContent> {
   late TextEditingController _nameController;
   late FocusNode _nameFocusNode;
   bool _isEditing = false;
@@ -126,8 +130,11 @@ class _UserProfileSectionContentState extends State<_UserProfileSectionContent> 
           final authState = context.read<AuthBloc>().state;
           final currentUser = authState.user;
           if (currentUser != null) {
-            final newDisplayName = updateState.updatedProfile?.displayName ?? _nameController.text.trim();
-            final newCefr = updateState.updatedProfile?.cefrLevel ?? currentUser.cefrLevel;
+            final newDisplayName =
+                updateState.updatedProfile?.displayName ??
+                _nameController.text.trim();
+            final newCefr =
+                updateState.updatedProfile?.cefrLevel ?? currentUser.cefrLevel;
             final updatedUser = currentUser.copyWith(
               displayName: newDisplayName,
               cefrLevel: newCefr,
@@ -160,21 +167,26 @@ class _UserProfileSectionContentState extends State<_UserProfileSectionContent> 
       },
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (!_isEditing && state.user != null && _nameController.text != state.user!.displayName) {
+          if (!_isEditing &&
+              state.user != null &&
+              _nameController.text != state.user!.displayName) {
             _nameController.text = state.user!.displayName;
           }
         },
         builder: (context, authState) {
-          final isLoading = authState.status == AuthStatus.loading && authState.user == null;
-          final isFailure = authState.status == AuthStatus.failure && authState.user == null;
+          final isLoading =
+              authState.status == AuthStatus.loading && authState.user == null;
+          final isFailure =
+              authState.status == AuthStatus.failure && authState.user == null;
 
           if (isLoading) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 32.0,
+              ),
               child: Center(
-                child: CircularProgressIndicator(
-                  color: colors.textPrimary,
-                ),
+                child: CircularProgressIndicator(color: colors.textPrimary),
               ),
             );
           }
@@ -182,7 +194,8 @@ class _UserProfileSectionContentState extends State<_UserProfileSectionContent> 
           if (isFailure) {
             return _ProfileErrorView(
               errorMessage: authState.errorMessage ?? l10n.profileLoadError,
-              onRetry: () => context.read<AuthBloc>().add(const GetMeRequested()),
+              onRetry: () =>
+                  context.read<AuthBloc>().add(const GetMeRequested()),
             );
           }
 
@@ -196,7 +209,8 @@ class _UserProfileSectionContentState extends State<_UserProfileSectionContent> 
 
           return BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
             builder: (context, updateState) {
-              final isSubmitting = updateState.status == UpdateProfileStatus.loading;
+              final isSubmitting =
+                  updateState.status == UpdateProfileStatus.loading;
 
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -211,9 +225,13 @@ class _UserProfileSectionContentState extends State<_UserProfileSectionContent> 
                       isEditing: _isEditing,
                       isSubmitting: isSubmitting,
                       errorMessage: _errorMessage,
-                      onStartEditing: user != null && !isSubmitting ? _startEditing : null,
+                      onStartEditing: user != null && !isSubmitting
+                          ? _startEditing
+                          : null,
                       onCancelEditing: () => _cancelEditing(displayName),
-                      onSave: user != null && !isSubmitting ? () => _saveDisplayName(user) : null,
+                      onSave: user != null && !isSubmitting
+                          ? () => _saveDisplayName(user)
+                          : null,
                       onChanged: (_) {
                         if (_errorMessage != null) {
                           setState(() => _errorMessage = null);
@@ -240,10 +258,7 @@ class _ProfileErrorView extends StatelessWidget {
   final String errorMessage;
   final VoidCallback onRetry;
 
-  const _ProfileErrorView({
-    required this.errorMessage,
-    required this.onRetry,
-  });
+  const _ProfileErrorView({required this.errorMessage, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +281,10 @@ class _ProfileErrorView extends StatelessWidget {
           BounceWrapper(
             onTap: onRetry,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 10.0,
+              ),
               decoration: BoxDecoration(
                 color: colors.surfaceCard,
                 borderRadius: BorderRadius.circular(12.0),
@@ -291,16 +309,16 @@ class _ProfileErrorView extends StatelessWidget {
 class _ProfileAvatarSection extends StatelessWidget {
   final String displayName;
 
-  const _ProfileAvatarSection({
-    required this.displayName,
-  });
+  const _ProfileAvatarSection({required this.displayName});
 
   String _getInitials(String name) {
     final trimmed = name.trim();
     if (trimmed.isEmpty) return 'U';
     final parts = trimmed.split(RegExp(r'\s+'));
     if (parts.length == 1) {
-      return parts.first.substring(0, parts.first.length >= 2 ? 2 : 1).toUpperCase();
+      return parts.first
+          .substring(0, parts.first.length >= 2 ? 2 : 1)
+          .toUpperCase();
     }
     return (parts.first[0] + parts.last[0]).toUpperCase();
   }
@@ -395,8 +413,8 @@ class _EditableNameField extends StatelessWidget {
           l10n.profileYourName,
           style: AppTextStyles.custom(
             color: colors.textSecondary,
-            fontWeight: FontWeight.w600,
-            fontSize: 14.0,
+            fontWeight: FontWeight.w700,
+            fontSize: AppFontSize.mdt,
           ),
         ),
         const SizedBox(height: 8.0),
@@ -405,13 +423,14 @@ class _EditableNameField extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           child: Container(
             decoration: BoxDecoration(
-              color: colors.surfaceCard,
+              color: colors.displayNameInputBackground,
               borderRadius: BorderRadius.circular(12.0),
               border: Border.all(
                 color: errorMessage != null
                     ? colors.danger
-                    : (isEditing ? colors.primaryAccent : colors.borderSubtle),
-                width: 1.5,
+                    : (isEditing
+                          ? colors.primaryAccent
+                          : colors.displayNameInputBorder),
               ),
             ),
             child: Row(
@@ -430,12 +449,15 @@ class _EditableNameField extends StatelessWidget {
                     },
                     onChanged: onChanged,
                     style: AppTextStyles.custom(
-                      color: colors.textPrimary,
+                      color: colors.displayNameInputText,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),
                     decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 14.0,
+                      ),
                       border: InputBorder.none,
                       isDense: true,
                     ),
@@ -456,13 +478,21 @@ class _EditableNameField extends StatelessWidget {
                     )
                   else ...[
                     IconButton(
-                      icon: Icon(Icons.close_rounded, color: colors.textSecondary, size: 20.0),
+                      icon: Icon(
+                        Icons.close_rounded,
+                        color: colors.textSecondary,
+                        size: 20.0,
+                      ),
                       tooltip: l10n.actionCancel,
                       splashRadius: 20.0,
                       onPressed: onCancelEditing,
                     ),
                     IconButton(
-                      icon: Icon(Icons.check_rounded, color: colors.primaryAccent, size: 22.0),
+                      icon: Icon(
+                        Icons.check_rounded,
+                        color: colors.primaryAccent,
+                        size: 22.0,
+                      ),
                       tooltip: l10n.actionSave,
                       splashRadius: 20.0,
                       onPressed: onSave,
@@ -493,10 +523,7 @@ class _ReadonlyInfoSection extends StatelessWidget {
   final String email;
   final DateTime? createdAt;
 
-  const _ReadonlyInfoSection({
-    required this.email,
-    required this.createdAt,
-  });
+  const _ReadonlyInfoSection({required this.email, required this.createdAt});
 
   String _formatDate(DateTime? date) {
     if (date == null) return '-';
@@ -519,34 +546,39 @@ class _ReadonlyInfoSection extends StatelessWidget {
               TextSpan(
                 text: l10n.profileEmail,
                 style: AppTextStyles.custom(
-                  fontSize: 15.0,
+                  fontSize: AppFontSize.mdt,
                   color: colors.textSecondary,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               TextSpan(
                 text: email,
                 style: AppTextStyles.custom(
-                  fontSize: 15.0,
+                  fontSize: AppFontSize.mdt,
                   color: colors.textPrimary,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
               TextSpan(
                 text: l10n.profileReadOnly,
-                style: AppTextStyles.custom(color: colors.textSecondary, fontSize: 13.0),
+                style: AppTextStyles.custom(
+                  color: colors.textSecondary,
+                  fontSize: AppFontSize.md,
+                ),
               ),
             ],
           ),
-          style: AppTextStyles.custom(fontSize: 15.0),
+          style: AppTextStyles.custom(fontSize: AppFontSize.md),
         ),
-        const SizedBox(height: 12.0),
+        const SizedBox(height: AppSpacing.lg2),
 
         // Member Since
         Text(
           l10n.profileMemberSince(memberSinceFormatted),
           style: AppTextStyles.custom(
             color: colors.textSecondary,
-            fontSize: 15.0,
+            fontSize: AppFontSize.lg,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ],

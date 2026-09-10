@@ -44,10 +44,7 @@ class _NotebookSearchBarState extends State<NotebookSearchBar> {
       decoration: BoxDecoration(
         color: colors.inputBackground,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(
-          color: colors.inputBorder,
-          width: 1.0,
-        ),
+        border: Border.all(color: colors.inputBorder, width: 1.0),
       ),
       child: TextField(
         controller: _controller,
@@ -63,7 +60,7 @@ class _NotebookSearchBarState extends State<NotebookSearchBar> {
         decoration: InputDecoration(
           hintText: l10n.searchWordsPlaceholder,
           hintStyle: AppTextStyles.custom(
-            fontSize: AppFontSize.md,
+            fontSize: AppFontSize.lg,
             color: colors.textSecondary,
             fontWeight: FontWeight.w400,
           ),

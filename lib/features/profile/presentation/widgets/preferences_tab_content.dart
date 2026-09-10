@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import 'package:vocabik_app/shared/theme/cubit/theme_cubit.dart';
 import 'package:vocabik_app/shared/localization/cubit/localization_cubit.dart';
 import 'package:vocabik_app/shared/localization/cubit/localization_state.dart';
@@ -40,35 +42,31 @@ class _PreferencesTabContentView extends StatelessWidget {
             title: l10n.appearance,
             child: Row(
               children: [
-                Expanded(
-                  child: SettingToggleButton(
-                    text: l10n.themeDark,
-                    prefixEmoji: '🌙',
-                    isActive: isDarkMode,
-                    onTap: () {
-                      if (!isDarkMode) {
-                        context.read<ThemeCubit>().toggleTheme();
-                      }
-                    },
-                  ),
+                SettingToggleButton(
+                  text: l10n.themeDark,
+                  iconAsset: 'assets/profile_screen/moon_icon.svg',
+                  isActive: isDarkMode,
+                  onTap: () {
+                    if (!isDarkMode) {
+                      context.read<ThemeCubit>().toggleTheme();
+                    }
+                  },
                 ),
                 const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: SettingToggleButton(
-                    text: l10n.themeLight,
-                    prefixEmoji: '☀️',
-                    isActive: !isDarkMode,
-                    onTap: () {
-                      if (isDarkMode) {
-                        context.read<ThemeCubit>().toggleTheme();
-                      }
-                    },
-                  ),
+                SettingToggleButton(
+                  text: l10n.themeLight,
+                  iconAsset: 'assets/profile_screen/sun.svg',
+                  isActive: !isDarkMode,
+                  onTap: () {
+                    if (isDarkMode) {
+                      context.read<ThemeCubit>().toggleTheme();
+                    }
+                  },
                 ),
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.sm),
 
           // Sound (Âm thanh khi làm bài)
           BlocBuilder<SoundSettingsCubit, SoundSettingsState>(
@@ -77,7 +75,14 @@ class _PreferencesTabContentView extends StatelessWidget {
                 title: l10n.soundDuringExercise,
                 trailing: Switch(
                   value: state.isSoundEnabled,
-                  activeThumbColor: Theme.of(context).colorScheme.primary,
+                  activeThumbColor: Colors.white,
+                  activeTrackColor: colors.primaryAccent,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: colors.tabUnselectedBackground,
+                  trackOutlineColor: const WidgetStatePropertyAll(
+                    Colors.transparent,
+                  ),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onChanged: (value) {
                     context.read<SoundSettingsCubit>().toggleSound(value);
                   },
@@ -85,7 +90,7 @@ class _PreferencesTabContentView extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.sm),
 
           // Interface Language (Ngôn ngữ giao diện)
           BlocBuilder<LocalizationCubit, LocalizationState>(
@@ -95,42 +100,47 @@ class _PreferencesTabContentView extends StatelessWidget {
                 title: l10n.interfaceLanguage,
                 child: Row(
                   children: [
-                    Expanded(
-                      child: SettingToggleButton(
-                        text: l10n.languageVietnamese,
-                        prefixText: 'VN',
-                        isActive: isVi,
-                        onTap: () {
-                          if (!isVi) {
-                            context.read<LocalizationCubit>().changeLanguage('vi');
-                          }
-                        },
-                      ),
+                    SettingToggleButton(
+                      text: 'Vietnamese',
+                      prefixText: 'VN',
+                      isActive: isVi,
+                      onTap: () {
+                        if (!isVi) {
+                          context.read<LocalizationCubit>().changeLanguage(
+                            'vi',
+                          );
+                        }
+                      },
                     ),
                     const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: SettingToggleButton(
-                        text: l10n.languageEnglish,
-                        prefixText: 'GB',
-                        isActive: !isVi,
-                        onTap: () {
-                          if (isVi) {
-                            context.read<LocalizationCubit>().changeLanguage('en');
-                          }
-                        },
-                      ),
+                    SettingToggleButton(
+                      text: 'English',
+                      prefixText: 'GB',
+                      isActive: !isVi,
+                      onTap: () {
+                        if (isVi) {
+                          context.read<LocalizationCubit>().changeLanguage(
+                            'en',
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
               );
             },
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.sm),
 
           // Bot Integration (Tích hợp Bot)
           SettingListTile(
             title: l10n.botIntegrationTelegramZalo,
-            prefixEmoji: '✈️',
+            titleStyle: AppTextStyles.custom(
+              fontSize: AppFontSize.mdt,
+              fontWeight: FontWeight.w800,
+              color: colors.textPrimary,
+            ),
+            prefixAsset: 'assets/profile_screen/plane_icon.svg',
             trailing: Icon(Icons.chevron_right, color: colors.textSecondary),
             onTap: () {
               context.push('/profile/integration');

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vocabik_app/features/auth/domain/entities/user_session.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class SessionItemWidget extends StatelessWidget {
   final UserSession session;
 
-  const SessionItemWidget({
-    super.key,
-    required this.session,
-  });
+  const SessionItemWidget({super.key, required this.session});
 
   bool _isMobileDevice(String device) {
     final d = device.toLowerCase();
@@ -74,8 +72,9 @@ class SessionItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final isMobile = _isMobileDevice(session.device);
-    final icon = isMobile ? LucideIcons.smartphone : LucideIcons.globe;
-    final iconColor = isMobile ? const Color(0xFF818CF8) : const Color(0xFF38BDF8);
+    final iconAsset = isMobile
+        ? 'assets/profile_screen/mobile_icon.svg'
+        : 'assets/profile_screen/global.svg';
 
     final timeText = _formatTimeText(context);
     final displayText = _formatSessionTitle(session.device, timeText);
@@ -85,19 +84,15 @@ class SessionItemWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 20.0,
-            color: iconColor,
-          ),
+          SvgPicture.asset(iconAsset, width: 16.0, height: 16.0),
           const SizedBox(width: 12.0),
           Expanded(
             child: Text(
               displayText,
-              style: GoogleFonts.nunito(
+              style: AppTextStyles.custom(
                 color: colors.textSecondary,
-                fontSize: 14.5,
-                fontWeight: FontWeight.w600,
+                fontSize: AppFontSize.md,
+                fontWeight: FontWeight.w700,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

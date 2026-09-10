@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -10,27 +11,36 @@ import 'notebook_state.dart';
 class NotebookCubit extends Cubit<NotebookState> {
   final GetNotebookWordsUseCase _getNotebookWordsUseCase;
   final UpdateWordReviewStatusUseCase _updateWordReviewStatusUseCase;
+  Timer? _debounceTimer;
 
   NotebookCubit(
     this._getNotebookWordsUseCase,
     this._updateWordReviewStatusUseCase,
   ) : super(const NotebookState());
 
+  @override
+  Future<void> close() {
+    _debounceTimer?.cancel();
+    return super.close();
+  }
+
   Future<void> fetchWords() async {
     emit(state.copyWith(status: NotebookStatus.loading, errorMessage: null));
 
-    final result = await _getNotebookWordsUseCase();
+    final result = await _getNotebookWordsUseCase(
+      search: state.searchQuery.isNotEmpty ? state.searchQuery : null,
+    );
     result.fold(
       (failure) => emit(state.copyWith(
         status: NotebookStatus.error,
         errorMessage: failure.message,
       )),
-      (words) {
-        final filtered = _applyFilter(words, state.searchQuery);
+      (response) {
         emit(state.copyWith(
           status: NotebookStatus.loaded,
-          words: words,
-          filteredWords: filtered,
+          words: response.words,
+          filteredWords: response.words,
+          totalCount: response.total,
           currentFlashcardIndex: 0,
           isCardFlipped: false,
         ));
@@ -39,13 +49,41 @@ class NotebookCubit extends Cubit<NotebookState> {
   }
 
   void searchWords(String query) {
-    final filtered = _applyFilter(state.words, query);
     emit(state.copyWith(
       searchQuery: query,
-      filteredWords: filtered,
+      isSearching: true,
       currentFlashcardIndex: 0,
       isCardFlipped: false,
     ));
+
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 350), () async {
+      final result = await _getNotebookWordsUseCase(
+        search: query.trim().isNotEmpty ? query.trim() : null,
+      );
+
+      // Verify query hasn't changed while request was in-flight
+      if (state.searchQuery != query) return;
+
+      result.fold(
+        (failure) => emit(state.copyWith(
+          isSearching: false,
+          status: NotebookStatus.error,
+          errorMessage: failure.message,
+        )),
+        (response) {
+          emit(state.copyWith(
+            isSearching: false,
+            status: NotebookStatus.loaded,
+            words: response.words,
+            filteredWords: response.words,
+            totalCount: response.total,
+            currentFlashcardIndex: 0,
+            isCardFlipped: false,
+          ));
+        },
+      );
+    });
   }
 
   void changeViewMode(NotebookViewMode mode) {
@@ -105,17 +143,5 @@ class NotebookCubit extends Cubit<NotebookState> {
       currentFlashcardIndex: 0,
       isCardFlipped: false,
     ));
-  }
-
-  List<WordEntity> _applyFilter(List<WordEntity> list, String query) {
-    final trimmed = query.trim().toLowerCase();
-    if (trimmed.isEmpty) return list;
-
-    return list.where((item) {
-      final matchesWord = item.word.toLowerCase().contains(trimmed);
-      final matchesDef = item.definitionVi.toLowerCase().contains(trimmed);
-      final matchesExample = item.exampleSentence.toLowerCase().contains(trimmed);
-      return matchesWord || matchesDef || matchesExample;
-    }).toList();
   }
 }

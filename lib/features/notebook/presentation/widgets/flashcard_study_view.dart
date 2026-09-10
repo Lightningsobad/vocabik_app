@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import '../../../../shared/theme/app_colors.dart';
@@ -52,9 +53,10 @@ class FlashcardStudyView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                '🎉',
-                style: TextStyle(fontSize: 48.0),
+              SvgPicture.asset(
+                'assets/notebook_screen/congratulation_icon.svg',
+                width: 64.0,
+                height: 64.0,
               ),
               const SizedBox(height: AppSpacing.md),
               Text(

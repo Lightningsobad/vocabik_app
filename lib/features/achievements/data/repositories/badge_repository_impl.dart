@@ -14,9 +14,9 @@ class BadgeRepositoryImpl implements BadgeRepository {
   BadgeRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<Either<Failure, List<BadgeEntity>>> getBadges() async {
+  Future<Either<Failure, List<BadgeEntity>>> getBadges({String? category}) async {
     try {
-      final result = await _remoteDataSource.getBadges();
+      final result = await _remoteDataSource.getBadges(category: category);
       return Right(result);
     } on NetworkException {
       return const Left(NetworkFailure());

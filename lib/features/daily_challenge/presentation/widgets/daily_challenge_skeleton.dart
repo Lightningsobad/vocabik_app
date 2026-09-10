@@ -71,7 +71,7 @@ class DailyChallengeSkeleton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    width: 200,
+                    width: double.infinity,
                     height: 24,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -80,7 +80,7 @@ class DailyChallengeSkeleton extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Container(
-                    width: 120,
+                    width: double.infinity,
                     height: 16,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -125,7 +125,6 @@ class DailyChallengeSkeleton extends StatelessWidget {
                 ],
               ),
             ),
-
 
             const SizedBox(height: AppSpacing.md),
 

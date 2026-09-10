@@ -1,11 +1,13 @@
-import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
 class SubscriptionTabContent extends StatelessWidget {
   const SubscriptionTabContent({super.key});
@@ -29,7 +31,6 @@ class _FreePlanCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
-    final textTheme = Theme.of(context).textTheme;
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg2),
@@ -41,18 +42,21 @@ class _FreePlanCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header gói: Emoji + Tiêu đề
+          // Header gói: Icon + Tiêu đề
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text('🆓', style: TextStyle(fontSize: 24.0)),
+              SvgPicture.asset(
+                'assets/profile_screen/free_icon.svg',
+                width: 28.0,
+                height: 28.0,
+              ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
                   l10n.subscriptionFreePlanTitle,
-                  style: GoogleFonts.nunito(
-                    color: colors.textPrimary,
-                    fontSize: 24.0,
+                  style: AppTextStyles.custom(
+                    fontSize: AppFontSize.xl3,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -64,9 +68,10 @@ class _FreePlanCard extends StatelessWidget {
           // Mô tả gói cước
           Text(
             l10n.subscriptionFreePlanDesc,
-            style: textTheme.bodyLarge?.copyWith(
-              color: colors.textSecondary,
+            style: AppTextStyles.custom(
+              fontSize: AppFontSize.lg,
               fontWeight: FontWeight.w600,
+              color: colors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.lg2),
@@ -91,12 +96,7 @@ class _PremiumUpgradeButton extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return BounceWrapper(
-      onTap: () {
-        developer.log(
-          'User tapped upgrade to premium',
-          name: 'SubscriptionTabContent',
-        );
-      },
+      onTap: () => context.push('/profile/pricing'),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 14.0),
         decoration: BoxDecoration(
@@ -105,10 +105,10 @@ class _PremiumUpgradeButton extends StatelessWidget {
         ),
         child: Text(
           l10n.subscriptionUpgradeBtn,
-          style: GoogleFonts.nunito(
-            color: Colors.white,
-            fontSize: 18.0,
+          style: AppTextStyles.custom(
+            fontSize: AppFontSize.lg2,
             fontWeight: FontWeight.w800,
+            color: Colors.white,
           ),
         ),
       ),

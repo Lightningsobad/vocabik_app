@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import '../../../../shared/theme/app_colors.dart';
@@ -31,15 +29,18 @@ class NotebookScreen extends StatelessWidget {
         bottom: false,
         child: BlocBuilder<NotebookCubit, NotebookState>(
           builder: (context, state) {
-            final wordsCount = state.words.length;
+            final wordsCount = state.totalCount > 0
+                ? state.totalCount
+                : state.words.length;
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.xl,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: AppSpacing.md),
-
                   // Header: Notebook + count
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -47,16 +48,16 @@ class NotebookScreen extends StatelessWidget {
                     children: [
                       Text(
                         l10n.notebookTitle,
-                        style: GoogleFonts.nunito(
-                          fontSize: 28.0,
+                        style: AppTextStyles.custom(
+                          fontSize: AppFontSize.xl5_5,
                           fontWeight: FontWeight.w900,
                           color: colors.textPrimary,
                         ),
                       ),
-                      const SizedBox(width: AppSpacing.sm),
+                      const SizedBox(width: AppSpacing.sm2),
                       Text(
                         l10n.wordsCount(wordsCount),
-                        style: GoogleFonts.nunito(
+                        style: AppTextStyles.custom(
                           fontSize: AppFontSize.md,
                           fontWeight: FontWeight.w600,
                           color: colors.textSecondary,
@@ -64,21 +65,21 @@ class NotebookScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Search Bar
                   NotebookSearchBar(
                     initialValue: state.searchQuery,
                     onChanged: (query) => cubit.searchWords(query),
                   ),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Segmented Tabs: List / Flashcard
                   NotebookSegmentedTab(
                     currentMode: state.viewMode,
                     onModeChanged: (mode) => cubit.changeViewMode(mode),
                   ),
-                  const SizedBox(height: AppSpacing.sm),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Content Area
                   Expanded(
@@ -101,9 +102,7 @@ class NotebookScreen extends StatelessWidget {
     AppLocalizations l10n,
   ) {
     if (state.status == NotebookStatus.loading && state.words.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     if (state.status == NotebookStatus.error && state.words.isEmpty) {
@@ -156,10 +155,7 @@ class NotebookScreen extends StatelessWidget {
     }
 
     if (state.viewMode == NotebookViewMode.flashcard) {
-      return FlashcardStudyView(
-        state: state,
-        cubit: cubit,
-      );
+      return FlashcardStudyView(state: state, cubit: cubit);
     }
 
     // List mode
@@ -194,7 +190,8 @@ class NotebookScreen extends StatelessWidget {
         bottom: 88.0 + MediaQuery.paddingOf(context).bottom,
       ),
       itemCount: displayList.length,
-      separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.md),
+      separatorBuilder: (context, index) =>
+          const SizedBox(height: AppSpacing.md),
       itemBuilder: (context, index) {
         final word = displayList[index];
         return WordListCard(word: word);

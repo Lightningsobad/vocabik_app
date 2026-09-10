@@ -31,6 +31,7 @@ abstract class SharedVideoRemoteDataSource {
     String? cefr,
     String? genre,
     String? duration,
+    String? exerciseType,
   });
 }
 
@@ -84,6 +85,7 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
     String? cefr,
     String? genre,
     String? duration,
+    String? exerciseType,
   }) async {
     try {
       final queryParameters = <String, dynamic>{};
@@ -95,6 +97,9 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
       }
       if (duration != null && duration.isNotEmpty) {
         queryParameters['duration'] = duration;
+      }
+      if (exerciseType != null && exerciseType.isNotEmpty) {
+        queryParameters['exerciseType'] = exerciseType;
       }
 
       final response = await dio.get(

@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../../shared/presentation/widgets/cards/course_tag_badge.dart';
 import '../../../../shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import '../../../../shared/theme/app_colors.dart';
 import '../../../../shared/theme/app_font_size.dart';
@@ -45,15 +44,12 @@ class FlashcardFlipCard extends StatelessWidget {
               ..rotateY(angle),
             child: Container(
               width: double.infinity,
-              height: 320.0,
+              height: AppSpacing.xl14,
               padding: const EdgeInsets.all(AppSpacing.xl),
               decoration: BoxDecoration(
                 color: colors.surfaceCard,
-                borderRadius: BorderRadius.circular(AppRadius.xl),
-                border: Border.all(
-                  color: colors.borderSubtle,
-                  width: 1.5,
-                ),
+                borderRadius: BorderRadius.circular(AppRadius.xl2),
+                border: Border.all(color: colors.borderSubtle, width: 1.5),
               ),
               child: isBack
                   ? Transform(
@@ -77,34 +73,29 @@ class FlashcardFlipCard extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Spacer(),
         Text(
           word.word,
           textAlign: TextAlign.center,
           style: AppTextStyles.custom(
-            fontSize: AppFontSize.xl6,
+            fontSize: AppFontSize.xl7,
             fontWeight: FontWeight.w900,
             color: colors.textPrimary,
           ),
         ),
-        const Spacer(),
+        const SizedBox(height: AppSpacing.md),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               l10n.tapToFlip,
               style: AppTextStyles.custom(
-                fontSize: AppFontSize.sm,
-                fontWeight: FontWeight.w600,
+                fontSize: AppFontSize.mdt,
+                fontWeight: FontWeight.w500,
                 color: colors.textSecondary,
               ),
             ),
             const SizedBox(width: AppSpacing.xs),
-            Icon(
-              Icons.replay_rounded,
-              size: 16.0,
-              color: colors.textSecondary,
-            ),
+            Icon(Icons.replay_rounded, size: 16.0, color: colors.textSecondary),
           ],
         ),
       ],
@@ -116,59 +107,45 @@ class FlashcardFlipCard extends StatelessWidget {
     AppColorsExtension colors,
     AppLocalizations l10n,
   ) {
+    final formattedIpa = word.ipa.isNotEmpty
+        ? (word.ipa.startsWith('/') ? word.ipa : '/${word.ipa}/')
+        : '';
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              word.word,
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.lg,
-                fontWeight: FontWeight.w800,
-                color: colors.textPrimary,
-              ),
+        if (formattedIpa.isNotEmpty) ...[
+          Text(
+            formattedIpa,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.custom(
+              fontSize: AppFontSize.lg2,
+              fontWeight: FontWeight.w600,
+              color: colors.primaryAccent,
             ),
-            if (word.ipa.isNotEmpty) ...[
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                word.ipa,
-                style: AppTextStyles.custom(
-                  fontSize: AppFontSize.sm,
-                  fontWeight: FontWeight.w500,
-                  color: colors.textSecondary,
-                ),
-              ),
-            ],
-            const SizedBox(width: AppSpacing.sm),
-            CourseTagBadge(
-              text: word.cefrLevel,
-              type: CourseTagType.level,
-            ),
-          ],
-        ),
-        const Spacer(),
+          ),
+          const SizedBox(height: AppSpacing.md),
+        ],
         if (word.definitionVi.isNotEmpty) ...[
           Text(
             word.definitionVi,
             textAlign: TextAlign.center,
             style: AppTextStyles.custom(
-              fontSize: AppFontSize.xl,
+              fontSize: AppFontSize.xl4,
               fontWeight: FontWeight.w800,
-              color: colors.primaryAccent,
+              color: colors.textPrimary,
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
         ],
         if (word.exampleSentence.isNotEmpty) ...[
+          const SizedBox(height: AppSpacing.md),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
             child: Text(
               '“${word.exampleSentence}”',
               textAlign: TextAlign.center,
               style: AppTextStyles.custom(
-                fontSize: AppFontSize.sm,
+                fontSize: AppFontSize.lg,
                 fontWeight: FontWeight.w400,
                 fontStyle: FontStyle.italic,
                 color: colors.textSecondary,
@@ -176,26 +153,6 @@ class FlashcardFlipCard extends StatelessWidget {
             ),
           ),
         ],
-        const Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              l10n.tapToFlip,
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.sm,
-                fontWeight: FontWeight.w600,
-                color: colors.textSecondary,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Icon(
-              Icons.replay_rounded,
-              size: 16.0,
-              color: colors.textSecondary,
-            ),
-          ],
-        ),
       ],
     );
   }

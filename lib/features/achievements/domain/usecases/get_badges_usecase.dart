@@ -11,7 +11,7 @@ class GetBadgesUseCase {
 
   GetBadgesUseCase(this._repository);
 
-  Future<Either<Failure, List<BadgeEntity>>> call() {
-    return _repository.getBadges();
+  Future<Either<Failure, List<BadgeEntity>>> call({String? category}) {
+    return _repository.getBadges(category: category);
   }
 }
