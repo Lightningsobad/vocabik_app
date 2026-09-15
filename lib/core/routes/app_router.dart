@@ -188,6 +188,8 @@ final GoRouter appRouter = GoRouter(
             state.uri.queryParameters['youtube_video_id'] ?? '';
         final videoTitle = state.uri.queryParameters['video_title'] ?? '';
         final exerciseType = state.uri.queryParameters['exercise_type'] ?? 'Multiple choice';
+        final isDailyChallenge =
+            state.uri.queryParameters['is_daily_challenge'] == 'true';
         return CustomTransitionPage(
           key: state.pageKey,
           child: ExerciseScreen(
@@ -197,6 +199,7 @@ final GoRouter appRouter = GoRouter(
             youtubeVideoId: youtubeVideoId,
             videoTitle: videoTitle,
             exerciseType: exerciseType,
+            isDailyChallenge: isDailyChallenge,
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
@@ -287,6 +290,7 @@ final GoRouter appRouter = GoRouter(
                         youtubeVideoId: args.youtubeVideoId,
                         videoTitle: args.videoTitle,
                         exerciseType: args.exerciseType,
+                        isDailyChallenge: args.isDailyChallenge,
                       ),
                       transitionsBuilder: (context, animation, secondaryAnimation, child) {
                         return FadeTransition(
@@ -450,6 +454,7 @@ extension ExerciseNavigationExtension on BuildContext {
     required String youtubeVideoId,
     required String videoTitle,
     ExerciseType exerciseType = ExerciseType.multipleChoice,
+    bool isDailyChallenge = false,
   }) {
     final uri = Uri(
       path: '/exercise/$videoId',
@@ -459,6 +464,7 @@ extension ExerciseNavigationExtension on BuildContext {
         'youtube_video_id': youtubeVideoId,
         'video_title': videoTitle,
         'exercise_type': exerciseType.value,
+        'is_daily_challenge': isDailyChallenge.toString(),
       },
     );
     push(uri.toString());
@@ -471,6 +477,7 @@ extension ExerciseNavigationExtension on BuildContext {
     required String youtubeVideoId,
     required String videoTitle,
     ExerciseType exerciseType = ExerciseType.multipleChoice,
+    bool isDailyChallenge = false,
   }) {
     final uri = Uri(
       path: '/exercise/$videoId',
@@ -480,6 +487,7 @@ extension ExerciseNavigationExtension on BuildContext {
         'youtube_video_id': youtubeVideoId,
         'video_title': videoTitle,
         'exercise_type': exerciseType.value,
+        'is_daily_challenge': isDailyChallenge.toString(),
       },
     );
     pushReplacement(uri.toString());

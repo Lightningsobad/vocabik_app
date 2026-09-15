@@ -21,7 +21,7 @@ import 'package:vocabik_app/features/home/presentation/widgets/home_library_sect
 import 'package:vocabik_app/features/home/presentation/widgets/home_newly_added_section.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_recommended_section.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_trending_section.dart';
-import 'package:vocabik_app/features/home/presentation/widgets/today_progress_card.dart';
+// import 'package:vocabik_app/features/home/presentation/widgets/today_progress_card.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/enums/cefr_level.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
@@ -153,10 +153,10 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
 
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
 
-            // 3. Today Progress Card
-            const SliverToBoxAdapter(
-              child: TodayProgressCard(completedLessons: 2, totalLessons: 5),
-            ),
+            // // 3. Today Progress Card (Tạm ẩn)
+            // const SliverToBoxAdapter(
+            //   child: TodayProgressCard(completedLessons: 2, totalLessons: 5),
+            // ),
 
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
 

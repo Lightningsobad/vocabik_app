@@ -16,7 +16,7 @@ class ResultGamificationCards extends StatelessWidget {
     super.key,
     required this.cefrLevel,
     this.xpEarned = 20,
-    this.dayStreak = 5,
+    this.dayStreak = 0,
   });
 
   @override

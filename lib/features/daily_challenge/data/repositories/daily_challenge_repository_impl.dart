@@ -57,4 +57,24 @@ class DailyChallengeRepositoryImpl implements DailyChallengeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> submitResult({
+    required int scoreAccuracy,
+    required int scoreTimeMs,
+  }) async {
+    try {
+      final result = await _remoteDataSource.submitResult(
+        scoreAccuracy: scoreAccuracy,
+        scoreTimeMs: scoreTimeMs,
+      );
+      return Right(result);
+    } on NetworkException {
+      return const Left(NetworkFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

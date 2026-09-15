@@ -53,7 +53,8 @@ class _DailyChallengeView extends StatelessWidget {
       versionId: config.exerciseVersion.isNotEmpty
           ? config.exerciseVersion
           : 'v1',
-      youtubeVideoId: '',
+      youtubeVideoId: config.youtubeVideoId,
+      isDailyChallenge: true,
     );
   }
 

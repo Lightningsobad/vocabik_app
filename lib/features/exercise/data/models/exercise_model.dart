@@ -104,9 +104,9 @@ class ExerciseBlankPositionModel {
 
   factory ExerciseBlankPositionModel.fromJson(Map<String, dynamic> json) {
     return ExerciseBlankPositionModel(
-      startMs: json['start_ms'] as int? ?? 0,
-      endMs: json['end_ms'] as int? ?? 0,
-      blankIndex: json['blank_index'] as int? ?? 0,
+      startMs: (json['start_ms'] as int?) ?? (json['startMs'] as int?) ?? 0,
+      endMs: (json['end_ms'] as int?) ?? (json['endMs'] as int?) ?? 0,
+      blankIndex: (json['blank_index'] as int?) ?? (json['blankIndex'] as int?) ?? 0,
     );
   }
 
@@ -138,8 +138,8 @@ class ExerciseBlankModel {
 
   factory ExerciseBlankModel.fromJson(Map<String, dynamic> json) {
     return ExerciseBlankModel(
-      blankIndex: json['blank_index'] as int? ?? 0,
-      correctAnswer: json['correct_answer'] as String? ?? '',
+      blankIndex: (json['blank_index'] as int?) ?? (json['blankIndex'] as int?) ?? 0,
+      correctAnswer: (json['correct_answer'] as String?) ?? (json['correctAnswer'] as String?) ?? '',
     );
   }
 
@@ -175,10 +175,10 @@ class ExerciseLineModel {
 
   factory ExerciseLineModel.fromJson(Map<String, dynamic> json) {
     return ExerciseLineModel(
-      lineIndex: json['line_index'] as int? ?? 0,
-      startMs: json['start_ms'] as int? ?? 0,
-      endMs: json['end_ms'] as int? ?? 0,
-      sentenceIndex: json['sentence_index'] as int? ?? 0,
+      lineIndex: (json['line_index'] as int?) ?? (json['lineIndex'] as int?) ?? 0,
+      startMs: (json['start_ms'] as int?) ?? (json['startMs'] as int?) ?? 0,
+      endMs: (json['end_ms'] as int?) ?? (json['endMs'] as int?) ?? 0,
+      sentenceIndex: (json['sentence_index'] as int?) ?? (json['sentenceIndex'] as int?) ?? 0,
       tokens: (json['tokens'] as List<dynamic>?)
               ?.map((e) => ExerciseTokenModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -221,15 +221,15 @@ class ExerciseTokenModel {
   factory ExerciseTokenModel.fromJson(Map<String, dynamic> json) {
     return ExerciseTokenModel(
       text: json['text'] as String?,
-      isBlank: json['isBlank'] as bool? ?? false,
-      blankIndex: json['blank_index'] as int?,
+      isBlank: (json['is_blank'] as bool?) ?? (json['isBlank'] as bool?) ?? false,
+      blankIndex: (json['blank_index'] as int?) ?? (json['blankIndex'] as int?),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       if (text != null) 'text': text,
-      'isBlank': isBlank,
+      'is_blank': isBlank,
       if (blankIndex != null) 'blank_index': blankIndex,
     };
   }

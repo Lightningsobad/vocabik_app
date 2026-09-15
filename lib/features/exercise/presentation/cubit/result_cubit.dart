@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
 import 'package:vocabik_app/core/network/app_cancel_token.dart';
 import 'package:vocabik_app/core/network/dio_cancel_token.dart';
+import 'package:vocabik_app/features/daily_challenge/domain/usecases/submit_daily_challenge_result_usecase.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_entity.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_result_summary.dart';
 import 'package:vocabik_app/features/exercise/domain/repositories/score_card_repository.dart';
@@ -14,12 +15,14 @@ import 'package:vocabik_app/features/exercise/presentation/cubit/result_state.da
 class ResultCubit extends Cubit<ResultState> {
   final ScoreCardRepository scoreCardRepository;
   final SubmitProgressUseCase submitProgressUseCase;
+  final SubmitDailyChallengeResultUseCase submitDailyChallengeResultUseCase;
   AppCancelToken? _scoreCardCancelToken;
   AppCancelToken? _progressCancelToken;
 
   ResultCubit(
     this.scoreCardRepository,
     this.submitProgressUseCase,
+    this.submitDailyChallengeResultUseCase,
   ) : super(const ResultState());
 
   Future<void> initialize({
@@ -27,6 +30,7 @@ class ResultCubit extends Cubit<ResultState> {
     required Map<int, String> selectedAnswers,
     required Map<int, bool> checkResults,
     required int durationMs,
+    bool isDailyChallenge = false,
   }) async {
     emit(state.copyWith(isCalculating: true));
 
@@ -54,9 +58,48 @@ class ResultCubit extends Cubit<ResultState> {
       accuracyScore: summary.accuracyScore,
     );
 
+    if (isDailyChallenge) {
+      submitDailyChallengeResult(
+        scoreAccuracy: summary.accuracyScore,
+        scoreTimeMs: durationMs,
+      );
+    }
+
     submitProgress(
       exercise: exercise,
       summary: summary,
+    );
+  }
+
+  Future<void> submitDailyChallengeResult({
+    required int scoreAccuracy,
+    required int scoreTimeMs,
+  }) async {
+    emit(state.copyWith(
+      dailyChallengeStatus: DailyChallengeSubmitStatus.loading,
+    ));
+
+    final result = await submitDailyChallengeResultUseCase(
+      scoreAccuracy: scoreAccuracy,
+      scoreTimeMs: scoreTimeMs,
+    );
+
+    if (isClosed) return;
+
+    result.fold(
+      (failure) {
+        if (failure is CancelledFailure) return;
+        emit(state.copyWith(
+          dailyChallengeStatus: DailyChallengeSubmitStatus.error,
+          dailyChallengeErrorMessage: failure.message,
+        ));
+      },
+      (id) {
+        emit(state.copyWith(
+          dailyChallengeStatus: DailyChallengeSubmitStatus.success,
+          dailyChallengeResultId: id,
+        ));
+      },
     );
   }
 

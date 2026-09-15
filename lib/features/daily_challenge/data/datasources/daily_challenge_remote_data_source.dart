@@ -14,6 +14,11 @@ abstract class DailyChallengeRemoteDataSource {
     CancelToken? cancelToken,
   });
   Future<DailyChallengeStreakModel> getStreak({CancelToken? cancelToken});
+  Future<String> submitResult({
+    required int scoreAccuracy,
+    required int scoreTimeMs,
+    CancelToken? cancelToken,
+  });
 }
 
 DailyChallengeResponseModel _parseConfig(dynamic data) {
@@ -146,6 +151,43 @@ class DailyChallengeRemoteDataSourceImpl
         );
       }
       throw ServerException('Parse Error: $e');
+    }
+  }
+
+  @override
+  Future<String> submitResult({
+    required int scoreAccuracy,
+    required int scoreTimeMs,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final response = await _dio.post(
+        '/daily-challenge/results',
+        data: {
+          'scoreAccuracy': scoreAccuracy,
+          'scoreTimeMs': scoreTimeMs,
+        },
+        cancelToken: cancelToken,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = response.data;
+        if (data is Map<String, dynamic>) {
+          return data['id'] as String? ?? '';
+        }
+        return '';
+      }
+      throw ServerException('Failed to submit daily challenge result');
+    } catch (e) {
+      if (e is DioException) {
+        if (e.type == DioExceptionType.connectionError ||
+            e.type == DioExceptionType.connectionTimeout) {
+          throw const NetworkException();
+        }
+        throw ServerException(
+          'API Error: ${e.response?.statusCode} - ${e.message}',
+        );
+      }
+      throw ServerException('Submit Result Error: $e');
     }
   }
 }

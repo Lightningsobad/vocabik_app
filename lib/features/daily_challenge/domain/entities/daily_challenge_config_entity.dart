@@ -31,6 +31,7 @@ class DailyChallengeConfigEntity extends Equatable {
   final String videoSlug;
   final String videoTitle;
   final String thumbnailUrl;
+  final String youtubeVideoId;
   final String category;
   final String cefrLevel;
   final String author;
@@ -44,6 +45,7 @@ class DailyChallengeConfigEntity extends Equatable {
     required this.videoSlug,
     required this.videoTitle,
     required this.thumbnailUrl,
+    this.youtubeVideoId = '',
     this.category = '',
     this.cefrLevel = '',
     this.author = '',
@@ -59,6 +61,7 @@ class DailyChallengeConfigEntity extends Equatable {
         videoSlug,
         videoTitle,
         thumbnailUrl,
+        youtubeVideoId,
         category,
         cefrLevel,
         author,

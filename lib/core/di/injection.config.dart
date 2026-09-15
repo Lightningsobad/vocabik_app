@@ -97,6 +97,8 @@ import '../../features/daily_challenge/domain/usecases/get_daily_challenge_leade
     as _i1016;
 import '../../features/daily_challenge/domain/usecases/get_daily_challenge_streak_usecase.dart'
     as _i935;
+import '../../features/daily_challenge/domain/usecases/submit_daily_challenge_result_usecase.dart'
+    as _i544;
 import '../../features/daily_challenge/presentation/bloc/daily_challenge_bloc.dart'
     as _i838;
 import '../../features/discover/data/datasources/discover_playlist_remote_data_source.dart'
@@ -249,6 +251,7 @@ import '../../shared/theme/cubit/theme_cubit.dart' as _i909;
 import '../../shared/theme/data/repositories/theme_repository_impl.dart'
     as _i108;
 import '../../shared/theme/domain/repositories/theme_repository.dart' as _i416;
+import '../services/audio_feedback_service.dart' as _i464;
 import '../services/deep_link_service.dart' as _i391;
 import '../services/social_auth_service.dart' as _i723;
 import 'app_module.dart' as _i461;
@@ -380,7 +383,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i991.BadgeRemoteDataSource>(
       () => _i991.BadgeRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.factory<_i521.SoundSettingsCubit>(
+    gh.lazySingleton<_i521.SoundSettingsCubit>(
       () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
     gh.lazySingleton<_i344.ChallengeFriendRemoteDataSource>(
@@ -483,6 +486,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i880.GetPlaylistsUseCase>(
       () => _i880.GetPlaylistsUseCase(gh<_i772.PlaylistRepository>()),
+    );
+    gh.lazySingleton<_i464.AudioFeedbackService>(
+      () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),
     );
     gh.factory<_i327.GetDailyPickUseCase>(
       () => _i327.GetDailyPickUseCase(gh<_i0.HomeRepository>()),
@@ -609,12 +615,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i74.GetProgressSummaryUseCase>(
       () => _i74.GetProgressSummaryUseCase(gh<_i785.ProgressRepository>()),
     );
-    gh.factory<_i293.ResultCubit>(
-      () => _i293.ResultCubit(
-        gh<_i697.ScoreCardRepository>(),
-        gh<_i6.SubmitProgressUseCase>(),
-      ),
-    );
     gh.factory<_i67.ExerciseCubit>(
       () => _i67.ExerciseCubit(
         gh<_i497.GetExerciseUseCase>(),
@@ -671,6 +671,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i134.DailyChallengeRepository>(),
       ),
     );
+    gh.lazySingleton<_i544.SubmitDailyChallengeResultUseCase>(
+      () => _i544.SubmitDailyChallengeResultUseCase(
+        gh<_i134.DailyChallengeRepository>(),
+      ),
+    );
     gh.lazySingleton<_i481.MainShellCubit>(
       () => _i481.MainShellCubit(
         gh<_i74.GetProgressSummaryUseCase>(),
@@ -699,6 +704,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i155.GetDailyChallengeConfigUseCase>(),
         gh<_i1016.GetDailyChallengeLeaderboardUseCase>(),
         gh<_i935.GetDailyChallengeStreakUseCase>(),
+      ),
+    );
+    gh.factory<_i293.ResultCubit>(
+      () => _i293.ResultCubit(
+        gh<_i697.ScoreCardRepository>(),
+        gh<_i6.SubmitProgressUseCase>(),
+        gh<_i544.SubmitDailyChallengeResultUseCase>(),
       ),
     );
     return this;

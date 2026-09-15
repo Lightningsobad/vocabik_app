@@ -49,44 +49,90 @@ class ExerciseLoaded extends ExerciseState {
         stopPointMs = stopPointMs ?? _computeStopPointMs(exercise),
         activeLineMap = activeLineMap ?? _computeActiveLineMap(exercise);
 
+  static ExerciseLineEntity _findLineForBlank(
+    ExerciseEntity exercise,
+    int blankIndex,
+  ) {
+    // 1. Match by token's blankIndex in lines
+    for (final line in exercise.lines) {
+      if (line.tokens.any((t) => t.blankIndex == blankIndex)) {
+        return line;
+      }
+    }
+
+    // 2. Match by blankPositions if available
+    final blankPos = exercise.blankPositions
+        .where((p) => p.blankIndex == blankIndex)
+        .firstOrNull;
+
+    if (blankPos != null && exercise.lines.isNotEmpty) {
+      // Find line overlapping with blank position
+      final overlappingLine = exercise.lines.where((l) {
+        return (l.startMs <= blankPos.startMs && l.endMs >= blankPos.endMs) ||
+            (l.startMs <= blankPos.endMs && l.endMs >= blankPos.startMs);
+      }).firstOrNull;
+
+      if (overlappingLine != null) {
+        return overlappingLine;
+      }
+
+      // Find closest line starting before or at blank position
+      final precedingLine = exercise.lines
+          .where((l) => l.startMs <= blankPos.startMs)
+          .lastOrNull;
+      if (precedingLine != null) {
+        return precedingLine;
+      }
+    } else if (blankPos != null && exercise.lines.isEmpty) {
+      return ExerciseLineEntity(
+        lineIndex: blankIndex,
+        startMs: blankPos.startMs,
+        endMs: blankPos.endMs,
+        sentenceIndex: 0,
+        tokens: [
+          ExerciseTokenEntity(isBlank: true, blankIndex: blankIndex),
+        ],
+      );
+    }
+
+    // 3. Match by index in blanks list if blanks and lines have 1:1 correspondence
+    final blankIdxInList =
+        exercise.blanks.indexWhere((b) => b.blankIndex == blankIndex);
+    if (blankIdxInList >= 0 && blankIdxInList < exercise.lines.length) {
+      return exercise.lines[blankIdxInList];
+    }
+
+    // 4. Default fallback
+    return exercise.lines.isNotEmpty ? exercise.lines.first : _defaultLine;
+  }
+
   static Map<int, int> _computeBlankEndMsMap(ExerciseEntity exercise) {
     final map = <int, int>{};
     for (final blank in exercise.blanks) {
-      final line = exercise.lines.firstWhere(
-        (l) => l.tokens.any((t) => t.blankIndex == blank.blankIndex),
-        orElse: () => exercise.lines.isNotEmpty
-            ? exercise.lines.first
-            : _defaultLine,
-      );
-      map[blank.blankIndex] = line.endMs;
+      final line = _findLineForBlank(exercise, blank.blankIndex);
+      if (line.endMs > 0) {
+        map[blank.blankIndex] = line.endMs;
+      } else {
+        final blankPos = exercise.blankPositions
+            .where((p) => p.blankIndex == blank.blankIndex)
+            .firstOrNull;
+        map[blank.blankIndex] = blankPos?.endMs ?? line.endMs;
+      }
     }
     return map;
   }
 
   static List<int> _computeStopPointMs(ExerciseEntity exercise) {
-    final list = <int>[];
-    for (final blank in exercise.blanks) {
-      final line = exercise.lines.firstWhere(
-        (l) => l.tokens.any((t) => t.blankIndex == blank.blankIndex),
-        orElse: () => exercise.lines.isNotEmpty
-            ? exercise.lines.first
-            : _defaultLine,
-      );
-      list.add(line.endMs);
-    }
-    return list;
+    final endMsMap = _computeBlankEndMsMap(exercise);
+    return exercise.blanks.map((b) => endMsMap[b.blankIndex] ?? 0).toList();
   }
 
-  static Map<int, ExerciseLineEntity> _computeActiveLineMap(ExerciseEntity exercise) {
+  static Map<int, ExerciseLineEntity> _computeActiveLineMap(
+    ExerciseEntity exercise,
+  ) {
     final map = <int, ExerciseLineEntity>{};
     for (final blank in exercise.blanks) {
-      final line = exercise.lines.firstWhere(
-        (l) => l.tokens.any((t) => t.blankIndex == blank.blankIndex),
-        orElse: () => exercise.lines.isNotEmpty
-            ? exercise.lines.first
-            : _defaultLine,
-      );
-      map[blank.blankIndex] = line;
+      map[blank.blankIndex] = _findLineForBlank(exercise, blank.blankIndex);
     }
     return map;
   }

@@ -50,24 +50,10 @@ class ProfileActionGrid extends StatelessWidget {
           },
         ),
         ActionItemData(
-          title: l10n.actionClassroom,
-          iconAsset: 'assets/profile_screen/classroom_icon.svg',
-          onTap: () {
-            context.push('/profile/classrooms');
-          },
-        ),
-        ActionItemData(
           title: l10n.actionDailyChallenge,
           iconAsset: 'assets/profile_screen/streak_icon.svg',
           onTap: () {
             context.push('/profile/daily-challenge');
-          },
-        ),
-        ActionItemData(
-          title: l10n.actionBotIntegration,
-          iconAsset: 'assets/profile_screen/plane_icon.svg',
-          onTap: () {
-            context.push('/profile/integration');
           },
         ),
       ];
