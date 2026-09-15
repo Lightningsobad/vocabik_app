@@ -8,6 +8,7 @@ class ExerciseResultArgs {
   final String youtubeVideoId;
   final String videoTitle;
   final String exerciseType;
+  final bool isDailyChallenge;
 
   const ExerciseResultArgs({
     required this.exercise,
@@ -17,5 +18,6 @@ class ExerciseResultArgs {
     this.youtubeVideoId = '',
     this.videoTitle = '',
     this.exerciseType = 'Multiple choice',
+    this.isDailyChallenge = false,
   });
 }

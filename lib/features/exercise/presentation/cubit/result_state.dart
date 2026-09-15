@@ -3,6 +3,7 @@ import 'package:vocabik_app/features/exercise/domain/entities/exercise_result_su
 
 enum ScoreCardStatus { initial, loading, success, error, offline }
 enum ProgressSubmitStatus { initial, loading, success, error }
+enum DailyChallengeSubmitStatus { initial, loading, success, error }
 
 class ResultState extends Equatable {
   final bool isCalculating;
@@ -12,6 +13,9 @@ class ResultState extends Equatable {
   final String? errorMessage;
   final ProgressSubmitStatus progressStatus;
   final String? progressErrorMessage;
+  final DailyChallengeSubmitStatus dailyChallengeStatus;
+  final String? dailyChallengeResultId;
+  final String? dailyChallengeErrorMessage;
 
   const ResultState({
     this.isCalculating = true,
@@ -21,6 +25,9 @@ class ResultState extends Equatable {
     this.errorMessage,
     this.progressStatus = ProgressSubmitStatus.initial,
     this.progressErrorMessage,
+    this.dailyChallengeStatus = DailyChallengeSubmitStatus.initial,
+    this.dailyChallengeResultId,
+    this.dailyChallengeErrorMessage,
   });
 
   ResultState copyWith({
@@ -31,6 +38,9 @@ class ResultState extends Equatable {
     String? errorMessage,
     ProgressSubmitStatus? progressStatus,
     String? progressErrorMessage,
+    DailyChallengeSubmitStatus? dailyChallengeStatus,
+    String? dailyChallengeResultId,
+    String? dailyChallengeErrorMessage,
   }) {
     return ResultState(
       isCalculating: isCalculating ?? this.isCalculating,
@@ -40,6 +50,11 @@ class ResultState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       progressStatus: progressStatus ?? this.progressStatus,
       progressErrorMessage: progressErrorMessage ?? this.progressErrorMessage,
+      dailyChallengeStatus: dailyChallengeStatus ?? this.dailyChallengeStatus,
+      dailyChallengeResultId:
+          dailyChallengeResultId ?? this.dailyChallengeResultId,
+      dailyChallengeErrorMessage:
+          dailyChallengeErrorMessage ?? this.dailyChallengeErrorMessage,
     );
   }
 
@@ -52,5 +67,8 @@ class ResultState extends Equatable {
         errorMessage,
         progressStatus,
         progressErrorMessage,
+        dailyChallengeStatus,
+        dailyChallengeResultId,
+        dailyChallengeErrorMessage,
       ];
 }

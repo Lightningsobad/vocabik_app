@@ -9,7 +9,6 @@ import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar
 import '../widgets/profile_action_grid.dart';
 import '../widgets/user_profile_section.dart';
 import '../widgets/preferences_tab_content.dart';
-import '../widgets/subscription_tab_content.dart';
 import '../widgets/security_tab_content.dart';
 import '../widgets/account_tab_content.dart';
 
@@ -60,7 +59,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 tabs: [
                   l10n.profileTab,
                   l10n.preferencesTab,
-                  l10n.subscriptionTab,
                   l10n.securityTab,
                   l10n.accountTab,
                 ],
@@ -83,10 +81,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ] else if (_selectedTabIndex == 1) ...[
                 const PreferencesTabContent(),
               ] else if (_selectedTabIndex == 2) ...[
-                const SubscriptionTabContent(),
-              ] else if (_selectedTabIndex == 3) ...[
                 const SecurityTabContent(),
-              ] else if (_selectedTabIndex == 4) ...[
+              ] else if (_selectedTabIndex == 3) ...[
                 const AccountTabContent(),
               ] else ...[
                 // Placeholder cho các tab khác

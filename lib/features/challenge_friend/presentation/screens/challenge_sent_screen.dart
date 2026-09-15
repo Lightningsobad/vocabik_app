@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import '../../../../shared/theme/app_colors.dart';
@@ -322,10 +321,10 @@ class _ChallengeSentScreenState extends State<ChallengeSentScreen>
         child: Column(
           children: [
             _buildInfoRow(
-              icon: Icon(
-                Icons.timer_outlined,
-                color: colors.textSecondary,
-                size: 24,
+              icon: Image.asset(
+                'assets/home_screen/timer_icon.png',
+                width: 24,
+                height: 24,
               ),
               title: l10n.challengeInfo24HoursTitle,
               desc: l10n.challengeInfo24HoursDesc,
@@ -333,10 +332,10 @@ class _ChallengeSentScreenState extends State<ChallengeSentScreen>
             ),
             const SizedBox(height: AppSpacing.md2),
             _buildInfoRow(
-              icon: const Icon(
-                Icons.notifications_active_rounded,
-                color: Color(0xFFFFB800),
-                size: 24,
+              icon: SvgPicture.asset(
+                'assets/home_screen/notification_icon.svg',
+                width: 24,
+                height: 24,
               ),
               title: l10n.challengeInfoNotifiedTitle,
               desc: l10n.challengeInfoNotifiedDesc,
@@ -344,10 +343,10 @@ class _ChallengeSentScreenState extends State<ChallengeSentScreen>
             ),
             const SizedBox(height: AppSpacing.md2),
             _buildInfoRow(
-              icon: const Icon(
-                Icons.bolt_rounded,
-                color: Color(0xFFFF9500),
-                size: 24,
+              icon: SvgPicture.asset(
+                'assets/home_screen/xp_icon.svg',
+                width: 24,
+                height: 24,
               ),
               title: l10n.challengeInfoWinXpTitle,
               desc: l10n.challengeInfoWinXpDesc,
@@ -419,10 +418,10 @@ class _ChallengeSentScreenState extends State<ChallengeSentScreen>
           // Copy Challenge Link
           _buildActionButton(
             label: l10n.challengeCopyLink,
-            leadingIcon: Icon(
-              LucideIcons.link,
-              size: 20,
-              color: colors.textPrimary,
+            leadingIcon: SvgPicture.asset(
+              'assets/result_screen/copy_icon.svg',
+              width: 20,
+              height: 20,
             ),
             colors: colors,
             onTap: () {

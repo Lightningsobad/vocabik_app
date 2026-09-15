@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import '../../../../shared/theme/app_colors.dart';
 import '../../../../shared/theme/app_font_size.dart';
@@ -21,6 +22,9 @@ class FriendSelectionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final hasStats = friend.xp != null ||
+        friend.streak != null ||
+        friend.formattedStats.isNotEmpty;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm2),
@@ -62,18 +66,9 @@ class FriendSelectionTile extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    if (friend.formattedStats.isNotEmpty) ...[
+                    if (hasStats) ...[
                       const SizedBox(height: 3),
-                      Text(
-                        friend.formattedStats,
-                        style: AppTextStyles.custom(
-                          fontSize: AppFontSize.sm,
-                          fontWeight: FontWeight.w500,
-                          color: colors.textSecondary,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      _buildStats(colors),
                     ],
                   ],
                 ),
@@ -87,6 +82,77 @@ class FriendSelectionTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildStats(AppColorsExtension colors) {
+    if (friend.xp != null || friend.streak != null) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (friend.xp != null) ...[
+            SvgPicture.asset(
+              'assets/home_screen/xp_icon.svg',
+              width: 14,
+              height: 14,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              '${friend.xp} XP',
+              style: AppTextStyles.custom(
+                fontSize: AppFontSize.sm,
+                fontWeight: FontWeight.w500,
+                color: colors.textSecondary,
+              ),
+            ),
+          ],
+          if (friend.xp != null && friend.streak != null) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Text(
+                '·',
+                style: AppTextStyles.custom(
+                  fontSize: AppFontSize.sm,
+                  fontWeight: FontWeight.w700,
+                  color: colors.textSecondary,
+                ),
+              ),
+            ),
+          ],
+          if (friend.streak != null) ...[
+            SvgPicture.asset(
+              'assets/home_screen/streak_icon.svg',
+              width: 14,
+              height: 14,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              '${friend.streak} days',
+              style: AppTextStyles.custom(
+                fontSize: AppFontSize.sm,
+                fontWeight: FontWeight.w500,
+                color: colors.textSecondary,
+              ),
+            ),
+          ],
+        ],
+      );
+    }
+
+    if (friend.formattedStats.isNotEmpty) {
+      return Text(
+        friend.formattedStats,
+        style: AppTextStyles.custom(
+          fontSize: AppFontSize.sm,
+          fontWeight: FontWeight.w500,
+          color: colors.textSecondary,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 
   Widget _buildAvatar(AppColorsExtension colors) {

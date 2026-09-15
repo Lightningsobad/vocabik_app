@@ -16,31 +16,35 @@ class SharedLeaderboardShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
-    return AppShimmer(
-      child: Column(
-        children: List.generate(
-          itemCount,
-          (index) => Container(
-            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.md,
-            ),
-            decoration: BoxDecoration(
-              color: colors.surfaceCard,
-              borderRadius: BorderRadius.circular(AppRadius.lg),
-            ),
+    return Column(
+      children: List.generate(
+        itemCount,
+        (index) => Container(
+          margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm2,
+          ),
+          decoration: BoxDecoration(
+            color: colors.surfaceCard,
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+            border: Border.all(color: colors.borderSubtle),
+          ),
+          child: AppShimmer(
             child: Row(
               children: [
+                // Rank placeholder
                 Container(
                   width: 24,
-                  height: 24,
-                  decoration: const BoxDecoration(
+                  height: 20,
+                  decoration: BoxDecoration(
                     color: Colors.white,
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(AppRadius.tn),
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const SizedBox(width: AppSpacing.lg2),
+
+                // Avatar placeholder
                 Container(
                   width: 36,
                   height: 36,
@@ -50,6 +54,8 @@ class SharedLeaderboardShimmer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: AppSpacing.md),
+
+                // User name placeholder
                 Expanded(
                   child: Container(
                     height: 16,
@@ -59,7 +65,9 @@ class SharedLeaderboardShimmer extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const SizedBox(width: AppSpacing.lg),
+
+                // XP / trailing placeholder
                 Container(
                   width: 50,
                   height: 16,
@@ -76,3 +84,4 @@ class SharedLeaderboardShimmer extends StatelessWidget {
     );
   }
 }
+

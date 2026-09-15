@@ -73,5 +73,27 @@ void main() {
       expect(find.text('#--'), findsNothing);
       expect(find.textContaining('XP'), findsNothing);
     });
+
+    testWidgets('renders shimmer skeleton when isLoading is true',
+        (tester) async {
+      await tester.pumpWidget(
+        _buildTestWidget(
+          const XpLeaderboardMyRankCard(
+            ownRank: null,
+            totalParticipants: null,
+            isLoading: true,
+          ),
+        ),
+      );
+
+      // Shimmer contains animation so we pump with a duration
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.byType(XpLeaderboardMyRankCard), findsOneWidget);
+      expect(find.text('#--'), findsNothing);
+      expect(find.text('0 XP'), findsNothing);
+    });
   });
 }
+
+

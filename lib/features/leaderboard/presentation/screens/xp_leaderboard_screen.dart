@@ -126,12 +126,14 @@ class _XpLeaderboardView extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg2),
 
                   // 3. My Rank Card
-                  if (data?.ownRank != null ||
+                  if (isLoading ||
+                      data?.ownRank != null ||
                       (data?.totalUsers != null && data!.totalUsers! > 0) ||
                       (data?.totalParticipants != null && data!.totalParticipants! > 0)) ...[
                     XpLeaderboardMyRankCard(
                       ownRank: data?.ownRank,
                       totalParticipants: data?.totalUsers ?? data?.totalParticipants,
+                      isLoading: isLoading,
                     ),
                     const SizedBox(height: AppSpacing.lg),
                   ],
@@ -140,7 +142,7 @@ class _XpLeaderboardView extends StatelessWidget {
                   XpLeaderboardList(
                     entries: data?.entries ?? [],
                     surrounding: data?.surrounding,
-                    isLoading: isLoading && data == null,
+                    isLoading: isLoading,
                   ),
 
                   // 5. Bottom spacing for Bottom Nav Bar

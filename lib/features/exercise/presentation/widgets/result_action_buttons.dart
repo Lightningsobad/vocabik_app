@@ -15,6 +15,7 @@ class ResultActionButtons extends StatelessWidget {
   final String youtubeVideoId;
   final String videoTitle;
   final String exerciseType;
+  final bool isDailyChallenge;
   final VoidCallback? onPracticeAgain;
 
   const ResultActionButtons({
@@ -23,6 +24,7 @@ class ResultActionButtons extends StatelessWidget {
     this.youtubeVideoId = '',
     this.videoTitle = '',
     this.exerciseType = 'Multiple choice',
+    this.isDailyChallenge = false,
     this.onPracticeAgain,
   });
 
@@ -45,7 +47,11 @@ class ResultActionButtons extends StatelessWidget {
             color: colors.textPrimary,
           ),
           onPressed: () {
-            context.go('/home');
+            if (isDailyChallenge) {
+              context.go('/home/daily-challenge');
+            } else {
+              context.go('/home');
+            }
           },
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -71,6 +77,7 @@ class ResultActionButtons extends StatelessWidget {
                 youtubeVideoId: youtubeVideoId,
                 videoTitle: videoTitle,
                 exerciseType: ExerciseType.fromString(exerciseType),
+                isDailyChallenge: isDailyChallenge,
               );
             }
           },
@@ -80,7 +87,11 @@ class ResultActionButtons extends StatelessWidget {
         // Back to library text button
         TextButton(
           onPressed: () {
-            context.go('/home');
+            if (isDailyChallenge) {
+              context.go('/home/daily-challenge');
+            } else {
+              context.go('/home');
+            }
           },
           child: Text(
             l10n.resultBackToLibrary,

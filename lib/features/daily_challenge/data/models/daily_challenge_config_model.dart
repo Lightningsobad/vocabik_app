@@ -42,6 +42,7 @@ class DailyChallengeConfigModel extends DailyChallengeConfigEntity {
     required super.videoSlug,
     required super.videoTitle,
     required super.thumbnailUrl,
+    super.youtubeVideoId = '',
     super.category = '',
     super.cefrLevel = '',
     super.author = '',
@@ -50,13 +51,29 @@ class DailyChallengeConfigModel extends DailyChallengeConfigEntity {
     super.createdAt,
   });
 
+  static String _extractYoutubeId(String? url) {
+    if (url == null || url.isEmpty) return '';
+    final match = RegExp(
+      r'(?:vi\/|v=|\/embed\/|\/v\/|youtu\.be\/|\/shorts\/)([a-zA-Z0-9_-]{11})',
+    ).firstMatch(url);
+    return match?.group(1) ?? '';
+  }
+
   factory DailyChallengeConfigModel.fromJson(Map<String, dynamic> json) {
+    final thumb = json['thumbnailUrl'] as String? ?? '';
+    final directYtId = json['youtubeVideoId'] as String? ??
+        json['youtube_video_id'] as String?;
+    final ytId = (directYtId != null && directYtId.isNotEmpty)
+        ? directYtId
+        : _extractYoutubeId(thumb);
+
     return DailyChallengeConfigModel(
       id: json['id'] as String? ?? '',
       challengeDate: json['challengeDate'] as String? ?? '',
       videoSlug: json['videoSlug'] as String? ?? '',
       videoTitle: (json['videoTitle'] as String? ?? '').trim(),
-      thumbnailUrl: json['thumbnailUrl'] as String? ?? '',
+      thumbnailUrl: thumb,
+      youtubeVideoId: ytId,
       category: json['category'] as String? ?? '',
       cefrLevel: json['cefrLevel'] as String? ?? '',
       author: (json['author'] as String? ?? '').trim(),
@@ -75,6 +92,7 @@ class DailyChallengeConfigModel extends DailyChallengeConfigEntity {
       'videoSlug': videoSlug,
       'videoTitle': videoTitle,
       'thumbnailUrl': thumbnailUrl,
+      'youtubeVideoId': youtubeVideoId,
       'category': category,
       'cefrLevel': cefrLevel,
       'author': author,

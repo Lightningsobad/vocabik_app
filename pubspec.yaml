@@ -65,6 +65,7 @@ dependencies:
   lottie: ^3.1.2
   rive: ^0.14.10
   haptic_feedback: ^0.6.5
+  audioplayers: ^6.1.0
 
   # --- IAP ---
   purchases_flutter: ^10.6.0
@@ -113,6 +114,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/audio_asset/
     - assets/verify_email_screen/
     - assets/cefr_screen/
     - assets/home_screen/

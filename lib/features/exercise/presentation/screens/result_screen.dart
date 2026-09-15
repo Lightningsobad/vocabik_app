@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/core/routes/app_router.dart';
+import 'package:vocabik_app/core/services/audio_feedback_service.dart';
 import 'package:vocabik_app/features/challenge_friend/presentation/models/challenge_friend_args.dart';
 import 'package:vocabik_app/features/exercise/domain/entities/exercise_entity.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/result_cubit.dart';
@@ -12,7 +13,9 @@ import 'package:vocabik_app/features/exercise/presentation/widgets/result_gamifi
 import 'package:vocabik_app/features/exercise/presentation/widgets/result_stats_section.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/result_wrong_answers.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/score_card_share_section.dart';
+import 'package:vocabik_app/features/main_shell/presentation/cubit/main_shell_cubit.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/gamification/cubit/gamification_global_cubit.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 
@@ -24,6 +27,7 @@ class ResultScreen extends StatelessWidget {
   final String youtubeVideoId;
   final String videoTitle;
   final String exerciseType;
+  final bool isDailyChallenge;
   final VoidCallback? onPracticeAgain;
 
   const ResultScreen({
@@ -35,6 +39,7 @@ class ResultScreen extends StatelessWidget {
     this.youtubeVideoId = '',
     this.videoTitle = '',
     this.exerciseType = 'Multiple choice',
+    this.isDailyChallenge = false,
     this.onPracticeAgain,
   });
 
@@ -47,6 +52,7 @@ class ResultScreen extends StatelessWidget {
           selectedAnswers: selectedAnswers,
           checkResults: checkResults,
           durationMs: durationMs,
+          isDailyChallenge: isDailyChallenge,
         ),
       child: ResultScreenView(
         exercise: exercise,
@@ -54,18 +60,20 @@ class ResultScreen extends StatelessWidget {
         youtubeVideoId: youtubeVideoId,
         videoTitle: videoTitle,
         exerciseType: exerciseType,
+        isDailyChallenge: isDailyChallenge,
         onPracticeAgain: onPracticeAgain,
       ),
     );
   }
 }
 
-class ResultScreenView extends StatelessWidget {
+class ResultScreenView extends StatefulWidget {
   final ExerciseEntity exercise;
   final int durationMs;
   final String youtubeVideoId;
   final String videoTitle;
   final String exerciseType;
+  final bool isDailyChallenge;
   final VoidCallback? onPracticeAgain;
 
   const ResultScreenView({
@@ -75,21 +83,54 @@ class ResultScreenView extends StatelessWidget {
     this.youtubeVideoId = '',
     this.videoTitle = '',
     this.exerciseType = 'Multiple choice',
+    this.isDailyChallenge = false,
     this.onPracticeAgain,
   });
+
+  @override
+  State<ResultScreenView> createState() => _ResultScreenViewState();
+}
+
+class _ResultScreenViewState extends State<ResultScreenView> {
+  bool _hasPlayedCompletionAudio = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<ResultCubit>().state;
+    if (!state.isCalculating && state.summary != null && !_hasPlayedCompletionAudio) {
+      _hasPlayedCompletionAudio = true;
+      getIt<AudioFeedbackService>().playCompletionFeedback();
+    }
+  }
+
+  @override
+  void dispose() {
+    getIt<AudioFeedbackService>().stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
+    final streak = context.select(
+      (GamificationGlobalCubit cubit) => cubit.state.streak,
+    );
 
     return Scaffold(
       backgroundColor: colors.background,
       body: BlocConsumer<ResultCubit, ResultState>(
         listenWhen: (previous, current) {
-          return previous.progressStatus != current.progressStatus;
+          return previous.progressStatus != current.progressStatus ||
+              previous.isCalculating != current.isCalculating ||
+              previous.summary != current.summary;
         },
         listener: (context, state) {
+          if (state.progressStatus == ProgressSubmitStatus.success) {
+            context.read<MainShellCubit>().loadSummary();
+          }
+
           if (state.progressStatus == ProgressSubmitStatus.error) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -105,7 +146,7 @@ class ResultScreenView extends StatelessWidget {
                   onPressed: () {
                     if (state.summary != null) {
                       context.read<ResultCubit>().submitProgress(
-                        exercise: exercise,
+                        exercise: widget.exercise,
                         summary: state.summary!,
                       );
                     }
@@ -113,6 +154,11 @@ class ResultScreenView extends StatelessWidget {
                 ),
               ),
             );
+          }
+
+          if (!state.isCalculating && state.summary != null && !_hasPlayedCompletionAudio) {
+            _hasPlayedCompletionAudio = true;
+            getIt<AudioFeedbackService>().playCompletionFeedback();
           }
         },
         builder: (context, state) {
@@ -140,7 +186,8 @@ class ResultScreenView extends StatelessWidget {
 
                         // 2. XP, Streak, Badge Cards
                         ResultGamificationCards(
-                          cefrLevel: exercise.cefrLevel,
+                          cefrLevel: widget.exercise.cefrLevel,
+                          dayStreak: streak,
                         ),
 
                         // 3. What went wrong section
@@ -154,8 +201,8 @@ class ResultScreenView extends StatelessWidget {
                           imageUrl: state.scoreCardImageUrl,
                           onRetry: () {
                             context.read<ResultCubit>().generateScoreCard(
-                              videoId: exercise.videoId,
-                              cefrLevel: exercise.cefrLevel,
+                              videoId: widget.exercise.videoId,
+                              cefrLevel: widget.exercise.cefrLevel,
                               accuracyScore: state.summary!.accuracyScore,
                             );
                           },
@@ -163,11 +210,11 @@ class ResultScreenView extends StatelessWidget {
                             if (state.summary != null) {
                               context.pushToChallengeFriend(
                                 ChallengeFriendArgs(
-                                  exercise: exercise,
-                                  durationMs: durationMs,
+                                  exercise: widget.exercise,
+                                  durationMs: widget.durationMs,
                                   accuracyScore: state.summary!.accuracyScore,
-                                  videoTitle: videoTitle,
-                                  youtubeVideoId: youtubeVideoId,
+                                  videoTitle: widget.videoTitle,
+                                  youtubeVideoId: widget.youtubeVideoId,
                                 ),
                               );
                             }
@@ -176,11 +223,12 @@ class ResultScreenView extends StatelessWidget {
 
                         // 5. Navigation Action Buttons
                         ResultActionButtons(
-                          exercise: exercise,
-                          youtubeVideoId: youtubeVideoId,
-                          videoTitle: videoTitle,
-                          exerciseType: exerciseType,
-                          onPracticeAgain: onPracticeAgain,
+                          exercise: widget.exercise,
+                          youtubeVideoId: widget.youtubeVideoId,
+                          videoTitle: widget.videoTitle,
+                          exerciseType: widget.exerciseType,
+                          isDailyChallenge: widget.isDailyChallenge,
+                          onPracticeAgain: widget.onPracticeAgain,
                         ),
                         const SizedBox(height: AppSpacing.lg),
                       ],

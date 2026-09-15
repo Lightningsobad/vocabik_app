@@ -6,7 +6,7 @@ import '../data/repositories/settings_repository.dart';
 
 part 'sound_settings_state.dart';
 
-@injectable
+@lazySingleton
 class SoundSettingsCubit extends Cubit<SoundSettingsState> {
   final SettingsRepository _settingsRepository;
 

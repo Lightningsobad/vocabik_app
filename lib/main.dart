@@ -14,6 +14,7 @@ import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_sour
 import 'package:vocabik_app/features/main_shell/presentation/cubit/main_shell_cubit.dart';
 import 'core/di/injection.dart';
 import 'core/routes/app_router.dart';
+import 'core/services/audio_feedback_service.dart';
 import 'core/services/deep_link_service.dart';
 
 void main() async {
@@ -21,6 +22,9 @@ void main() async {
   
   // Initialize dependency injection
   await configureDependencies();
+
+  // Initialize Audio & Haptic Feedback Service
+  await getIt<AudioFeedbackService>().init();
 
   // Initialize Deep Links
   final deepLinkService = getIt<DeepLinkService>();

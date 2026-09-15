@@ -55,6 +55,11 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
 
         final isPlaying = playerState == PlayerState.playing;
 
+        // Continuously refresh duration when available
+        if (_totalDurationMs <= 0) {
+          _fetchDuration();
+        }
+
         setState(() {
           _currentPositionMs = posMs;
           _isPlaying = isPlaying;
@@ -81,9 +86,12 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
     try {
       final durSeconds = await widget.controller.duration;
       if (mounted && durSeconds > 0) {
-        setState(() {
-          _totalDurationMs = (durSeconds * 1000).round();
-        });
+        final newDurationMs = (durSeconds * 1000).round();
+        if (newDurationMs != _totalDurationMs) {
+          setState(() {
+            _totalDurationMs = newDurationMs;
+          });
+        }
       }
     } catch (_) {}
   }
@@ -154,11 +162,11 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
     widget.controller.setPlaybackRate(nextSpeed);
   }
 
-  void _handleSeek(double progressFraction) {
+  void _handleSeek(double progressFraction, int effectiveDurationMs) {
     _onUserInteraction();
-    if (_totalDurationMs <= 0) return;
+    if (effectiveDurationMs <= 0) return;
 
-    final targetMs = (progressFraction * _totalDurationMs).round();
+    final targetMs = (progressFraction * effectiveDurationMs).round();
     // Only allow rewind or seek up to the furthest reached position
     final clampedMs = min(targetMs, _maxPositionMs);
     widget.controller.seekTo(seconds: clampedMs / 1000.0, allowSeekAhead: true);
@@ -168,10 +176,12 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
   Widget build(BuildContext context) {
     return BlocBuilder<ExerciseCubit, ExerciseState>(
       builder: (context, state) {
-        if (state is ExerciseLoaded) {
-          // Fallback total duration from lines if video duration is not loaded yet
-          if (_totalDurationMs <= 0 && state.exercise.lines.isNotEmpty) {
-            _totalDurationMs = state.exercise.lines.last.endMs;
+        int effectiveDurationMs = _totalDurationMs;
+        if (effectiveDurationMs <= 0 && state is ExerciseLoaded) {
+          if (state.exercise.lines.isNotEmpty) {
+            effectiveDurationMs = state.exercise.lines.last.endMs;
+          } else if (state.exercise.blankPositions.isNotEmpty) {
+            effectiveDurationMs = state.exercise.blankPositions.last.endMs;
           }
         }
 
@@ -237,9 +247,9 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
                       // Seek Bar with stop dots (Always Visible)
                       ExerciseCustomSeekBar(
                         currentPositionMs: _currentPositionMs,
-                        totalDurationMs: _totalDurationMs,
+                        totalDurationMs: effectiveDurationMs,
                         exerciseState: state is ExerciseLoaded ? state : null,
-                        onSeek: _handleSeek,
+                        onSeek: (progress) => _handleSeek(progress, effectiveDurationMs),
                       ),
 
                       const SizedBox(height: 6),

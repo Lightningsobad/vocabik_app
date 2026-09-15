@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "621884720913",
+    "project_id": "vocabik-entertain",
+    "storage_bucket": "vocabik-entertain.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621884720913:android:556ccdf3cab9f4e87d6eb0",
+        "android_client_info": {
+          "package_name": "com.snapsofts.vocabik.yt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVWP4wk705ApbnUUxFL9YjVuo8DQn2NKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

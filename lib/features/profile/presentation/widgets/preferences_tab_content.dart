@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
-import 'package:vocabik_app/shared/theme/app_font_size.dart';
-import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import 'package:vocabik_app/shared/theme/cubit/theme_cubit.dart';
 import 'package:vocabik_app/shared/localization/cubit/localization_cubit.dart';
 import 'package:vocabik_app/shared/localization/cubit/localization_state.dart';
@@ -128,22 +125,6 @@ class _PreferencesTabContentView extends StatelessWidget {
                   ],
                 ),
               );
-            },
-          ),
-          const SizedBox(height: AppSpacing.sm),
-
-          // Bot Integration (Tích hợp Bot)
-          SettingListTile(
-            title: l10n.botIntegrationTelegramZalo,
-            titleStyle: AppTextStyles.custom(
-              fontSize: AppFontSize.mdt,
-              fontWeight: FontWeight.w800,
-              color: colors.textPrimary,
-            ),
-            prefixAsset: 'assets/profile_screen/plane_icon.svg',
-            trailing: Icon(Icons.chevron_right, color: colors.textSecondary),
-            onTap: () {
-              context.push('/profile/integration');
             },
           ),
         ],

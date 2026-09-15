@@ -8,6 +8,7 @@ import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/core/routes/app_router.dart';
+import 'package:vocabik_app/core/services/audio_feedback_service.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_cubit.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/answer_interaction_area.dart';
@@ -27,6 +28,7 @@ class ExerciseScreen extends StatelessWidget {
   final String youtubeVideoId;
   final String videoTitle;
   final String exerciseType;
+  final bool isDailyChallenge;
 
   const ExerciseScreen({
     super.key,
@@ -36,6 +38,7 @@ class ExerciseScreen extends StatelessWidget {
     required this.youtubeVideoId,
     this.videoTitle = '',
     this.exerciseType = 'Multiple choice',
+    this.isDailyChallenge = false,
   });
 
   @override
@@ -54,6 +57,7 @@ class ExerciseScreen extends StatelessWidget {
         videoTitle: videoTitle,
         cefrLevel: cefrLevel,
         exerciseType: exerciseType,
+        isDailyChallenge: isDailyChallenge,
       ),
     );
   }
@@ -66,6 +70,7 @@ class ExerciseScreenView extends StatefulWidget {
   final String videoTitle;
   final String cefrLevel;
   final String exerciseType;
+  final bool isDailyChallenge;
 
   const ExerciseScreenView({
     super.key,
@@ -75,6 +80,7 @@ class ExerciseScreenView extends StatefulWidget {
     required this.videoTitle,
     required this.cefrLevel,
     this.exerciseType = 'Multiple choice',
+    this.isDailyChallenge = false,
   });
 
   @override
@@ -85,7 +91,9 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
   late YoutubePlayerController _youtubeController;
   StreamSubscription<YoutubeVideoState>? _videoStateSubscription;
   bool _isQuestionVisible = false;
+  bool _isNavigatingToResult = false;
   DateTime _startTime = DateTime.now();
+  int _currentPositionMs = 0;
 
   @override
   void initState() {
@@ -96,6 +104,10 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
     final safeVideoId =
         YoutubePlayerController.convertUrlToId(widget.youtubeVideoId) ??
         widget.youtubeVideoId;
+
+    if (safeVideoId.isEmpty) {
+      _isQuestionVisible = true;
+    }
 
     _youtubeController = YoutubePlayerController.fromVideoId(
       videoId: safeVideoId,
@@ -115,25 +127,31 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
 
   void _onVideoStateChanged(YoutubeVideoState videoState) {
     if (!mounted) return;
+    final posMs = videoState.position.inMilliseconds;
+    _currentPositionMs = posMs;
+
     final state = context.read<ExerciseCubit>().state;
     if (state is! ExerciseLoaded || state.isFinished) return;
 
-    final currentPosition = videoState.position.inMilliseconds;
     final activeLine = state.activeLine;
 
-    // Pause when the video reaches the END of the active sentence
-    if (currentPosition >= activeLine.endMs) {
-      _youtubeController.pauseVideo();
-      if (!_isQuestionVisible) {
-        setState(() {
-          _isQuestionVisible = true;
-        });
+    if (activeLine.endMs > 0) {
+      // Pause when the video reaches the END of the active sentence
+      if (posMs >= activeLine.endMs) {
+        _youtubeController.pauseVideo();
+        if (!_isQuestionVisible) {
+          setState(() {
+            _isQuestionVisible = true;
+          });
+        }
+      } else if (posMs < activeLine.endMs && _isQuestionVisible) {
+        // If user seeks backward before the active sentence end and question is not yet answered
+        if (!state.checkResults.containsKey(state.currentBlankIndex)) {
+          setState(() {
+            _isQuestionVisible = false;
+          });
+        }
       }
-    } else if (currentPosition < activeLine.endMs && _isQuestionVisible) {
-      // If user seeks backward before the active sentence end
-      setState(() {
-        _isQuestionVisible = false;
-      });
     }
   }
 
@@ -141,6 +159,9 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
   void dispose() {
     _videoStateSubscription?.cancel();
     _youtubeController.close();
+    if (!_isNavigatingToResult) {
+      getIt<AudioFeedbackService>().stop();
+    }
     super.dispose();
   }
 
@@ -155,14 +176,19 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
         child: BlocConsumer<ExerciseCubit, ExerciseState>(
           listenWhen: (previous, current) {
             if (previous is ExerciseLoaded && current is ExerciseLoaded) {
-              return previous.currentBlankIndex != current.currentBlankIndex ||
-                  previous.isFinished != current.isFinished;
+              final prevChecked = previous.checkResults.containsKey(previous.currentBlankIndex);
+              final currChecked = current.checkResults.containsKey(current.currentBlankIndex);
+              final hasNewCheckResult = !prevChecked && currChecked;
+              final hasBlankChange = previous.currentBlankIndex != current.currentBlankIndex;
+              final hasFinishedChange = previous.isFinished != current.isFinished;
+              return hasNewCheckResult || hasBlankChange || hasFinishedChange;
             }
             return false;
           },
           listener: (context, state) async {
             if (state is ExerciseLoaded) {
               if (state.isFinished) {
+                _isNavigatingToResult = true;
                 final durationMs = DateTime.now()
                     .difference(_startTime)
                     .inMilliseconds;
@@ -175,22 +201,50 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                     youtubeVideoId: widget.youtubeVideoId,
                     videoTitle: widget.videoTitle,
                     exerciseType: widget.exerciseType,
+                    isDailyChallenge: widget.isDailyChallenge,
                   ),
                 );
                 return;
               }
-              if (mounted) {
-                setState(() {
-                  _isQuestionVisible = false;
-                });
-              }
-              try {
-                final playerState = await _youtubeController.playerState;
-                if (!mounted) return;
-                if (playerState != PlayerState.playing) {
-                  _youtubeController.playVideo();
+
+              final isCorrect = state.checkResults[state.currentBlankIndex];
+              if (isCorrect != null && _isQuestionVisible) {
+                if (isCorrect) {
+                  getIt<AudioFeedbackService>().playCorrectFeedback();
+                } else {
+                  getIt<AudioFeedbackService>().playIncorrectFeedback();
                 }
-              } catch (_) {}
+              }
+
+              if (state.checkResults[state.currentBlankIndex] == null) {
+                final activeLine = state.activeLine;
+                // If the next sentence is ahead in the video, hide question and play
+                if (activeLine.endMs > 0 && _currentPositionMs < activeLine.endMs - 300) {
+                  if (mounted) {
+                    setState(() {
+                      _isQuestionVisible = false;
+                    });
+                  }
+                  try {
+                    final playerState = await _youtubeController.playerState;
+                    if (!mounted) return;
+                    if (playerState != PlayerState.playing) {
+                      _youtubeController.playVideo();
+                    }
+                  } catch (_) {}
+                } else {
+                  // Video is already at or past the end of the sentence (e.g. multiple blanks in the same sentence)
+                  // Keep question visible and ensure video is smoothly paused
+                  if (mounted && !_isQuestionVisible) {
+                    setState(() {
+                      _isQuestionVisible = true;
+                    });
+                  }
+                  try {
+                    _youtubeController.pauseVideo();
+                  } catch (_) {}
+                }
+              }
             }
           },
           builder: (context, state) {

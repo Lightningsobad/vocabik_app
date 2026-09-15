@@ -10,4 +10,8 @@ abstract class DailyChallengeRepository {
   Future<Either<Failure, List<DailyChallengeLeaderboardItemEntity>>>
       getLeaderboard(String date);
   Future<Either<Failure, DailyChallengeStreakEntity>> getStreak();
+  Future<Either<Failure, String>> submitResult({
+    required int scoreAccuracy,
+    required int scoreTimeMs,
+  });
 }
