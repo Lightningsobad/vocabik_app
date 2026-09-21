@@ -90,8 +90,14 @@ class AnswerInteractionArea extends StatelessWidget {
         final options =
             state.exercise.answerOptions[currentBlankIndex.toString()] ?? [];
 
+        final isLandscape =
+            MediaQuery.of(context).orientation == Orientation.landscape;
+
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: isLandscape ? 0 : 4,
+            vertical: isLandscape ? 2 : 8,
+          ),
           color: Colors.transparent,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -100,11 +106,12 @@ class AnswerInteractionArea extends StatelessWidget {
               // Options Grid (2x2)
               LayoutBuilder(
                 builder: (context, constraints) {
-                  final itemWidth = (constraints.maxWidth - 12) / 2;
+                  final spacing = isLandscape ? 8.0 : 12.0;
+                  final itemWidth = (constraints.maxWidth - spacing) / 2;
 
                   return Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
+                    spacing: spacing,
+                    runSpacing: spacing,
                     alignment: WrapAlignment.center,
                     children: options.map((option) {
                       final isSelected = selectedAnswer == option;
@@ -133,9 +140,9 @@ class AnswerInteractionArea extends StatelessWidget {
                             }
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 16,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isLandscape ? 10 : 16,
+                              vertical: isLandscape ? 10 : 16,
                             ),
                             decoration: BoxDecoration(
                               color: optionColors.bgColor,
@@ -144,14 +151,18 @@ class AnswerInteractionArea extends StatelessWidget {
                                 width: 1.5,
                               ),
                               borderRadius: BorderRadius.circular(
-                                AppRadius.xl2,
+                                isLandscape ? AppRadius.lg : AppRadius.xl2,
                               ),
                             ),
                             child: Center(
                               child: Text(
                                 option,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: AppTextStyles.custom(
-                                  fontSize: AppFontSize.lg2,
+                                  fontSize: isLandscape
+                                      ? AppFontSize.md
+                                      : AppFontSize.lg2,
                                   fontWeight: FontWeight.w700,
                                   color: optionColors.textColor,
                                 ),
@@ -165,7 +176,7 @@ class AnswerInteractionArea extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: AppSpacing.xl),
+              SizedBox(height: isLandscape ? AppSpacing.md : AppSpacing.xl),
 
               // Bottom Area: Hint Button (Before Answer) or Result & Continue Button (After Answer)
               if (checkResult == null)
@@ -179,11 +190,11 @@ class AnswerInteractionArea extends StatelessWidget {
                   isCorrect: isCorrect,
                   correctAnswer: correctAnswer,
                 ),
-                const SizedBox(height: AppSpacing.lg3),
+                SizedBox(height: isLandscape ? AppSpacing.sm : AppSpacing.lg3),
                 PrimaryButton(
                   text: l10n.exerciseContinue,
                   textStyle: AppTextStyles.custom(
-                    fontSize: AppFontSize.lg2,
+                    fontSize: isLandscape ? AppFontSize.md : AppFontSize.lg2,
                     fontWeight: FontWeight.w700,
                   ),
                   onPressed: () {
