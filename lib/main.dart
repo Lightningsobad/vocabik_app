@@ -9,22 +9,39 @@ import 'package:vocabik_app/shared/localization/cubit/localization_cubit.dart';
 import 'package:vocabik_app/shared/localization/cubit/localization_state.dart';
 import 'package:vocabik_app/shared/settings/cubit/sound_settings_cubit.dart';
 import 'package:vocabik_app/shared/gamification/cubit/gamification_global_cubit.dart';
-import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
+import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/features/main_shell/presentation/cubit/main_shell_cubit.dart';
 import 'core/di/injection.dart';
 import 'core/routes/app_router.dart';
 import 'core/services/audio_feedback_service.dart';
 import 'core/services/deep_link_service.dart';
+import 'core/services/notification/fcm_service.dart';
+import 'core/services/notification/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
+  // Initialize Firebase Core
+  try {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  } catch (e) {
+    debugPrint('Firebase initialization error: $e');
+  }
+
   // Initialize dependency injection
   await configureDependencies();
 
   // Initialize Audio & Haptic Feedback Service
   await getIt<AudioFeedbackService>().init();
+
+  // Initialize Notification Service (FCM, Local Notifications, In-App Messaging)
+  if (getIt.isRegistered<NotificationService>()) {
+    await getIt<NotificationService>().init();
+  }
 
   // Initialize Deep Links
   final deepLinkService = getIt<DeepLinkService>();

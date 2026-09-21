@@ -126,8 +126,7 @@ class MockAuthRepository implements AuthRepository {
   Future<Either<Failure, User>> login({
     required String email,
     required String password,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Either<Failure, void>> resendVerificationEmail(String email) =>
@@ -137,8 +136,7 @@ class MockAuthRepository implements AuthRepository {
   Future<Either<Failure, String>> resetPassword({
     required String token,
     required String newPassword,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Either<Failure, void>> setCefrSkipped(bool value) =>
@@ -184,21 +182,23 @@ void main() {
   });
 
   group('RegisterWithGoogleSubmitted', () {
-    test('emits [loading, socialSuccess] on successful Google register/login',
-        () async {
-      socialAuthService.mockIdToken = 'valid_id_token';
-      final states = <RegisterState>[];
-      registerBloc.stream.listen(states.add);
+    test(
+      'emits [loading, socialSuccess] on successful Google register/login',
+      () async {
+        socialAuthService.mockIdToken = 'valid_id_token';
+        final states = <RegisterState>[];
+        registerBloc.stream.listen(states.add);
 
-      registerBloc.add(const RegisterWithGoogleSubmitted());
-      await Future.delayed(const Duration(milliseconds: 50));
+        registerBloc.add(const RegisterWithGoogleSubmitted());
+        await Future.delayed(const Duration(milliseconds: 50));
 
-      expect(states.length, 2);
-      expect(states[0].status, RegisterStatus.loading);
-      expect(states[1].status, RegisterStatus.socialSuccess);
-      expect(authBloc.state.status, AuthStatus.success);
-      expect(authBloc.state.user?.email, 'user@gmail.com');
-    });
+        expect(states.length, 2);
+        expect(states[0].status, RegisterStatus.loading);
+        expect(states[1].status, RegisterStatus.socialSuccess);
+        expect(authBloc.state.status, AuthStatus.success);
+        expect(authBloc.state.user?.email, 'user@gmail.com');
+      },
+    );
 
     test('emits [loading, initial] when user cancels Google sign up', () async {
       socialAuthService.mockIdToken = null;
@@ -213,22 +213,25 @@ void main() {
       expect(states[1].status, RegisterStatus.initial);
     });
 
-    test('emits [loading, failure] when Google use case returns Failure',
-        () async {
-      socialAuthService.mockIdToken = 'invalid_id_token';
-      repository.mockFailure =
-          const InvalidCredentialsFailure('Google Token invalid');
-      final states = <RegisterState>[];
-      registerBloc.stream.listen(states.add);
+    test(
+      'emits [loading, failure] when Google use case returns Failure',
+      () async {
+        socialAuthService.mockIdToken = 'invalid_id_token';
+        repository.mockFailure = const InvalidCredentialsFailure(
+          'Google Token invalid',
+        );
+        final states = <RegisterState>[];
+        registerBloc.stream.listen(states.add);
 
-      registerBloc.add(const RegisterWithGoogleSubmitted());
-      await Future.delayed(const Duration(milliseconds: 50));
+        registerBloc.add(const RegisterWithGoogleSubmitted());
+        await Future.delayed(const Duration(milliseconds: 50));
 
-      expect(states.length, 2);
-      expect(states[0].status, RegisterStatus.loading);
-      expect(states[1].status, RegisterStatus.failure);
-      expect(states[1].errorMessage, 'Google Token invalid');
-    });
+        expect(states.length, 2);
+        expect(states[0].status, RegisterStatus.loading);
+        expect(states[1].status, RegisterStatus.failure);
+        expect(states[1].errorMessage, 'Google Token invalid');
+      },
+    );
 
     test('emits [loading, failure] when Google SDK throws error', () async {
       socialAuthService.shouldThrow = true;
