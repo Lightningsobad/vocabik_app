@@ -113,16 +113,14 @@ class MockAuthRepository implements AuthRepository {
   Future<Either<Failure, User>> login({
     required String email,
     required String password,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Either<Failure, void>> register({
     required String email,
     required String password,
     required String displayName,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Either<Failure, void>> resendVerificationEmail(String email) =>
@@ -132,8 +130,7 @@ class MockAuthRepository implements AuthRepository {
   Future<Either<Failure, String>> resetPassword({
     required String token,
     required String newPassword,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Either<Failure, void>> setCefrSkipped(bool value) =>

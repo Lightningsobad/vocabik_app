@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/services/notification/notification_service.dart';
 import '../../data/data_sources/auth_local_data_source.dart';
 import '../../data/models/user_model.dart';
 import '../../domain/entities/user.dart';
@@ -17,12 +18,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignOutUseCase _signOutUseCase;
   final GetMeUseCase _getMeUseCase;
   final AuthLocalDataSource _authLocalDataSource;
+  final NotificationService? _notificationService;
 
   AuthBloc(
     this._signOutUseCase,
     this._getMeUseCase,
-    this._authLocalDataSource,
-  ) : super(_getInitialState(_authLocalDataSource)) {
+    this._authLocalDataSource, [
+    this._notificationService,
+  ]) : super(_getInitialState(_authLocalDataSource)) {
     on<AuthCheckRequested>(
       _onAuthCheckRequested,
       transformer: droppable(),
@@ -76,6 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     await _authLocalDataSource.clear();
+    _notificationService?.unsubscribeDailyReminders();
     emit(const AuthState(status: AuthStatus.unauthenticated));
   }
 
@@ -88,6 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       status: AuthStatus.success,
       user: event.user,
     ));
+    _notificationService?.subscribeDailyReminders();
   }
 
   void _onUserProfileUpdated(
@@ -106,6 +111,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(status: AuthStatus.loading));
     final result = await _signOutUseCase();
+    _notificationService?.unsubscribeDailyReminders();
     result.fold(
       (failure) => emit(state.copyWith(
         status: AuthStatus.failure,

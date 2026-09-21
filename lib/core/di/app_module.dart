@@ -4,12 +4,50 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import '../network/auth_interceptor.dart';
+import '../services/notification/fcm_service.dart';
+import '../services/notification/in_app_messaging_service.dart';
+import '../services/notification/local_notification_service.dart';
+import '../services/notification/notification_router_handler.dart';
+import '../services/notification/notification_service.dart';
 import 'injection.dart';
 
 @module
 abstract class AppModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+
+  @lazySingleton
+  NotificationRouterHandler get routerHandler => NotificationRouterHandler();
+
+  @lazySingleton
+  LocalNotificationService localNotificationService(
+    NotificationRouterHandler routerHandler,
+  ) =>
+      LocalNotificationService(routerHandler);
+
+  @lazySingleton
+  InAppMessagingService get inAppMessagingService => InAppMessagingService();
+
+  @lazySingleton
+  FcmService fcmService(
+    LocalNotificationService localNotificationService,
+    NotificationRouterHandler routerHandler,
+  ) =>
+      FcmService(localNotificationService, routerHandler);
+
+  @lazySingleton
+  NotificationService notificationService(
+    FcmService fcmService,
+    LocalNotificationService localNotificationService,
+    InAppMessagingService inAppMessagingService,
+    NotificationRouterHandler routerHandler,
+  ) =>
+      NotificationService(
+        fcmService: fcmService,
+        localNotificationService: localNotificationService,
+        inAppMessagingService: inAppMessagingService,
+        routerHandler: routerHandler,
+      );
 
   @lazySingleton
   Dio dio(AuthLocalDataSource authLocalDataSource) {

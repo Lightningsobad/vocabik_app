@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/presentation/widgets/header/app_header.dart';
 
+import 'package:vocabik_app/features/notification/presentation/widgets/in_app_challenge_banner.dart';
 import '../cubit/main_shell_cubit.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
 
@@ -45,7 +46,9 @@ class _MainShellScreenState extends State<MainShellScreen> {
     return Scaffold(
       backgroundColor: colors.background,
       appBar: const AppHeader(),
-      body: widget.navigationShell,
+      body: InAppChallengeBannerListener(
+        child: widget.navigationShell,
+      ),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: widget.navigationShell.currentIndex,
         onTap: _onTap,

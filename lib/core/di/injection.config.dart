@@ -253,6 +253,11 @@ import '../../shared/theme/data/repositories/theme_repository_impl.dart'
 import '../../shared/theme/domain/repositories/theme_repository.dart' as _i416;
 import '../services/audio_feedback_service.dart' as _i464;
 import '../services/deep_link_service.dart' as _i391;
+import '../services/notification/fcm_service.dart' as _i409;
+import '../services/notification/in_app_messaging_service.dart' as _i408;
+import '../services/notification/local_notification_service.dart' as _i474;
+import '../services/notification/notification_router_handler.dart' as _i961;
+import '../services/notification/notification_service.dart' as _i446;
 import '../services/social_auth_service.dart' as _i723;
 import 'app_module.dart' as _i461;
 
@@ -269,11 +274,28 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i391.DeepLinkService>(() => _i391.DeepLinkService());
+    gh.lazySingleton<_i961.NotificationRouterHandler>(
+      () => appModule.routerHandler,
+    );
+    gh.lazySingleton<_i408.InAppMessagingService>(
+      () => appModule.inAppMessagingService,
+    );
     gh.lazySingleton<_i561.GamificationGlobalCubit>(
       () => _i561.GamificationGlobalCubit(),
     );
     gh.factory<_i416.ThemeRepository>(
       () => _i108.ThemeRepositoryImpl(prefs: gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i474.LocalNotificationService>(
+      () => appModule.localNotificationService(
+        gh<_i961.NotificationRouterHandler>(),
+      ),
+    );
+    gh.lazySingleton<_i409.FcmService>(
+      () => appModule.fcmService(
+        gh<_i474.LocalNotificationService>(),
+        gh<_i961.NotificationRouterHandler>(),
+      ),
     );
     gh.lazySingleton<_i723.SocialAuthService>(
       () => _i723.GoogleAuthServiceImpl(),
@@ -287,6 +309,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i729.LocalizationLocalDataSource>(
       () =>
           _i729.LocalizationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i446.NotificationService>(
+      () => appModule.notificationService(
+        gh<_i409.FcmService>(),
+        gh<_i474.LocalNotificationService>(),
+        gh<_i408.InAppMessagingService>(),
+        gh<_i961.NotificationRouterHandler>(),
+      ),
     );
     gh.factory<_i909.ThemeCubit>(
       () => _i909.ThemeCubit(themeRepository: gh<_i416.ThemeRepository>()),
@@ -496,6 +526,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1011.GetPersonalizedSlotsUseCase>(
       () => _i1011.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
     );
+    gh.lazySingleton<_i797.AuthBloc>(
+      () => _i797.AuthBloc(
+        gh<_i131.SignOutUseCase>(),
+        gh<_i477.GetMeUseCase>(),
+        gh<_i606.AuthLocalDataSource>(),
+        gh<_i446.NotificationService>(),
+      ),
+    );
     gh.factory<_i822.CreateClassroomUseCase>(
       () => _i822.CreateClassroomUseCase(gh<_i86.ClassroomRepository>()),
     );
@@ -523,13 +561,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i292.ClassroomListCubit(
         gh<_i851.GetClassroomsUseCase>(),
         gh<_i822.CreateClassroomUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i797.AuthBloc>(
-      () => _i797.AuthBloc(
-        gh<_i131.SignOutUseCase>(),
-        gh<_i477.GetMeUseCase>(),
-        gh<_i606.AuthLocalDataSource>(),
       ),
     );
     gh.factory<_i209.GetLatestVideoProgressUseCase>(
