@@ -89,6 +89,7 @@ class ExerciseScreenView extends StatefulWidget {
 
 class _ExerciseScreenViewState extends State<ExerciseScreenView> {
   late YoutubePlayerController _youtubeController;
+  final GlobalKey _videoPlayerKey = GlobalKey();
   StreamSubscription<YoutubeVideoState>? _videoStateSubscription;
   bool _isQuestionVisible = false;
   bool _isNavigatingToResult = false;
@@ -114,6 +115,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
       autoPlay: true,
       params: const YoutubePlayerParams(
         showControls: false,
+        showFullscreenButton: false,
         enableCaption: false,
         mute: false,
         pointerEvents: PointerEvents.none,
@@ -284,6 +286,159 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                 return const Center(child: CircularProgressIndicator());
               }
 
+              final isLandscape =
+                  MediaQuery.of(context).orientation == Orientation.landscape;
+              final isKeyboardOpen =
+                  MediaQuery.of(context).viewInsets.bottom > 0;
+
+              if (isLandscape) {
+                return Column(
+                  children: [
+                    // Hide compact header when keyboard opens in landscape to maximize vertical room
+                    if (!isKeyboardOpen)
+                      ExerciseHeaderWidget(
+                        progress: state.progress,
+                        currentStep: state.currentStep,
+                        totalSteps: state.totalSteps,
+                        isLandscape: true,
+                      ),
+
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Left Pane: Video Player (~45% flex)
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                AppSpacing.md,
+                                0,
+                                AppSpacing.sm,
+                                AppSpacing.sm,
+                              ),
+                              child: Center(
+                                child: ExerciseVideoPlayerWidget(
+                                  key: _videoPlayerKey,
+                                  controller: _youtubeController,
+                                  videoTitle: widget.videoTitle,
+                                  cefrLevel: widget.cefrLevel,
+                                  isLandscape: true,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Right Pane: Interactive Exercise Area (~55% flex)
+                          Expanded(
+                            flex: 6,
+                            child: !_isQuestionVisible
+                                ? Center(
+                                    child: Text(
+                                      l10n.exercisePlayingVideo,
+                                      style: AppTextStyles.custom(
+                                        color: colors.textSecondary,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  )
+                                : SingleChildScrollView(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: AppSpacing.md,
+                                      vertical: AppSpacing.xs,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        // Sentence with blank
+                                        ExerciseLineWidget(
+                                          line: state.activeLine,
+                                        ),
+                                        const SizedBox(height: AppSpacing.xs),
+                                        // Translation button
+                                        Center(
+                                          child: TextButton.icon(
+                                            onPressed: () {
+                                              context
+                                                  .read<ExerciseCubit>()
+                                                  .toggleTranslation();
+                                            },
+                                            icon: SvgPicture.asset(
+                                              'assets/exercise_screen/global.svg',
+                                              width: 18,
+                                              height: 18,
+                                              colorFilter: ColorFilter.mode(
+                                                colors.primaryAccent,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                            label: Text(
+                                              state.isTranslationVisible
+                                                  ? l10n.hideVietnameseTranslation
+                                                  : l10n.viewVietnameseTranslation,
+                                              style: AppTextStyles.custom(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: AppFontSize.md,
+                                                color: colors.primaryAccent,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        if (state.isTranslationVisible &&
+                                            state.translations[state
+                                                    .activeLine.lineIndex] !=
+                                                null &&
+                                            state
+                                                .translations[state
+                                                    .activeLine.lineIndex]!
+                                                .isNotEmpty) ...[
+                                          const SizedBox(
+                                            height: AppSpacing.xs,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: AppSpacing.md,
+                                            ),
+                                            child: Text(
+                                              state.translations[
+                                                  state.activeLine.lineIndex]!,
+                                              textAlign: TextAlign.center,
+                                              style: AppTextStyles.custom(
+                                                color: colors.textSecondary,
+                                                fontSize: AppFontSize.sm,
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: AppSpacing.xs,
+                                          ),
+                                        ] else
+                                          const SizedBox(
+                                            height: AppSpacing.tn,
+                                          ),
+
+                                        // Interaction Area: Type the answer OR Multiple Choice
+                                        if (widget.exerciseType ==
+                                            'Type the answer')
+                                          const TypeAnswerInteractionArea()
+                                        else
+                                          const AnswerInteractionArea(),
+                                      ],
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              // Portrait Layout
               return Column(
                 children: [
                   ExerciseHeaderWidget(
@@ -294,6 +449,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
 
                   // Video Player with custom controls overlay
                   ExerciseVideoPlayerWidget(
+                    key: _videoPlayerKey,
                     controller: _youtubeController,
                     videoTitle: widget.videoTitle,
                     cefrLevel: widget.cefrLevel,

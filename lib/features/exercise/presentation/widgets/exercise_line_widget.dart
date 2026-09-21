@@ -15,11 +15,16 @@ class ExerciseLineWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
+      padding: EdgeInsets.only(
+        bottom: isLandscape ? AppSpacing.sm : AppSpacing.md,
+      ),
       child: Wrap(
         spacing: 4.0,
-        runSpacing: 4.0,
+        runSpacing: isLandscape ? 2.0 : 4.0,
         alignment: WrapAlignment.center, // Center the text horizontally
         crossAxisAlignment: WrapCrossAlignment.center,
         children: line.tokens.map((token) {
@@ -32,11 +37,11 @@ class ExerciseLineWidget extends StatelessWidget {
           return Text(
             token.text ?? '',
             style: AppTextStyles.custom(
-              fontSize: AppFontSize.xl,
+              fontSize: isLandscape ? AppFontSize.lg : AppFontSize.xl,
               color: Theme.of(
                 context,
               ).extension<AppColorsExtension>()!.textPrimary,
-              height: 1.5,
+              height: 1.4,
             ),
           );
         }).toList(),
@@ -127,6 +132,9 @@ class BlankTokenWidget extends StatelessWidget {
           }
         }
 
+        final isLandscape =
+            MediaQuery.of(context).orientation == Orientation.landscape;
+
         return GestureDetector(
           onTap: () {
             if (!isCorrect && state.currentBlankIndex != blankIndex) {
@@ -134,7 +142,10 @@ class BlankTokenWidget extends StatelessWidget {
             }
           },
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: EdgeInsets.symmetric(
+              horizontal: isLandscape ? 12 : 16,
+              vertical: isLandscape ? 2 : 4,
+            ),
             decoration: BoxDecoration(
               color: backgroundColor,
               borderRadius: BorderRadius.circular(20),
@@ -143,7 +154,7 @@ class BlankTokenWidget extends StatelessWidget {
             child: Text(
               displayText,
               style: AppTextStyles.custom(
-                fontSize: AppFontSize.xl,
+                fontSize: isLandscape ? AppFontSize.lg : AppFontSize.xl,
                 fontWeight: FontWeight.bold,
                 color: textColor,
               ),

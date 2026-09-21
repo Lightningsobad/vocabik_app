@@ -6,30 +6,39 @@ class ExerciseVideoPlayerWidget extends StatelessWidget {
   final YoutubePlayerController controller;
   final String videoTitle;
   final String cefrLevel;
+  final bool isLandscape;
 
   const ExerciseVideoPlayerWidget({
     super.key,
     required this.controller,
     required this.videoTitle,
     required this.cefrLevel,
+    this.isLandscape = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 220, // Default height for 16:9 aspect ratio roughly
-      color: Colors.black,
-      child: YoutubePlayer(
-        controller: controller,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(isLandscape ? 12 : 0),
+      child: AspectRatio(
         aspectRatio: 16 / 9,
-        controlsBuilder: (context, isFullscreen) {
-          return CustomVideoControls(
+        child: ColoredBox(
+          color: Colors.black,
+          child: YoutubePlayer(
+            key: const ValueKey('exercise_youtube_player'),
             controller: controller,
-            videoTitle: videoTitle,
-            cefrLevel: cefrLevel,
-          );
-        },
+            aspectRatio: 16 / 9,
+            autoFullScreen: false,
+            enableFullScreenOnVerticalDrag: false,
+            controlsBuilder: (context, isFullscreen) {
+              return CustomVideoControls(
+                controller: controller,
+                videoTitle: videoTitle,
+                cefrLevel: cefrLevel,
+              );
+            },
+          ),
+        ),
       ),
     );
   }

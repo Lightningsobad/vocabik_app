@@ -185,6 +185,11 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
           }
         }
 
+        final isLandscape =
+            MediaQuery.of(context).orientation == Orientation.landscape;
+        final playBtnSize = isLandscape ? 46.0 : 60.0;
+        final playIconSize = isLandscape ? 28.0 : 36.0;
+
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
@@ -212,8 +217,8 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
                         child: BounceWrapper(
                           onTap: _togglePlayPause,
                           child: Container(
-                            width: 60,
-                            height: 60,
+                            width: playBtnSize,
+                            height: playBtnSize,
                             decoration: BoxDecoration(
                               color: Colors.black.withValues(alpha: 0.55),
                               shape: BoxShape.circle,
@@ -227,7 +232,7 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
                                   ? Icons.pause_rounded
                                   : Icons.play_arrow_rounded,
                               color: Colors.white,
-                              size: 36,
+                              size: playIconSize,
                             ),
                           ),
                         ),
@@ -238,9 +243,9 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
 
                 // Bottom Controls: Seekbar (Always Visible) & Info Row (Fading)
                 Positioned(
-                  left: 16,
-                  right: 16,
-                  bottom: 8,
+                  left: isLandscape ? 12 : 16,
+                  right: isLandscape ? 12 : 16,
+                  bottom: isLandscape ? 4 : 8,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -252,7 +257,7 @@ class _CustomVideoControlsState extends State<CustomVideoControls> {
                         onSeek: (progress) => _handleSeek(progress, effectiveDurationMs),
                       ),
 
-                      const SizedBox(height: 6),
+                      SizedBox(height: isLandscape ? 3 : 6),
 
                       // Bottom Info Bar (Fading: Title, Volume, Speed)
                       AnimatedOpacity(

@@ -99,10 +99,13 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
         );
         final correctAnswer = currentBlank.correctAnswer;
 
+        final isLandscape =
+            MediaQuery.of(context).orientation == Orientation.landscape;
+
         return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
+          padding: EdgeInsets.symmetric(
+            horizontal: isLandscape ? AppSpacing.sm : AppSpacing.md,
+            vertical: isLandscape ? 2 : AppSpacing.sm,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -125,23 +128,25 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
                   }
                 },
                 onSubmitted: (_) {
-                  _focusNode.unfocus();
+                  _handleSubmit(context);
                 },
               ),
 
-              const SizedBox(height: AppSpacing.lg),
+              SizedBox(height: isLandscape ? AppSpacing.sm : AppSpacing.lg),
 
               // Before submit: Row with Hint Button and Check Button
               if (!isChecked) ...[
                 Row(
                   children: [
                     const ExerciseHintButton(),
-                    const SizedBox(width: AppSpacing.md),
+                    SizedBox(width: isLandscape ? AppSpacing.sm : AppSpacing.md),
                     Expanded(
                       child: BounceWrapper(
                         onTap: () => _handleSubmit(context),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding: EdgeInsets.symmetric(
+                            vertical: isLandscape ? 10 : 14,
+                          ),
                           decoration: BoxDecoration(
                             color: primaryColor,
                             borderRadius: BorderRadius.circular(24),
@@ -150,7 +155,9 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
                             child: Text(
                               l10n.exerciseCheck,
                               style: AppTextStyles.custom(
-                                fontSize: AppFontSize.lg,
+                                fontSize: isLandscape
+                                    ? AppFontSize.md
+                                    : AppFontSize.lg,
                                 fontWeight: FontWeight.bold,
                                 color: colors.onPrimaryAccent,
                               ),
@@ -169,7 +176,7 @@ class _TypeAnswerInteractionAreaState extends State<TypeAnswerInteractionArea> {
                   isCorrect: isCorrect,
                   correctAnswer: correctAnswer,
                 ),
-                const SizedBox(height: AppSpacing.md),
+                SizedBox(height: isLandscape ? AppSpacing.sm : AppSpacing.md),
                 PrimaryButton(
                   text: l10n.exerciseContinue,
                   onPressed: () {

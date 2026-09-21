@@ -9,6 +9,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
   final int currentStep;
   final int totalSteps;
   final VoidCallback? onClose;
+  final bool isLandscape;
 
   const ExerciseHeaderWidget({
     super.key,
@@ -16,6 +17,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
     required this.currentStep,
     required this.totalSteps,
     this.onClose,
+    this.isLandscape = false,
   });
 
   @override
@@ -23,9 +25,9 @@ class ExerciseHeaderWidget extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
-        vertical: AppSpacing.md2,
+        vertical: isLandscape ? 6 : AppSpacing.md2,
       ),
       child: Row(
         children: [
@@ -35,35 +37,35 @@ class ExerciseHeaderWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
                 value: progress,
-                minHeight: 6,
+                minHeight: isLandscape ? 4 : 6,
                 valueColor: AlwaysStoppedAnimation<Color>(colors.primaryAccent),
                 backgroundColor: colors.tabUnselectedBackground,
               ),
             ),
           ),
-          const SizedBox(width: AppSpacing.md2),
+          SizedBox(width: isLandscape ? AppSpacing.sm : AppSpacing.md2),
           // Fraction Text
           Text(
             '$currentStep/$totalSteps',
             style: AppTextStyles.custom(
               color: colors.textSecondary,
-              fontSize: AppFontSize.md,
+              fontSize: isLandscape ? AppFontSize.sm : AppFontSize.md,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(width: AppSpacing.md2),
+          SizedBox(width: isLandscape ? AppSpacing.sm : AppSpacing.md2),
           // Close Button
           GestureDetector(
             onTap: onClose ?? () => Navigator.of(context).pop(),
             child: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(isLandscape ? 5 : 8),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: colors.tabUnselectedBackground,
               ),
               child: Icon(
                 Icons.close_rounded,
-                size: 22,
+                size: isLandscape ? 18 : 22,
                 color: colors.textSecondary,
               ),
             ),
