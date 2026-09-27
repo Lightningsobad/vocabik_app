@@ -15,9 +15,12 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class FcmService {
-  final FirebaseMessaging? _messaging;
+  final FirebaseMessaging? _messagingInstance;
   final LocalNotificationService _localNotificationService;
   final NotificationRouterHandler _routerHandler;
+
+  FirebaseMessaging get _messaging =>
+      _messagingInstance ?? FirebaseMessaging.instance;
 
   StreamSubscription<RemoteMessage>? _onMessageSubscription;
   StreamSubscription<RemoteMessage>? _onMessageOpenedAppSubscription;
@@ -34,8 +37,7 @@ class FcmService {
     this._localNotificationService,
     this._routerHandler, [
     FirebaseMessaging? messaging,
-  ]) : _messaging = messaging ??
-            (Firebase.apps.isNotEmpty ? FirebaseMessaging.instance : null);
+  ]) : _messagingInstance = messaging;
 
   Future<void> init() async {
     final messaging = _messaging;

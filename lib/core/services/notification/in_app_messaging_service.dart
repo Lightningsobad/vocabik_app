@@ -3,11 +3,12 @@ import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:flutter/foundation.dart';
 
 class InAppMessagingService {
-  final FirebaseInAppMessaging? _inAppMessaging;
+  final FirebaseInAppMessaging? _instance;
+  FirebaseInAppMessaging get _inAppMessaging =>
+      _instance ?? FirebaseInAppMessaging.instance;
 
-  InAppMessagingService()
-      : _inAppMessaging =
-            Firebase.apps.isNotEmpty ? FirebaseInAppMessaging.instance : null;
+  InAppMessagingService([FirebaseInAppMessaging? inAppMessaging])
+      : _instance = inAppMessaging;
 
   Future<void> init() async {
     if (_inAppMessaging == null) return;
