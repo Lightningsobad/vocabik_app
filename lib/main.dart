@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,7 +18,9 @@ import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/features/main_shell/presentation/cubit/main_shell_cubit.dart';
 import 'core/di/injection.dart';
 import 'core/routes/app_router.dart';
+import 'core/services/app_bloc_observer.dart';
 import 'core/services/audio_feedback_service.dart';
+import 'core/services/crashlytics_service.dart';
 import 'core/services/deep_link_service.dart';
 import 'core/services/notification/fcm_service.dart';
 import 'core/services/notification/notification_service.dart';
@@ -34,6 +38,27 @@ void main() async {
 
   // Initialize dependency injection
   await configureDependencies();
+
+  // Initialize Crashlytics & Global Error Handlers
+  if (getIt.isRegistered<CrashlyticsService>()) {
+    final crashlyticsService = getIt<CrashlyticsService>();
+    await crashlyticsService.init();
+
+    // Catch Flutter framework errors
+    FlutterError.onError = (details) {
+      FlutterError.presentError(details);
+      crashlyticsService.recordFlutterFatalError(details);
+    };
+
+    // Catch asynchronous & platform isolate unhandled errors
+    PlatformDispatcher.instance.onError = (error, stack) {
+      crashlyticsService.recordError(error, stack, fatal: true);
+      return true;
+    };
+
+    // Attach custom BLoC observer with Crashlytics logging
+    Bloc.observer = AppBlocObserver(crashlyticsService);
+  }
 
   // Initialize Audio & Haptic Feedback Service
   await getIt<AudioFeedbackService>().init();

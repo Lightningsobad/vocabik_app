@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_header_widget.dart';
-import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_video_player_widget.dart';
 import 'package:vocabik_app/shared/theme/app_theme.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 void main() {
   Widget wrapWithTheme(Widget child) {

@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/services/analytics_service.dart';
+import '../../../../core/services/crashlytics_service.dart';
 import '../../../../core/services/notification/notification_service.dart';
 import '../../data/data_sources/auth_local_data_source.dart';
 import '../../data/models/user_model.dart';
@@ -19,12 +21,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetMeUseCase _getMeUseCase;
   final AuthLocalDataSource _authLocalDataSource;
   final NotificationService? _notificationService;
+  final AnalyticsService? _analyticsService;
+  final CrashlyticsService? _crashlyticsService;
 
   AuthBloc(
     this._signOutUseCase,
     this._getMeUseCase,
     this._authLocalDataSource, [
     this._notificationService,
+    this._analyticsService,
+    this._crashlyticsService,
   ]) : super(_getInitialState(_authLocalDataSource)) {
     on<AuthCheckRequested>(
       _onAuthCheckRequested,
@@ -44,6 +50,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
     on<UserAuthenticated>(_onUserAuthenticated);
     on<UserProfileUpdated>(_onUserProfileUpdated);
+  }
+
+  void _updateUserTracking(User user) {
+    _analyticsService?.setUserId(user.id);
+    _analyticsService?.setUserProperty(name: 'user_tier', value: user.tier);
+    _analyticsService?.setUserProperty(
+      name: 'cefr_level',
+      value: user.cefrLevel ?? 'none',
+    );
+    _crashlyticsService?.setUserId(user.id);
+    _crashlyticsService?.setCustomKey('user_tier', user.tier);
+    _crashlyticsService?.setCustomKey('cefr_level', user.cefrLevel ?? 'none');
+  }
+
+  void _clearUserTracking() {
+    _analyticsService?.resetAnalyticsData();
+    _crashlyticsService?.setUserId('');
   }
 
   static AuthState _getInitialState(AuthLocalDataSource localDataSource) {
@@ -69,6 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     final cachedUser = _authLocalDataSource.getUser();
     if (cachedUser != null) {
+      _updateUserTracking(cachedUser);
       emit(state.copyWith(status: AuthStatus.success, user: cachedUser));
     }
     add(const GetMeRequested());
@@ -80,6 +104,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     await _authLocalDataSource.clear();
     _notificationService?.unsubscribeDailyReminders();
+    _clearUserTracking();
     emit(const AuthState(status: AuthStatus.unauthenticated));
   }
 
@@ -88,6 +113,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     _authLocalDataSource.saveUser(UserModel.fromEntity(event.user));
+    _updateUserTracking(event.user);
     emit(state.copyWith(
       status: AuthStatus.success,
       user: event.user,
@@ -100,6 +126,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     _authLocalDataSource.saveUser(UserModel.fromEntity(event.user));
+    _updateUserTracking(event.user);
     emit(state.copyWith(
       user: event.user,
     ));
@@ -112,6 +139,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: AuthStatus.loading));
     final result = await _signOutUseCase();
     _notificationService?.unsubscribeDailyReminders();
+    _clearUserTracking();
     result.fold(
       (failure) => emit(state.copyWith(
         status: AuthStatus.failure,
@@ -127,6 +155,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     final cachedUser = state.user ?? _authLocalDataSource.getUser();
     if (cachedUser != null) {
+      _updateUserTracking(cachedUser);
       emit(state.copyWith(
         status: AuthStatus.success,
         user: cachedUser,
@@ -151,6 +180,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       (user) {
         _authLocalDataSource.saveUser(UserModel.fromEntity(user));
+        _updateUserTracking(user);
         emit(state.copyWith(
           status: AuthStatus.success,
           user: user,
