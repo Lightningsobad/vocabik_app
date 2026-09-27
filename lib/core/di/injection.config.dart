@@ -53,7 +53,7 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
 import '../../features/auth/presentation/bloc/forgot_password_cubit.dart'
     as _i679;
 import '../../features/auth/presentation/bloc/login_cubit.dart' as _i281;
-import '../../features/auth/presentation/bloc/register_bloc.dart' as _i690;
+import '../../features/auth/presentation/bloc/register_bloc.dart' as _i691;
 import '../../features/auth/presentation/bloc/reset_password_cubit.dart'
     as _i165;
 import '../../features/auth/presentation/bloc/verify_email_cubit.dart' as _i219;
@@ -113,7 +113,7 @@ import '../../features/discover/domain/usecases/get_playlists_usecase.dart'
     as _i880;
 import '../../features/discover/presentation/bloc/discover_bloc.dart' as _i987;
 import '../../features/discover/presentation/cubit/playlist_detail_cubit.dart'
-    as _i691;
+    as _i690;
 import '../../features/exercise/data/datasources/exercise_remote_datasource.dart'
     as _i913;
 import '../../features/exercise/data/datasources/score_card_remote_datasource.dart'
@@ -251,7 +251,9 @@ import '../../shared/theme/cubit/theme_cubit.dart' as _i909;
 import '../../shared/theme/data/repositories/theme_repository_impl.dart'
     as _i108;
 import '../../shared/theme/domain/repositories/theme_repository.dart' as _i416;
+import '../services/analytics_service.dart' as _i222;
 import '../services/audio_feedback_service.dart' as _i464;
+import '../services/crashlytics_service.dart' as _i352;
 import '../services/deep_link_service.dart' as _i391;
 import '../services/notification/fcm_service.dart' as _i409;
 import '../services/notification/in_app_messaging_service.dart' as _i408;
@@ -274,6 +276,10 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i391.DeepLinkService>(() => _i391.DeepLinkService());
+    gh.lazySingleton<_i222.AnalyticsService>(() => appModule.analyticsService);
+    gh.lazySingleton<_i352.CrashlyticsService>(
+      () => appModule.crashlyticsService,
+    );
     gh.lazySingleton<_i961.NotificationRouterHandler>(
       () => appModule.routerHandler,
     );
@@ -526,14 +532,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1011.GetPersonalizedSlotsUseCase>(
       () => _i1011.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
     );
-    gh.lazySingleton<_i797.AuthBloc>(
-      () => _i797.AuthBloc(
-        gh<_i131.SignOutUseCase>(),
-        gh<_i477.GetMeUseCase>(),
-        gh<_i606.AuthLocalDataSource>(),
-        gh<_i446.NotificationService>(),
-      ),
-    );
     gh.factory<_i822.CreateClassroomUseCase>(
       () => _i822.CreateClassroomUseCase(gh<_i86.ClassroomRepository>()),
     );
@@ -587,14 +585,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
     );
-    gh.factory<_i690.RegisterBloc>(
-      () => _i690.RegisterBloc(
-        gh<_i1010.RegisterUseCase>(),
-        gh<_i490.LoginWithGoogleUseCase>(),
-        gh<_i723.SocialAuthService>(),
-        gh<_i797.AuthBloc>(),
-      ),
-    );
     gh.lazySingleton<_i467.GetBadgesUseCase>(
       () => _i467.GetBadgesUseCase(gh<_i65.BadgeRepository>()),
     );
@@ -610,8 +600,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i6.SubmitProgressUseCase>(
       () => _i6.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
     );
-    gh.factory<_i691.PlaylistDetailCubit>(
-      () => _i691.PlaylistDetailCubit(gh<_i493.GetPlaylistDetailUseCase>()),
+    gh.factory<_i690.PlaylistDetailCubit>(
+      () => _i690.PlaylistDetailCubit(gh<_i493.GetPlaylistDetailUseCase>()),
     );
     gh.factory<_i693.AchievementsCubit>(
       () => _i693.AchievementsCubit(gh<_i467.GetBadgesUseCase>()),
@@ -619,6 +609,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i764.HomePersonalizedBloc>(
       () =>
           _i764.HomePersonalizedBloc(gh<_i1011.GetPersonalizedSlotsUseCase>()),
+    );
+    gh.lazySingleton<_i797.AuthBloc>(
+      () => _i797.AuthBloc(
+        gh<_i131.SignOutUseCase>(),
+        gh<_i477.GetMeUseCase>(),
+        gh<_i606.AuthLocalDataSource>(),
+        gh<_i446.NotificationService>(),
+        gh<_i222.AnalyticsService>(),
+        gh<_i352.CrashlyticsService>(),
+      ),
     );
     gh.factory<_i483.VideoDetailCubit>(
       () => _i483.VideoDetailCubit(
@@ -711,6 +711,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i481.MainShellCubit(
         gh<_i74.GetProgressSummaryUseCase>(),
         gh<_i561.GamificationGlobalCubit>(),
+      ),
+    );
+    gh.factory<_i691.RegisterBloc>(
+      () => _i691.RegisterBloc(
+        gh<_i1010.RegisterUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
       ),
     );
     gh.factory<_i719.ChallengeFriendCubit>(

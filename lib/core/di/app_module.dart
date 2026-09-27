@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import '../network/auth_interceptor.dart';
+import '../services/analytics_service.dart';
+import '../services/crashlytics_service.dart';
 import '../services/notification/fcm_service.dart';
 import '../services/notification/in_app_messaging_service.dart';
 import '../services/notification/local_notification_service.dart';
@@ -15,6 +17,12 @@ import 'injection.dart';
 abstract class AppModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+
+  @lazySingleton
+  AnalyticsService get analyticsService => FirebaseAnalyticsServiceImpl();
+
+  @lazySingleton
+  CrashlyticsService get crashlyticsService => FirebaseCrashlyticsServiceImpl();
 
   @lazySingleton
   NotificationRouterHandler get routerHandler => NotificationRouterHandler();

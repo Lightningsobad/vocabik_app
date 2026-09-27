@@ -39,6 +39,28 @@ import '../../features/challenge_friend/presentation/models/challenge_friend_arg
 import '../../features/challenge_friend/presentation/models/challenge_sent_args.dart';
 import '../../features/challenge_friend/presentation/screens/challenge_friend_screen.dart';
 import '../../features/challenge_friend/presentation/screens/challenge_sent_screen.dart';
+import '../services/analytics_service.dart';
+import '../services/crashlytics_service.dart';
+
+class CrashlyticsRouteObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    final routeName = route.settings.name ?? route.settings.arguments?.toString();
+    if (routeName != null && getIt.isRegistered<CrashlyticsService>()) {
+      getIt<CrashlyticsService>().log('Navigation: push $routeName');
+    }
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    final prevName = previousRoute?.settings.name ?? previousRoute?.settings.arguments?.toString();
+    if (prevName != null && getIt.isRegistered<CrashlyticsService>()) {
+      getIt<CrashlyticsService>().log('Navigation: pop back to $prevName');
+    }
+  }
+}
 
 class PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -55,6 +77,11 @@ class PlaceholderScreen extends StatelessWidget {
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
+  observers: [
+    if (getIt.isRegistered<AnalyticsService>())
+      getIt<AnalyticsService>().getNavigatorObserver(),
+    CrashlyticsRouteObserver(),
+  ],
   redirect: (context, state) {
     final localDataSource = getIt<AuthLocalDataSource>();
     final isLoggedIn = localDataSource.getAccessToken() != null;

@@ -40,11 +40,17 @@ class FcmService {
   ]) : _messagingInstance = messaging;
 
   Future<void> init() async {
+    final messaging = _messaging;
+    if (messaging == null) {
+      debugPrint('[FcmService] Firebase not initialized. Skipping FCM init.');
+      return;
+    }
+
     // 1. Request permission
     await requestPermission();
 
     // 2. Configure foreground notification presentation options (iOS)
-    await _messaging.setForegroundNotificationPresentationOptions(
+    await messaging.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
@@ -52,7 +58,7 @@ class FcmService {
 
     // 3. Get initial FCM token
     try {
-      _fcmToken = await _messaging.getToken();
+      _fcmToken = await messaging.getToken();
       if (_fcmToken != null) {
         if (kDebugMode) {
           try {
@@ -72,7 +78,7 @@ class FcmService {
     }
 
     // 4. Listen for token refresh
-    _onTokenRefreshSubscription = _messaging.onTokenRefresh.listen((token) {
+    _onTokenRefreshSubscription = messaging.onTokenRefresh.listen((token) {
       _fcmToken = token;
       _tokenController.add(token);
       debugPrint('\n================================================================');
@@ -89,8 +95,10 @@ class FcmService {
     debugPrint('[FcmService] Initialized successfully');
   }
 
-  Future<NotificationSettings> requestPermission() async {
-    final settings = await _messaging.requestPermission(
+  Future<NotificationSettings?> requestPermission() async {
+    final messaging = _messaging;
+    if (messaging == null) return null;
+    final settings = await messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -107,7 +115,7 @@ class FcmService {
 
   Future<void> subscribeToTopic(String topic) async {
     try {
-      await _messaging.subscribeToTopic(topic);
+      await _messaging?.subscribeToTopic(topic);
       debugPrint('[FcmService] Subscribed to topic: $topic');
     } catch (e) {
       debugPrint('[FcmService] Error subscribing to topic $topic: $e');
@@ -116,7 +124,7 @@ class FcmService {
 
   Future<void> unsubscribeFromTopic(String topic) async {
     try {
-      await _messaging.unsubscribeFromTopic(topic);
+      await _messaging?.unsubscribeFromTopic(topic);
       debugPrint('[FcmService] Unsubscribed from topic: $topic');
     } catch (e) {
       debugPrint('[FcmService] Error unsubscribing from topic $topic: $e');
@@ -124,6 +132,8 @@ class FcmService {
   }
 
   void _setupMessageListeners() {
+    if (_messaging == null) return;
+
     // A. Foreground message listener
     _onMessageSubscription = FirebaseMessaging.onMessage.listen((message) {
       debugPrint(
@@ -169,7 +179,7 @@ class FcmService {
 
   Future<void> _checkInitialMessage() async {
     try {
-      final initialMessage = await _messaging.getInitialMessage();
+      final initialMessage = await _messaging?.getInitialMessage();
       if (initialMessage != null) {
         debugPrint(
             '[FcmService] App opened from terminated state via notification: ${initialMessage.data}');
