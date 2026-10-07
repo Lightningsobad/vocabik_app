@@ -3,18 +3,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 
 class VocabikBrandText extends StatelessWidget {
-  const VocabikBrandText({super.key});
+  final double? fontSize;
+
+  const VocabikBrandText({super.key, this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final effectiveFontSize = fontSize ?? 19.0;
 
     return RichText(
       text: TextSpan(
         style: GoogleFonts.nunito(
-          fontSize: 19,
+          fontSize: effectiveFontSize,
           fontWeight: FontWeight.w900,
-          letterSpacing: -0.03 * 19,
+          letterSpacing: -0.03 * effectiveFontSize,
           color: colors.textPrimary,
         ),
         children: [

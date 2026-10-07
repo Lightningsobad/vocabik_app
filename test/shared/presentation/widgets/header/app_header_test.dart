@@ -15,6 +15,9 @@ import 'package:vocabik_app/shared/theme/domain/repositories/theme_repository.da
 
 class FakeThemeRepository implements ThemeRepository {
   @override
+  ThemeMode getCachedThemeMode() => ThemeMode.light;
+
+  @override
   Future<ThemeMode> getThemeMode() async => ThemeMode.light;
 
   @override

@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/main_shell/presentation/screens/main_shell_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/discover/presentation/screens/discover_screen.dart';
 import '../../features/discover/presentation/screens/playlist_detail_screen.dart';
@@ -88,6 +89,7 @@ final GoRouter appRouter = GoRouter(
 
     // Allowed routes for unauthenticated users
     final unauthAllowedRoutes = [
+      '/',
       '/login',
       '/register',
       '/verify-email',
@@ -137,10 +139,7 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) =>
-          const PlaceholderScreen(title: 'Splash Screen'),
-      // Redirect to /home from splash for now to see the navigation bar
-      redirect: (context, state) => '/home',
+      builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(
