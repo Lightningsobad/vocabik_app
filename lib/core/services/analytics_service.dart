@@ -23,17 +23,6 @@ abstract class AnalyticsService {
     required String itemListName,
   });
   Future<void> logSearch({required String searchTerm});
-  Future<void> logBeginCheckout({
-    required String packageId,
-    required double value,
-    required String currency,
-  });
-  Future<void> logPurchase({
-    required String transactionId,
-    required String packageId,
-    required double value,
-    required String currency,
-  });
   Future<void> logLevelStart({
     required String levelName,
     String? cefrLevel,
@@ -81,10 +70,6 @@ abstract class AnalyticsService {
     required String videoId,
     required int milestonePercent,
     int? durationSeconds,
-  });
-  Future<void> logClassroomJoined({
-    required String classroomId,
-    required String classroomName,
   });
   Future<void> logNotebookWordSaved({
     required String word,
@@ -237,58 +222,6 @@ class FirebaseAnalyticsServiceImpl implements AnalyticsService {
       await _analytics?.logSearch(searchTerm: searchTerm);
     } catch (e) {
       _logDebug('logSearch error: $e');
-    }
-  }
-
-  @override
-  Future<void> logBeginCheckout({
-    required String packageId,
-    required double value,
-    required String currency,
-  }) async {
-    _logDebug('begin_checkout(packageId: $packageId, value: $value, currency: $currency)');
-    try {
-      await _analytics?.logBeginCheckout(
-        value: value,
-        currency: currency,
-        items: [
-          AnalyticsEventItem(
-            itemId: packageId,
-            itemName: packageId,
-            price: value,
-          ),
-        ],
-      );
-    } catch (e) {
-      _logDebug('logBeginCheckout error: $e');
-    }
-  }
-
-  @override
-  Future<void> logPurchase({
-    required String transactionId,
-    required String packageId,
-    required double value,
-    required String currency,
-  }) async {
-    _logDebug(
-      'purchase(txId: $transactionId, packageId: $packageId, value: $value, currency: $currency)',
-    );
-    try {
-      await _analytics?.logPurchase(
-        transactionId: transactionId,
-        value: value,
-        currency: currency,
-        items: [
-          AnalyticsEventItem(
-            itemId: packageId,
-            itemName: packageId,
-            price: value,
-          ),
-        ],
-      );
-    } catch (e) {
-      _logDebug('logPurchase error: $e');
     }
   }
 
@@ -484,25 +417,6 @@ class FirebaseAnalyticsServiceImpl implements AnalyticsService {
       );
     } catch (e) {
       _logDebug('logVideoPlayMilestone error: $e');
-    }
-  }
-
-  @override
-  Future<void> logClassroomJoined({
-    required String classroomId,
-    required String classroomName,
-  }) async {
-    _logDebug('classroom_joined(id: $classroomId, name: $classroomName)');
-    try {
-      await _analytics?.logEvent(
-        name: 'classroom_joined',
-        parameters: {
-          'classroom_id': classroomId,
-          'classroom_name': classroomName,
-        },
-      );
-    } catch (e) {
-      _logDebug('logClassroomJoined error: $e');
     }
   }
 

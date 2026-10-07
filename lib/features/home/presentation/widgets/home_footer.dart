@@ -52,15 +52,6 @@ class HomeFooter extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.lg),
-              // // Pricing (Tạm ẩn)
-              // _buildFooterLink(
-              //   text: l10n.homePricing,
-              //   color: colors.textSecondary,
-              //   onTap: () {
-              //     context.push('/home/pricing');
-              //   },
-              // ),
-              // const SizedBox(width: AppSpacing.md2),
               _buildFooterLink(
                 text: l10n.homePrivacyPolicy,
                 color: colors.textSecondary,

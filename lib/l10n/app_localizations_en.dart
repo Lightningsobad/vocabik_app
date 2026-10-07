@@ -39,9 +39,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preferencesTab => 'Preferences';
 
   @override
-  String get subscriptionTab => 'Subscription';
-
-  @override
   String get securityTab => 'Security';
 
   @override
@@ -62,13 +59,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionLeaderboard => 'Leaderboard';
 
   @override
-  String get actionClassroom => 'Classroom';
-
-  @override
   String get actionDailyChallenge => 'Daily Challenge';
-
-  @override
-  String get actionBotIntegration => 'Bot integration';
 
   @override
   String get profileChangePhoto => 'Change photo';
@@ -127,18 +118,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
-  String get botIntegrationTelegramZalo => 'Bot Integration (Telegram / Zalo)';
-
-  @override
-  String get subscriptionFreePlanTitle => 'Free plan';
-
-  @override
-  String get subscriptionFreePlanDesc => 'Learn more richly with Premium.';
-
-  @override
-  String get subscriptionUpgradeBtn => 'Upgrade to Premium →';
-
-  @override
   String get accountExportData => 'Export my data';
 
   @override
@@ -183,62 +162,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get action_hide => 'Hide';
 
   @override
-  String get integrationScreenTitle => 'Integration';
-
-  @override
-  String get integrationTelegramTitle => 'Telegram Bot';
-
-  @override
-  String get integrationTelegramDesc =>
-      'Receive exercises every morning via Telegram';
-
-  @override
-  String get integrationZaloTitle => 'Zalo OA';
-
-  @override
-  String get integrationZaloDesc => 'Similar structure to Telegram';
-
-  @override
-  String get statusNotConnected => 'Not connected';
-
-  @override
-  String get statusConnected => 'Connected';
-
-  @override
-  String get instructionConnectLabel => '1. Press \"Connect\" below';
-
-  @override
-  String get instructionStartLabel => '2. Press Start in Telegram';
-
-  @override
-  String get instructionAutoConnectLabel => '3. Bot will auto connect';
-
-  @override
-  String get timeToReceiveLabel => 'Time to receive';
-
-  @override
-  String get levelLabel => 'Level';
-
-  @override
-  String get connectTelegramBtn => 'Connect Telegram Bot →';
-
-  @override
-  String get connectZaloBtn => 'Connect Zalo OA →';
-
-  @override
-  String get disconnectBtn => 'Disconnect';
-
-  @override
   String get homeDailyPickTitle => 'Handpicked for you today';
 
   @override
   String get homeRecommendedTitle => 'ALSO FOR YOU';
-
-  @override
-  String get homeTodayProgress => 'Today';
-
-  @override
-  String get homeUnlimited => 'Go unlimited';
 
   @override
   String get homeAll => 'All';
@@ -259,9 +186,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeLibrary => 'Library';
 
   @override
-  String get homePricing => 'Pricing';
-
-  @override
   String get homePrivacyPolicy => 'Privacy Policy';
 
   @override
@@ -270,11 +194,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String homePracticed(String count) {
     return '$count practiced';
-  }
-
-  @override
-  String homeLessons(int current, int total) {
-    return '$current / $total lessons';
   }
 
   @override
@@ -559,9 +478,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueWithGoogle => 'Continue with Google';
 
   @override
-  String get continueWithFacebook => 'Continue with Facebook';
-
-  @override
   String get emailInvalid => 'Invalid email';
 
   @override
@@ -803,77 +719,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resultProgressRetry => 'Retry sync';
 
   @override
-  String get myClassrooms => 'My classrooms';
-
-  @override
-  String get newClass => '+ New class';
-
-  @override
-  String get students => 'Students';
-
-  @override
-  String get assignments => 'Assignments';
-
-  @override
-  String get statistics => 'Statistics';
-
-  @override
-  String get joinCode => 'Join code';
-
-  @override
-  String get copy => 'Copy';
-
-  @override
-  String get createClassroom => 'Create new classroom';
-
-  @override
-  String get classroomName => 'Classroom name';
-
-  @override
-  String get classroomNameHint => 'e.g. 12A2 team';
-
-  @override
-  String get create => 'Create';
-
-  @override
-  String get createSuccess => 'Classroom created successfully';
-
-  @override
-  String get createClassroomError => 'Failed to create classroom';
-
-  @override
-  String get emptyClassrooms => 'No classrooms yet';
-
-  @override
-  String get noAssignmentYet => 'No assignment yet';
-
-  @override
-  String get noDataAvailable => 'No data available';
-
-  @override
-  String get enterClassroomName => 'Please enter a classroom name';
-
-  @override
-  String studentsCount(int count) {
-    return '$count students';
-  }
-
-  @override
-  String studentsTabTitle(int count) {
-    return 'Students ($count)';
-  }
-
-  @override
-  String assignmentDue(int current, int total, String date) {
-    return '$current/$total · Due $date';
-  }
-
-  @override
-  String assignmentLabel(String title) {
-    return 'Assignment: $title';
-  }
-
-  @override
   String get termsOfServiceTitle => 'Terms of Service';
 
   @override
@@ -958,7 +803,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacySection3Content =>
-      'Google OAuth, Facebook, YouTube API, Polar.sh (payments), and Google Analytics 4.';
+      'Google OAuth, YouTube API, Polar.sh (payments), and Google Analytics 4.';
 
   @override
   String get privacySection4Title => '4. Cookies & Tracking';
@@ -983,132 +828,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyContact => 'Contact: privacy@vocabik.com';
-
-  @override
-  String get pricingTitle => 'Learn English without limits';
-
-  @override
-  String get pricingSubtitle => 'Unlock Vocabik Premium from \$5/mo.';
-
-  @override
-  String get pricingMonthly => 'Monthly';
-
-  @override
-  String get pricingYearly => 'Yearly -33%';
-
-  @override
-  String get pricingFreeTag => 'FREE';
-
-  @override
-  String get pricingFreeTitle => 'Free';
-
-  @override
-  String get pricingFreeForever => 'forever';
-
-  @override
-  String get pricingFreeFeat1 => 'Curated library';
-
-  @override
-  String get pricingFreeFeat2 => '5 exercises / day';
-
-  @override
-  String get pricingFreeFeat3 => 'MC + Free-text';
-
-  @override
-  String get pricingFreeFeat4 => 'Progress tracking';
-
-  @override
-  String get pricingFreeFeat5 => 'Score Card';
-
-  @override
-  String get pricingFreeBtn => 'Use for free';
-
-  @override
-  String get pricingPremiumTag => 'PREMIUM';
-
-  @override
-  String get pricingPremiumTitle => 'PREMIUM';
-
-  @override
-  String get pricingPremiumMostPopular => 'MOST POPULAR';
-
-  @override
-  String get pricingPremiumPriceMonthly => '\$5';
-
-  @override
-  String get pricingPremiumPriceYearly => '\$40';
-
-  @override
-  String get pricingPremiumPerMonth => '/mo';
-
-  @override
-  String get pricingPremiumPerYear => '/yr';
-
-  @override
-  String get pricingPremiumFeat1 => 'Everything in Free';
-
-  @override
-  String get pricingPremiumFeat2 => 'Paste any YouTube URL';
-
-  @override
-  String get pricingPremiumFeat3 => 'Unlimited learning';
-
-  @override
-  String get pricingPremiumFeat4 => 'All exercise versions';
-
-  @override
-  String get pricingPremiumFeat5 => 'Streak Freeze';
-
-  @override
-  String get pricingPremiumFeat6 => 'Unlimited hints';
-
-  @override
-  String get pricingPremiumFeat7 => 'Suggest a video for the library';
-
-  @override
-  String get pricingPremiumBtn => 'Start Premium →';
-
-  @override
-  String get pricingCancelAnytime => 'Cancel anytime';
-
-  @override
-  String get pricingBadgeSecure => 'Secure payment';
-
-  @override
-  String get pricingBadgeCancel => 'Cancel anytime';
-
-  @override
-  String get pricingBadgeCard => 'Visa/Mastercard';
-
-  @override
-  String get pricingBadgeSupport => '24h support';
-
-  @override
-  String get pricingFaqTitle => 'Frequently asked questions';
-
-  @override
-  String get pricingFaq1Q => 'Can I cancel?';
-
-  @override
-  String get pricingFaq1A => 'Yes, anytime, at no cost.';
-
-  @override
-  String get pricingFaq2Q => 'Can I use a Vietnamese card?';
-
-  @override
-  String get pricingFaq2A => 'Yes, we accept international Visa/Mastercard.';
-
-  @override
-  String get pricingFaq3Q => 'Is there a free trial?';
-
-  @override
-  String get pricingFaq3A => 'The Free plan is a permanent trial.';
-
-  @override
-  String get pricingFaq4Q => 'Can I get an annual refund?';
-
-  @override
-  String get pricingFaq4A => 'Within 7 days of payment.';
 
   @override
   String get forgotPasswordHeading => 'Forgot password?';

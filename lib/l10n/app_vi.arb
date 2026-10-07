@@ -10,7 +10,6 @@
   "profileSettingsTitle": "Hồ sơ & Cài đặt",
   "profileTab": "Hồ sơ",
   "preferencesTab": "Tuỳ chỉnh",
-  "subscriptionTab": "Gói cước",
   "securityTab": "Bảo mật",
   "accountTab": "Tài khoản",
   "tabNotImplemented": "Nội dung cho Tab {tabIndex} chưa được phát triển.",
@@ -24,9 +23,7 @@
   "actionAchievements": "Thành tích",
   "actionNotebook": "Sổ từ vựng",
   "actionLeaderboard": "Xếp hạng",
-  "actionClassroom": "Lớp học",
   "actionDailyChallenge": "Thử thách ngày",
-  "actionBotIntegration": "Tích hợp Bot",
   "profileChangePhoto": "Đổi ảnh",
   "profileYourName": "Tên của bạn",
   "profileUpdateSuccess": "Cập nhật tên thành công!",
@@ -52,10 +49,6 @@
   "interfaceLanguage": "Ngôn ngữ giao diện",
   "languageVietnamese": "Vietnamese",
   "languageEnglish": "English",
-  "botIntegrationTelegramZalo": "Tích hợp Bot (Telegram / Zalo)",
-  "subscriptionFreePlanTitle": "Gói Free",
-  "subscriptionFreePlanDesc": "Học phong phú hơn với Premium.",
-  "subscriptionUpgradeBtn": "Nâng lên Premium →",
   "accountExportData": "Xuất dữ liệu của tôi",
   "accountLogOut": "Đăng xuất",
   "accountDeletePermanently": "Xóa tài khoản vĩnh viễn",
@@ -77,32 +70,14 @@
   "securityTab_sessionShowLess": "Thu gọn",
   "action_show": "Hiện",
   "action_hide": "Ẩn",
-  "integrationScreenTitle": "Tích hợp",
-  "integrationTelegramTitle": "Telegram Bot",
-  "integrationTelegramDesc": "Nhận bài tập mỗi sáng qua Telegram",
-  "integrationZaloTitle": "Zalo OA",
-  "integrationZaloDesc": "Cấu trúc tương tự Telegram",
-  "statusNotConnected": "Chưa kết nối",
-  "statusConnected": "Đã kết nối",
-  "instructionConnectLabel": "1. Nhấn \"Kết nối\" bên dưới",
-  "instructionStartLabel": "2. Nhấn Start trong Telegram",
-  "instructionAutoConnectLabel": "3. Bot tự kết nối tài khoản",
-  "timeToReceiveLabel": "Thời gian nhận bài",
-  "levelLabel": "Level",
-  "connectTelegramBtn": "Kết nối Telegram Bot →",
-  "connectZaloBtn": "Kết nối Zalo OA →",
-  "disconnectBtn": "Hủy kết nối",
   "homeDailyPickTitle": "Tuyển chọn cho bạn hôm nay",
   "homeRecommendedTitle": "CŨNG DÀNH CHO BẠN",
-  "homeTodayProgress": "Hôm nay",
-  "homeUnlimited": "Không giới hạn",
   "homeAll": "Tất cả",
   "homeDailyChallenge": "Daily Challenge hôm nay",
   "homeTrending": "Trending tuần này",
   "homeViewAll": "Xem tất cả \u2192",
   "homeRecentlyAdded": "Mới thêm",
   "homeLibrary": "Thư viện",
-  "homePricing": "Bảng giá",
   "homePrivacyPolicy": "Chính sách bảo mật",
   "homeTerms": "Điều khoản",
   "homePracticed": "{count} đã luyện",
@@ -110,17 +85,6 @@
     "placeholders": {
       "count": {
         "type": "String"
-      }
-    }
-  },
-  "homeLessons": "{current} / {total} bài",
-  "@homeLessons": {
-    "placeholders": {
-      "current": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
       }
     }
   },
@@ -265,7 +229,6 @@
   "authGenericError": "Có lỗi xảy ra",
   "loginTitle": "Đăng nhập vào Vocabik",
   "continueWithGoogle": "Tiếp tục với Google",
-  "continueWithFacebook": "Tiếp tục với Facebook",
   "emailInvalid": "Email không hợp lệ",
   "passwordMinLength": "Mật khẩu phải từ 6 ký tự",
   "forgotPassword": "Quên mật khẩu? →",
@@ -406,61 +369,6 @@
   "resultProgressSavedSuccess": "Đã lưu tiến độ làm bài!",
   "resultProgressSaveError": "Không thể đồng bộ tiến độ",
   "resultProgressRetry": "Thử lại",
-  "myClassrooms": "Lớp học của tôi",
-  "newClass": "+ Tạo lớp",
-  "students": "Học sinh",
-  "assignments": "Bài tập",
-  "statistics": "Thống kê",
-  "joinCode": "Mã tham gia",
-  "copy": "Copy",
-  "createClassroom": "Tạo lớp học mới",
-  "classroomName": "Tên lớp học",
-  "classroomNameHint": "vd: 12A2 team",
-  "create": "Tạo",
-  "createSuccess": "Tạo lớp học thành công",
-  "createClassroomError": "Không thể tạo lớp học",
-  "emptyClassrooms": "Chưa có lớp học nào",
-  "noAssignmentYet": "Chưa có bài tập nào được giao",
-  "noDataAvailable": "Không có dữ liệu",
-  "enterClassroomName": "Vui lòng nhập tên lớp học",
-  "studentsCount": "{count} học sinh",
-  "@studentsCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "studentsTabTitle": "Học sinh ({count})",
-  "@studentsTabTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "assignmentDue": "{current}/{total} · Hạn {date}",
-  "@assignmentDue": {
-    "placeholders": {
-      "current": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      },
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "assignmentLabel": "Bài: {title}",
-  "@assignmentLabel": {
-    "placeholders": {
-      "title": {
-        "type": "String"
-      }
-    }
-  },
   "termsOfServiceTitle": "Điều khoản dịch vụ",
   "privacyPolicyTitle": "Chính sách bảo mật",
   "legalLastUpdated": "Cập nhật lần cuối: {date}",
@@ -492,7 +400,7 @@
   "privacySection2Title": "2. Cách sử dụng thông tin",
   "privacySection2Content": "Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ và gửi nhắc nhở streak (nếu bạn bật).",
   "privacySection3Title": "3. Dịch vụ bên thứ ba",
-  "privacySection3Content": "Google OAuth, Facebook, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.",
+  "privacySection3Content": "Google OAuth, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.",
   "privacySection4Title": "4. Cookies & tracking",
   "privacySection4Content": "Chúng tôi dùng cookie cần thiết cho đăng nhập và cookie phân tích ẩn danh.",
   "privacySection5Title": "5. Quyền của bạn",
@@ -500,48 +408,6 @@
   "privacySection6Title": "6. Bảo mật dữ liệu",
   "privacySection6Content": "Dữ liệu được mã hóa khi truyền tải và lưu trữ trên hạ tầng bảo mật.",
   "privacyContact": "Liên hệ: privacy@vocabik.com",
-  "pricingTitle": "Học tiếng Anh không giới hạn",
-  "pricingSubtitle": "Mở khóa Vocabik Premium chỉ từ $5/tháng.",
-  "pricingMonthly": "Hàng tháng",
-  "pricingYearly": "Hàng năm -33%",
-  "pricingFreeTag": "FREE",
-  "pricingFreeTitle": "Miễn phí",
-  "pricingFreeForever": "mãi mãi",
-  "pricingFreeFeat1": "Thư viện chọn lọc",
-  "pricingFreeFeat2": "5 bài tập / ngày",
-  "pricingFreeFeat3": "Trắc nghiệm + Điền từ",
-  "pricingFreeFeat4": "Theo dõi tiến độ",
-  "pricingFreeFeat5": "Bảng điểm",
-  "pricingFreeBtn": "Dùng miễn phí",
-  "pricingPremiumTag": "PREMIUM",
-  "pricingPremiumTitle": "PREMIUM",
-  "pricingPremiumMostPopular": "PHỔ BIẾN NHẤT",
-  "pricingPremiumPriceMonthly": "$5",
-  "pricingPremiumPriceYearly": "$40",
-  "pricingPremiumPerMonth": "/tháng",
-  "pricingPremiumPerYear": "/năm",
-  "pricingPremiumFeat1": "Tất cả của gói Free",
-  "pricingPremiumFeat2": "Dán bất kỳ link YouTube",
-  "pricingPremiumFeat3": "Học không giới hạn",
-  "pricingPremiumFeat4": "Tất cả các phiên bản bài tập",
-  "pricingPremiumFeat5": "Bảo vệ chuỗi ngày học (Streak Freeze)",
-  "pricingPremiumFeat6": "Gợi ý không giới hạn",
-  "pricingPremiumFeat7": "Đề xuất video vào thư viện",
-  "pricingPremiumBtn": "Bắt đầu Premium →",
-  "pricingCancelAnytime": "Hủy bất cứ lúc nào",
-  "pricingBadgeSecure": "Thanh toán bảo mật",
-  "pricingBadgeCancel": "Hủy bất cứ lúc nào",
-  "pricingBadgeCard": "Visa/Mastercard",
-  "pricingBadgeSupport": "Hỗ trợ 24h",
-  "pricingFaqTitle": "Câu hỏi thường gặp",
-  "pricingFaq1Q": "Tôi có thể hủy không?",
-  "pricingFaq1A": "Có, bất cứ lúc nào, miễn phí.",
-  "pricingFaq2Q": "Tôi có thể dùng thẻ Việt Nam không?",
-  "pricingFaq2A": "Có, chúng tôi chấp nhận thẻ Visa/Mastercard quốc tế.",
-  "pricingFaq3Q": "Có bản dùng thử không?",
-  "pricingFaq3A": "Gói Miễn phí (Free) chính là bản dùng thử vĩnh viễn.",
-  "pricingFaq4Q": "Tôi có được hoàn tiền gói năm không?",
-  "pricingFaq4A": "Được hoàn tiền trong vòng 7 ngày kể từ lúc thanh toán.",
   "forgotPasswordHeading": "Quên mật khẩu?",
   "forgotPasswordSubtitle": "Nhập email, chúng tôi sẽ gửi link đặt lại.",
   "backToLogin": "Quay lại đăng nhập",

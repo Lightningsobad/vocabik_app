@@ -51,19 +51,6 @@ class FakeFirebaseAnalytics implements FirebaseAnalytics {
       recordedParams['search_term'] = invocation.namedArguments[#searchTerm];
       return Future<void>.value();
     }
-    if (name.contains('logBeginCheckout')) {
-      recordedEvents.add('begin_checkout');
-      recordedParams['value'] = invocation.namedArguments[#value];
-      recordedParams['currency'] = invocation.namedArguments[#currency];
-      return Future<void>.value();
-    }
-    if (name.contains('logPurchase')) {
-      recordedEvents.add('purchase');
-      recordedParams['transaction_id'] = invocation.namedArguments[#transactionId];
-      recordedParams['value'] = invocation.namedArguments[#value];
-      recordedParams['currency'] = invocation.namedArguments[#currency];
-      return Future<void>.value();
-    }
     if (name.contains('logPostScore')) {
       recordedEvents.add('post_score');
       recordedParams['score'] = invocation.namedArguments[#score];
@@ -191,28 +178,6 @@ void main() {
       expect(fakeAnalytics.recordedParams['search_term'], equals('business'));
     });
 
-    test('logBeginCheckout logs begin_checkout', () async {
-      await service.logBeginCheckout(
-        packageId: 'yearly_sub',
-        value: 49.99,
-        currency: 'USD',
-      );
-      expect(fakeAnalytics.recordedEvents, contains('begin_checkout'));
-      expect(fakeAnalytics.recordedParams['value'], equals(49.99));
-      expect(fakeAnalytics.recordedParams['currency'], equals('USD'));
-    });
-
-    test('logPurchase logs purchase event', () async {
-      await service.logPurchase(
-        transactionId: 'tx_999',
-        packageId: 'yearly_sub',
-        value: 49.99,
-        currency: 'USD',
-      );
-      expect(fakeAnalytics.recordedEvents, contains('purchase'));
-      expect(fakeAnalytics.recordedParams['transaction_id'], equals('tx_999'));
-    });
-
     test('logLevelStart and logLevelEnd log level events', () async {
       await service.logLevelStart(
         levelName: 'Exercise 1',
@@ -303,18 +268,6 @@ void main() {
       );
       expect(fakeAnalytics.recordedEvents, contains('video_play_milestone'));
       expect(fakeAnalytics.recordedParams['milestone_percent'], equals(50));
-    });
-
-    test('logClassroomJoined logs classroom joining', () async {
-      await service.logClassroomJoined(
-        classroomId: 'cls_10',
-        classroomName: 'IELTS Master',
-      );
-      expect(fakeAnalytics.recordedEvents, contains('classroom_joined'));
-      expect(
-        fakeAnalytics.recordedParams['classroom_name'],
-        equals('IELTS Master'),
-      );
     });
 
     test('logNotebookWordSaved logs word saving', () async {

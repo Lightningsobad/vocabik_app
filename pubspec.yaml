@@ -67,8 +67,6 @@ dependencies:
   haptic_feedback: ^0.6.5
   audioplayers: ^6.1.0
 
-  # --- IAP ---
-  purchases_flutter: ^10.6.0
 
   # --- Firebase / Auth (Khởi tạo dependency, setup Native sau) ---
   firebase_core: ^4.12.1
@@ -77,7 +75,6 @@ dependencies:
   firebase_messaging: ^16.4.3
   firebase_auth: ^6.7.0
   google_sign_in: ^7.2.0
-  flutter_facebook_auth: ^7.1.1
   sign_in_with_apple: ^8.1.0
   lucide_icons_flutter: ^3.1.15
   google_fonts: ^8.2.0

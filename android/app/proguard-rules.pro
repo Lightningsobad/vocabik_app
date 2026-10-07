@@ -20,6 +20,3 @@
 -dontwarn java.lang.invoke.**
 -dontwarn java.time.**
 
-# 5. Purchases / RevenueCat (IAP)
--keep class com.revenuecat.purchases.** { *; }
--dontwarn com.revenuecat.purchases.**

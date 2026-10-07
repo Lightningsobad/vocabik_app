@@ -10,7 +10,6 @@
   "profileSettingsTitle": "Profile & Settings",
   "profileTab": "Profile",
   "preferencesTab": "Preferences",
-  "subscriptionTab": "Subscription",
   "securityTab": "Security",
   "accountTab": "Account",
   "tabNotImplemented": "Content for Tab {tabIndex} is not implemented yet.",
@@ -24,9 +23,7 @@
   "actionAchievements": "Achievements",
   "actionNotebook": "Notebook",
   "actionLeaderboard": "Leaderboard",
-  "actionClassroom": "Classroom",
   "actionDailyChallenge": "Daily Challenge",
-  "actionBotIntegration": "Bot integration",
   "profileChangePhoto": "Change photo",
   "profileYourName": "Your name",
   "profileUpdateSuccess": "Name updated successfully!",
@@ -52,10 +49,6 @@
   "interfaceLanguage": "Interface Language",
   "languageVietnamese": "Vietnamese",
   "languageEnglish": "English",
-  "botIntegrationTelegramZalo": "Bot Integration (Telegram / Zalo)",
-  "subscriptionFreePlanTitle": "Free plan",
-  "subscriptionFreePlanDesc": "Learn more richly with Premium.",
-  "subscriptionUpgradeBtn": "Upgrade to Premium →",
   "accountExportData": "Export my data",
   "accountLogOut": "Log out",
   "accountDeletePermanently": "Delete account permanently",
@@ -77,32 +70,14 @@
   "securityTab_sessionShowLess": "Show less",
   "action_show": "Show",
   "action_hide": "Hide",
-  "integrationScreenTitle": "Integration",
-  "integrationTelegramTitle": "Telegram Bot",
-  "integrationTelegramDesc": "Receive exercises every morning via Telegram",
-  "integrationZaloTitle": "Zalo OA",
-  "integrationZaloDesc": "Similar structure to Telegram",
-  "statusNotConnected": "Not connected",
-  "statusConnected": "Connected",
-  "instructionConnectLabel": "1. Press \"Connect\" below",
-  "instructionStartLabel": "2. Press Start in Telegram",
-  "instructionAutoConnectLabel": "3. Bot will auto connect",
-  "timeToReceiveLabel": "Time to receive",
-  "levelLabel": "Level",
-  "connectTelegramBtn": "Connect Telegram Bot →",
-  "connectZaloBtn": "Connect Zalo OA →",
-  "disconnectBtn": "Disconnect",
   "homeDailyPickTitle": "Handpicked for you today",
   "homeRecommendedTitle": "ALSO FOR YOU",
-  "homeTodayProgress": "Today",
-  "homeUnlimited": "Go unlimited",
   "homeAll": "All",
   "homeDailyChallenge": "Today's Daily Challenge",
   "homeTrending": "Trending this week",
   "homeViewAll": "See all \u2192",
   "homeRecentlyAdded": "Newly added",
   "homeLibrary": "Library",
-  "homePricing": "Pricing",
   "homePrivacyPolicy": "Privacy Policy",
   "homeTerms": "Terms",
   "homePracticed": "{count} practiced",
@@ -110,17 +85,6 @@
     "placeholders": {
       "count": {
         "type": "String"
-      }
-    }
-  },
-  "homeLessons": "{current} / {total} lessons",
-  "@homeLessons": {
-    "placeholders": {
-      "current": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
       }
     }
   },
@@ -265,7 +229,6 @@
   "authGenericError": "An error occurred",
   "loginTitle": "Log in to Vocabik",
   "continueWithGoogle": "Continue with Google",
-  "continueWithFacebook": "Continue with Facebook",
   "emailInvalid": "Invalid email",
   "passwordMinLength": "Password must be at least 6 characters",
   "forgotPassword": "Forgot password? →",
@@ -406,61 +369,6 @@
   "resultProgressSavedSuccess": "Progress saved successfully!",
   "resultProgressSaveError": "Could not sync progress",
   "resultProgressRetry": "Retry sync",
-  "myClassrooms": "My classrooms",
-  "newClass": "+ New class",
-  "students": "Students",
-  "assignments": "Assignments",
-  "statistics": "Statistics",
-  "joinCode": "Join code",
-  "copy": "Copy",
-  "createClassroom": "Create new classroom",
-  "classroomName": "Classroom name",
-  "classroomNameHint": "e.g. 12A2 team",
-  "create": "Create",
-  "createSuccess": "Classroom created successfully",
-  "createClassroomError": "Failed to create classroom",
-  "emptyClassrooms": "No classrooms yet",
-  "noAssignmentYet": "No assignment yet",
-  "noDataAvailable": "No data available",
-  "enterClassroomName": "Please enter a classroom name",
-  "studentsCount": "{count} students",
-  "@studentsCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "studentsTabTitle": "Students ({count})",
-  "@studentsTabTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "assignmentDue": "{current}/{total} · Due {date}",
-  "@assignmentDue": {
-    "placeholders": {
-      "current": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      },
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "assignmentLabel": "Assignment: {title}",
-  "@assignmentLabel": {
-    "placeholders": {
-      "title": {
-        "type": "String"
-      }
-    }
-  },
   "termsOfServiceTitle": "Terms of Service",
   "privacyPolicyTitle": "Privacy Policy",
   "legalLastUpdated": "Last updated: {date}",
@@ -492,7 +400,7 @@
   "privacySection2Title": "2. How We Use Information",
   "privacySection2Content": "Provide learning services, recommend suitable videos, track progress, and send streak reminders (if enabled).",
   "privacySection3Title": "3. Third-Party Services",
-  "privacySection3Content": "Google OAuth, Facebook, YouTube API, Polar.sh (payments), and Google Analytics 4.",
+  "privacySection3Content": "Google OAuth, YouTube API, Polar.sh (payments), and Google Analytics 4.",
   "privacySection4Title": "4. Cookies & Tracking",
   "privacySection4Content": "We use essential cookies for login and anonymous analytics cookies.",
   "privacySection5Title": "5. Your Rights",
@@ -500,48 +408,6 @@
   "privacySection6Title": "6. Data Security",
   "privacySection6Content": "Data is encrypted in transit and stored on secure infrastructure.",
   "privacyContact": "Contact: privacy@vocabik.com",
-  "pricingTitle": "Learn English without limits",
-  "pricingSubtitle": "Unlock Vocabik Premium from $5/mo.",
-  "pricingMonthly": "Monthly",
-  "pricingYearly": "Yearly -33%",
-  "pricingFreeTag": "FREE",
-  "pricingFreeTitle": "Free",
-  "pricingFreeForever": "forever",
-  "pricingFreeFeat1": "Curated library",
-  "pricingFreeFeat2": "5 exercises / day",
-  "pricingFreeFeat3": "MC + Free-text",
-  "pricingFreeFeat4": "Progress tracking",
-  "pricingFreeFeat5": "Score Card",
-  "pricingFreeBtn": "Use for free",
-  "pricingPremiumTag": "PREMIUM",
-  "pricingPremiumTitle": "PREMIUM",
-  "pricingPremiumMostPopular": "MOST POPULAR",
-  "pricingPremiumPriceMonthly": "$5",
-  "pricingPremiumPriceYearly": "$40",
-  "pricingPremiumPerMonth": "/mo",
-  "pricingPremiumPerYear": "/yr",
-  "pricingPremiumFeat1": "Everything in Free",
-  "pricingPremiumFeat2": "Paste any YouTube URL",
-  "pricingPremiumFeat3": "Unlimited learning",
-  "pricingPremiumFeat4": "All exercise versions",
-  "pricingPremiumFeat5": "Streak Freeze",
-  "pricingPremiumFeat6": "Unlimited hints",
-  "pricingPremiumFeat7": "Suggest a video for the library",
-  "pricingPremiumBtn": "Start Premium →",
-  "pricingCancelAnytime": "Cancel anytime",
-  "pricingBadgeSecure": "Secure payment",
-  "pricingBadgeCancel": "Cancel anytime",
-  "pricingBadgeCard": "Visa/Mastercard",
-  "pricingBadgeSupport": "24h support",
-  "pricingFaqTitle": "Frequently asked questions",
-  "pricingFaq1Q": "Can I cancel?",
-  "pricingFaq1A": "Yes, anytime, at no cost.",
-  "pricingFaq2Q": "Can I use a Vietnamese card?",
-  "pricingFaq2A": "Yes, we accept international Visa/Mastercard.",
-  "pricingFaq3Q": "Is there a free trial?",
-  "pricingFaq3A": "The Free plan is a permanent trial.",
-  "pricingFaq4Q": "Can I get an annual refund?",
-  "pricingFaq4A": "Within 7 days of payment.",
   "forgotPasswordHeading": "Forgot password?",
   "forgotPasswordSubtitle": "Enter your email, we will send you a reset link.",
   "backToLogin": "Back to login",

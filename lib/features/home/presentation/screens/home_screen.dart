@@ -21,7 +21,6 @@ import 'package:vocabik_app/features/home/presentation/widgets/home_library_sect
 import 'package:vocabik_app/features/home/presentation/widgets/home_newly_added_section.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_recommended_section.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_trending_section.dart';
-// import 'package:vocabik_app/features/home/presentation/widgets/today_progress_card.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/enums/cefr_level.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
@@ -151,16 +150,9 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
             // 2. Recommended / Also For You Section
             const HomeRecommendedSection(),
 
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
-            // // 3. Today Progress Card (Tạm ẩn)
-            // const SliverToBoxAdapter(
-            //   child: TodayProgressCard(completedLessons: 2, totalLessons: 5),
-            // ),
-
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
-
-            // 4. Tag Filters
+            // 3. Tag Filters
             SliverToBoxAdapter(
               child: ValueListenableBuilder<int>(
                 valueListenable: _selectedTabIndex,
@@ -188,28 +180,28 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
 
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl3)),
 
-            // 5. Daily Challenge
+            // 4. Daily Challenge
             const SliverToBoxAdapter(child: DailyChallengeCard()),
 
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
-            // 6. Trending Section
+            // 5. Trending Section
             const HomeTrendingSection(),
 
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
-            // 7. Recently Added (Newly added) Section
+            // 6. Recently Added (Newly added) Section
             const HomeNewlyAddedSection(),
 
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
-            // 8. Library Section (Grid of all videos)
+            // 7. Library Section (Grid of all videos)
             const HomeLibrarySection(),
 
-            // 9. Footer
+            // 8. Footer
             const SliverToBoxAdapter(child: HomeFooter()),
 
-            // 10. Padding bottom for FAB
+            // 9. Padding bottom for FAB
             const SliverToBoxAdapter(child: SizedBox(height: 80)),
           ],
         ),
