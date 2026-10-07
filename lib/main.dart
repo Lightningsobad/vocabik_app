@@ -22,11 +22,13 @@ import 'core/services/app_bloc_observer.dart';
 import 'core/services/audio_feedback_service.dart';
 import 'core/services/crashlytics_service.dart';
 import 'core/services/deep_link_service.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'core/services/notification/fcm_service.dart';
 import 'core/services/notification/notification_service.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   
   // Initialize Firebase Core
   try {

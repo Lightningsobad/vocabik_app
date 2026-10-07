@@ -7,7 +7,8 @@ import 'package:vocabik_app/shared/theme/domain/repositories/theme_repository.da
 class ThemeCubit extends Cubit<ThemeMode> {
   final ThemeRepository themeRepository;
 
-  ThemeCubit({required this.themeRepository}) : super(ThemeMode.system) {
+  ThemeCubit({required this.themeRepository})
+      : super(themeRepository.getCachedThemeMode()) {
     _loadTheme();
   }
 

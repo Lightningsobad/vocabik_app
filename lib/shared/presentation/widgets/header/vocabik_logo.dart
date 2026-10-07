@@ -3,12 +3,15 @@ import 'package:vocabik_app/shared/theme/app_colors.dart';
 
 class VocabikLogo extends StatelessWidget {
   final double size;
+  final double? borderWidth;
   
-  const VocabikLogo({super.key, this.size = 30});
+  const VocabikLogo({super.key, this.size = 30, this.borderWidth});
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final effectiveBorderWidth =
+        borderWidth ?? (size > 50 ? size * 0.025 : 1.0);
 
     return Container(
       width: size,
@@ -16,7 +19,10 @@ class VocabikLogo extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.logoBackground, // Nền logo
         borderRadius: BorderRadius.circular(size * 0.3),
-        border: Border.all(color: colors.logoBorder), // Viền logo
+        border: Border.all(
+          color: colors.logoBorder,
+          width: effectiveBorderWidth,
+        ), // Viền logo
       ),
       child: Stack(
         alignment: Alignment.center,
