@@ -29,12 +29,30 @@ flowchart LR
 
 ## 2. Thiết Lập GitHub Secrets (Chỉ cần làm 1 lần)
 
-Để GitHub Actions có quyền tải APK lên Firebase App Distribution, cần cấu hình Secret trong repository GitHub:
+Để GitHub Actions có quyền ký số APK Release nhất quán và tải APK lên Firebase App Distribution, cần cấu hình các Secret trong repository GitHub:
 
 1. Truy cập Repository trên GitHub: **Settings** > **Secrets and variables** > **Actions**.
 2. Nhấn nút **New repository secret**.
 
-### Các Secrets cần thêm:
+### A. Nhóm Secrets cấu hình Ký số APK (Release Signing Key):
+
+| Tên Secret | Bắt buộc | Mô Tả & Giá Trị |
+| :--- | :---: | :--- |
+| `ANDROID_KEYSTORE_BASE64` | **Có** | Chuỗi Base64 của file keystore đã lưu. |
+| `KEYSTORE_PASSWORD` | **Có** | Mật khẩu để mở file Keystore. |
+| `KEY_ALIAS` | Không *(Mặc định `vocabik-key-alias`)* | Tên Alias trong keystore (ví dụ: `vocabik-key-alias`). |
+| `KEY_PASSWORD` | **Có** | Mật khẩu của Key Alias. |
+
+> [!TIP]
+> **Cách lấy chuỗi `ANDROID_KEYSTORE_BASE64` nhanh trên Windows PowerShell:**
+> ```powershell
+> [Convert]::ToBase64String([IO.File]::ReadAllBytes("duong_dan_toi_file_keystore.jks")) | Set-Clipboard
+> ```
+> Lệnh trên sẽ tự động đọc file keystore, chuyển thành Base64 và sao chép thẳng vào clipboard để bạn Paste trực tiếp vào ô Secret trên GitHub.
+> 
+> *Lưu ý:* Nếu các secret này chưa được cấu hình, hoặc khi developer build trực tiếp tại máy cá nhân, hệ thống build Gradle sẽ tự động fallback về signing key mặc định (`debug`) để không gây gián đoạn quy trình phát triển.
+
+### B. Nhóm Secrets phân phối Firebase:
 
 | Tên Secret | Bắt buộc | Mô Tả & Giá Trị |
 | :--- | :---: | :--- |

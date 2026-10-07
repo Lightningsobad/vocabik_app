@@ -19,8 +19,15 @@ class FcmService {
   final LocalNotificationService _localNotificationService;
   final NotificationRouterHandler _routerHandler;
 
-  FirebaseMessaging get _messaging =>
-      _messagingInstance ?? FirebaseMessaging.instance;
+  FirebaseMessaging? get _messaging {
+    if (_messagingInstance != null) return _messagingInstance;
+    try {
+      if (Firebase.apps.isNotEmpty) {
+        return FirebaseMessaging.instance;
+      }
+    } catch (_) {}
+    return null;
+  }
 
   StreamSubscription<RemoteMessage>? _onMessageSubscription;
   StreamSubscription<RemoteMessage>? _onMessageOpenedAppSubscription;
