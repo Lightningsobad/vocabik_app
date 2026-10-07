@@ -4,17 +4,25 @@ import 'package:flutter/foundation.dart';
 
 class InAppMessagingService {
   final FirebaseInAppMessaging? _instance;
-  FirebaseInAppMessaging get _inAppMessaging =>
-      _instance ?? FirebaseInAppMessaging.instance;
+  FirebaseInAppMessaging? get _inAppMessaging {
+    if (_instance != null) return _instance;
+    try {
+      if (Firebase.apps.isNotEmpty) {
+        return FirebaseInAppMessaging.instance;
+      }
+    } catch (_) {}
+    return null;
+  }
 
   InAppMessagingService([FirebaseInAppMessaging? inAppMessaging])
       : _instance = inAppMessaging;
 
   Future<void> init() async {
-    if (_inAppMessaging == null) return;
+    final inApp = _inAppMessaging;
+    if (inApp == null) return;
     try {
-      await _inAppMessaging.setAutomaticDataCollectionEnabled(true);
-      await _inAppMessaging.setMessagesSuppressed(false);
+      await inApp.setAutomaticDataCollectionEnabled(true);
+      await inApp.setMessagesSuppressed(false);
       debugPrint('[InAppMessagingService] Initialized successfully');
     } catch (e) {
       debugPrint('[InAppMessagingService] Init error: $e');
