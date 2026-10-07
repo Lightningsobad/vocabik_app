@@ -69,22 +69,6 @@ import '../../features/challenge_friend/domain/usecases/get_friends_usecase.dart
     as _i71;
 import '../../features/challenge_friend/presentation/cubit/challenge_friend_cubit.dart'
     as _i719;
-import '../../features/classroom/data/datasources/classroom_remote_data_source.dart'
-    as _i309;
-import '../../features/classroom/data/repositories/classroom_repository_impl.dart'
-    as _i360;
-import '../../features/classroom/domain/repositories/classroom_repository.dart'
-    as _i86;
-import '../../features/classroom/domain/usecases/create_classroom_use_case.dart'
-    as _i822;
-import '../../features/classroom/domain/usecases/get_classroom_by_id_use_case.dart'
-    as _i5;
-import '../../features/classroom/domain/usecases/get_classrooms_use_case.dart'
-    as _i851;
-import '../../features/classroom/presentation/cubit/classroom_detail_cubit.dart'
-    as _i51;
-import '../../features/classroom/presentation/cubit/classroom_list_cubit.dart'
-    as _i292;
 import '../../features/daily_challenge/data/datasources/daily_challenge_remote_data_source.dart'
     as _i951;
 import '../../features/daily_challenge/data/repositories/daily_challenge_repository_impl.dart'
@@ -129,11 +113,11 @@ import '../../features/exercise/domain/repositories/score_card_repository.dart'
 import '../../features/exercise/domain/usecases/get_exercise_usecase.dart'
     as _i497;
 import '../../features/exercise/domain/usecases/get_video_translations_usecase.dart'
-    as _i310;
+    as _i309;
 import '../../features/exercise/domain/usecases/submit_progress_usecase.dart'
-    as _i6;
+    as _i5;
 import '../../features/exercise/presentation/cubit/exercise_cubit.dart' as _i67;
-import '../../features/exercise/presentation/cubit/result_cubit.dart' as _i293;
+import '../../features/exercise/presentation/cubit/result_cubit.dart' as _i292;
 import '../../features/home/data/datasources/home_remote_data_source.dart'
     as _i362;
 import '../../features/home/data/repositories/home_repository_impl.dart'
@@ -370,9 +354,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i854.ProgressRemoteDataSource>(
       () => _i854.ProgressRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i309.ClassroomRemoteDataSource>(
-      () => _i309.ClassroomRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
     gh.lazySingleton<_i913.ExerciseRemoteDataSource>(
       () => _i913.ExerciseRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -433,10 +414,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i50.ExerciseRepository>(
       () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
-    );
-    gh.lazySingleton<_i86.ClassroomRepository>(
-      () =>
-          _i360.ClassroomRepositoryImpl(gh<_i309.ClassroomRemoteDataSource>()),
     );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
@@ -532,15 +509,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1011.GetPersonalizedSlotsUseCase>(
       () => _i1011.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
     );
-    gh.factory<_i822.CreateClassroomUseCase>(
-      () => _i822.CreateClassroomUseCase(gh<_i86.ClassroomRepository>()),
-    );
-    gh.factory<_i5.GetClassroomByIdUseCase>(
-      () => _i5.GetClassroomByIdUseCase(gh<_i86.ClassroomRepository>()),
-    );
-    gh.factory<_i851.GetClassroomsUseCase>(
-      () => _i851.GetClassroomsUseCase(gh<_i86.ClassroomRepository>()),
-    );
     gh.factory<_i498.CefrSelectionCubit>(
       () => _i498.CefrSelectionCubit(
         gh<_i186.UpdateProfileUseCase>(),
@@ -554,12 +522,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i312.ActiveSessionsCubit>(
       () => _i312.ActiveSessionsCubit(gh<_i1058.GetSessionsUseCase>()),
-    );
-    gh.factory<_i292.ClassroomListCubit>(
-      () => _i292.ClassroomListCubit(
-        gh<_i851.GetClassroomsUseCase>(),
-        gh<_i822.CreateClassroomUseCase>(),
-      ),
     );
     gh.factory<_i209.GetLatestVideoProgressUseCase>(
       () => _i209.GetLatestVideoProgressUseCase(
@@ -594,11 +556,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i497.GetExerciseUseCase>(
       () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
     );
-    gh.factory<_i310.GetVideoTranslationsUseCase>(
-      () => _i310.GetVideoTranslationsUseCase(gh<_i50.ExerciseRepository>()),
+    gh.factory<_i309.GetVideoTranslationsUseCase>(
+      () => _i309.GetVideoTranslationsUseCase(gh<_i50.ExerciseRepository>()),
     );
-    gh.factory<_i6.SubmitProgressUseCase>(
-      () => _i6.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
+    gh.factory<_i5.SubmitProgressUseCase>(
+      () => _i5.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
     );
     gh.factory<_i690.PlaylistDetailCubit>(
       () => _i690.PlaylistDetailCubit(gh<_i493.GetPlaylistDetailUseCase>()),
@@ -649,11 +611,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i67.ExerciseCubit>(
       () => _i67.ExerciseCubit(
         gh<_i497.GetExerciseUseCase>(),
-        gh<_i310.GetVideoTranslationsUseCase>(),
+        gh<_i309.GetVideoTranslationsUseCase>(),
       ),
-    );
-    gh.factory<_i51.ClassroomDetailCubit>(
-      () => _i51.ClassroomDetailCubit(gh<_i5.GetClassroomByIdUseCase>()),
     );
     gh.factory<_i219.VerifyEmailCubit>(
       () => _i219.VerifyEmailCubit(
@@ -745,10 +704,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i935.GetDailyChallengeStreakUseCase>(),
       ),
     );
-    gh.factory<_i293.ResultCubit>(
-      () => _i293.ResultCubit(
+    gh.factory<_i292.ResultCubit>(
+      () => _i292.ResultCubit(
         gh<_i697.ScoreCardRepository>(),
-        gh<_i6.SubmitProgressUseCase>(),
+        gh<_i5.SubmitProgressUseCase>(),
         gh<_i544.SubmitDailyChallengeResultUseCase>(),
       ),
     );

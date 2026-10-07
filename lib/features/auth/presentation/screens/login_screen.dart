@@ -108,7 +108,6 @@ class _LoginViewState extends State<LoginView> {
               ),
               onPressed: () => context.read<LoginCubit>().loginWithGoogle(),
             ),
-            // Facebook login hidden for future implementation
             const SizedBox(height: 18),
             const AuthDivider(),
             const SizedBox(height: 18),

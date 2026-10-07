@@ -7,7 +7,6 @@ import '../../features/discover/presentation/screens/discover_screen.dart';
 import '../../features/discover/presentation/screens/playlist_detail_screen.dart';
 import '../../features/progress/presentation/screens/progress_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
-import '../../features/profile/presentation/widgets/integration/integration_content_view.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/verify_email_screen.dart';
@@ -19,12 +18,8 @@ import '../../features/video_detail/presentation/screens/video_detail_screen.dar
 import '../../features/exercise/presentation/screens/exercise_screen.dart';
 import '../../features/exercise/presentation/screens/result_screen.dart';
 import '../../features/exercise/presentation/models/exercise_result_args.dart';
-import '../../features/classroom/presentation/screens/my_classrooms_screen.dart';
-import '../../features/classroom/presentation/screens/classroom_detail_screen.dart';
-import '../../features/classroom/domain/entities/classroom_entity.dart';
 import '../di/injection.dart';
 import '../../features/legal/presentation/screens/legal_screen.dart';
-import '../../features/pricing/presentation/screens/pricing_screen.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../shared/domain/entities/video_entity.dart';
 import '../../shared/domain/enums/exercise_type.dart';
@@ -258,10 +253,6 @@ final GoRouter appRouter = GoRouter(
       redirect: (context, state) => '/home/challenge-sent',
     ),
     GoRoute(
-      path: '/pricing',
-      redirect: (context, state) => '/home/pricing',
-    ),
-    GoRoute(
       path: '/player',
       builder: (context, state) =>
           const PlaceholderScreen(title: 'Player Screen'),
@@ -290,10 +281,6 @@ final GoRouter appRouter = GoRouter(
                     type: LegalScreenType.privacyPolicy,
                     isFullscreen: false,
                   ),
-                ),
-                GoRoute(
-                  path: 'pricing',
-                  builder: (context, state) => const PricingScreen(),
                 ),
                 GoRoute(
                   path: 'video/:id',
@@ -433,36 +420,11 @@ final GoRouter appRouter = GoRouter(
                   ),
                 ),
                 GoRoute(
-                  path: 'integration',
-                  builder: (context, state) => const IntegrationContentView(),
-                ),
-                GoRoute(
                   path: 'daily-challenge',
                   builder: (context, state) {
                     final config = state.extra as DailyChallengeResponseEntity?;
                     return DailyChallengeScreen(initialConfig: config);
                   },
-                ),
-                GoRoute(
-                  path: 'pricing',
-                  builder: (context, state) => const PricingScreen(),
-                ),
-                GoRoute(
-                  path: 'classrooms',
-                  builder: (context, state) => const MyClassroomsScreen(),
-                  routes: [
-                    GoRoute(
-                      path: ':id',
-                      builder: (context, state) {
-                        final id = state.pathParameters['id']!;
-                        final classroom = state.extra as ClassroomEntity?;
-                        return ClassroomDetailScreen(
-                          id: id,
-                          classroom: classroom,
-                        );
-                      },
-                    ),
-                  ],
                 ),
               ],
             ),

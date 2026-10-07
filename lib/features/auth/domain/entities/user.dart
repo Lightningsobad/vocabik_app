@@ -7,7 +7,6 @@ class User extends Equatable {
   final String tier;
   final bool emailVerified;
   final String? role;
-  final Map<String, dynamic>? subscription;
   final String? cefrLevel;
   final String? hintMode;
   final DateTime? createdAt;
@@ -19,7 +18,6 @@ class User extends Equatable {
     required this.tier,
     required this.emailVerified,
     this.role,
-    this.subscription,
     this.cefrLevel,
     this.hintMode,
     this.createdAt,
@@ -32,7 +30,6 @@ class User extends Equatable {
     String? tier,
     bool? emailVerified,
     String? role,
-    Map<String, dynamic>? subscription,
     String? cefrLevel,
     String? hintMode,
     DateTime? createdAt,
@@ -44,7 +41,6 @@ class User extends Equatable {
       tier: tier ?? this.tier,
       emailVerified: emailVerified ?? this.emailVerified,
       role: role ?? this.role,
-      subscription: subscription ?? this.subscription,
       cefrLevel: cefrLevel ?? this.cefrLevel,
       hintMode: hintMode ?? this.hintMode,
       createdAt: createdAt ?? this.createdAt,
@@ -59,7 +55,6 @@ class User extends Equatable {
         tier,
         emailVerified,
         role,
-        subscription,
         cefrLevel,
         hintMode,
         createdAt,

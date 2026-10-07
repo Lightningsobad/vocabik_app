@@ -39,9 +39,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get preferencesTab => 'Tuỳ chỉnh';
 
   @override
-  String get subscriptionTab => 'Gói cước';
-
-  @override
   String get securityTab => 'Bảo mật';
 
   @override
@@ -62,13 +59,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get actionLeaderboard => 'Xếp hạng';
 
   @override
-  String get actionClassroom => 'Lớp học';
-
-  @override
   String get actionDailyChallenge => 'Thử thách ngày';
-
-  @override
-  String get actionBotIntegration => 'Tích hợp Bot';
 
   @override
   String get profileChangePhoto => 'Đổi ảnh';
@@ -127,18 +118,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
-  String get botIntegrationTelegramZalo => 'Tích hợp Bot (Telegram / Zalo)';
-
-  @override
-  String get subscriptionFreePlanTitle => 'Gói Free';
-
-  @override
-  String get subscriptionFreePlanDesc => 'Học phong phú hơn với Premium.';
-
-  @override
-  String get subscriptionUpgradeBtn => 'Nâng lên Premium →';
-
-  @override
   String get accountExportData => 'Xuất dữ liệu của tôi';
 
   @override
@@ -184,61 +163,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get action_hide => 'Ẩn';
 
   @override
-  String get integrationScreenTitle => 'Tích hợp';
-
-  @override
-  String get integrationTelegramTitle => 'Telegram Bot';
-
-  @override
-  String get integrationTelegramDesc => 'Nhận bài tập mỗi sáng qua Telegram';
-
-  @override
-  String get integrationZaloTitle => 'Zalo OA';
-
-  @override
-  String get integrationZaloDesc => 'Cấu trúc tương tự Telegram';
-
-  @override
-  String get statusNotConnected => 'Chưa kết nối';
-
-  @override
-  String get statusConnected => 'Đã kết nối';
-
-  @override
-  String get instructionConnectLabel => '1. Nhấn \"Kết nối\" bên dưới';
-
-  @override
-  String get instructionStartLabel => '2. Nhấn Start trong Telegram';
-
-  @override
-  String get instructionAutoConnectLabel => '3. Bot tự kết nối tài khoản';
-
-  @override
-  String get timeToReceiveLabel => 'Thời gian nhận bài';
-
-  @override
-  String get levelLabel => 'Level';
-
-  @override
-  String get connectTelegramBtn => 'Kết nối Telegram Bot →';
-
-  @override
-  String get connectZaloBtn => 'Kết nối Zalo OA →';
-
-  @override
-  String get disconnectBtn => 'Hủy kết nối';
-
-  @override
   String get homeDailyPickTitle => 'Tuyển chọn cho bạn hôm nay';
 
   @override
   String get homeRecommendedTitle => 'CŨNG DÀNH CHO BẠN';
-
-  @override
-  String get homeTodayProgress => 'Hôm nay';
-
-  @override
-  String get homeUnlimited => 'Không giới hạn';
 
   @override
   String get homeAll => 'Tất cả';
@@ -259,9 +187,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get homeLibrary => 'Thư viện';
 
   @override
-  String get homePricing => 'Bảng giá';
-
-  @override
   String get homePrivacyPolicy => 'Chính sách bảo mật';
 
   @override
@@ -270,11 +195,6 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String homePracticed(String count) {
     return '$count đã luyện';
-  }
-
-  @override
-  String homeLessons(int current, int total) {
-    return '$current / $total bài';
   }
 
   @override
@@ -560,9 +480,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get continueWithGoogle => 'Tiếp tục với Google';
 
   @override
-  String get continueWithFacebook => 'Tiếp tục với Facebook';
-
-  @override
   String get emailInvalid => 'Email không hợp lệ';
 
   @override
@@ -804,77 +721,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get resultProgressRetry => 'Thử lại';
 
   @override
-  String get myClassrooms => 'Lớp học của tôi';
-
-  @override
-  String get newClass => '+ Tạo lớp';
-
-  @override
-  String get students => 'Học sinh';
-
-  @override
-  String get assignments => 'Bài tập';
-
-  @override
-  String get statistics => 'Thống kê';
-
-  @override
-  String get joinCode => 'Mã tham gia';
-
-  @override
-  String get copy => 'Copy';
-
-  @override
-  String get createClassroom => 'Tạo lớp học mới';
-
-  @override
-  String get classroomName => 'Tên lớp học';
-
-  @override
-  String get classroomNameHint => 'vd: 12A2 team';
-
-  @override
-  String get create => 'Tạo';
-
-  @override
-  String get createSuccess => 'Tạo lớp học thành công';
-
-  @override
-  String get createClassroomError => 'Không thể tạo lớp học';
-
-  @override
-  String get emptyClassrooms => 'Chưa có lớp học nào';
-
-  @override
-  String get noAssignmentYet => 'Chưa có bài tập nào được giao';
-
-  @override
-  String get noDataAvailable => 'Không có dữ liệu';
-
-  @override
-  String get enterClassroomName => 'Vui lòng nhập tên lớp học';
-
-  @override
-  String studentsCount(int count) {
-    return '$count học sinh';
-  }
-
-  @override
-  String studentsTabTitle(int count) {
-    return 'Học sinh ($count)';
-  }
-
-  @override
-  String assignmentDue(int current, int total, String date) {
-    return '$current/$total · Hạn $date';
-  }
-
-  @override
-  String assignmentLabel(String title) {
-    return 'Bài: $title';
-  }
-
-  @override
   String get termsOfServiceTitle => 'Điều khoản dịch vụ';
 
   @override
@@ -959,7 +805,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get privacySection3Content =>
-      'Google OAuth, Facebook, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.';
+      'Google OAuth, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.';
 
   @override
   String get privacySection4Title => '4. Cookies & tracking';
@@ -984,135 +830,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get privacyContact => 'Liên hệ: privacy@vocabik.com';
-
-  @override
-  String get pricingTitle => 'Học tiếng Anh không giới hạn';
-
-  @override
-  String get pricingSubtitle => 'Mở khóa Vocabik Premium chỉ từ \$5/tháng.';
-
-  @override
-  String get pricingMonthly => 'Hàng tháng';
-
-  @override
-  String get pricingYearly => 'Hàng năm -33%';
-
-  @override
-  String get pricingFreeTag => 'FREE';
-
-  @override
-  String get pricingFreeTitle => 'Miễn phí';
-
-  @override
-  String get pricingFreeForever => 'mãi mãi';
-
-  @override
-  String get pricingFreeFeat1 => 'Thư viện chọn lọc';
-
-  @override
-  String get pricingFreeFeat2 => '5 bài tập / ngày';
-
-  @override
-  String get pricingFreeFeat3 => 'Trắc nghiệm + Điền từ';
-
-  @override
-  String get pricingFreeFeat4 => 'Theo dõi tiến độ';
-
-  @override
-  String get pricingFreeFeat5 => 'Bảng điểm';
-
-  @override
-  String get pricingFreeBtn => 'Dùng miễn phí';
-
-  @override
-  String get pricingPremiumTag => 'PREMIUM';
-
-  @override
-  String get pricingPremiumTitle => 'PREMIUM';
-
-  @override
-  String get pricingPremiumMostPopular => 'PHỔ BIẾN NHẤT';
-
-  @override
-  String get pricingPremiumPriceMonthly => '\$5';
-
-  @override
-  String get pricingPremiumPriceYearly => '\$40';
-
-  @override
-  String get pricingPremiumPerMonth => '/tháng';
-
-  @override
-  String get pricingPremiumPerYear => '/năm';
-
-  @override
-  String get pricingPremiumFeat1 => 'Tất cả của gói Free';
-
-  @override
-  String get pricingPremiumFeat2 => 'Dán bất kỳ link YouTube';
-
-  @override
-  String get pricingPremiumFeat3 => 'Học không giới hạn';
-
-  @override
-  String get pricingPremiumFeat4 => 'Tất cả các phiên bản bài tập';
-
-  @override
-  String get pricingPremiumFeat5 => 'Bảo vệ chuỗi ngày học (Streak Freeze)';
-
-  @override
-  String get pricingPremiumFeat6 => 'Gợi ý không giới hạn';
-
-  @override
-  String get pricingPremiumFeat7 => 'Đề xuất video vào thư viện';
-
-  @override
-  String get pricingPremiumBtn => 'Bắt đầu Premium →';
-
-  @override
-  String get pricingCancelAnytime => 'Hủy bất cứ lúc nào';
-
-  @override
-  String get pricingBadgeSecure => 'Thanh toán bảo mật';
-
-  @override
-  String get pricingBadgeCancel => 'Hủy bất cứ lúc nào';
-
-  @override
-  String get pricingBadgeCard => 'Visa/Mastercard';
-
-  @override
-  String get pricingBadgeSupport => 'Hỗ trợ 24h';
-
-  @override
-  String get pricingFaqTitle => 'Câu hỏi thường gặp';
-
-  @override
-  String get pricingFaq1Q => 'Tôi có thể hủy không?';
-
-  @override
-  String get pricingFaq1A => 'Có, bất cứ lúc nào, miễn phí.';
-
-  @override
-  String get pricingFaq2Q => 'Tôi có thể dùng thẻ Việt Nam không?';
-
-  @override
-  String get pricingFaq2A =>
-      'Có, chúng tôi chấp nhận thẻ Visa/Mastercard quốc tế.';
-
-  @override
-  String get pricingFaq3Q => 'Có bản dùng thử không?';
-
-  @override
-  String get pricingFaq3A =>
-      'Gói Miễn phí (Free) chính là bản dùng thử vĩnh viễn.';
-
-  @override
-  String get pricingFaq4Q => 'Tôi có được hoàn tiền gói năm không?';
-
-  @override
-  String get pricingFaq4A =>
-      'Được hoàn tiền trong vòng 7 ngày kể từ lúc thanh toán.';
 
   @override
   String get forgotPasswordHeading => 'Quên mật khẩu?';

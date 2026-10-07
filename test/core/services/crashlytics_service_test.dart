@@ -119,13 +119,13 @@ void main() {
       await service.setUserId('usr_999');
       expect(fakeCrashlytics.userId, equals('usr_999'));
 
-      await service.setCustomKey('user_tier', 'premium');
+      await service.setCustomKey('user_tier', 'standard');
       await service.setCustomKey('cefr_level', 'B2');
-      expect(fakeCrashlytics.customKeys['user_tier'], equals('premium'));
+      expect(fakeCrashlytics.customKeys['user_tier'], equals('standard'));
       expect(fakeCrashlytics.customKeys['cefr_level'], equals('B2'));
 
-      await service.log('User entered PricingScreen');
-      expect(fakeCrashlytics.logs, contains('User entered PricingScreen'));
+      await service.log('User entered HomeScreen');
+      expect(fakeCrashlytics.logs, contains('User entered HomeScreen'));
 
       await service.setCrashlyticsCollectionEnabled(true);
       expect(fakeCrashlytics.collectionEnabled, isTrue);

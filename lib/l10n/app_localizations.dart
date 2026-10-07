@@ -158,12 +158,6 @@ abstract class AppLocalizations {
   /// **'Tuỳ chỉnh'**
   String get preferencesTab;
 
-  /// No description provided for @subscriptionTab.
-  ///
-  /// In vi, this message translates to:
-  /// **'Gói cước'**
-  String get subscriptionTab;
-
   /// No description provided for @securityTab.
   ///
   /// In vi, this message translates to:
@@ -200,23 +194,11 @@ abstract class AppLocalizations {
   /// **'Xếp hạng'**
   String get actionLeaderboard;
 
-  /// No description provided for @actionClassroom.
-  ///
-  /// In vi, this message translates to:
-  /// **'Lớp học'**
-  String get actionClassroom;
-
   /// No description provided for @actionDailyChallenge.
   ///
   /// In vi, this message translates to:
   /// **'Thử thách ngày'**
   String get actionDailyChallenge;
-
-  /// No description provided for @actionBotIntegration.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tích hợp Bot'**
-  String get actionBotIntegration;
 
   /// No description provided for @profileChangePhoto.
   ///
@@ -326,30 +308,6 @@ abstract class AppLocalizations {
   /// **'English'**
   String get languageEnglish;
 
-  /// No description provided for @botIntegrationTelegramZalo.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tích hợp Bot (Telegram / Zalo)'**
-  String get botIntegrationTelegramZalo;
-
-  /// No description provided for @subscriptionFreePlanTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Gói Free'**
-  String get subscriptionFreePlanTitle;
-
-  /// No description provided for @subscriptionFreePlanDesc.
-  ///
-  /// In vi, this message translates to:
-  /// **'Học phong phú hơn với Premium.'**
-  String get subscriptionFreePlanDesc;
-
-  /// No description provided for @subscriptionUpgradeBtn.
-  ///
-  /// In vi, this message translates to:
-  /// **'Nâng lên Premium →'**
-  String get subscriptionUpgradeBtn;
-
   /// No description provided for @accountExportData.
   ///
   /// In vi, this message translates to:
@@ -434,96 +392,6 @@ abstract class AppLocalizations {
   /// **'Ẩn'**
   String get action_hide;
 
-  /// No description provided for @integrationScreenTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tích hợp'**
-  String get integrationScreenTitle;
-
-  /// No description provided for @integrationTelegramTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Telegram Bot'**
-  String get integrationTelegramTitle;
-
-  /// No description provided for @integrationTelegramDesc.
-  ///
-  /// In vi, this message translates to:
-  /// **'Nhận bài tập mỗi sáng qua Telegram'**
-  String get integrationTelegramDesc;
-
-  /// No description provided for @integrationZaloTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Zalo OA'**
-  String get integrationZaloTitle;
-
-  /// No description provided for @integrationZaloDesc.
-  ///
-  /// In vi, this message translates to:
-  /// **'Cấu trúc tương tự Telegram'**
-  String get integrationZaloDesc;
-
-  /// No description provided for @statusNotConnected.
-  ///
-  /// In vi, this message translates to:
-  /// **'Chưa kết nối'**
-  String get statusNotConnected;
-
-  /// No description provided for @statusConnected.
-  ///
-  /// In vi, this message translates to:
-  /// **'Đã kết nối'**
-  String get statusConnected;
-
-  /// No description provided for @instructionConnectLabel.
-  ///
-  /// In vi, this message translates to:
-  /// **'1. Nhấn \"Kết nối\" bên dưới'**
-  String get instructionConnectLabel;
-
-  /// No description provided for @instructionStartLabel.
-  ///
-  /// In vi, this message translates to:
-  /// **'2. Nhấn Start trong Telegram'**
-  String get instructionStartLabel;
-
-  /// No description provided for @instructionAutoConnectLabel.
-  ///
-  /// In vi, this message translates to:
-  /// **'3. Bot tự kết nối tài khoản'**
-  String get instructionAutoConnectLabel;
-
-  /// No description provided for @timeToReceiveLabel.
-  ///
-  /// In vi, this message translates to:
-  /// **'Thời gian nhận bài'**
-  String get timeToReceiveLabel;
-
-  /// No description provided for @levelLabel.
-  ///
-  /// In vi, this message translates to:
-  /// **'Level'**
-  String get levelLabel;
-
-  /// No description provided for @connectTelegramBtn.
-  ///
-  /// In vi, this message translates to:
-  /// **'Kết nối Telegram Bot →'**
-  String get connectTelegramBtn;
-
-  /// No description provided for @connectZaloBtn.
-  ///
-  /// In vi, this message translates to:
-  /// **'Kết nối Zalo OA →'**
-  String get connectZaloBtn;
-
-  /// No description provided for @disconnectBtn.
-  ///
-  /// In vi, this message translates to:
-  /// **'Hủy kết nối'**
-  String get disconnectBtn;
-
   /// No description provided for @homeDailyPickTitle.
   ///
   /// In vi, this message translates to:
@@ -535,18 +403,6 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'CŨNG DÀNH CHO BẠN'**
   String get homeRecommendedTitle;
-
-  /// No description provided for @homeTodayProgress.
-  ///
-  /// In vi, this message translates to:
-  /// **'Hôm nay'**
-  String get homeTodayProgress;
-
-  /// No description provided for @homeUnlimited.
-  ///
-  /// In vi, this message translates to:
-  /// **'Không giới hạn'**
-  String get homeUnlimited;
 
   /// No description provided for @homeAll.
   ///
@@ -584,12 +440,6 @@ abstract class AppLocalizations {
   /// **'Thư viện'**
   String get homeLibrary;
 
-  /// No description provided for @homePricing.
-  ///
-  /// In vi, this message translates to:
-  /// **'Bảng giá'**
-  String get homePricing;
-
   /// No description provided for @homePrivacyPolicy.
   ///
   /// In vi, this message translates to:
@@ -607,12 +457,6 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'{count} đã luyện'**
   String homePracticed(String count);
-
-  /// No description provided for @homeLessons.
-  ///
-  /// In vi, this message translates to:
-  /// **'{current} / {total} bài'**
-  String homeLessons(int current, int total);
 
   /// No description provided for @homeDailyPickTag.
   ///
@@ -1148,12 +992,6 @@ abstract class AppLocalizations {
   /// **'Tiếp tục với Google'**
   String get continueWithGoogle;
 
-  /// No description provided for @continueWithFacebook.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tiếp tục với Facebook'**
-  String get continueWithFacebook;
-
   /// No description provided for @emailInvalid.
   ///
   /// In vi, this message translates to:
@@ -1598,132 +1436,6 @@ abstract class AppLocalizations {
   /// **'Thử lại'**
   String get resultProgressRetry;
 
-  /// No description provided for @myClassrooms.
-  ///
-  /// In vi, this message translates to:
-  /// **'Lớp học của tôi'**
-  String get myClassrooms;
-
-  /// No description provided for @newClass.
-  ///
-  /// In vi, this message translates to:
-  /// **'+ Tạo lớp'**
-  String get newClass;
-
-  /// No description provided for @students.
-  ///
-  /// In vi, this message translates to:
-  /// **'Học sinh'**
-  String get students;
-
-  /// No description provided for @assignments.
-  ///
-  /// In vi, this message translates to:
-  /// **'Bài tập'**
-  String get assignments;
-
-  /// No description provided for @statistics.
-  ///
-  /// In vi, this message translates to:
-  /// **'Thống kê'**
-  String get statistics;
-
-  /// No description provided for @joinCode.
-  ///
-  /// In vi, this message translates to:
-  /// **'Mã tham gia'**
-  String get joinCode;
-
-  /// No description provided for @copy.
-  ///
-  /// In vi, this message translates to:
-  /// **'Copy'**
-  String get copy;
-
-  /// No description provided for @createClassroom.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tạo lớp học mới'**
-  String get createClassroom;
-
-  /// No description provided for @classroomName.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tên lớp học'**
-  String get classroomName;
-
-  /// No description provided for @classroomNameHint.
-  ///
-  /// In vi, this message translates to:
-  /// **'vd: 12A2 team'**
-  String get classroomNameHint;
-
-  /// No description provided for @create.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tạo'**
-  String get create;
-
-  /// No description provided for @createSuccess.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tạo lớp học thành công'**
-  String get createSuccess;
-
-  /// No description provided for @createClassroomError.
-  ///
-  /// In vi, this message translates to:
-  /// **'Không thể tạo lớp học'**
-  String get createClassroomError;
-
-  /// No description provided for @emptyClassrooms.
-  ///
-  /// In vi, this message translates to:
-  /// **'Chưa có lớp học nào'**
-  String get emptyClassrooms;
-
-  /// No description provided for @noAssignmentYet.
-  ///
-  /// In vi, this message translates to:
-  /// **'Chưa có bài tập nào được giao'**
-  String get noAssignmentYet;
-
-  /// No description provided for @noDataAvailable.
-  ///
-  /// In vi, this message translates to:
-  /// **'Không có dữ liệu'**
-  String get noDataAvailable;
-
-  /// No description provided for @enterClassroomName.
-  ///
-  /// In vi, this message translates to:
-  /// **'Vui lòng nhập tên lớp học'**
-  String get enterClassroomName;
-
-  /// No description provided for @studentsCount.
-  ///
-  /// In vi, this message translates to:
-  /// **'{count} học sinh'**
-  String studentsCount(int count);
-
-  /// No description provided for @studentsTabTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Học sinh ({count})'**
-  String studentsTabTitle(int count);
-
-  /// No description provided for @assignmentDue.
-  ///
-  /// In vi, this message translates to:
-  /// **'{current}/{total} · Hạn {date}'**
-  String assignmentDue(int current, int total, String date);
-
-  /// No description provided for @assignmentLabel.
-  ///
-  /// In vi, this message translates to:
-  /// **'Bài: {title}'**
-  String assignmentLabel(String title);
-
   /// No description provided for @termsOfServiceTitle.
   ///
   /// In vi, this message translates to:
@@ -1871,7 +1583,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySection3Content.
   ///
   /// In vi, this message translates to:
-  /// **'Google OAuth, Facebook, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.'**
+  /// **'Google OAuth, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.'**
   String get privacySection3Content;
 
   /// No description provided for @privacySection4Title.
@@ -1915,258 +1627,6 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Liên hệ: privacy@vocabik.com'**
   String get privacyContact;
-
-  /// No description provided for @pricingTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Học tiếng Anh không giới hạn'**
-  String get pricingTitle;
-
-  /// No description provided for @pricingSubtitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Mở khóa Vocabik Premium chỉ từ \$5/tháng.'**
-  String get pricingSubtitle;
-
-  /// No description provided for @pricingMonthly.
-  ///
-  /// In vi, this message translates to:
-  /// **'Hàng tháng'**
-  String get pricingMonthly;
-
-  /// No description provided for @pricingYearly.
-  ///
-  /// In vi, this message translates to:
-  /// **'Hàng năm -33%'**
-  String get pricingYearly;
-
-  /// No description provided for @pricingFreeTag.
-  ///
-  /// In vi, this message translates to:
-  /// **'FREE'**
-  String get pricingFreeTag;
-
-  /// No description provided for @pricingFreeTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Miễn phí'**
-  String get pricingFreeTitle;
-
-  /// No description provided for @pricingFreeForever.
-  ///
-  /// In vi, this message translates to:
-  /// **'mãi mãi'**
-  String get pricingFreeForever;
-
-  /// No description provided for @pricingFreeFeat1.
-  ///
-  /// In vi, this message translates to:
-  /// **'Thư viện chọn lọc'**
-  String get pricingFreeFeat1;
-
-  /// No description provided for @pricingFreeFeat2.
-  ///
-  /// In vi, this message translates to:
-  /// **'5 bài tập / ngày'**
-  String get pricingFreeFeat2;
-
-  /// No description provided for @pricingFreeFeat3.
-  ///
-  /// In vi, this message translates to:
-  /// **'Trắc nghiệm + Điền từ'**
-  String get pricingFreeFeat3;
-
-  /// No description provided for @pricingFreeFeat4.
-  ///
-  /// In vi, this message translates to:
-  /// **'Theo dõi tiến độ'**
-  String get pricingFreeFeat4;
-
-  /// No description provided for @pricingFreeFeat5.
-  ///
-  /// In vi, this message translates to:
-  /// **'Bảng điểm'**
-  String get pricingFreeFeat5;
-
-  /// No description provided for @pricingFreeBtn.
-  ///
-  /// In vi, this message translates to:
-  /// **'Dùng miễn phí'**
-  String get pricingFreeBtn;
-
-  /// No description provided for @pricingPremiumTag.
-  ///
-  /// In vi, this message translates to:
-  /// **'PREMIUM'**
-  String get pricingPremiumTag;
-
-  /// No description provided for @pricingPremiumTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'PREMIUM'**
-  String get pricingPremiumTitle;
-
-  /// No description provided for @pricingPremiumMostPopular.
-  ///
-  /// In vi, this message translates to:
-  /// **'PHỔ BIẾN NHẤT'**
-  String get pricingPremiumMostPopular;
-
-  /// No description provided for @pricingPremiumPriceMonthly.
-  ///
-  /// In vi, this message translates to:
-  /// **'\$5'**
-  String get pricingPremiumPriceMonthly;
-
-  /// No description provided for @pricingPremiumPriceYearly.
-  ///
-  /// In vi, this message translates to:
-  /// **'\$40'**
-  String get pricingPremiumPriceYearly;
-
-  /// No description provided for @pricingPremiumPerMonth.
-  ///
-  /// In vi, this message translates to:
-  /// **'/tháng'**
-  String get pricingPremiumPerMonth;
-
-  /// No description provided for @pricingPremiumPerYear.
-  ///
-  /// In vi, this message translates to:
-  /// **'/năm'**
-  String get pricingPremiumPerYear;
-
-  /// No description provided for @pricingPremiumFeat1.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tất cả của gói Free'**
-  String get pricingPremiumFeat1;
-
-  /// No description provided for @pricingPremiumFeat2.
-  ///
-  /// In vi, this message translates to:
-  /// **'Dán bất kỳ link YouTube'**
-  String get pricingPremiumFeat2;
-
-  /// No description provided for @pricingPremiumFeat3.
-  ///
-  /// In vi, this message translates to:
-  /// **'Học không giới hạn'**
-  String get pricingPremiumFeat3;
-
-  /// No description provided for @pricingPremiumFeat4.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tất cả các phiên bản bài tập'**
-  String get pricingPremiumFeat4;
-
-  /// No description provided for @pricingPremiumFeat5.
-  ///
-  /// In vi, this message translates to:
-  /// **'Bảo vệ chuỗi ngày học (Streak Freeze)'**
-  String get pricingPremiumFeat5;
-
-  /// No description provided for @pricingPremiumFeat6.
-  ///
-  /// In vi, this message translates to:
-  /// **'Gợi ý không giới hạn'**
-  String get pricingPremiumFeat6;
-
-  /// No description provided for @pricingPremiumFeat7.
-  ///
-  /// In vi, this message translates to:
-  /// **'Đề xuất video vào thư viện'**
-  String get pricingPremiumFeat7;
-
-  /// No description provided for @pricingPremiumBtn.
-  ///
-  /// In vi, this message translates to:
-  /// **'Bắt đầu Premium →'**
-  String get pricingPremiumBtn;
-
-  /// No description provided for @pricingCancelAnytime.
-  ///
-  /// In vi, this message translates to:
-  /// **'Hủy bất cứ lúc nào'**
-  String get pricingCancelAnytime;
-
-  /// No description provided for @pricingBadgeSecure.
-  ///
-  /// In vi, this message translates to:
-  /// **'Thanh toán bảo mật'**
-  String get pricingBadgeSecure;
-
-  /// No description provided for @pricingBadgeCancel.
-  ///
-  /// In vi, this message translates to:
-  /// **'Hủy bất cứ lúc nào'**
-  String get pricingBadgeCancel;
-
-  /// No description provided for @pricingBadgeCard.
-  ///
-  /// In vi, this message translates to:
-  /// **'Visa/Mastercard'**
-  String get pricingBadgeCard;
-
-  /// No description provided for @pricingBadgeSupport.
-  ///
-  /// In vi, this message translates to:
-  /// **'Hỗ trợ 24h'**
-  String get pricingBadgeSupport;
-
-  /// No description provided for @pricingFaqTitle.
-  ///
-  /// In vi, this message translates to:
-  /// **'Câu hỏi thường gặp'**
-  String get pricingFaqTitle;
-
-  /// No description provided for @pricingFaq1Q.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tôi có thể hủy không?'**
-  String get pricingFaq1Q;
-
-  /// No description provided for @pricingFaq1A.
-  ///
-  /// In vi, this message translates to:
-  /// **'Có, bất cứ lúc nào, miễn phí.'**
-  String get pricingFaq1A;
-
-  /// No description provided for @pricingFaq2Q.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tôi có thể dùng thẻ Việt Nam không?'**
-  String get pricingFaq2Q;
-
-  /// No description provided for @pricingFaq2A.
-  ///
-  /// In vi, this message translates to:
-  /// **'Có, chúng tôi chấp nhận thẻ Visa/Mastercard quốc tế.'**
-  String get pricingFaq2A;
-
-  /// No description provided for @pricingFaq3Q.
-  ///
-  /// In vi, this message translates to:
-  /// **'Có bản dùng thử không?'**
-  String get pricingFaq3Q;
-
-  /// No description provided for @pricingFaq3A.
-  ///
-  /// In vi, this message translates to:
-  /// **'Gói Miễn phí (Free) chính là bản dùng thử vĩnh viễn.'**
-  String get pricingFaq3A;
-
-  /// No description provided for @pricingFaq4Q.
-  ///
-  /// In vi, this message translates to:
-  /// **'Tôi có được hoàn tiền gói năm không?'**
-  String get pricingFaq4Q;
-
-  /// No description provided for @pricingFaq4A.
-  ///
-  /// In vi, this message translates to:
-  /// **'Được hoàn tiền trong vòng 7 ngày kể từ lúc thanh toán.'**
-  String get pricingFaq4A;
 
   /// No description provided for @forgotPasswordHeading.
   ///
