@@ -737,7 +737,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tosSection1Content =>
-      'By using Vocabik, you agree to these terms.';
+      'By using Vocabik, you agree to these terms, YouTube\'s Terms of Service (https://www.youtube.com/t/terms), and Google\'s Privacy Policy (https://policies.google.com/privacy).';
 
   @override
   String get tosSection2Title => '2. User Account';
@@ -747,11 +747,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'You are responsible for safeguarding your login credentials.';
 
   @override
-  String get tosSection3Title => '3. Use of Service';
+  String get tosSection3Title => '3. Use of Service & User Conduct';
 
   @override
   String get tosSection3Content =>
-      'Do not use the service for illegal purposes or violate YouTube ToS.';
+      'Do not use the service for illegal purposes, violate YouTube Terms of Service, post abusive content, or harass others. Vocabik enforces zero tolerance for objectionable content and abusive users.';
 
   @override
   String get tosSection4Title => '4. Content & Intellectual Property';
@@ -772,7 +772,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tosSection6Content =>
-      'You can delete your account anytime; we may terminate accounts that violate terms.';
+      'Accounts that violate terms, engage in abusive behavior, or post objectionable content may be terminated immediately.';
 
   @override
   String get tosContact => 'Contact: support@vocabik.com';
@@ -782,49 +782,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacySummaryContent =>
-      'We collect email and learning data to provide services. We do not sell your data.';
+      'We collect email, display name, and learning data to provide services. We do not sell your data.';
 
   @override
   String get privacySection1Title => '1. Information We Collect';
 
   @override
   String get privacySection1Content =>
-      'Email, display name, and learning data (progress, scores, saved vocabulary) to personalize your experience.';
+      'Email, display name, pseudonymous identifiers, and learning data (progress, scores, saved vocabulary) to personalize your experience.';
 
   @override
   String get privacySection2Title => '2. How We Use Information';
 
   @override
   String get privacySection2Content =>
-      'Provide learning services, recommend suitable videos, track progress, and send streak reminders (if enabled).';
+      'Provide learning services, recommend suitable videos, track progress, maintain leaderboards, and send streak reminders (if enabled).';
 
   @override
   String get privacySection3Title => '3. Third-Party Services';
 
   @override
   String get privacySection3Content =>
-      'Google OAuth, YouTube API, Polar.sh (payments), and Google Analytics 4.';
+      'Google Sign-In, YouTube API Services, Firebase (Crashlytics diagnostics, Cloud Messaging, In-App Messaging), and Google Analytics. By using YouTube-powered features, you agree to the Google Privacy Policy (https://policies.google.com/privacy).';
 
   @override
-  String get privacySection4Title => '4. Cookies & Tracking';
+  String get privacySection4Title => '4. Cookies & Diagnostics';
 
   @override
   String get privacySection4Content =>
-      'We use essential cookies for login and anonymous analytics cookies.';
+      'We collect necessary authentication tokens and pseudonymous diagnostic crash logs to improve app performance.';
 
   @override
-  String get privacySection5Title => '5. Your Rights';
+  String get privacySection5Title => '5. Your Rights & Data Deletion';
 
   @override
   String get privacySection5Content =>
-      'You can delete, export, or edit your data anytime in Settings.';
+      'You can request account deletion or data inquiry at any time by visiting https://vocabik.com/delete-account or contacting privacy@vocabik.com.';
 
   @override
   String get privacySection6Title => '6. Data Security';
 
   @override
   String get privacySection6Content =>
-      'Data is encrypted in transit and stored on secure infrastructure.';
+      'Data is encrypted in transit using HTTPS and stored on secure infrastructure.';
 
   @override
   String get privacyContact => 'Contact: privacy@vocabik.com';
@@ -1114,4 +1114,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewFinishedDesc => 'You have reviewed all your flashcards.';
+
+  @override
+  String get reportUserTitle => 'Report user';
+
+  @override
+  String reportUserSubtitle(String userName) {
+    return 'Select a reason for reporting account “$userName”:';
+  }
+
+  @override
+  String get reportReasonInappropriateName =>
+      'Inappropriate or offensive display name';
+
+  @override
+  String get reportReasonInappropriateAvatar =>
+      'Profile picture violates community guidelines';
+
+  @override
+  String get reportReasonHarassmentOrCheating => 'Harassment or cheating';
+
+  @override
+  String get reportReasonSpamOrAd => 'Spam or advertising content';
+
+  @override
+  String get reportUserSubmit => 'Submit report';
+
+  @override
+  String get reportUserSuccessMessage =>
+      'Thank you. Your report has been received and forwarded to our moderation team.';
 }

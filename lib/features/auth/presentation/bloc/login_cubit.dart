@@ -96,33 +96,45 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(status: LoginStatus.loading));
 
     try {
-      debugPrint('[LoginCubit] Triggering loginWithGoogle...');
+      if (kDebugMode) {
+        debugPrint('[LoginCubit] Triggering loginWithGoogle...');
+      }
       final idToken = await _socialAuthService.getGoogleIdToken();
       if (idToken == null || idToken.isEmpty) {
-        debugPrint('[LoginCubit] Google Sign-In cancelled by user.');
+        if (kDebugMode) {
+          debugPrint('[LoginCubit] Google Sign-In cancelled by user.');
+        }
         emit(state.copyWith(status: LoginStatus.initial));
         return;
       }
 
-      debugPrint('[LoginCubit] Sending Google idToken to Backend API...');
+      if (kDebugMode) {
+        debugPrint('[LoginCubit] Sending Google idToken to Backend API...');
+      }
       final result = await _loginWithGoogleUseCase(idToken: idToken);
 
       result.fold(
         (failure) {
-          debugPrint('[LoginCubit] Backend Google Login failed: ${failure.message}');
+          if (kDebugMode) {
+            debugPrint('[LoginCubit] Backend Google Login failed: ${failure.message}');
+          }
           emit(state.copyWith(
             status: LoginStatus.failure,
             errorMessage: failure.message,
           ));
         },
         (user) {
-          debugPrint('[LoginCubit] Backend Google Login succeeded for user: ${user.email}');
+          if (kDebugMode) {
+            debugPrint('[LoginCubit] Backend Google Login succeeded');
+          }
           _authBloc.add(UserAuthenticated(user));
           emit(state.copyWith(status: LoginStatus.success));
         },
       );
     } catch (e, stackTrace) {
-      debugPrint('[LoginCubit] Google Sign-In error: $e\n$stackTrace');
+      if (kDebugMode) {
+        debugPrint('[LoginCubit] Google Sign-In error: $e\n$stackTrace');
+      }
       final errorMsg = e.toString().replaceAll('Exception: ', '');
       emit(state.copyWith(
         status: LoginStatus.failure,

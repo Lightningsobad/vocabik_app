@@ -41,6 +41,9 @@ void main() async {
   // Initialize dependency injection
   await configureDependencies();
 
+  // Initialize Auth Local Storage (Secure Storage cache & legacy migration)
+  await getIt<AuthLocalDataSource>().init();
+
   // Initialize Crashlytics & Global Error Handlers
   if (getIt.isRegistered<CrashlyticsService>()) {
     final crashlyticsService = getIt<CrashlyticsService>();

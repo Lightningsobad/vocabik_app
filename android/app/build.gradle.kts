@@ -65,6 +65,23 @@ android {
     }
 }
 
+gradle.taskGraph.whenReady {
+    val isReleaseSigningMissing = !keystorePropertiesFile.exists() || keystoreProperties["storeFile"] == null
+    val isExplicitDebugAllowed = project.hasProperty("allowDebugSigningForRelease")
+    if (isReleaseSigningMissing && !isExplicitDebugAllowed) {
+        val hasReleaseTask = allTasks.any {
+            it.name.contains("Release", ignoreCase = true) &&
+            (it.name.startsWith("assemble") || it.name.startsWith("bundle") || it.name.startsWith("package"))
+        }
+        if (hasReleaseTask) {
+            throw org.gradle.api.GradleException(
+                "Release build requires 'android/key.properties' with valid signing credentials. " +
+                "To build a test release with debug signing, pass -PallowDebugSigningForRelease=true."
+            )
+        }
+    }
+}
+
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 

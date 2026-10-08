@@ -1469,7 +1469,7 @@ abstract class AppLocalizations {
   /// No description provided for @tosSection1Content.
   ///
   /// In vi, this message translates to:
-  /// **'Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này.'**
+  /// **'Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này, Điều khoản Dịch vụ của YouTube (https://www.youtube.com/t/terms) và Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).'**
   String get tosSection1Content;
 
   /// No description provided for @tosSection2Title.
@@ -1487,13 +1487,13 @@ abstract class AppLocalizations {
   /// No description provided for @tosSection3Title.
   ///
   /// In vi, this message translates to:
-  /// **'3. Sử dụng dịch vụ'**
+  /// **'3. Sử dụng dịch vụ & Quy tắc cộng đồng'**
   String get tosSection3Title;
 
   /// No description provided for @tosSection3Content.
   ///
   /// In vi, this message translates to:
-  /// **'Không sử dụng dịch vụ cho mục đích bất hợp pháp hoặc vi phạm YouTube ToS.'**
+  /// **'Không sử dụng dịch vụ cho mục đích bất hợp pháp, vi phạm Điều khoản YouTube, đăng tải nội dung phản cảm hoặc quấy rối người khác. Vocabik kiên quyết không dung thứ đối với hành vi lạm dụng và nội dung phản cảm.'**
   String get tosSection3Content;
 
   /// No description provided for @tosSection4Title.
@@ -1529,7 +1529,7 @@ abstract class AppLocalizations {
   /// No description provided for @tosSection6Content.
   ///
   /// In vi, this message translates to:
-  /// **'Bạn có thể xóa tài khoản bất cứ lúc nào; chúng tôi có thể chấm dứt nếu vi phạm điều khoản.'**
+  /// **'Tài khoản vi phạm điều khoản, có hành vi lạm dụng hoặc tạo nội dung phản cảm có thể bị khóa hoặc chấm dứt ngay lập tức.'**
   String get tosSection6Content;
 
   /// No description provided for @tosContact.
@@ -1547,7 +1547,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySummaryContent.
   ///
   /// In vi, this message translates to:
-  /// **'Chúng tôi thu thập email và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.'**
+  /// **'Chúng tôi thu thập email, tên hiển thị và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.'**
   String get privacySummaryContent;
 
   /// No description provided for @privacySection1Title.
@@ -1559,7 +1559,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySection1Content.
   ///
   /// In vi, this message translates to:
-  /// **'Email, tên hiển thị, và dữ liệu học tập (tiến độ, điểm số, từ vựng đã lưu) để cá nhân hóa trải nghiệm.'**
+  /// **'Email, tên hiển thị, mã định danh tài khoản và dữ liệu học tập (tiến độ, điểm số, từ vựng đã lưu) để cá nhân hóa trải nghiệm.'**
   String get privacySection1Content;
 
   /// No description provided for @privacySection2Title.
@@ -1571,7 +1571,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySection2Content.
   ///
   /// In vi, this message translates to:
-  /// **'Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ và gửi nhắc nhở streak (nếu bạn bật).'**
+  /// **'Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ, bảng xếp hạng và gửi nhắc nhở streak (nếu bạn bật).'**
   String get privacySection2Content;
 
   /// No description provided for @privacySection3Title.
@@ -1583,31 +1583,31 @@ abstract class AppLocalizations {
   /// No description provided for @privacySection3Content.
   ///
   /// In vi, this message translates to:
-  /// **'Google OAuth, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.'**
+  /// **'Google Sign-In, YouTube API Services, Firebase (chẩn đoán lỗi Crashlytics, Cloud Messaging, In-App Messaging) và Google Analytics. Khi dùng tính năng YouTube, bạn cũng tuân thủ Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).'**
   String get privacySection3Content;
 
   /// No description provided for @privacySection4Title.
   ///
   /// In vi, this message translates to:
-  /// **'4. Cookies & tracking'**
+  /// **'4. Chẩn đoán & Dữ liệu kỹ thuật'**
   String get privacySection4Title;
 
   /// No description provided for @privacySection4Content.
   ///
   /// In vi, this message translates to:
-  /// **'Chúng tôi dùng cookie cần thiết cho đăng nhập và cookie phân tích ẩn danh.'**
+  /// **'Chúng tôi lưu trữ token xác thực bảo mật và nhật ký lỗi chẩn đoán ẩn danh để cải thiện độ ổn định của ứng dụng.'**
   String get privacySection4Content;
 
   /// No description provided for @privacySection5Title.
   ///
   /// In vi, this message translates to:
-  /// **'5. Quyền của bạn'**
+  /// **'5. Quyền của bạn & Yêu cầu xóa dữ liệu'**
   String get privacySection5Title;
 
   /// No description provided for @privacySection5Content.
   ///
   /// In vi, this message translates to:
-  /// **'Bạn có thể xóa, xuất, hoặc chỉnh sửa dữ liệu của mình bất cứ lúc nào trong phần Cài đặt.'**
+  /// **'Bạn có thể gửi yêu cầu xóa tài khoản hoặc tra cứu dữ liệu bất cứ lúc nào tại https://vocabik.com/delete-account hoặc qua email privacy@vocabik.com.'**
   String get privacySection5Content;
 
   /// No description provided for @privacySection6Title.
@@ -1619,7 +1619,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySection6Content.
   ///
   /// In vi, this message translates to:
-  /// **'Dữ liệu được mã hóa khi truyền tải và lưu trữ trên hạ tầng bảo mật.'**
+  /// **'Dữ liệu được mã hóa khi truyền tải qua HTTPS và lưu trữ trên hạ tầng bảo mật.'**
   String get privacySection6Content;
 
   /// No description provided for @privacyContact.
@@ -2131,6 +2131,54 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Bạn đã ôn tập xong tất cả các thẻ từ vựng.'**
   String get reviewFinishedDesc;
+
+  /// No description provided for @reportUserTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Báo cáo người dùng'**
+  String get reportUserTitle;
+
+  /// No description provided for @reportUserSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn lý do báo cáo tài khoản “{userName}”:'**
+  String reportUserSubtitle(String userName);
+
+  /// No description provided for @reportReasonInappropriateName.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên hiển thị không phù hợp hoặc phản cảm'**
+  String get reportReasonInappropriateName;
+
+  /// No description provided for @reportReasonInappropriateAvatar.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ảnh đại diện vi phạm quy chuẩn cộng đồng'**
+  String get reportReasonInappropriateAvatar;
+
+  /// No description provided for @reportReasonHarassmentOrCheating.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hành vi quấy rối hoặc gian lận'**
+  String get reportReasonHarassmentOrCheating;
+
+  /// No description provided for @reportReasonSpamOrAd.
+  ///
+  /// In vi, this message translates to:
+  /// **'Spam hoặc nội dung quảng cáo'**
+  String get reportReasonSpamOrAd;
+
+  /// No description provided for @reportUserSubmit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi báo cáo'**
+  String get reportUserSubmit;
+
+  /// No description provided for @reportUserSuccessMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cảm ơn bạn. Báo cáo đã được tiếp nhận và chuyển tới đội ngũ kiểm duyệt.'**
+  String get reportUserSuccessMessage;
 }
 
 class _AppLocalizationsDelegate

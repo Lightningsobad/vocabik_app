@@ -739,7 +739,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get tosSection1Content =>
-      'Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này.';
+      'Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này, Điều khoản Dịch vụ của YouTube (https://www.youtube.com/t/terms) và Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).';
 
   @override
   String get tosSection2Title => '2. Tài khoản người dùng';
@@ -749,11 +749,11 @@ class AppLocalizationsVi extends AppLocalizations {
       'Bạn chịu trách nhiệm bảo mật thông tin đăng nhập của mình.';
 
   @override
-  String get tosSection3Title => '3. Sử dụng dịch vụ';
+  String get tosSection3Title => '3. Sử dụng dịch vụ & Quy tắc cộng đồng';
 
   @override
   String get tosSection3Content =>
-      'Không sử dụng dịch vụ cho mục đích bất hợp pháp hoặc vi phạm YouTube ToS.';
+      'Không sử dụng dịch vụ cho mục đích bất hợp pháp, vi phạm Điều khoản YouTube, đăng tải nội dung phản cảm hoặc quấy rối người khác. Vocabik kiên quyết không dung thứ đối với hành vi lạm dụng và nội dung phản cảm.';
 
   @override
   String get tosSection4Title => '4. Nội dung & sở hữu trí tuệ';
@@ -774,7 +774,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get tosSection6Content =>
-      'Bạn có thể xóa tài khoản bất cứ lúc nào; chúng tôi có thể chấm dứt nếu vi phạm điều khoản.';
+      'Tài khoản vi phạm điều khoản, có hành vi lạm dụng hoặc tạo nội dung phản cảm có thể bị khóa hoặc chấm dứt ngay lập tức.';
 
   @override
   String get tosContact => 'Liên hệ: support@vocabik.com';
@@ -784,49 +784,49 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get privacySummaryContent =>
-      'Chúng tôi thu thập email và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.';
+      'Chúng tôi thu thập email, tên hiển thị và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.';
 
   @override
   String get privacySection1Title => '1. Thông tin chúng tôi thu thập';
 
   @override
   String get privacySection1Content =>
-      'Email, tên hiển thị, và dữ liệu học tập (tiến độ, điểm số, từ vựng đã lưu) để cá nhân hóa trải nghiệm.';
+      'Email, tên hiển thị, mã định danh tài khoản và dữ liệu học tập (tiến độ, điểm số, từ vựng đã lưu) để cá nhân hóa trải nghiệm.';
 
   @override
   String get privacySection2Title => '2. Cách sử dụng thông tin';
 
   @override
   String get privacySection2Content =>
-      'Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ và gửi nhắc nhở streak (nếu bạn bật).';
+      'Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ, bảng xếp hạng và gửi nhắc nhở streak (nếu bạn bật).';
 
   @override
   String get privacySection3Title => '3. Dịch vụ bên thứ ba';
 
   @override
   String get privacySection3Content =>
-      'Google OAuth, YouTube API, Polar.sh (thanh toán) và Google Analytics 4.';
+      'Google Sign-In, YouTube API Services, Firebase (chẩn đoán lỗi Crashlytics, Cloud Messaging, In-App Messaging) và Google Analytics. Khi dùng tính năng YouTube, bạn cũng tuân thủ Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).';
 
   @override
-  String get privacySection4Title => '4. Cookies & tracking';
+  String get privacySection4Title => '4. Chẩn đoán & Dữ liệu kỹ thuật';
 
   @override
   String get privacySection4Content =>
-      'Chúng tôi dùng cookie cần thiết cho đăng nhập và cookie phân tích ẩn danh.';
+      'Chúng tôi lưu trữ token xác thực bảo mật và nhật ký lỗi chẩn đoán ẩn danh để cải thiện độ ổn định của ứng dụng.';
 
   @override
-  String get privacySection5Title => '5. Quyền của bạn';
+  String get privacySection5Title => '5. Quyền của bạn & Yêu cầu xóa dữ liệu';
 
   @override
   String get privacySection5Content =>
-      'Bạn có thể xóa, xuất, hoặc chỉnh sửa dữ liệu của mình bất cứ lúc nào trong phần Cài đặt.';
+      'Bạn có thể gửi yêu cầu xóa tài khoản hoặc tra cứu dữ liệu bất cứ lúc nào tại https://vocabik.com/delete-account hoặc qua email privacy@vocabik.com.';
 
   @override
   String get privacySection6Title => '6. Bảo mật dữ liệu';
 
   @override
   String get privacySection6Content =>
-      'Dữ liệu được mã hóa khi truyền tải và lưu trữ trên hạ tầng bảo mật.';
+      'Dữ liệu được mã hóa khi truyền tải qua HTTPS và lưu trữ trên hạ tầng bảo mật.';
 
   @override
   String get privacyContact => 'Liên hệ: privacy@vocabik.com';
@@ -1117,4 +1117,34 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get reviewFinishedDesc => 'Bạn đã ôn tập xong tất cả các thẻ từ vựng.';
+
+  @override
+  String get reportUserTitle => 'Báo cáo người dùng';
+
+  @override
+  String reportUserSubtitle(String userName) {
+    return 'Chọn lý do báo cáo tài khoản “$userName”:';
+  }
+
+  @override
+  String get reportReasonInappropriateName =>
+      'Tên hiển thị không phù hợp hoặc phản cảm';
+
+  @override
+  String get reportReasonInappropriateAvatar =>
+      'Ảnh đại diện vi phạm quy chuẩn cộng đồng';
+
+  @override
+  String get reportReasonHarassmentOrCheating =>
+      'Hành vi quấy rối hoặc gian lận';
+
+  @override
+  String get reportReasonSpamOrAd => 'Spam hoặc nội dung quảng cáo';
+
+  @override
+  String get reportUserSubmit => 'Gửi báo cáo';
+
+  @override
+  String get reportUserSuccessMessage =>
+      'Cảm ơn bạn. Báo cáo đã được tiếp nhận và chuyển tới đội ngũ kiểm duyệt.';
 }

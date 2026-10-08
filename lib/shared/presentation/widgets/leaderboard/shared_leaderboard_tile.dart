@@ -6,6 +6,7 @@ import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/app_text_style.dart';
+import '../dialogs/report_user_dialog.dart';
 
 class SharedLeaderboardTile extends StatelessWidget {
   final int rank;
@@ -75,7 +76,7 @@ class SharedLeaderboardTile extends StatelessWidget {
         ? colors.primaryAccent.withValues(alpha: 0.5)
         : colors.borderSubtle;
 
-    return Container(
+    final tileWidget = Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
@@ -182,6 +183,16 @@ class SharedLeaderboardTile extends StatelessWidget {
           trailing,
         ],
       ),
+    );
+
+    if (isCurrentUser) {
+      return tileWidget;
+    }
+
+    return InkWell(
+      onTap: () => ReportUserDialog.show(context, userName),
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      child: tileWidget,
     );
   }
 }
