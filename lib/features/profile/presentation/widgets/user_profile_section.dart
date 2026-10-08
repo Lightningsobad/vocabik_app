@@ -326,7 +326,6 @@ class _ProfileAvatarSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final l10n = AppLocalizations.of(context)!;
     final initials = _getInitials(displayName);
 
     return Row(
@@ -346,30 +345,6 @@ class _ProfileAvatarSection extends StatelessWidget {
               color: colors.textPrimary,
               fontWeight: FontWeight.w800,
               fontSize: 22.0,
-            ),
-          ),
-        ),
-        const SizedBox(width: 16.0),
-        BounceWrapper(
-          onTap: () {
-            // TODO: Change photo logic
-          },
-          child: Container(
-            constraints: const BoxConstraints(minHeight: 48.0),
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(color: colors.borderSubtle, width: 1.0),
-              color: colors.surfaceCard,
-            ),
-            child: Text(
-              l10n.profileChangePhoto,
-              style: AppTextStyles.custom(
-                color: colors.textPrimary,
-                fontWeight: FontWeight.w700,
-                fontSize: 14.0,
-              ),
             ),
           ),
         ),

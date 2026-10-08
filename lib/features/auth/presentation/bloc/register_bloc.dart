@@ -151,33 +151,45 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(state.copyWith(status: RegisterStatus.loading));
 
     try {
-      debugPrint('[RegisterBloc] Triggering RegisterWithGoogleSubmitted...');
+      if (kDebugMode) {
+        debugPrint('[RegisterBloc] Triggering RegisterWithGoogleSubmitted...');
+      }
       final idToken = await _socialAuthService.getGoogleIdToken();
       if (idToken == null || idToken.isEmpty) {
-        debugPrint('[RegisterBloc] Google Sign-Up cancelled by user.');
+        if (kDebugMode) {
+          debugPrint('[RegisterBloc] Google Sign-Up cancelled by user.');
+        }
         emit(state.copyWith(status: RegisterStatus.initial));
         return;
       }
 
-      debugPrint('[RegisterBloc] Sending Google idToken to Backend API...');
+      if (kDebugMode) {
+        debugPrint('[RegisterBloc] Sending Google idToken to Backend API...');
+      }
       final result = await _loginWithGoogleUseCase(idToken: idToken);
 
       result.fold(
         (failure) {
-          debugPrint('[RegisterBloc] Backend Google Sign-Up failed: ${failure.message}');
+          if (kDebugMode) {
+            debugPrint('[RegisterBloc] Backend Google Sign-Up failed: ${failure.message}');
+          }
           emit(state.copyWith(
             status: RegisterStatus.failure,
             errorMessage: failure.message,
           ));
         },
         (user) {
-          debugPrint('[RegisterBloc] Backend Google Sign-Up succeeded for user: ${user.email}');
+          if (kDebugMode) {
+            debugPrint('[RegisterBloc] Backend Google Sign-Up succeeded');
+          }
           _authBloc.add(UserAuthenticated(user));
           emit(state.copyWith(status: RegisterStatus.socialSuccess));
         },
       );
     } catch (e, stackTrace) {
-      debugPrint('[RegisterBloc] Google Sign-Up/Sign-In error: $e\n$stackTrace');
+      if (kDebugMode) {
+        debugPrint('[RegisterBloc] Google Sign-Up/Sign-In error: $e\n$stackTrace');
+      }
       final errorMsg = e.toString().replaceAll('Exception: ', '');
       emit(state.copyWith(
         status: RegisterStatus.failure,

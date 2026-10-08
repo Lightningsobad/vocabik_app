@@ -118,7 +118,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
         showFullscreenButton: false,
         enableCaption: false,
         mute: false,
-        pointerEvents: PointerEvents.none,
+        pointerEvents: PointerEvents.initial,
       ),
     );
 

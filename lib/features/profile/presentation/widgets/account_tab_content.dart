@@ -38,27 +38,12 @@ class AccountTabContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AccountActionItem(
-              title: l10n.accountExportData,
-              hasArrow: true,
-              onTap: () {
-                // TODO: Implement export data
-              },
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AccountActionItem(
               title: l10n.accountLogOut,
               hasArrow: false,
               onTap: () => showDialog(
                 context: context,
                 builder: (_) => const LogoutConfirmationDialog(),
               ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            DangerActionItem(
-              title: l10n.accountDeletePermanently,
-              onTap: () {
-                // TODO: Implement delete account permanently
-              },
             ),
           ],
         ),
@@ -169,40 +154,4 @@ class AccountActionItem extends StatelessWidget {
   }
 }
 
-class DangerActionItem extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
 
-  const DangerActionItem({
-    super.key,
-    required this.title,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    
-    return BounceWrapper(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        decoration: BoxDecoration(
-          color: colors.dangerSoft,
-          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-          border: Border.all(
-            color: colors.danger.withValues(alpha: 0.3),
-          ),
-        ),
-        child: Text(
-          title,
-          style: GoogleFonts.nunito(
-            color: colors.danger,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
-}

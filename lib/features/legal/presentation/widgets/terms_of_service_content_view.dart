@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
@@ -68,12 +69,18 @@ class TermsOfServiceContentView extends StatelessWidget {
             content: l10n.tosSection6Content,
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(
-            l10n.tosContact,
-            style: AppTextStyles.custom(
-              fontSize: AppFontSize.md,
-              fontWeight: FontWeight.w600,
-              color: colors.textSecondary,
+          InkWell(
+            onTap: () => launchUrl(
+              Uri.parse('mailto:support@vocabik.com'),
+              mode: LaunchMode.externalApplication,
+            ),
+            child: Text(
+              l10n.tosContact,
+              style: AppTextStyles.custom(
+                fontSize: AppFontSize.md,
+                fontWeight: FontWeight.w600,
+                color: colors.primaryAccent,
+              ),
             ),
           ),
           const SizedBox(height: AppSpacing.xl6),

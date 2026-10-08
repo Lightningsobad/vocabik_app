@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'local_notification_service.dart';
 import 'notification_router_handler.dart';
 
@@ -10,8 +9,10 @@ import 'notification_router_handler.dart';
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  debugPrint(
-      '[FCM Background Handler] Received message: ${message.messageId}, data: ${message.data}');
+  if (kDebugMode) {
+    debugPrint(
+        '[FCM Background Handler] Received message: ${message.messageId}');
+  }
 }
 
 class FcmService {
@@ -68,29 +69,26 @@ class FcmService {
       _fcmToken = await messaging.getToken();
       if (_fcmToken != null) {
         if (kDebugMode) {
-          try {
-            await Clipboard.setData(ClipboardData(text: _fcmToken!));
-          } catch (_) {}
+          debugPrint('[FcmService] FCM Registration Token obtained (length: ${_fcmToken!.length})');
         }
-        debugPrint('\n\n================================================================');
-        debugPrint('🔥 [VOCABIK FCM REGISTRATION TOKEN] 🔥');
-        debugPrint('$_fcmToken');
-        debugPrint('📋 (Đã tự động copy token vào Clipboard của bạn, có thể dán trực tiếp!)');
-        debugPrint('================================================================\n\n');
       } else {
-        debugPrint('\n⚠️ [FcmService] FCM Token trả về null. Kiểm tra Google Play Services trên thiết bị.\n');
+        if (kDebugMode) {
+          debugPrint('\n⚠️ [FcmService] FCM Token trả về null. Kiểm tra Google Play Services trên thiết bị.\n');
+        }
       }
     } catch (e) {
-      debugPrint('\n❌ [FcmService] Lỗi khi lấy FCM Token: $e\n');
+      if (kDebugMode) {
+        debugPrint('\n❌ [FcmService] Lỗi khi lấy FCM Token: $e\n');
+      }
     }
 
     // 4. Listen for token refresh
     _onTokenRefreshSubscription = messaging.onTokenRefresh.listen((token) {
       _fcmToken = token;
       _tokenController.add(token);
-      debugPrint('\n================================================================');
-      debugPrint('🔥 [VOCABIK FCM TOKEN REFRESHED] 🔥: $token');
-      debugPrint('================================================================\n');
+      if (kDebugMode) {
+        debugPrint('[FcmService] FCM Token refreshed (length: ${token.length})');
+      }
     });
 
     // 5. Setup message listeners
@@ -99,7 +97,9 @@ class FcmService {
     // 6. Check if app was opened by tapping a notification from terminated state
     await _checkInitialMessage();
 
-    debugPrint('[FcmService] Initialized successfully');
+    if (kDebugMode) {
+      debugPrint('[FcmService] Initialized successfully');
+    }
   }
 
   Future<NotificationSettings?> requestPermission() async {

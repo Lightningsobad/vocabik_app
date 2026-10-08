@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/errors/exceptions.dart';
@@ -37,12 +36,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
               : 'Dữ liệu không hợp lệ.';
           throw ServerException(message);
         } else if (statusCode == 401) {
-          final authHeader = e.requestOptions.headers['Authorization']?.toString() ?? 'null';
-          debugPrint('========================================');
-          debugPrint('[DEBUG TOKEN ON 401]:');
-          debugPrint(authHeader);
-          debugPrint('========================================');
-          throw ServerException('Phiên đăng nhập hết hạn. (Debug Token: $authHeader)');
+          throw const ServerException('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại.');
         } else if (statusCode != null && statusCode >= 500) {
           throw const ServerException('Lỗi máy chủ, vui lòng thử lại sau.');
         }

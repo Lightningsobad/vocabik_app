@@ -16,6 +16,9 @@ class FakeAuthLocalDataSource implements AuthLocalDataSource {
   bool skipped = false;
 
   @override
+  Future<void> init() async {}
+
+  @override
   Future<void> clear() async {
     accessToken = null;
     refreshToken = null;

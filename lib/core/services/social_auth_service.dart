@@ -39,25 +39,37 @@ class GoogleAuthServiceImpl implements SocialAuthService {
   @override
   Future<String?> getGoogleIdToken() async {
     try {
-      debugPrint('[GoogleAuthService] Starting Google Sign-In flow...');
+      if (kDebugMode) {
+        debugPrint('[GoogleAuthService] Starting Google Sign-In flow...');
+      }
       await _ensureInitialized();
       final account = await _googleSignIn.authenticate();
-      debugPrint('[GoogleAuthService] Google Authenticate success for: ${account.email}');
+      if (kDebugMode) {
+        debugPrint('[GoogleAuthService] Google Authenticate success');
+      }
       final idToken = account.authentication.idToken;
-      debugPrint('[GoogleAuthService] idToken received: ${idToken != null && idToken.isNotEmpty ? "YES (length: ${idToken.length})" : "NO/NULL"}');
+      if (kDebugMode) {
+        debugPrint('[GoogleAuthService] idToken received: ${idToken != null && idToken.isNotEmpty ? "YES (length: ${idToken.length})" : "NO/NULL"}');
+      }
       return idToken;
     } on GoogleSignInException catch (e, stack) {
-      debugPrint(
-        '[GoogleAuthService] GoogleSignInException: code=${e.code}, description=${e.description}\n$stack',
-      );
+      if (kDebugMode) {
+        debugPrint(
+          '[GoogleAuthService] GoogleSignInException: code=${e.code}, description=${e.description}\n$stack',
+        );
+      }
       if (e.code == GoogleSignInExceptionCode.canceled ||
           e.code == GoogleSignInExceptionCode.interrupted) {
-        debugPrint('[GoogleAuthService] User cancelled/interrupted Google Sign-In.');
+        if (kDebugMode) {
+          debugPrint('[GoogleAuthService] User cancelled/interrupted Google Sign-In.');
+        }
         return null;
       }
       throw Exception('Google SDK [${e.code}]: ${e.description ?? 'Unknown error'}');
     } catch (e, stack) {
-      debugPrint('[GoogleAuthService] Unexpected error in getGoogleIdToken: $e\n$stack');
+      if (kDebugMode) {
+        debugPrint('[GoogleAuthService] Unexpected error in getGoogleIdToken: $e\n$stack');
+      }
       rethrow;
     }
   }
@@ -67,9 +79,13 @@ class GoogleAuthServiceImpl implements SocialAuthService {
     try {
       await _ensureInitialized();
       await _googleSignIn.signOut();
-      debugPrint('[GoogleAuthService] Google signOut completed');
+      if (kDebugMode) {
+        debugPrint('[GoogleAuthService] Google signOut completed');
+      }
     } catch (e) {
-      debugPrint('[GoogleAuthService] signOut error: $e');
+      if (kDebugMode) {
+        debugPrint('[GoogleAuthService] signOut error: $e');
+      }
     }
   }
 }

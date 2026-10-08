@@ -36,16 +36,22 @@ class DeepLinkService {
           _handleUri(uri);
         },
         onError: (err) {
-          debugPrint('DeepLink Error: $err');
+          if (kDebugMode) {
+            debugPrint('DeepLink Error: $err');
+          }
         },
       );
     } catch (e) {
-      debugPrint('DeepLink Initialization Error: $e');
+      if (kDebugMode) {
+        debugPrint('DeepLink Initialization Error: $e');
+      }
     }
   }
 
   void _handleUri(Uri uri) {
-    debugPrint('Received DeepLink: $uri');
+    if (kDebugMode) {
+      debugPrint('Received DeepLink: ${uri.scheme}://${uri.host}${uri.path}');
+    }
     // Expected link format: https://vocabik.com/auth/verify-email?token=xxx or vocabik://verify-email?token=xxx
     if (uri.path.contains('/auth/verify-email') ||
         uri.path.contains('/verify-email') ||
