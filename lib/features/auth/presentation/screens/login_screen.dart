@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/core/di/injection.dart';
@@ -97,14 +98,10 @@ class _LoginViewState extends State<LoginView> {
             // Social Buttons
             SocialLoginButton(
               text: l10n.continueWithGoogle,
-              icon: const Text(
-                'G',
-                style: TextStyle(
-                  color: Color(0xFF4285F4),
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w900,
-                  fontSize: 17,
-                ),
+              icon: SvgPicture.asset(
+                'assets/auth_screen/google-icon-logo-svgrepo-com.svg',
+                width: 20,
+                height: 20,
               ),
               onPressed: () => context.read<LoginCubit>().loginWithGoogle(),
             ),

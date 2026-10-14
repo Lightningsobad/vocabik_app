@@ -147,7 +147,12 @@ class AuthInterceptor extends QueuedInterceptor {
         throw const FormatException('Invalid refresh response structure');
       }
     } catch (e) {
-      debugPrint('[AuthInterceptor] Refresh token failed: $e');
+      if (kDebugMode) {
+        final errorDetail = e is DioException
+            ? 'DioException [status: ${e.response?.statusCode}, type: ${e.type}]'
+            : e.runtimeType.toString();
+        debugPrint('[AuthInterceptor] Refresh token failed: $errorDetail');
+      }
       bool shouldExpireSession = true;
       if (e is DioException) {
         final statusCode = e.response?.statusCode;

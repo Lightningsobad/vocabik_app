@@ -53,10 +53,12 @@ class NotificationRouterHandler {
       _inAppChallengeController.stream;
 
   void handleData(Map<String, dynamic> data) {
-    debugPrint('[NotificationRouterHandler] Handling payload data: $data');
-
     final type = data['type']?.toString();
     final targetRoute = data['target_route']?.toString();
+
+    if (kDebugMode) {
+      debugPrint('[NotificationRouterHandler] Handling payload (type: $type)');
+    }
 
     if (targetRoute != null && targetRoute.isNotEmpty) {
       _navigateTo(targetRoute);
@@ -80,7 +82,9 @@ class NotificationRouterHandler {
         }
         break;
       default:
-        debugPrint('[NotificationRouterHandler] Unknown notification type: $type');
+        if (kDebugMode) {
+          debugPrint('[NotificationRouterHandler] Unknown notification type: $type');
+        }
         break;
     }
   }
@@ -95,7 +99,9 @@ class NotificationRouterHandler {
         handleData(Map<String, dynamic>.from(data));
       }
     } catch (e) {
-      debugPrint('[NotificationRouterHandler] Error parsing payload string: $e');
+      if (kDebugMode) {
+        debugPrint('[NotificationRouterHandler] Error parsing payload string: $e');
+      }
       if (payload.startsWith('/')) {
         _navigateTo(payload);
       }
@@ -107,20 +113,28 @@ class NotificationRouterHandler {
       final event = InAppChallengeEvent.fromMap(data);
       _inAppChallengeController.add(event);
     } catch (e) {
-      debugPrint('[NotificationRouterHandler] Error notifying in-app challenge: $e');
+      if (kDebugMode) {
+        debugPrint('[NotificationRouterHandler] Error notifying in-app challenge: $e');
+      }
     }
   }
 
   void _navigateTo(String route) {
     try {
-      debugPrint('[NotificationRouterHandler] Navigating to: $route');
+      if (kDebugMode) {
+        debugPrint('[NotificationRouterHandler] Navigating to: $route');
+      }
       appRouter.push(route);
     } catch (e) {
-      debugPrint('[NotificationRouterHandler] Push failed, trying go: $e');
+      if (kDebugMode) {
+        debugPrint('[NotificationRouterHandler] Push failed, trying go: $e');
+      }
       try {
         appRouter.go(route);
       } catch (e2) {
-        debugPrint('[NotificationRouterHandler] Go navigation error: $e2');
+        if (kDebugMode) {
+          debugPrint('[NotificationRouterHandler] Go navigation error: $e2');
+        }
       }
     }
   }

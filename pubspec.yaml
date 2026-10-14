@@ -140,6 +140,7 @@ flutter:
 
   assets:
     - assets/audio_asset/
+    - assets/auth_screen/
     - assets/verify_email_screen/
     - assets/cefr_screen/
     - assets/home_screen/

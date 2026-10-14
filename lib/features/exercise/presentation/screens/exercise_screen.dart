@@ -118,6 +118,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
         showFullscreenButton: false,
         enableCaption: false,
         mute: false,
+        origin: 'https://com.snapsofts.vocabik.yt',
         pointerEvents: PointerEvents.initial,
       ),
     );
@@ -307,9 +308,9 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Left Pane: Video Player (~45% flex)
+                          // Left Pane: Video Player (~50% flex for YouTube minimum viewport compliance)
                           Expanded(
-                            flex: 5,
+                            flex: 1,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(
                                 AppSpacing.md,
@@ -329,9 +330,9 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                             ),
                           ),
 
-                          // Right Pane: Interactive Exercise Area (~55% flex)
+                          // Right Pane: Interactive Exercise Area (~50% flex)
                           Expanded(
-                            flex: 6,
+                            flex: 1,
                             child: !_isQuestionVisible
                                 ? Center(
                                     child: Text(
