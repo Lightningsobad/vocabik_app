@@ -41,3 +41,11 @@ class CancelledFailure extends Failure {
   const CancelledFailure([super.message = 'Request cancelled']);
 }
 
+class PasswordRequiredFailure extends Failure {
+  const PasswordRequiredFailure([super.message = 'Password is required']);
+}
+
+class InvalidPasswordFailure extends Failure {
+  const InvalidPasswordFailure([super.message = 'Incorrect password']);
+}
+

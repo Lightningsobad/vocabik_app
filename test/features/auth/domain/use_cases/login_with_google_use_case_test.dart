@@ -81,6 +81,10 @@ class MockAuthRepository implements AuthRepository {
   @override
   Future<Either<Failure, User>> verifyEmail(String token) =>
       throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, void>> deleteAccount({String? password, String? reason}) =>
+      throw UnimplementedError();
 }
 
 void main() {

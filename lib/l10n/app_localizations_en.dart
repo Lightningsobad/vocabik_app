@@ -118,13 +118,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
-  String get accountExportData => 'Export my data';
-
-  @override
   String get accountLogOut => 'Log out';
 
   @override
   String get accountDeletePermanently => 'Delete account permanently';
+
+  @override
+  String get deleteAccountDialogTitle => 'Delete your account?';
+
+  @override
+  String get deleteAccountDialogWarning =>
+      'This action cannot be undone. All your learning progress, XP points, streak, personal notebook, and friends list will be permanently deleted.';
+
+  @override
+  String get deleteAccountPasswordLabel => 'Confirmation password';
+
+  @override
+  String get deleteAccountPasswordHint => 'Enter your password';
+
+  @override
+  String get deleteAccountPasswordOptionalNote =>
+      '(Leave blank if signed in with Google)';
+
+  @override
+  String get deleteAccountConfirmAction => 'Confirm delete account';
+
+  @override
+  String get deleteAccountSuccessMessage =>
+      'Your account has been deleted successfully.';
+
+  @override
+  String get deleteAccountErrorPasswordRequired =>
+      'Password is required to confirm account deletion.';
+
+  @override
+  String get deleteAccountErrorInvalidPassword =>
+      'Incorrect password. Please try again.';
+
+  @override
+  String get deleteAccountErrorGeneric =>
+      'Could not delete account. Please try again later.';
 
   @override
   String get securityTab_currentPasswordLabel => 'Current password';
