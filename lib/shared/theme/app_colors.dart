@@ -76,6 +76,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color displayNameInputBackground;
   final Color displayNameInputBorder;
   final Color displayNameInputText;
+  final Color deleteAccountBorder;
+  final Color deleteAccountBackground;
+  final Color deleteAccountText;
 
   const AppColorsExtension({
     required this.primaryAccent,
@@ -144,6 +147,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.displayNameInputBackground,
     required this.displayNameInputBorder,
     required this.displayNameInputText,
+    required this.deleteAccountBorder,
+    required this.deleteAccountBackground,
+    required this.deleteAccountText,
   });
 
   @override
@@ -214,6 +220,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? displayNameInputBackground,
     Color? displayNameInputBorder,
     Color? displayNameInputText,
+    Color? deleteAccountBorder,
+    Color? deleteAccountBackground,
+    Color? deleteAccountText,
   }) {
     return AppColorsExtension(
       primaryAccent: primaryAccent ?? this.primaryAccent,
@@ -291,6 +300,10 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       displayNameInputBorder:
           displayNameInputBorder ?? this.displayNameInputBorder,
       displayNameInputText: displayNameInputText ?? this.displayNameInputText,
+      deleteAccountBorder: deleteAccountBorder ?? this.deleteAccountBorder,
+      deleteAccountBackground:
+          deleteAccountBackground ?? this.deleteAccountBackground,
+      deleteAccountText: deleteAccountText ?? this.deleteAccountText,
     );
   }
 
@@ -497,6 +510,21 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.displayNameInputText,
         t,
       )!,
+      deleteAccountBorder: Color.lerp(
+        deleteAccountBorder,
+        other.deleteAccountBorder,
+        t,
+      )!,
+      deleteAccountBackground: Color.lerp(
+        deleteAccountBackground,
+        other.deleteAccountBackground,
+        t,
+      )!,
+      deleteAccountText: Color.lerp(
+        deleteAccountText,
+        other.deleteAccountText,
+        t,
+      )!,
     );
   }
 
@@ -567,6 +595,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     displayNameInputBackground: Color(0xFFEDEDF5),
     displayNameInputBorder: Color(0xFFD2D2D9),
     displayNameInputText: Color(0xFF757575),
+    deleteAccountBorder: Color(0xFFEDAFBB),
+    deleteAccountBackground: Color(0xFFF2E1E9),
+    deleteAccountText: Color(0xFFE3465B),
   );
 
   static const dark = AppColorsExtension(
@@ -636,5 +667,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     displayNameInputBackground: Color(0xFF13131F),
     displayNameInputBorder: Color(0xFF31313B),
     displayNameInputText: Color(0xFF6A6A6B),
+    deleteAccountBorder: Color(0xFF732E3E),
+    deleteAccountBackground: Color(0xFF331A27),
+    deleteAccountText: Color(0xFFF5586D),
   );
 }

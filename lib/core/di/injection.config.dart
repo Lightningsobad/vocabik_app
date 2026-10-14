@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -31,6 +32,8 @@ import '../../features/auth/data/data_sources/auth_remote_data_source.dart'
 import '../../features/auth/data/repositories/auth_repository_impl.dart'
     as _i153;
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
+import '../../features/auth/domain/use_cases/delete_account_use_case.dart'
+    as _i353;
 import '../../features/auth/domain/use_cases/forgot_password_use_case.dart'
     as _i897;
 import '../../features/auth/domain/use_cases/get_me_use_case.dart' as _i477;
@@ -39,13 +42,13 @@ import '../../features/auth/domain/use_cases/get_sessions_use_case.dart'
 import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
 import '../../features/auth/domain/use_cases/login_with_google_use_case.dart'
     as _i490;
-import '../../features/auth/domain/use_cases/register_use_case.dart' as _i1010;
+import '../../features/auth/domain/use_cases/register_use_case.dart' as _i1013;
 import '../../features/auth/domain/use_cases/resend_email_use_case.dart'
     as _i518;
 import '../../features/auth/domain/use_cases/reset_password_use_case.dart'
     as _i169;
 import '../../features/auth/domain/use_cases/set_cefr_skipped_use_case.dart'
-    as _i773;
+    as _i774;
 import '../../features/auth/domain/use_cases/sign_out_use_case.dart' as _i131;
 import '../../features/auth/domain/use_cases/verify_email_use_case.dart'
     as _i421;
@@ -62,7 +65,7 @@ import '../../features/challenge_friend/data/datasources/challenge_friend_remote
 import '../../features/challenge_friend/data/repositories/challenge_friend_repository_impl.dart'
     as _i594;
 import '../../features/challenge_friend/domain/repositories/challenge_friend_repository.dart'
-    as _i1013;
+    as _i1011;
 import '../../features/challenge_friend/domain/usecases/create_challenge_link_usecase.dart'
     as _i228;
 import '../../features/challenge_friend/domain/usecases/get_friends_usecase.dart'
@@ -126,7 +129,7 @@ import '../../features/home/domain/repositories/home_repository.dart' as _i0;
 import '../../features/home/domain/usecases/get_daily_pick_usecase.dart'
     as _i327;
 import '../../features/home/domain/usecases/get_personalized_slots_usecase.dart'
-    as _i1011;
+    as _i1010;
 import '../../features/home/presentation/bloc/home_daily_challenge_bloc.dart'
     as _i860;
 import '../../features/home/presentation/bloc/home_daily_pick_bloc.dart'
@@ -172,6 +175,8 @@ import '../../features/profile/presentation/cubit/active_sessions_cubit.dart'
     as _i312;
 import '../../features/profile/presentation/cubit/cefr_selection_cubit.dart'
     as _i498;
+import '../../features/profile/presentation/cubit/delete_account_cubit.dart'
+    as _i841;
 import '../../features/profile/presentation/cubit/update_profile_cubit.dart'
     as _i575;
 import '../../features/progress/data/data_sources/progress_remote_data_source.dart'
@@ -183,7 +188,7 @@ import '../../features/progress/domain/repositories/progress_repository.dart'
 import '../../features/progress/domain/use_cases/get_progress_error_insights_use_case.dart'
     as _i748;
 import '../../features/progress/domain/use_cases/get_progress_history_use_case.dart'
-    as _i774;
+    as _i773;
 import '../../features/progress/domain/use_cases/get_progress_summary_use_case.dart'
     as _i74;
 import '../../features/progress/presentation/cubit/progress_cubit.dart'
@@ -260,6 +265,7 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i391.DeepLinkService>(() => _i391.DeepLinkService());
+    gh.lazySingleton<_i558.FlutterSecureStorage>(() => appModule.secureStorage);
     gh.lazySingleton<_i222.AnalyticsService>(() => appModule.analyticsService);
     gh.lazySingleton<_i352.CrashlyticsService>(
       () => appModule.crashlyticsService,
@@ -273,6 +279,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i561.GamificationGlobalCubit>(
       () => _i561.GamificationGlobalCubit(),
     );
+    gh.lazySingleton<_i606.AuthLocalDataSource>(
+      () => _i606.AuthLocalDataSourceImpl(
+        gh<_i460.SharedPreferences>(),
+        gh<_i558.FlutterSecureStorage>(),
+      ),
+    );
     gh.factory<_i416.ThemeRepository>(
       () => _i108.ThemeRepositoryImpl(prefs: gh<_i460.SharedPreferences>()),
     );
@@ -281,11 +293,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i961.NotificationRouterHandler>(),
       ),
     );
+    gh.lazySingleton<_i361.Dio>(
+      () => appModule.dio(gh<_i606.AuthLocalDataSource>()),
+    );
     gh.lazySingleton<_i409.FcmService>(
       () => appModule.fcmService(
         gh<_i474.LocalNotificationService>(),
         gh<_i961.NotificationRouterHandler>(),
       ),
+    );
+    gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
+      () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i723.SocialAuthService>(
       () => _i723.GoogleAuthServiceImpl(),
@@ -293,42 +311,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i431.SettingsLocalDataSource>(
       () => _i431.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
-    gh.lazySingleton<_i606.AuthLocalDataSource>(
-      () => _i606.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
-    );
-    gh.lazySingleton<_i729.LocalizationLocalDataSource>(
-      () =>
-          _i729.LocalizationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
-    );
-    gh.lazySingleton<_i446.NotificationService>(
-      () => appModule.notificationService(
-        gh<_i409.FcmService>(),
-        gh<_i474.LocalNotificationService>(),
-        gh<_i408.InAppMessagingService>(),
-        gh<_i961.NotificationRouterHandler>(),
-      ),
-    );
-    gh.factory<_i909.ThemeCubit>(
-      () => _i909.ThemeCubit(themeRepository: gh<_i416.ThemeRepository>()),
-    );
-    gh.lazySingleton<_i361.Dio>(
-      () => appModule.dio(gh<_i606.AuthLocalDataSource>()),
-    );
-    gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
-      () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i520.SettingsRepository>(
-      () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
-    );
-    gh.lazySingleton<_i960.LocalizationRepository>(
-      () => _i682.LocalizationRepositoryImpl(
-        gh<_i729.LocalizationLocalDataSource>(),
-      ),
-    );
     gh.lazySingleton<_i959.SharedVideoRepository>(
       () => _i676.SharedVideoRepositoryImpl(
         remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i729.LocalizationLocalDataSource>(
+      () =>
+          _i729.LocalizationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
     gh.factory<_i821.GetTrendingVideosUseCase>(
       () => _i821.GetTrendingVideosUseCase(gh<_i959.SharedVideoRepository>()),
@@ -345,6 +335,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i294.HomeVideosBloc>(
       () => _i294.HomeVideosBloc(gh<_i552.GetVideosUseCase>()),
     );
+    gh.lazySingleton<_i446.NotificationService>(
+      () => appModule.notificationService(
+        gh<_i409.FcmService>(),
+        gh<_i474.LocalNotificationService>(),
+        gh<_i408.InAppMessagingService>(),
+        gh<_i961.NotificationRouterHandler>(),
+      ),
+    );
     gh.lazySingleton<_i386.LeaderboardRemoteDataSource>(
       () => _i386.LeaderboardRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -356,6 +354,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i913.ExerciseRemoteDataSource>(
       () => _i913.ExerciseRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.factory<_i909.ThemeCubit>(
+      () => _i909.ThemeCubit(themeRepository: gh<_i416.ThemeRepository>()),
     );
     gh.lazySingleton<_i655.LeaderboardRepository>(
       () => _i1008.LeaderboardRepositoryImpl(
@@ -377,12 +378,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i828.NotebookRemoteDataSource>(
       () => _i828.NotebookRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i738.GetLanguageUseCase>(
-      () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
-    );
-    gh.lazySingleton<_i476.SaveLanguageUseCase>(
-      () => _i476.SaveLanguageUseCase(gh<_i960.LocalizationRepository>()),
-    );
     gh.lazySingleton<_i1012.ProfileRemoteDataSource>(
       () => _i1012.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -400,9 +395,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i991.BadgeRemoteDataSource>(
       () => _i991.BadgeRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i521.SoundSettingsCubit>(
-      () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
-    );
     gh.lazySingleton<_i344.ChallengeFriendRemoteDataSource>(
       () => _i344.ChallengeFriendRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -415,10 +407,130 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i50.ExerciseRepository>(
       () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
     );
+    gh.lazySingleton<_i520.SettingsRepository>(
+      () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
+    );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
         gh<_i25.AuthRemoteDataSource>(),
         gh<_i606.AuthLocalDataSource>(),
+        gh<_i723.SocialAuthService>(),
+      ),
+    );
+    gh.lazySingleton<_i697.ScoreCardRepository>(
+      () => _i384.ScoreCardRepositoryImpl(gh<_i62.ScoreCardRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i718.NotebookRepository>(
+      () => _i168.NotebookRepositoryImpl(gh<_i828.NotebookRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i0.HomeRepository>(
+      () => _i76.HomeRepositoryImpl(
+        remoteDataSource: gh<_i362.HomeRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i785.ProgressRepository>(
+      () => _i779.ProgressRepositoryImpl(gh<_i854.ProgressRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i755.GetNotebookWordsUseCase>(
+      () => _i755.GetNotebookWordsUseCase(gh<_i718.NotebookRepository>()),
+    );
+    gh.lazySingleton<_i872.UpdateWordReviewStatusUseCase>(
+      () => _i872.UpdateWordReviewStatusUseCase(gh<_i718.NotebookRepository>()),
+    );
+    gh.lazySingleton<_i960.LocalizationRepository>(
+      () => _i682.LocalizationRepositoryImpl(
+        gh<_i729.LocalizationLocalDataSource>(),
+      ),
+    );
+    gh.factory<_i186.UpdateProfileUseCase>(
+      () => _i186.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i772.PlaylistRepository>(
+      () => _i899.PlaylistRepositoryImpl(
+        remoteDataSource: gh<_i287.DiscoverPlaylistRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i493.GetPlaylistDetailUseCase>(
+      () => _i493.GetPlaylistDetailUseCase(gh<_i772.PlaylistRepository>()),
+    );
+    gh.factory<_i880.GetPlaylistsUseCase>(
+      () => _i880.GetPlaylistsUseCase(gh<_i772.PlaylistRepository>()),
+    );
+    gh.factory<_i327.GetDailyPickUseCase>(
+      () => _i327.GetDailyPickUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.factory<_i1010.GetPersonalizedSlotsUseCase>(
+      () => _i1010.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.lazySingleton<_i1011.ChallengeFriendRepository>(
+      () => _i594.ChallengeFriendRepositoryImpl(
+        gh<_i344.ChallengeFriendRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i209.GetLatestVideoProgressUseCase>(
+      () => _i209.GetLatestVideoProgressUseCase(
+        gh<_i291.VideoDetailRepository>(),
+      ),
+    );
+    gh.factory<_i714.GetVideoDetailUseCase>(
+      () => _i714.GetVideoDetailUseCase(gh<_i291.VideoDetailRepository>()),
+    );
+    gh.factory<_i203.GetVideoExerciseBlanksUseCase>(
+      () => _i203.GetVideoExerciseBlanksUseCase(
+        gh<_i291.VideoDetailRepository>(),
+      ),
+    );
+    gh.factory<_i241.SendVideoReactionUseCase>(
+      () => _i241.SendVideoReactionUseCase(gh<_i291.VideoDetailRepository>()),
+    );
+    gh.lazySingleton<_i134.DailyChallengeRepository>(
+      () => _i617.DailyChallengeRepositoryImpl(
+        gh<_i951.DailyChallengeRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i738.GetLanguageUseCase>(
+      () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
+    );
+    gh.lazySingleton<_i476.SaveLanguageUseCase>(
+      () => _i476.SaveLanguageUseCase(gh<_i960.LocalizationRepository>()),
+    );
+    gh.factory<_i562.HomeDailyPickBloc>(
+      () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
+    );
+    gh.lazySingleton<_i467.GetBadgesUseCase>(
+      () => _i467.GetBadgesUseCase(gh<_i65.BadgeRepository>()),
+    );
+    gh.lazySingleton<_i521.SoundSettingsCubit>(
+      () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
+    );
+    gh.factory<_i347.XpLeaderboardCubit>(
+      () => _i347.XpLeaderboardCubit(gh<_i970.GetXpLeaderboardUseCase>()),
+    );
+    gh.factory<_i497.GetExerciseUseCase>(
+      () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
+    );
+    gh.factory<_i309.GetVideoTranslationsUseCase>(
+      () => _i309.GetVideoTranslationsUseCase(gh<_i50.ExerciseRepository>()),
+    );
+    gh.factory<_i5.SubmitProgressUseCase>(
+      () => _i5.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
+    );
+    gh.factory<_i690.PlaylistDetailCubit>(
+      () => _i690.PlaylistDetailCubit(gh<_i493.GetPlaylistDetailUseCase>()),
+    );
+    gh.factory<_i693.AchievementsCubit>(
+      () => _i693.AchievementsCubit(gh<_i467.GetBadgesUseCase>()),
+    );
+    gh.factory<_i764.HomePersonalizedBloc>(
+      () =>
+          _i764.HomePersonalizedBloc(gh<_i1010.GetPersonalizedSlotsUseCase>()),
+    );
+    gh.factory<_i483.VideoDetailCubit>(
+      () => _i483.VideoDetailCubit(
+        gh<_i714.GetVideoDetailUseCase>(),
+        gh<_i203.GetVideoExerciseBlanksUseCase>(),
+        gh<_i209.GetLatestVideoProgressUseCase>(),
+        gh<_i241.SendVideoReactionUseCase>(),
       ),
     );
     gh.singleton<_i97.LocalizationCubit>(
@@ -427,14 +539,35 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i476.SaveLanguageUseCase>(),
       ),
     );
-    gh.factory<_i1010.RegisterUseCase>(
-      () => _i1010.RegisterUseCase(gh<_i787.AuthRepository>()),
+    gh.factory<_i228.CreateChallengeLinkUseCase>(
+      () => _i228.CreateChallengeLinkUseCase(
+        gh<_i1011.ChallengeFriendRepository>(),
+      ),
+    );
+    gh.factory<_i71.GetFriendsUseCase>(
+      () => _i71.GetFriendsUseCase(gh<_i1011.ChallengeFriendRepository>()),
+    );
+    gh.lazySingleton<_i748.GetProgressErrorInsightsUseCase>(
+      () =>
+          _i748.GetProgressErrorInsightsUseCase(gh<_i785.ProgressRepository>()),
+    );
+    gh.lazySingleton<_i773.GetProgressHistoryUseCase>(
+      () => _i773.GetProgressHistoryUseCase(gh<_i785.ProgressRepository>()),
+    );
+    gh.lazySingleton<_i74.GetProgressSummaryUseCase>(
+      () => _i74.GetProgressSummaryUseCase(gh<_i785.ProgressRepository>()),
+    );
+    gh.factory<_i353.DeleteAccountUseCase>(
+      () => _i353.DeleteAccountUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.factory<_i1013.RegisterUseCase>(
+      () => _i1013.RegisterUseCase(gh<_i787.AuthRepository>()),
     );
     gh.factory<_i518.ResendEmailUseCase>(
       () => _i518.ResendEmailUseCase(gh<_i787.AuthRepository>()),
     );
-    gh.factory<_i773.SetCefrSkippedUseCase>(
-      () => _i773.SetCefrSkippedUseCase(gh<_i787.AuthRepository>()),
+    gh.factory<_i774.SetCefrSkippedUseCase>(
+      () => _i774.SetCefrSkippedUseCase(gh<_i787.AuthRepository>()),
     );
     gh.factory<_i131.SignOutUseCase>(
       () => _i131.SignOutUseCase(gh<_i787.AuthRepository>()),
@@ -460,170 +593,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i169.ResetPasswordUseCase>(
       () => _i169.ResetPasswordUseCase(gh<_i787.AuthRepository>()),
     );
-    gh.lazySingleton<_i697.ScoreCardRepository>(
-      () => _i384.ScoreCardRepositoryImpl(gh<_i62.ScoreCardRemoteDataSource>()),
-    );
-    gh.lazySingleton<_i718.NotebookRepository>(
-      () => _i168.NotebookRepositoryImpl(gh<_i828.NotebookRemoteDataSource>()),
-    );
-    gh.lazySingleton<_i0.HomeRepository>(
-      () => _i76.HomeRepositoryImpl(
-        remoteDataSource: gh<_i362.HomeRemoteDataSource>(),
-      ),
-    );
-    gh.factory<_i679.ForgotPasswordCubit>(
-      () => _i679.ForgotPasswordCubit(gh<_i897.ForgotPasswordUseCase>()),
-    );
-    gh.factory<_i165.ResetPasswordCubit>(
-      () => _i165.ResetPasswordCubit(gh<_i169.ResetPasswordUseCase>()),
-    );
-    gh.lazySingleton<_i785.ProgressRepository>(
-      () => _i779.ProgressRepositoryImpl(gh<_i854.ProgressRemoteDataSource>()),
-    );
-    gh.lazySingleton<_i755.GetNotebookWordsUseCase>(
-      () => _i755.GetNotebookWordsUseCase(gh<_i718.NotebookRepository>()),
-    );
-    gh.lazySingleton<_i872.UpdateWordReviewStatusUseCase>(
-      () => _i872.UpdateWordReviewStatusUseCase(gh<_i718.NotebookRepository>()),
-    );
-    gh.factory<_i186.UpdateProfileUseCase>(
-      () => _i186.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
-    );
-    gh.lazySingleton<_i772.PlaylistRepository>(
-      () => _i899.PlaylistRepositoryImpl(
-        remoteDataSource: gh<_i287.DiscoverPlaylistRemoteDataSource>(),
-      ),
-    );
-    gh.factory<_i493.GetPlaylistDetailUseCase>(
-      () => _i493.GetPlaylistDetailUseCase(gh<_i772.PlaylistRepository>()),
-    );
-    gh.factory<_i880.GetPlaylistsUseCase>(
-      () => _i880.GetPlaylistsUseCase(gh<_i772.PlaylistRepository>()),
-    );
-    gh.lazySingleton<_i464.AudioFeedbackService>(
-      () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),
-    );
-    gh.factory<_i327.GetDailyPickUseCase>(
-      () => _i327.GetDailyPickUseCase(gh<_i0.HomeRepository>()),
-    );
-    gh.factory<_i1011.GetPersonalizedSlotsUseCase>(
-      () => _i1011.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
-    );
-    gh.factory<_i498.CefrSelectionCubit>(
-      () => _i498.CefrSelectionCubit(
-        gh<_i186.UpdateProfileUseCase>(),
-        gh<_i773.SetCefrSkippedUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i1013.ChallengeFriendRepository>(
-      () => _i594.ChallengeFriendRepositoryImpl(
-        gh<_i344.ChallengeFriendRemoteDataSource>(),
-      ),
-    );
-    gh.factory<_i312.ActiveSessionsCubit>(
-      () => _i312.ActiveSessionsCubit(gh<_i1058.GetSessionsUseCase>()),
-    );
-    gh.factory<_i209.GetLatestVideoProgressUseCase>(
-      () => _i209.GetLatestVideoProgressUseCase(
-        gh<_i291.VideoDetailRepository>(),
-      ),
-    );
-    gh.factory<_i714.GetVideoDetailUseCase>(
-      () => _i714.GetVideoDetailUseCase(gh<_i291.VideoDetailRepository>()),
-    );
-    gh.factory<_i203.GetVideoExerciseBlanksUseCase>(
-      () => _i203.GetVideoExerciseBlanksUseCase(
-        gh<_i291.VideoDetailRepository>(),
-      ),
-    );
-    gh.factory<_i241.SendVideoReactionUseCase>(
-      () => _i241.SendVideoReactionUseCase(gh<_i291.VideoDetailRepository>()),
-    );
-    gh.lazySingleton<_i134.DailyChallengeRepository>(
-      () => _i617.DailyChallengeRepositoryImpl(
-        gh<_i951.DailyChallengeRemoteDataSource>(),
-      ),
-    );
-    gh.factory<_i562.HomeDailyPickBloc>(
-      () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
-    );
-    gh.lazySingleton<_i467.GetBadgesUseCase>(
-      () => _i467.GetBadgesUseCase(gh<_i65.BadgeRepository>()),
-    );
-    gh.factory<_i347.XpLeaderboardCubit>(
-      () => _i347.XpLeaderboardCubit(gh<_i970.GetXpLeaderboardUseCase>()),
-    );
-    gh.factory<_i497.GetExerciseUseCase>(
-      () => _i497.GetExerciseUseCase(gh<_i50.ExerciseRepository>()),
-    );
-    gh.factory<_i309.GetVideoTranslationsUseCase>(
-      () => _i309.GetVideoTranslationsUseCase(gh<_i50.ExerciseRepository>()),
-    );
-    gh.factory<_i5.SubmitProgressUseCase>(
-      () => _i5.SubmitProgressUseCase(gh<_i50.ExerciseRepository>()),
-    );
-    gh.factory<_i690.PlaylistDetailCubit>(
-      () => _i690.PlaylistDetailCubit(gh<_i493.GetPlaylistDetailUseCase>()),
-    );
-    gh.factory<_i693.AchievementsCubit>(
-      () => _i693.AchievementsCubit(gh<_i467.GetBadgesUseCase>()),
-    );
-    gh.factory<_i764.HomePersonalizedBloc>(
-      () =>
-          _i764.HomePersonalizedBloc(gh<_i1011.GetPersonalizedSlotsUseCase>()),
-    );
-    gh.lazySingleton<_i797.AuthBloc>(
-      () => _i797.AuthBloc(
-        gh<_i131.SignOutUseCase>(),
-        gh<_i477.GetMeUseCase>(),
-        gh<_i606.AuthLocalDataSource>(),
-        gh<_i446.NotificationService>(),
-        gh<_i222.AnalyticsService>(),
-        gh<_i352.CrashlyticsService>(),
-      ),
-    );
-    gh.factory<_i483.VideoDetailCubit>(
-      () => _i483.VideoDetailCubit(
-        gh<_i714.GetVideoDetailUseCase>(),
-        gh<_i203.GetVideoExerciseBlanksUseCase>(),
-        gh<_i209.GetLatestVideoProgressUseCase>(),
-        gh<_i241.SendVideoReactionUseCase>(),
-      ),
-    );
-    gh.factory<_i228.CreateChallengeLinkUseCase>(
-      () => _i228.CreateChallengeLinkUseCase(
-        gh<_i1013.ChallengeFriendRepository>(),
-      ),
-    );
-    gh.factory<_i71.GetFriendsUseCase>(
-      () => _i71.GetFriendsUseCase(gh<_i1013.ChallengeFriendRepository>()),
-    );
-    gh.lazySingleton<_i748.GetProgressErrorInsightsUseCase>(
-      () =>
-          _i748.GetProgressErrorInsightsUseCase(gh<_i785.ProgressRepository>()),
-    );
-    gh.lazySingleton<_i774.GetProgressHistoryUseCase>(
-      () => _i774.GetProgressHistoryUseCase(gh<_i785.ProgressRepository>()),
-    );
-    gh.lazySingleton<_i74.GetProgressSummaryUseCase>(
-      () => _i74.GetProgressSummaryUseCase(gh<_i785.ProgressRepository>()),
-    );
     gh.factory<_i67.ExerciseCubit>(
       () => _i67.ExerciseCubit(
         gh<_i497.GetExerciseUseCase>(),
         gh<_i309.GetVideoTranslationsUseCase>(),
       ),
     );
-    gh.factory<_i219.VerifyEmailCubit>(
-      () => _i219.VerifyEmailCubit(
-        gh<_i421.VerifyEmailUseCase>(),
-        gh<_i518.ResendEmailUseCase>(),
-        gh<_i1038.LoginUseCase>(),
-        gh<_i797.AuthBloc>(),
-      ),
-    );
     gh.factory<_i575.UpdateProfileCubit>(
       () => _i575.UpdateProfileCubit(gh<_i186.UpdateProfileUseCase>()),
+    );
+    gh.factory<_i679.ForgotPasswordCubit>(
+      () => _i679.ForgotPasswordCubit(gh<_i897.ForgotPasswordUseCase>()),
+    );
+    gh.factory<_i165.ResetPasswordCubit>(
+      () => _i165.ResetPasswordCubit(gh<_i169.ResetPasswordUseCase>()),
     );
     gh.factory<_i987.DiscoverBloc>(
       () => _i987.DiscoverBloc(
@@ -638,13 +621,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i872.UpdateWordReviewStatusUseCase>(),
       ),
     );
-    gh.factory<_i281.LoginCubit>(
-      () => _i281.LoginCubit(
-        gh<_i1038.LoginUseCase>(),
-        gh<_i490.LoginWithGoogleUseCase>(),
-        gh<_i723.SocialAuthService>(),
-        gh<_i797.AuthBloc>(),
-      ),
+    gh.lazySingleton<_i464.AudioFeedbackService>(
+      () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),
     );
     gh.lazySingleton<_i155.GetDailyChallengeConfigUseCase>(
       () => _i155.GetDailyChallengeConfigUseCase(
@@ -666,18 +644,19 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i134.DailyChallengeRepository>(),
       ),
     );
+    gh.factory<_i498.CefrSelectionCubit>(
+      () => _i498.CefrSelectionCubit(
+        gh<_i186.UpdateProfileUseCase>(),
+        gh<_i774.SetCefrSkippedUseCase>(),
+      ),
+    );
+    gh.factory<_i312.ActiveSessionsCubit>(
+      () => _i312.ActiveSessionsCubit(gh<_i1058.GetSessionsUseCase>()),
+    );
     gh.lazySingleton<_i481.MainShellCubit>(
       () => _i481.MainShellCubit(
         gh<_i74.GetProgressSummaryUseCase>(),
         gh<_i561.GamificationGlobalCubit>(),
-      ),
-    );
-    gh.factory<_i691.RegisterBloc>(
-      () => _i691.RegisterBloc(
-        gh<_i1010.RegisterUseCase>(),
-        gh<_i490.LoginWithGoogleUseCase>(),
-        gh<_i723.SocialAuthService>(),
-        gh<_i797.AuthBloc>(),
       ),
     );
     gh.factory<_i719.ChallengeFriendCubit>(
@@ -686,15 +665,36 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i228.CreateChallengeLinkUseCase>(),
       ),
     );
+    gh.lazySingleton<_i797.AuthBloc>(
+      () => _i797.AuthBloc(
+        gh<_i131.SignOutUseCase>(),
+        gh<_i477.GetMeUseCase>(),
+        gh<_i606.AuthLocalDataSource>(),
+        gh<_i446.NotificationService>(),
+        gh<_i222.AnalyticsService>(),
+        gh<_i352.CrashlyticsService>(),
+      ),
+    );
     gh.factory<_i749.ProgressCubit>(
       () => _i749.ProgressCubit(
-        gh<_i774.GetProgressHistoryUseCase>(),
+        gh<_i773.GetProgressHistoryUseCase>(),
         gh<_i748.GetProgressErrorInsightsUseCase>(),
       ),
+    );
+    gh.factory<_i841.DeleteAccountCubit>(
+      () => _i841.DeleteAccountCubit(gh<_i353.DeleteAccountUseCase>()),
     );
     gh.factory<_i860.HomeDailyChallengeBloc>(
       () => _i860.HomeDailyChallengeBloc(
         gh<_i155.GetDailyChallengeConfigUseCase>(),
+      ),
+    );
+    gh.factory<_i219.VerifyEmailCubit>(
+      () => _i219.VerifyEmailCubit(
+        gh<_i421.VerifyEmailUseCase>(),
+        gh<_i518.ResendEmailUseCase>(),
+        gh<_i1038.LoginUseCase>(),
+        gh<_i797.AuthBloc>(),
       ),
     );
     gh.factory<_i838.DailyChallengeBloc>(
@@ -709,6 +709,22 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i697.ScoreCardRepository>(),
         gh<_i5.SubmitProgressUseCase>(),
         gh<_i544.SubmitDailyChallengeResultUseCase>(),
+      ),
+    );
+    gh.factory<_i281.LoginCubit>(
+      () => _i281.LoginCubit(
+        gh<_i1038.LoginUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
+      ),
+    );
+    gh.factory<_i691.RegisterBloc>(
+      () => _i691.RegisterBloc(
+        gh<_i1013.RegisterUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
       ),
     );
     return this;
