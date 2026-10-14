@@ -115,26 +115,36 @@ class FcmService {
       sound: true,
     );
 
-    debugPrint(
-        '[FcmService] User permission status: ${settings.authorizationStatus}');
+    if (kDebugMode) {
+      debugPrint(
+          '[FcmService] User permission status: ${settings.authorizationStatus}');
+    }
     return settings;
   }
 
   Future<void> subscribeToTopic(String topic) async {
     try {
       await _messaging?.subscribeToTopic(topic);
-      debugPrint('[FcmService] Subscribed to topic: $topic');
+      if (kDebugMode) {
+        debugPrint('[FcmService] Subscribed to topic: $topic');
+      }
     } catch (e) {
-      debugPrint('[FcmService] Error subscribing to topic $topic: $e');
+      if (kDebugMode) {
+        debugPrint('[FcmService] Error subscribing to topic $topic: $e');
+      }
     }
   }
 
   Future<void> unsubscribeFromTopic(String topic) async {
     try {
       await _messaging?.unsubscribeFromTopic(topic);
-      debugPrint('[FcmService] Unsubscribed from topic: $topic');
+      if (kDebugMode) {
+        debugPrint('[FcmService] Unsubscribed from topic: $topic');
+      }
     } catch (e) {
-      debugPrint('[FcmService] Error unsubscribing from topic $topic: $e');
+      if (kDebugMode) {
+        debugPrint('[FcmService] Error unsubscribing from topic $topic: $e');
+      }
     }
   }
 
@@ -143,8 +153,10 @@ class FcmService {
 
     // A. Foreground message listener
     _onMessageSubscription = FirebaseMessaging.onMessage.listen((message) {
-      debugPrint(
-          '[FcmService] Foreground message received: ${message.notification?.title}, data: ${message.data}');
+      if (kDebugMode) {
+        debugPrint(
+            '[FcmService] Foreground message received (type: ${message.data['type']})');
+      }
 
       final data = message.data;
       final type = data['type']?.toString();
@@ -179,7 +191,10 @@ class FcmService {
     // B. Background notification tap listener (when app in background)
     _onMessageOpenedAppSubscription =
         FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      debugPrint('[FcmService] Notification opened from background: ${message.data}');
+      if (kDebugMode) {
+        debugPrint(
+            '[FcmService] Notification opened from background (type: ${message.data['type']})');
+      }
       _routerHandler.handleData(message.data);
     });
   }
@@ -188,15 +203,19 @@ class FcmService {
     try {
       final initialMessage = await _messaging?.getInitialMessage();
       if (initialMessage != null) {
-        debugPrint(
-            '[FcmService] App opened from terminated state via notification: ${initialMessage.data}');
+        if (kDebugMode) {
+          debugPrint(
+              '[FcmService] App opened from terminated state (type: ${initialMessage.data['type']})');
+        }
         // Delay slightly to let initial router and auth initialize
         Future.delayed(const Duration(milliseconds: 500), () {
           _routerHandler.handleData(initialMessage.data);
         });
       }
     } catch (e) {
-      debugPrint('[FcmService] Error getting initial message: $e');
+      if (kDebugMode) {
+        debugPrint('[FcmService] Error getting initial message: $e');
+      }
     }
   }
 

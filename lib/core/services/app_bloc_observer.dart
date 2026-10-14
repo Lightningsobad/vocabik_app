@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,10 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     if (kDebugMode) {
-      debugPrint('[BlocObserver] Error in ${bloc.runtimeType}: $error');
+      final sanitizedError = error is DioException
+          ? 'DioException [status: ${error.response?.statusCode}, type: ${error.type}]'
+          : error.toString();
+      debugPrint('[BlocObserver] Error in ${bloc.runtimeType}: $sanitizedError');
     }
     _crashlyticsService.recordError(
       error,

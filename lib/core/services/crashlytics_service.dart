@@ -89,7 +89,7 @@ class FirebaseCrashlyticsServiceImpl implements CrashlyticsService {
 
   @override
   Future<void> setUserId(String userId) async {
-    _logDebug('setUserId: $userId');
+    _logDebug('setUserId: [REDACTED]');
     try {
       await _crashlytics?.setUserIdentifier(userId);
     } catch (e) {
@@ -99,7 +99,7 @@ class FirebaseCrashlyticsServiceImpl implements CrashlyticsService {
 
   @override
   Future<void> setCustomKey(String key, Object value) async {
-    _logDebug('setCustomKey: $key = $value');
+    _logDebug('setCustomKey: $key');
     try {
       await _crashlytics?.setCustomKey(key, value);
     } catch (e) {

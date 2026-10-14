@@ -24,16 +24,22 @@ class ExerciseVideoPlayerWidget extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(isLandscape ? 12 : 0),
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: ColoredBox(
-              color: Colors.black,
-              child: YoutubePlayer(
-                key: const ValueKey('exercise_youtube_player'),
-                controller: controller,
-                aspectRatio: 16 / 9,
-                autoFullScreen: false,
-                enableFullScreenOnVerticalDrag: false,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minWidth: 200,
+              minHeight: 200,
+            ),
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: ColoredBox(
+                color: Colors.black,
+                child: YoutubePlayer(
+                  key: const ValueKey('exercise_youtube_player'),
+                  controller: controller,
+                  aspectRatio: 16 / 9,
+                  autoFullScreen: false,
+                  enableFullScreenOnVerticalDrag: false,
+                ),
               ),
             ),
           ),

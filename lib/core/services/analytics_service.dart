@@ -454,7 +454,7 @@ class FirebaseAnalyticsServiceImpl implements AnalyticsService {
 
   @override
   Future<void> setUserId(String? userId) async {
-    _logDebug('setUserId($userId)');
+    _logDebug('setUserId: [REDACTED]');
     try {
       await _analytics?.setUserId(id: userId);
     } catch (e) {
@@ -467,7 +467,7 @@ class FirebaseAnalyticsServiceImpl implements AnalyticsService {
     required String name,
     required String? value,
   }) async {
-    _logDebug('setUserProperty($name: $value)');
+    _logDebug('setUserProperty($name)');
     try {
       await _analytics?.setUserProperty(name: name, value: value);
     } catch (e) {
