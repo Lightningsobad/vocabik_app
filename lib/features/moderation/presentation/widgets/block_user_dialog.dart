@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/di/injection.dart';
+import '../../../../core/utils/auth_utils.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/theme/app_colors.dart';
 import '../../../../shared/theme/app_font_size.dart';
@@ -26,6 +27,14 @@ class BlockUserDialog extends StatefulWidget {
     required String userName,
     VoidCallback? onUserBlocked,
   }) {
+    if (AuthUtils.isCurrentSelf(
+      userId: userId,
+      userName: userName,
+      context: context,
+    )) {
+      return Future.value(false);
+    }
+
     return showDialog<bool>(
       context: context,
       builder: (_) => BlockUserDialog(

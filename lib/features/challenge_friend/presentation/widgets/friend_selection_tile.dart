@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../../../../core/utils/auth_utils.dart';
 import '../../../../shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import '../../../../shared/theme/app_colors.dart';
 import '../../../../shared/theme/app_font_size.dart';
@@ -28,6 +29,11 @@ class FriendSelectionTile extends StatelessWidget {
     final hasStats = friend.xp != null ||
         friend.streak != null ||
         friend.formattedStats.isNotEmpty;
+    final isSelf = AuthUtils.isCurrentSelf(
+      userId: friend.userId,
+      userName: friend.displayName,
+      context: context,
+    );
 
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm2),
@@ -80,7 +86,7 @@ class FriendSelectionTile extends StatelessWidget {
 
               // Selection Circle
               _buildSelectionIndicator(colors),
-              if (onMoreTap != null) ...[
+              if (onMoreTap != null && !isSelf) ...[
                 const SizedBox(width: AppSpacing.xs),
                 IconButton(
                   icon: Icon(
