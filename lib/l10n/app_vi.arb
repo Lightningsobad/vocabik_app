@@ -612,5 +612,71 @@
   "reportReasonHarassmentOrCheating": "Hành vi quấy rối hoặc gian lận",
   "reportReasonSpamOrAd": "Spam hoặc nội dung quảng cáo",
   "reportUserSubmit": "Gửi báo cáo",
-  "reportUserSuccessMessage": "Cảm ơn bạn. Báo cáo đã được tiếp nhận và chuyển tới đội ngũ kiểm duyệt."
+  "reportUserSuccessMessage": "Cảm ơn bạn. Báo cáo đã được tiếp nhận và chuyển tới đội ngũ kiểm duyệt.",
+  "reportReasonSpam": "Quảng cáo hoặc tin rác",
+  "reportReasonHarassment": "Quấy rối hoặc đe dọa",
+  "reportReasonInappropriateContent": "Nội dung không phù hợp / 18+",
+  "reportReasonHateSpeech": "Ngôn từ thù hận",
+  "reportReasonOther": "Lý do khác",
+  "reportDetailsLabel": "Chi tiết vi phạm (không bắt buộc)",
+  "reportDetailsHint": "Mô tả bổ sung chi tiết vi phạm...",
+  "reportSuccess24h": "Cảm ơn bạn đã gửi báo cáo. Chúng tôi sẽ xem xét và xử lý vi phạm trong vòng 24 giờ.",
+  "reportSubmitting": "Đang gửi báo cáo...",
+  "blockedUsersTitle": "Người dùng đã chặn",
+  "blockedUsersEmpty": "Bạn chưa chặn người dùng nào.",
+  "blockedUsersError": "Không thể tải danh sách người dùng đã chặn.",
+  "unblockAction": "Bỏ chặn",
+  "unblockSuccess": "Đã bỏ chặn {userName}.",
+  "@unblockSuccess": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "unblockConfirmTitle": "Bỏ chặn người dùng?",
+  "unblockConfirmMessage": "Bạn có chắc chắn muốn bỏ chặn {userName}? Người này sẽ có thể tương tác lại với bạn.",
+  "@unblockConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserTitle": "Chặn người dùng",
+  "blockUserConfirmMessage": "Bạn có chắc chắn muốn chặn {userName}? Hệ thống sẽ tự động hủy kết bạn và ẩn mọi tương tác từ người này.",
+  "@blockUserConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserAction": "Chặn",
+  "blockUserSuccess": "Đã chặn {userName} thành công.",
+  "@blockUserSuccess": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserPromptTitle": "Chặn người dùng này?",
+  "blockUserPromptDesc": "Bạn có muốn chặn người dùng này luôn không? Bạn sẽ không còn nhìn thấy hoạt động của họ nữa.",
+  "actionLater": "Để sau",
+  "actionOptions": "Tùy chọn tương tác",
+  "reportUserOption": "Báo cáo vi phạm",
+  "blockUserOption": "Chặn người dùng",
+  "cannotReportSelf": "Bạn không thể tự báo cáo chính mình.",
+  "cannotBlockSelf": "Bạn không thể tự chặn chính mình.",
+  "blockedAtDate": "Đã chặn: {date}",
+  "@blockedAtDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "unblocking": "Đang bỏ chặn...",
+  "blocking": "Đang chặn..."
 }

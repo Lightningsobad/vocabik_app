@@ -612,5 +612,71 @@
   "reportReasonHarassmentOrCheating": "Harassment or cheating",
   "reportReasonSpamOrAd": "Spam or advertising content",
   "reportUserSubmit": "Submit report",
-  "reportUserSuccessMessage": "Thank you. Your report has been received and forwarded to our moderation team."
+  "reportUserSuccessMessage": "Thank you. Your report has been received and forwarded to our moderation team.",
+  "reportReasonSpam": "Spam or advertising content",
+  "reportReasonHarassment": "Harassment or bullying",
+  "reportReasonInappropriateContent": "Inappropriate content / 18+",
+  "reportReasonHateSpeech": "Hate speech",
+  "reportReasonOther": "Other reason",
+  "reportDetailsLabel": "Violation details (optional)",
+  "reportDetailsHint": "Enter additional details about this violation...",
+  "reportSuccess24h": "Thank you for your report. Our moderation team will review and take action within 24 hours.",
+  "reportSubmitting": "Submitting report...",
+  "blockedUsersTitle": "Blocked users",
+  "blockedUsersEmpty": "You have not blocked any users.",
+  "blockedUsersError": "Unable to load blocked users.",
+  "unblockAction": "Unblock",
+  "unblockSuccess": "Unblocked {userName}.",
+  "@unblockSuccess": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "unblockConfirmTitle": "Unblock user?",
+  "unblockConfirmMessage": "Are you sure you want to unblock {userName}? They will be able to interact with you again.",
+  "@unblockConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserTitle": "Block user",
+  "blockUserConfirmMessage": "Are you sure you want to block {userName}? They will be removed from your friends and hidden from all interactions.",
+  "@blockUserConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserAction": "Block",
+  "blockUserSuccess": "Blocked {userName} successfully.",
+  "@blockUserSuccess": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserPromptTitle": "Block this user?",
+  "blockUserPromptDesc": "Would you like to block this user as well? You will no longer see their activity.",
+  "actionLater": "Later",
+  "actionOptions": "Interaction options",
+  "reportUserOption": "Report violation",
+  "blockUserOption": "Block user",
+  "cannotReportSelf": "You cannot report yourself.",
+  "cannotBlockSelf": "You cannot block yourself.",
+  "blockedAtDate": "Blocked on: {date}",
+  "@blockedAtDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "unblocking": "Unblocking...",
+  "blocking": "Blocking..."
 }

@@ -19,6 +19,7 @@ import '../models/challenge_friend_args.dart';
 import '../models/challenge_sent_args.dart';
 import '../widgets/challenge_exercise_summary_card.dart';
 import '../widgets/friend_selection_tile.dart';
+import '../../../moderation/presentation/widgets/user_action_bottom_sheet.dart';
 
 class ChallengeFriendScreen extends StatelessWidget {
   final ChallengeFriendArgs args;
@@ -360,6 +361,14 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
           friend: friend,
           isSelected: isSelected,
           onTap: () => cubit.toggleFriend(friend),
+          onMoreTap: () {
+            UserActionBottomSheet.show(
+              context,
+              userId: friend.userId,
+              userName: friend.displayName,
+              onUserBlocked: () => cubit.removeFriend(friend.userId),
+            );
+          },
         );
       },
     );

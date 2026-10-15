@@ -25,6 +25,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color premiumBackground;
   final Color danger;
   final Color dangerSoft;
+  final Color warning;
+  final Color warningSoft;
   final Color success;
   final Color successBackground;
   final Color successBorder;
@@ -93,6 +95,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.premiumBackground,
     required this.danger,
     required this.dangerSoft,
+    required this.warning,
+    required this.warningSoft,
     required this.success,
     required this.successBackground,
     required this.successBorder,
@@ -163,6 +167,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? premiumBackground,
     Color? danger,
     Color? dangerSoft,
+    Color? warning,
+    Color? warningSoft,
     Color? success,
     Color? successBackground,
     Color? successBorder,
@@ -232,6 +238,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       premiumBackground: premiumBackground ?? this.premiumBackground,
       danger: danger ?? this.danger,
       dangerSoft: dangerSoft ?? this.dangerSoft,
+      warning: warning ?? this.warning,
+      warningSoft: warningSoft ?? this.warningSoft,
       success: success ?? this.success,
       successBackground: successBackground ?? this.successBackground,
       successBorder: successBorder ?? this.successBorder,
@@ -334,6 +342,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       )!,
       danger: Color.lerp(danger, other.danger, t)!,
       dangerSoft: Color.lerp(dangerSoft, other.dangerSoft, t)!,
+      warning: Color.lerp(warning, other.warning, t)!,
+      warningSoft: Color.lerp(warningSoft, other.warningSoft, t)!,
       success: Color.lerp(success, other.success, t)!,
       successBackground: Color.lerp(
         successBackground,
@@ -516,6 +526,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     premiumBackground: Color(0xFFA854F7),
     danger: Color(0xFFE23E54),
     dangerSoft: Color(0x1AE23E54),
+    warning: Color(0xFFD97706),
+    warningSoft: Color(0x1AD97706),
     success: Color(0xFF16B877),
     successBackground: Color(0xFFE1F5ED),
     successBorder: Color(0xFF16B877),
@@ -585,6 +597,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     premiumBackground: Color(0xFFA854F7),
     danger: Color(0xFFFF5C72),
     dangerSoft: Color(0x29FF5C72),
+    warning: Color(0xFFFBBF24),
+    warningSoft: Color(0x29F59E0B),
     success: Color(0xFF22D98C),
     successBackground: Color(0xFF153331),
     successBorder: Color(0xFF22D98C),

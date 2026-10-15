@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import '../../../../shared/theme/app_colors.dart';
 import '../../../../shared/theme/app_font_size.dart';
@@ -11,12 +12,14 @@ class FriendSelectionTile extends StatelessWidget {
   final FriendEntity friend;
   final bool isSelected;
   final VoidCallback onTap;
+  final VoidCallback? onMoreTap;
 
   const FriendSelectionTile({
     super.key,
     required this.friend,
     required this.isSelected,
     required this.onTap,
+    this.onMoreTap,
   });
 
   @override
@@ -77,6 +80,22 @@ class FriendSelectionTile extends StatelessWidget {
 
               // Selection Circle
               _buildSelectionIndicator(colors),
+              if (onMoreTap != null) ...[
+                const SizedBox(width: AppSpacing.xs),
+                IconButton(
+                  icon: Icon(
+                    LucideIcons.ellipsisVertical,
+                    color: colors.textSecondary,
+                    size: AppSpacing.lg,
+                  ),
+                  onPressed: onMoreTap,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(
+                    minWidth: AppSpacing.xl,
+                    minHeight: AppSpacing.xl,
+                  ),
+                ),
+              ],
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/utils/number_format_utils.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/leaderboard/shared_leaderboard_shimmer.dart';
@@ -8,6 +9,7 @@ import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import '../../domain/entities/leaderboard_entry_entity.dart';
+import '../cubit/xp_leaderboard_cubit.dart';
 
 class XpLeaderboardList extends StatelessWidget {
   final List<LeaderboardEntryEntity> entries;
@@ -108,12 +110,15 @@ class XpLeaderboardList extends StatelessWidget {
   ) {
     return SharedLeaderboardTile(
       rank: entry.rank,
+      userId: entry.userId,
       userName: entry.isCurrentUser ? 'You' : entry.displayName,
       avatarUrl: entry.avatarUrl,
       isCurrentUser: entry.isCurrentUser,
       goldMedalAsset: 'assets/xp_leaderboard_screen/gold_medal_icon.svg',
       silverMedalAsset: 'assets/xp_leaderboard_screen/silver_medal_icon.svg',
       bronzeMedalAsset: 'assets/xp_leaderboard_screen/bronze_medal_icon.svg',
+      onUserBlocked: () =>
+          context.read<XpLeaderboardCubit>().loadLeaderboard(isRefresh: true),
       trailing: Text(
         '${entry.xp.toFormattedCommas()} XP',
         style: AppTextStyles.custom(

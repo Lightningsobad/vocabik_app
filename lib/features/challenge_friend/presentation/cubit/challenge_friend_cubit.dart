@@ -54,6 +54,15 @@ class ChallengeFriendCubit extends Cubit<ChallengeFriendState> {
     emit(state.copyWith(selectedFriends: updated));
   }
 
+  void removeFriend(String userId) {
+    final updatedFriends = state.friends.where((f) => f.userId != userId).toList();
+    final updatedSelected = state.selectedFriends.where((f) => f.userId != userId).toSet();
+    emit(state.copyWith(
+      friends: updatedFriends,
+      selectedFriends: updatedSelected,
+    ));
+  }
+
   Future<void> sendChallenge(ChallengeFriendArgs args) async {
     if (state.selectedFriends.isEmpty || state.isSending) return;
 

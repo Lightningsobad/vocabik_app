@@ -2179,6 +2179,192 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Cảm ơn bạn. Báo cáo đã được tiếp nhận và chuyển tới đội ngũ kiểm duyệt.'**
   String get reportUserSuccessMessage;
+
+  /// No description provided for @reportReasonSpam.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quảng cáo hoặc tin rác'**
+  String get reportReasonSpam;
+
+  /// No description provided for @reportReasonHarassment.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quấy rối hoặc đe dọa'**
+  String get reportReasonHarassment;
+
+  /// No description provided for @reportReasonInappropriateContent.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nội dung không phù hợp / 18+'**
+  String get reportReasonInappropriateContent;
+
+  /// No description provided for @reportReasonHateSpeech.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngôn từ thù hận'**
+  String get reportReasonHateSpeech;
+
+  /// No description provided for @reportReasonOther.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lý do khác'**
+  String get reportReasonOther;
+
+  /// No description provided for @reportDetailsLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chi tiết vi phạm (không bắt buộc)'**
+  String get reportDetailsLabel;
+
+  /// No description provided for @reportDetailsHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mô tả bổ sung chi tiết vi phạm...'**
+  String get reportDetailsHint;
+
+  /// No description provided for @reportSuccess24h.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cảm ơn bạn đã gửi báo cáo. Chúng tôi sẽ xem xét và xử lý vi phạm trong vòng 24 giờ.'**
+  String get reportSuccess24h;
+
+  /// No description provided for @reportSubmitting.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang gửi báo cáo...'**
+  String get reportSubmitting;
+
+  /// No description provided for @blockedUsersTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người dùng đã chặn'**
+  String get blockedUsersTitle;
+
+  /// No description provided for @blockedUsersEmpty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn chưa chặn người dùng nào.'**
+  String get blockedUsersEmpty;
+
+  /// No description provided for @blockedUsersError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải danh sách người dùng đã chặn.'**
+  String get blockedUsersError;
+
+  /// No description provided for @unblockAction.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bỏ chặn'**
+  String get unblockAction;
+
+  /// No description provided for @unblockSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã bỏ chặn {userName}.'**
+  String unblockSuccess(String userName);
+
+  /// No description provided for @unblockConfirmTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bỏ chặn người dùng?'**
+  String get unblockConfirmTitle;
+
+  /// No description provided for @unblockConfirmMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có chắc chắn muốn bỏ chặn {userName}? Người này sẽ có thể tương tác lại với bạn.'**
+  String unblockConfirmMessage(String userName);
+
+  /// No description provided for @blockUserTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chặn người dùng'**
+  String get blockUserTitle;
+
+  /// No description provided for @blockUserConfirmMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có chắc chắn muốn chặn {userName}? Hệ thống sẽ tự động hủy kết bạn và ẩn mọi tương tác từ người này.'**
+  String blockUserConfirmMessage(String userName);
+
+  /// No description provided for @blockUserAction.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chặn'**
+  String get blockUserAction;
+
+  /// No description provided for @blockUserSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã chặn {userName} thành công.'**
+  String blockUserSuccess(String userName);
+
+  /// No description provided for @blockUserPromptTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chặn người dùng này?'**
+  String get blockUserPromptTitle;
+
+  /// No description provided for @blockUserPromptDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có muốn chặn người dùng này luôn không? Bạn sẽ không còn nhìn thấy hoạt động của họ nữa.'**
+  String get blockUserPromptDesc;
+
+  /// No description provided for @actionLater.
+  ///
+  /// In vi, this message translates to:
+  /// **'Để sau'**
+  String get actionLater;
+
+  /// No description provided for @actionOptions.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tùy chọn tương tác'**
+  String get actionOptions;
+
+  /// No description provided for @reportUserOption.
+  ///
+  /// In vi, this message translates to:
+  /// **'Báo cáo vi phạm'**
+  String get reportUserOption;
+
+  /// No description provided for @blockUserOption.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chặn người dùng'**
+  String get blockUserOption;
+
+  /// No description provided for @cannotReportSelf.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn không thể tự báo cáo chính mình.'**
+  String get cannotReportSelf;
+
+  /// No description provided for @cannotBlockSelf.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn không thể tự chặn chính mình.'**
+  String get cannotBlockSelf;
+
+  /// No description provided for @blockedAtDate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã chặn: {date}'**
+  String blockedAtDate(String date);
+
+  /// No description provided for @unblocking.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang bỏ chặn...'**
+  String get unblocking;
+
+  /// No description provided for @blocking.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang chặn...'**
+  String get blocking;
 }
 
 class _AppLocalizationsDelegate

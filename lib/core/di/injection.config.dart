@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -148,6 +149,14 @@ import '../../features/leaderboard/presentation/cubit/xp_leaderboard_cubit.dart'
     as _i347;
 import '../../features/main_shell/presentation/cubit/main_shell_cubit.dart'
     as _i481;
+import '../../features/moderation/data/datasources/moderation_remote_data_source.dart'
+    as _i200;
+import '../../features/moderation/data/repositories/moderation_repository_impl.dart'
+    as _i378;
+import '../../features/moderation/domain/repositories/moderation_repository.dart'
+    as _i106;
+import '../../features/moderation/presentation/cubit/blocked_users_cubit.dart'
+    as _i793;
 import '../../features/notebook/data/datasources/notebook_remote_data_source.dart'
     as _i828;
 import '../../features/notebook/data/repositories/notebook_repository_impl.dart'
@@ -260,6 +269,7 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i391.DeepLinkService>(() => _i391.DeepLinkService());
+    gh.lazySingleton<_i558.FlutterSecureStorage>(() => appModule.secureStorage);
     gh.lazySingleton<_i222.AnalyticsService>(() => appModule.analyticsService);
     gh.lazySingleton<_i352.CrashlyticsService>(
       () => appModule.crashlyticsService,
@@ -273,6 +283,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i561.GamificationGlobalCubit>(
       () => _i561.GamificationGlobalCubit(),
     );
+    gh.lazySingleton<_i606.AuthLocalDataSource>(
+      () => _i606.AuthLocalDataSourceImpl(
+        gh<_i460.SharedPreferences>(),
+        gh<_i558.FlutterSecureStorage>(),
+      ),
+    );
     gh.factory<_i416.ThemeRepository>(
       () => _i108.ThemeRepositoryImpl(prefs: gh<_i460.SharedPreferences>()),
     );
@@ -281,11 +297,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i961.NotificationRouterHandler>(),
       ),
     );
+    gh.lazySingleton<_i361.Dio>(
+      () => appModule.dio(gh<_i606.AuthLocalDataSource>()),
+    );
     gh.lazySingleton<_i409.FcmService>(
       () => appModule.fcmService(
         gh<_i474.LocalNotificationService>(),
         gh<_i961.NotificationRouterHandler>(),
       ),
+    );
+    gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
+      () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i723.SocialAuthService>(
       () => _i723.GoogleAuthServiceImpl(),
@@ -293,42 +315,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i431.SettingsLocalDataSource>(
       () => _i431.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
-    gh.lazySingleton<_i606.AuthLocalDataSource>(
-      () => _i606.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
-    );
-    gh.lazySingleton<_i729.LocalizationLocalDataSource>(
-      () =>
-          _i729.LocalizationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
-    );
-    gh.lazySingleton<_i446.NotificationService>(
-      () => appModule.notificationService(
-        gh<_i409.FcmService>(),
-        gh<_i474.LocalNotificationService>(),
-        gh<_i408.InAppMessagingService>(),
-        gh<_i961.NotificationRouterHandler>(),
-      ),
-    );
-    gh.factory<_i909.ThemeCubit>(
-      () => _i909.ThemeCubit(themeRepository: gh<_i416.ThemeRepository>()),
-    );
-    gh.lazySingleton<_i361.Dio>(
-      () => appModule.dio(gh<_i606.AuthLocalDataSource>()),
-    );
-    gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
-      () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i520.SettingsRepository>(
-      () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
-    );
-    gh.lazySingleton<_i960.LocalizationRepository>(
-      () => _i682.LocalizationRepositoryImpl(
-        gh<_i729.LocalizationLocalDataSource>(),
-      ),
-    );
     gh.lazySingleton<_i959.SharedVideoRepository>(
       () => _i676.SharedVideoRepositoryImpl(
         remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i729.LocalizationLocalDataSource>(
+      () =>
+          _i729.LocalizationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
     gh.factory<_i821.GetTrendingVideosUseCase>(
       () => _i821.GetTrendingVideosUseCase(gh<_i959.SharedVideoRepository>()),
@@ -345,8 +339,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i294.HomeVideosBloc>(
       () => _i294.HomeVideosBloc(gh<_i552.GetVideosUseCase>()),
     );
+    gh.lazySingleton<_i446.NotificationService>(
+      () => appModule.notificationService(
+        gh<_i409.FcmService>(),
+        gh<_i474.LocalNotificationService>(),
+        gh<_i408.InAppMessagingService>(),
+        gh<_i961.NotificationRouterHandler>(),
+      ),
+    );
     gh.lazySingleton<_i386.LeaderboardRemoteDataSource>(
       () => _i386.LeaderboardRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i200.ModerationRemoteDataSource>(
+      () => _i200.ModerationRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i25.AuthRemoteDataSource>(
       () => _i25.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -357,9 +362,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i913.ExerciseRemoteDataSource>(
       () => _i913.ExerciseRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.factory<_i909.ThemeCubit>(
+      () => _i909.ThemeCubit(themeRepository: gh<_i416.ThemeRepository>()),
+    );
     gh.lazySingleton<_i655.LeaderboardRepository>(
       () => _i1008.LeaderboardRepositoryImpl(
         gh<_i386.LeaderboardRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i106.ModerationRepository>(
+      () => _i378.ModerationRepositoryImpl(
+        gh<_i200.ModerationRemoteDataSource>(),
       ),
     );
     gh.lazySingleton<_i62.ScoreCardRemoteDataSource>(
@@ -377,17 +390,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i828.NotebookRemoteDataSource>(
       () => _i828.NotebookRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i738.GetLanguageUseCase>(
-      () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
-    );
-    gh.lazySingleton<_i476.SaveLanguageUseCase>(
-      () => _i476.SaveLanguageUseCase(gh<_i960.LocalizationRepository>()),
-    );
     gh.lazySingleton<_i1012.ProfileRemoteDataSource>(
       () => _i1012.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(gh<_i1012.ProfileRemoteDataSource>()),
+    );
+    gh.factory<_i793.BlockedUsersCubit>(
+      () => _i793.BlockedUsersCubit(gh<_i106.ModerationRepository>()),
     );
     gh.lazySingleton<_i951.DailyChallengeRemoteDataSource>(
       () => _i951.DailyChallengeRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -399,9 +409,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i991.BadgeRemoteDataSource>(
       () => _i991.BadgeRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i521.SoundSettingsCubit>(
-      () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
     gh.lazySingleton<_i344.ChallengeFriendRemoteDataSource>(
       () => _i344.ChallengeFriendRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -415,16 +422,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i50.ExerciseRepository>(
       () => _i607.ExerciseRepositoryImpl(gh<_i913.ExerciseRemoteDataSource>()),
     );
+    gh.lazySingleton<_i520.SettingsRepository>(
+      () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
+    );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
         gh<_i25.AuthRemoteDataSource>(),
         gh<_i606.AuthLocalDataSource>(),
-      ),
-    );
-    gh.singleton<_i97.LocalizationCubit>(
-      () => _i97.LocalizationCubit(
-        gh<_i738.GetLanguageUseCase>(),
-        gh<_i476.SaveLanguageUseCase>(),
       ),
     );
     gh.factory<_i1010.RegisterUseCase>(
@@ -486,6 +490,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i872.UpdateWordReviewStatusUseCase>(
       () => _i872.UpdateWordReviewStatusUseCase(gh<_i718.NotebookRepository>()),
     );
+    gh.lazySingleton<_i960.LocalizationRepository>(
+      () => _i682.LocalizationRepositoryImpl(
+        gh<_i729.LocalizationLocalDataSource>(),
+      ),
+    );
     gh.factory<_i186.UpdateProfileUseCase>(
       () => _i186.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
     );
@@ -499,9 +508,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i880.GetPlaylistsUseCase>(
       () => _i880.GetPlaylistsUseCase(gh<_i772.PlaylistRepository>()),
-    );
-    gh.lazySingleton<_i464.AudioFeedbackService>(
-      () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),
     );
     gh.factory<_i327.GetDailyPickUseCase>(
       () => _i327.GetDailyPickUseCase(gh<_i0.HomeRepository>()),
@@ -544,11 +550,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i951.DailyChallengeRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i738.GetLanguageUseCase>(
+      () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
+    );
+    gh.lazySingleton<_i476.SaveLanguageUseCase>(
+      () => _i476.SaveLanguageUseCase(gh<_i960.LocalizationRepository>()),
+    );
     gh.factory<_i562.HomeDailyPickBloc>(
       () => _i562.HomeDailyPickBloc(gh<_i327.GetDailyPickUseCase>()),
     );
     gh.lazySingleton<_i467.GetBadgesUseCase>(
       () => _i467.GetBadgesUseCase(gh<_i65.BadgeRepository>()),
+    );
+    gh.lazySingleton<_i521.SoundSettingsCubit>(
+      () => _i521.SoundSettingsCubit(gh<_i520.SettingsRepository>()),
     );
     gh.factory<_i347.XpLeaderboardCubit>(
       () => _i347.XpLeaderboardCubit(gh<_i970.GetXpLeaderboardUseCase>()),
@@ -588,6 +603,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i203.GetVideoExerciseBlanksUseCase>(),
         gh<_i209.GetLatestVideoProgressUseCase>(),
         gh<_i241.SendVideoReactionUseCase>(),
+      ),
+    );
+    gh.singleton<_i97.LocalizationCubit>(
+      () => _i97.LocalizationCubit(
+        gh<_i738.GetLanguageUseCase>(),
+        gh<_i476.SaveLanguageUseCase>(),
       ),
     );
     gh.factory<_i228.CreateChallengeLinkUseCase>(
@@ -645,6 +666,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i723.SocialAuthService>(),
         gh<_i797.AuthBloc>(),
       ),
+    );
+    gh.lazySingleton<_i464.AudioFeedbackService>(
+      () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),
     );
     gh.lazySingleton<_i155.GetDailyChallengeConfigUseCase>(
       () => _i155.GetDailyChallengeConfigUseCase(
