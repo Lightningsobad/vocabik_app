@@ -796,17 +796,10 @@ class AppLocalizationsVi extends AppLocalizations {
       'Nội dung video thuộc về chủ sở hữu gốc trên YouTube; Vocabik chỉ tạo bài tập học tập.';
 
   @override
-  String get tosSection5Title => '5. Thanh toán & hoàn tiền';
+  String get tosSection5Title => '5. Chấm dứt tài khoản';
 
   @override
   String get tosSection5Content =>
-      'Gói Premium có thể hủy bất cứ lúc nào; hoàn tiền trong 7 ngày cho gói năm.';
-
-  @override
-  String get tosSection6Title => '6. Chấm dứt tài khoản';
-
-  @override
-  String get tosSection6Content =>
       'Tài khoản vi phạm điều khoản, có hành vi lạm dụng hoặc tạo nội dung phản cảm có thể bị khóa hoặc chấm dứt ngay lập tức.';
 
   @override

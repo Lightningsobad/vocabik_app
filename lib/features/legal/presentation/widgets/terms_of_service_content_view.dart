@@ -64,10 +64,6 @@ class TermsOfServiceContentView extends StatelessWidget {
             title: l10n.tosSection5Title,
             content: l10n.tosSection5Content,
           ),
-          LegalSectionItem(
-            title: l10n.tosSection6Title,
-            content: l10n.tosSection6Content,
-          ),
           const SizedBox(height: AppSpacing.sm),
           InkWell(
             onTap: () => launchUrl(

@@ -1565,26 +1565,14 @@ abstract class AppLocalizations {
   /// No description provided for @tosSection5Title.
   ///
   /// In vi, this message translates to:
-  /// **'5. Thanh toán & hoàn tiền'**
+  /// **'5. Chấm dứt tài khoản'**
   String get tosSection5Title;
 
   /// No description provided for @tosSection5Content.
   ///
   /// In vi, this message translates to:
-  /// **'Gói Premium có thể hủy bất cứ lúc nào; hoàn tiền trong 7 ngày cho gói năm.'**
-  String get tosSection5Content;
-
-  /// No description provided for @tosSection6Title.
-  ///
-  /// In vi, this message translates to:
-  /// **'6. Chấm dứt tài khoản'**
-  String get tosSection6Title;
-
-  /// No description provided for @tosSection6Content.
-  ///
-  /// In vi, this message translates to:
   /// **'Tài khoản vi phạm điều khoản, có hành vi lạm dụng hoặc tạo nội dung phản cảm có thể bị khóa hoặc chấm dứt ngay lập tức.'**
-  String get tosSection6Content;
+  String get tosSection5Content;
 
   /// No description provided for @tosContact.
   ///

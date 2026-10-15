@@ -794,17 +794,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Video content belongs to original owners on YouTube; Vocabik only creates learning exercises.';
 
   @override
-  String get tosSection5Title => '5. Payment & Refunds';
+  String get tosSection5Title => '5. Account Termination';
 
   @override
   String get tosSection5Content =>
-      'Premium plans can be canceled anytime; 7-day refund for annual plans.';
-
-  @override
-  String get tosSection6Title => '6. Account Termination';
-
-  @override
-  String get tosSection6Content =>
       'Accounts that violate terms, engage in abusive behavior, or post objectionable content may be terminated immediately.';
 
   @override
