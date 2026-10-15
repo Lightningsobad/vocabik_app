@@ -22,6 +22,7 @@ abstract class AuthRemoteDataSource {
   Future<String> resetPassword(String token, String newPassword, {CancelToken? cancelToken});
   Future<List<UserSessionModel>> getSessions({CancelToken? cancelToken});
   Future<AuthResponseModel> refreshToken(String refreshToken, {CancelToken? cancelToken});
+  Future<void> deleteAccount({String? password, String? reason, CancelToken? cancelToken});
 }
 
 AuthResponseModel _parseAuthResponse(Map<String, dynamic> data) => AuthResponseModel.fromJson(data);
@@ -313,6 +314,56 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           throw const InvalidCredentialsException('Phiên đăng nhập đã hết hạn hoặc refresh token không hợp lệ.');
         } else if (statusCode != null && statusCode >= 500) {
           throw const ServerException('Lỗi máy chủ khi làm mới phiên đăng nhập.');
+        }
+      }
+      throw const NetworkException();
+    }
+  }
+
+  @override
+  Future<void> deleteAccount({
+    String? password,
+    String? reason,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final data = <String, dynamic>{
+        if (password != null && password.isNotEmpty) 'password': password,
+        if (reason != null && reason.isNotEmpty) 'reason': reason,
+      };
+
+      await _dio.delete(
+        '/auth/me',
+        data: data,
+        cancelToken: cancelToken,
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+    } catch (e) {
+      if (e is DioException) {
+        final statusCode = e.response?.statusCode;
+        final responseData = e.response?.data;
+        String? errorCode;
+        if (responseData is Map<String, dynamic>) {
+          if (responseData['error'] is Map<String, dynamic>) {
+            errorCode = responseData['error']['code'] as String?;
+          } else if (responseData['code'] is String) {
+            errorCode = responseData['code'] as String?;
+          }
+        }
+
+        if (statusCode == 400) {
+          if (errorCode == 'AUTH_PASSWORD_REQUIRED') {
+            throw const PasswordRequiredException();
+          } else if (errorCode == 'AUTH_INVALID_PASSWORD') {
+            throw const InvalidPasswordException();
+          }
+          throw ServerException(errorCode ?? 'Bad request');
+        } else if (statusCode == 401) {
+          throw const InvalidCredentialsException('AUTH_UNAUTHENTICATED');
+        } else if (statusCode != null && statusCode >= 500) {
+          throw const ServerException();
         }
       }
       throw const NetworkException();

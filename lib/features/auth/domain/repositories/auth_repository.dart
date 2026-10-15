@@ -15,4 +15,5 @@ abstract class AuthRepository {
   Future<Either<Failure, String>> forgotPassword(String email);
   Future<Either<Failure, String>> resetPassword({required String token, required String newPassword});
   Future<Either<Failure, List<UserSession>>> getSessions();
+  Future<Either<Failure, void>> deleteAccount({String? password, String? reason});
 }

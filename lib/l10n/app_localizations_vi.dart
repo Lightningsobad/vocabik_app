@@ -118,13 +118,46 @@ class AppLocalizationsVi extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
-  String get accountExportData => 'Xuất dữ liệu của tôi';
-
-  @override
   String get accountLogOut => 'Đăng xuất';
 
   @override
   String get accountDeletePermanently => 'Xóa tài khoản vĩnh viễn';
+
+  @override
+  String get deleteAccountDialogTitle => 'Xóa tài khoản của bạn?';
+
+  @override
+  String get deleteAccountDialogWarning =>
+      'Hành động này không thể hoàn tác. Toàn bộ tiến trình học, điểm số XP, chuỗi ngày học Streak, sổ từ vựng cá nhân và danh sách bạn bè của bạn sẽ bị xóa vĩnh viễn.';
+
+  @override
+  String get deleteAccountPasswordLabel => 'Mật khẩu xác nhận';
+
+  @override
+  String get deleteAccountPasswordHint => 'Nhập mật khẩu của bạn';
+
+  @override
+  String get deleteAccountPasswordOptionalNote =>
+      '(Bỏ trống nếu đăng nhập bằng Google)';
+
+  @override
+  String get deleteAccountConfirmAction => 'Xác nhận xóa tài khoản';
+
+  @override
+  String get deleteAccountSuccessMessage =>
+      'Tài khoản của bạn đã được xóa thành công.';
+
+  @override
+  String get deleteAccountErrorPasswordRequired =>
+      'Vui lòng nhập mật khẩu để xác nhận xóa tài khoản.';
+
+  @override
+  String get deleteAccountErrorInvalidPassword =>
+      'Mật khẩu không chính xác, vui lòng thử lại.';
+
+  @override
+  String get deleteAccountErrorGeneric =>
+      'Không thể xóa tài khoản. Vui lòng thử lại sau.';
 
   @override
   String get securityTab_currentPasswordLabel => 'Mật khẩu hiện tại';

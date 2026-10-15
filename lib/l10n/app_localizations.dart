@@ -308,12 +308,6 @@ abstract class AppLocalizations {
   /// **'English'**
   String get languageEnglish;
 
-  /// No description provided for @accountExportData.
-  ///
-  /// In vi, this message translates to:
-  /// **'Xuất dữ liệu của tôi'**
-  String get accountExportData;
-
   /// No description provided for @accountLogOut.
   ///
   /// In vi, this message translates to:
@@ -325,6 +319,66 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Xóa tài khoản vĩnh viễn'**
   String get accountDeletePermanently;
+
+  /// No description provided for @deleteAccountDialogTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xóa tài khoản của bạn?'**
+  String get deleteAccountDialogTitle;
+
+  /// No description provided for @deleteAccountDialogWarning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hành động này không thể hoàn tác. Toàn bộ tiến trình học, điểm số XP, chuỗi ngày học Streak, sổ từ vựng cá nhân và danh sách bạn bè của bạn sẽ bị xóa vĩnh viễn.'**
+  String get deleteAccountDialogWarning;
+
+  /// No description provided for @deleteAccountPasswordLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu xác nhận'**
+  String get deleteAccountPasswordLabel;
+
+  /// No description provided for @deleteAccountPasswordHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập mật khẩu của bạn'**
+  String get deleteAccountPasswordHint;
+
+  /// No description provided for @deleteAccountPasswordOptionalNote.
+  ///
+  /// In vi, this message translates to:
+  /// **'(Bỏ trống nếu đăng nhập bằng Google)'**
+  String get deleteAccountPasswordOptionalNote;
+
+  /// No description provided for @deleteAccountConfirmAction.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận xóa tài khoản'**
+  String get deleteAccountConfirmAction;
+
+  /// No description provided for @deleteAccountSuccessMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài khoản của bạn đã được xóa thành công.'**
+  String get deleteAccountSuccessMessage;
+
+  /// No description provided for @deleteAccountErrorPasswordRequired.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập mật khẩu để xác nhận xóa tài khoản.'**
+  String get deleteAccountErrorPasswordRequired;
+
+  /// No description provided for @deleteAccountErrorInvalidPassword.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu không chính xác, vui lòng thử lại.'**
+  String get deleteAccountErrorInvalidPassword;
+
+  /// No description provided for @deleteAccountErrorGeneric.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể xóa tài khoản. Vui lòng thử lại sau.'**
+  String get deleteAccountErrorGeneric;
 
   /// No description provided for @securityTab_currentPasswordLabel.
   ///

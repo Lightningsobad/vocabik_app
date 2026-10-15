@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 
+import '../../../../core/services/social_auth_service.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/entities/user_session.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -15,8 +16,13 @@ import '../models/register_request_model.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
   final AuthLocalDataSource _localDataSource;
+  final SocialAuthService? _socialAuthService;
 
-  AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
+  AuthRepositoryImpl(
+    this._remoteDataSource,
+    this._localDataSource, [
+    this._socialAuthService,
+  ]);
 
   @override
   Future<Either<Failure, User>> login({
@@ -262,6 +268,36 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(ServerFailure(e.message));
     } catch (e) {
       return left(const ServerFailure('Lỗi hệ thống không xác định.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAccount({
+    String? password,
+    String? reason,
+  }) async {
+    try {
+      await _remoteDataSource.deleteAccount(
+        password: password,
+        reason: reason,
+      );
+      await _localDataSource.clear();
+      try {
+        await _socialAuthService?.signOut();
+      } catch (_) {}
+      return right(null);
+    } on PasswordRequiredException {
+      return left(const PasswordRequiredFailure());
+    } on InvalidPasswordException {
+      return left(const InvalidPasswordFailure());
+    } on NetworkException {
+      return left(
+        const NetworkFailure('Không có kết nối mạng. Vui lòng kiểm tra lại.'),
+      );
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(const ServerFailure('Không thể xóa tài khoản. Vui lòng thử lại sau.'));
     }
   }
 }

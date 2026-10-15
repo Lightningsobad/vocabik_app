@@ -62,3 +62,19 @@ class RequestCancelledException implements Exception {
   String toString() => 'RequestCancelledException: $message';
 }
 
+class PasswordRequiredException implements Exception {
+  final String message;
+  const PasswordRequiredException([this.message = 'Password is required']);
+
+  @override
+  String toString() => 'PasswordRequiredException: $message';
+}
+
+class InvalidPasswordException implements Exception {
+  final String message;
+  const InvalidPasswordException([this.message = 'Incorrect password']);
+
+  @override
+  String toString() => 'InvalidPasswordException: $message';
+}
+
