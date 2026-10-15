@@ -436,39 +436,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i723.SocialAuthService>(),
       ),
     );
-    gh.factory<_i1010.RegisterUseCase>(
-      () => _i1010.RegisterUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.factory<_i518.ResendEmailUseCase>(
-      () => _i518.ResendEmailUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.factory<_i773.SetCefrSkippedUseCase>(
-      () => _i773.SetCefrSkippedUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.factory<_i131.SignOutUseCase>(
-      () => _i131.SignOutUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.factory<_i421.VerifyEmailUseCase>(
-      () => _i421.VerifyEmailUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.lazySingleton<_i897.ForgotPasswordUseCase>(
-      () => _i897.ForgotPasswordUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.lazySingleton<_i477.GetMeUseCase>(
-      () => _i477.GetMeUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.lazySingleton<_i1058.GetSessionsUseCase>(
-      () => _i1058.GetSessionsUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.lazySingleton<_i1038.LoginUseCase>(
-      () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.lazySingleton<_i490.LoginWithGoogleUseCase>(
-      () => _i490.LoginWithGoogleUseCase(gh<_i787.AuthRepository>()),
-    );
-    gh.lazySingleton<_i169.ResetPasswordUseCase>(
-      () => _i169.ResetPasswordUseCase(gh<_i787.AuthRepository>()),
-    );
     gh.lazySingleton<_i697.ScoreCardRepository>(
       () => _i384.ScoreCardRepositoryImpl(gh<_i62.ScoreCardRemoteDataSource>()),
     );
@@ -672,9 +639,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i755.GetNotebookWordsUseCase>(),
         gh<_i872.UpdateWordReviewStatusUseCase>(),
       ),
-    );
-    gh.lazySingleton<_i464.AudioFeedbackService>(
-      () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),
     );
     gh.lazySingleton<_i464.AudioFeedbackService>(
       () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),

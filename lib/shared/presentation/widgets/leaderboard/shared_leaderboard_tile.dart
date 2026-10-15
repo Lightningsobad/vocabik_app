@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vocabik_app/core/utils/auth_utils.dart';
 import 'package:vocabik_app/core/utils/string_extensions.dart';
 import 'package:vocabik_app/features/moderation/presentation/widgets/user_action_bottom_sheet.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -73,10 +74,17 @@ class SharedLeaderboardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final initials = userName.toInitials();
-    final tileBgColor = isCurrentUser
+    final effectiveIsCurrentUser = isCurrentUser ||
+        AuthUtils.isCurrentSelf(
+          userId: userId,
+          userName: userName,
+          context: context,
+        );
+
+    final tileBgColor = effectiveIsCurrentUser
         ? colors.primaryAccent.withValues(alpha: 0.10)
         : colors.surfaceCard;
-    final tileBorderColor = isCurrentUser
+    final tileBorderColor = effectiveIsCurrentUser
         ? colors.primaryAccent.withValues(alpha: 0.5)
         : colors.borderSubtle;
 
@@ -130,7 +138,7 @@ class SharedLeaderboardTile extends StatelessWidget {
                 : Text(
                     initials,
                     style: AppTextStyles.custom(
-                      color: isCurrentUser
+                      color: effectiveIsCurrentUser
                           ? colors.primaryAccent
                           : colors.textSecondary,
                       fontSize: AppFontSize.sm,
@@ -149,7 +157,7 @@ class SharedLeaderboardTile extends StatelessWidget {
                   child: Text(
                     userName,
                     style: AppTextStyles.custom(
-                      color: isCurrentUser ? colors.primaryAccent : colors.textPrimary,
+                      color: effectiveIsCurrentUser ? colors.primaryAccent : colors.textPrimary,
                       fontSize: AppFontSize.lg2,
                       fontWeight: FontWeight.w800,
                     ),
@@ -157,7 +165,7 @@ class SharedLeaderboardTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (isCurrentUser) ...[
+                if (effectiveIsCurrentUser) ...[
                   const SizedBox(width: AppSpacing.xs),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -189,7 +197,7 @@ class SharedLeaderboardTile extends StatelessWidget {
       ),
     );
 
-    if (isCurrentUser) {
+    if (effectiveIsCurrentUser) {
       return tileWidget;
     }
 

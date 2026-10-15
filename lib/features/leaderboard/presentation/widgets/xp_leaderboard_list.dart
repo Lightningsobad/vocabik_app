@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vocabik_app/core/utils/auth_utils.dart';
 import 'package:vocabik_app/core/utils/number_format_utils.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/leaderboard/shared_leaderboard_shimmer.dart';
@@ -108,12 +109,19 @@ class XpLeaderboardList extends StatelessWidget {
     AppColorsExtension colors,
     LeaderboardEntryEntity entry,
   ) {
+    final isMe = entry.isCurrentUser ||
+        AuthUtils.isCurrentSelf(
+          userId: entry.userId,
+          userName: entry.displayName,
+          context: context,
+        );
+
     return SharedLeaderboardTile(
       rank: entry.rank,
       userId: entry.userId,
-      userName: entry.isCurrentUser ? 'You' : entry.displayName,
+      userName: isMe ? 'You' : entry.displayName,
       avatarUrl: entry.avatarUrl,
-      isCurrentUser: entry.isCurrentUser,
+      isCurrentUser: isMe,
       goldMedalAsset: 'assets/xp_leaderboard_screen/gold_medal_icon.svg',
       silverMedalAsset: 'assets/xp_leaderboard_screen/silver_medal_icon.svg',
       bronzeMedalAsset: 'assets/xp_leaderboard_screen/bronze_medal_icon.svg',

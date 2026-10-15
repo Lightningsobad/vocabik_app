@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/di/injection.dart';
+import '../../../../core/utils/auth_utils.dart';
 import '../../../../features/moderation/domain/repositories/moderation_repository.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../theme/app_colors.dart';
@@ -29,10 +30,19 @@ class ReportUserDialog extends StatefulWidget {
     String targetType = 'user',
     VoidCallback? onUserBlocked,
   }) {
+    final effectiveTargetId = targetId ?? userName;
+    if (AuthUtils.isCurrentSelf(
+      userId: effectiveTargetId,
+      userName: userName,
+      context: context,
+    )) {
+      return Future.value();
+    }
+
     return showDialog<void>(
       context: context,
       builder: (_) => ReportUserDialog(
-        targetId: targetId ?? userName,
+        targetId: effectiveTargetId,
         userName: userName,
         targetType: targetType,
         onUserBlocked: onUserBlocked,

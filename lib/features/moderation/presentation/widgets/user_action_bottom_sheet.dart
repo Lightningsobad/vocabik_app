@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../../../../core/utils/auth_utils.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/presentation/widgets/dialogs/report_user_dialog.dart';
 import '../../../../shared/theme/app_colors.dart';
@@ -27,6 +28,14 @@ class UserActionBottomSheet extends StatelessWidget {
     required String userName,
     VoidCallback? onUserBlocked,
   }) {
+    if (AuthUtils.isCurrentSelf(
+      userId: userId,
+      userName: userName,
+      context: context,
+    )) {
+      return Future.value();
+    }
+
     return showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -41,6 +50,14 @@ class UserActionBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (AuthUtils.isCurrentSelf(
+      userId: userId,
+      userName: userName,
+      context: context,
+    )) {
+      return const SizedBox.shrink();
+    }
+
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
 
