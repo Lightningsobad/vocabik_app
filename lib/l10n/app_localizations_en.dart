@@ -1176,4 +1176,110 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reportUserSuccessMessage =>
       'Thank you. Your report has been received and forwarded to our moderation team.';
+
+  @override
+  String get reportReasonSpam => 'Spam or advertising content';
+
+  @override
+  String get reportReasonHarassment => 'Harassment or bullying';
+
+  @override
+  String get reportReasonInappropriateContent => 'Inappropriate content / 18+';
+
+  @override
+  String get reportReasonHateSpeech => 'Hate speech';
+
+  @override
+  String get reportReasonOther => 'Other reason';
+
+  @override
+  String get reportDetailsLabel => 'Violation details (optional)';
+
+  @override
+  String get reportDetailsHint =>
+      'Enter additional details about this violation...';
+
+  @override
+  String get reportSuccess24h =>
+      'Thank you for your report. Our moderation team will review and take action within 24 hours.';
+
+  @override
+  String get reportSubmitting => 'Submitting report...';
+
+  @override
+  String get blockedUsersTitle => 'Blocked users';
+
+  @override
+  String get blockedUsersEmpty => 'You have not blocked any users.';
+
+  @override
+  String get blockedUsersError => 'Unable to load blocked users.';
+
+  @override
+  String get unblockAction => 'Unblock';
+
+  @override
+  String unblockSuccess(String userName) {
+    return 'Unblocked $userName.';
+  }
+
+  @override
+  String get unblockConfirmTitle => 'Unblock user?';
+
+  @override
+  String unblockConfirmMessage(String userName) {
+    return 'Are you sure you want to unblock $userName? They will be able to interact with you again.';
+  }
+
+  @override
+  String get blockUserTitle => 'Block user';
+
+  @override
+  String blockUserConfirmMessage(String userName) {
+    return 'Are you sure you want to block $userName? They will be removed from your friends and hidden from all interactions.';
+  }
+
+  @override
+  String get blockUserAction => 'Block';
+
+  @override
+  String blockUserSuccess(String userName) {
+    return 'Blocked $userName successfully.';
+  }
+
+  @override
+  String get blockUserPromptTitle => 'Block this user?';
+
+  @override
+  String get blockUserPromptDesc =>
+      'Would you like to block this user as well? You will no longer see their activity.';
+
+  @override
+  String get actionLater => 'Later';
+
+  @override
+  String get actionOptions => 'Interaction options';
+
+  @override
+  String get reportUserOption => 'Report violation';
+
+  @override
+  String get blockUserOption => 'Block user';
+
+  @override
+  String get cannotReportSelf => 'You cannot report yourself.';
+
+  @override
+  String get cannotBlockSelf => 'You cannot block yourself.';
+
+  @override
+  String blockedAtDate(String date) {
+    return 'Blocked on: $date';
+  }
+
+  @override
+  String get unblocking => 'Unblocking...';
+
+  @override
+  String get blocking => 'Blocking...';
 }

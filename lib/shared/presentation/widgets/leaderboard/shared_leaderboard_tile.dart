@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vocabik_app/core/utils/string_extensions.dart';
+import 'package:vocabik_app/features/moderation/presentation/widgets/user_action_bottom_sheet.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/app_text_style.dart';
-import '../dialogs/report_user_dialog.dart';
 
 class SharedLeaderboardTile extends StatelessWidget {
   final int rank;
+  final String? userId;
   final String userName;
   final String? avatarUrl;
   final bool isCurrentUser;
@@ -17,10 +18,12 @@ class SharedLeaderboardTile extends StatelessWidget {
   final String? goldMedalAsset;
   final String? silverMedalAsset;
   final String? bronzeMedalAsset;
+  final VoidCallback? onUserBlocked;
 
   const SharedLeaderboardTile({
     super.key,
     required this.rank,
+    this.userId,
     required this.userName,
     this.avatarUrl,
     this.isCurrentUser = false,
@@ -28,6 +31,7 @@ class SharedLeaderboardTile extends StatelessWidget {
     this.goldMedalAsset,
     this.silverMedalAsset,
     this.bronzeMedalAsset,
+    this.onUserBlocked,
   });
 
   Widget _buildRankWidget(BuildContext context, AppColorsExtension colors) {
@@ -190,7 +194,15 @@ class SharedLeaderboardTile extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: () => ReportUserDialog.show(context, userName),
+      onTap: () {
+        final id = userId ?? userName;
+        UserActionBottomSheet.show(
+          context,
+          userId: id,
+          userName: userName,
+          onUserBlocked: onUserBlocked,
+        );
+      },
       borderRadius: BorderRadius.circular(AppRadius.lg),
       child: tileWidget,
     );

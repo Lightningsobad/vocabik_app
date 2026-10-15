@@ -28,6 +28,7 @@ import '../../features/achievements/presentation/screens/achievements_screen.dar
 import '../../features/daily_challenge/presentation/screens/daily_challenge_screen.dart';
 import '../../features/daily_challenge/domain/entities/daily_challenge_config_entity.dart';
 import '../../features/leaderboard/presentation/screens/xp_leaderboard_screen.dart';
+import '../../features/moderation/presentation/screens/blocked_users_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/notebook/presentation/cubit/notebook_cubit.dart';
 import '../../features/notebook/presentation/screens/notebook_screen.dart';
@@ -424,6 +425,10 @@ final GoRouter appRouter = GoRouter(
                     final config = state.extra as DailyChallengeResponseEntity?;
                     return DailyChallengeScreen(initialConfig: config);
                   },
+                ),
+                GoRoute(
+                  path: 'blocked-users',
+                  builder: (context, state) => const BlockedUsersScreen(),
                 ),
               ],
             ),

@@ -151,6 +151,14 @@ import '../../features/leaderboard/presentation/cubit/xp_leaderboard_cubit.dart'
     as _i347;
 import '../../features/main_shell/presentation/cubit/main_shell_cubit.dart'
     as _i481;
+import '../../features/moderation/data/datasources/moderation_remote_data_source.dart'
+    as _i200;
+import '../../features/moderation/data/repositories/moderation_repository_impl.dart'
+    as _i378;
+import '../../features/moderation/domain/repositories/moderation_repository.dart'
+    as _i106;
+import '../../features/moderation/presentation/cubit/blocked_users_cubit.dart'
+    as _i793;
 import '../../features/notebook/data/datasources/notebook_remote_data_source.dart'
     as _i828;
 import '../../features/notebook/data/repositories/notebook_repository_impl.dart'
@@ -346,6 +354,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i386.LeaderboardRemoteDataSource>(
       () => _i386.LeaderboardRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i200.ModerationRemoteDataSource>(
+      () => _i200.ModerationRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i25.AuthRemoteDataSource>(
       () => _i25.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -361,6 +372,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i655.LeaderboardRepository>(
       () => _i1008.LeaderboardRepositoryImpl(
         gh<_i386.LeaderboardRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i106.ModerationRepository>(
+      () => _i378.ModerationRepositoryImpl(
+        gh<_i200.ModerationRemoteDataSource>(),
       ),
     );
     gh.lazySingleton<_i62.ScoreCardRemoteDataSource>(
@@ -383,6 +399,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(gh<_i1012.ProfileRemoteDataSource>()),
+    );
+    gh.factory<_i793.BlockedUsersCubit>(
+      () => _i793.BlockedUsersCubit(gh<_i106.ModerationRepository>()),
     );
     gh.lazySingleton<_i951.DailyChallengeRemoteDataSource>(
       () => _i951.DailyChallengeRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -416,6 +435,39 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i606.AuthLocalDataSource>(),
         gh<_i723.SocialAuthService>(),
       ),
+    );
+    gh.factory<_i1010.RegisterUseCase>(
+      () => _i1010.RegisterUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.factory<_i518.ResendEmailUseCase>(
+      () => _i518.ResendEmailUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.factory<_i773.SetCefrSkippedUseCase>(
+      () => _i773.SetCefrSkippedUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.factory<_i131.SignOutUseCase>(
+      () => _i131.SignOutUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.factory<_i421.VerifyEmailUseCase>(
+      () => _i421.VerifyEmailUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i897.ForgotPasswordUseCase>(
+      () => _i897.ForgotPasswordUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i477.GetMeUseCase>(
+      () => _i477.GetMeUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i1058.GetSessionsUseCase>(
+      () => _i1058.GetSessionsUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i1038.LoginUseCase>(
+      () => _i1038.LoginUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i490.LoginWithGoogleUseCase>(
+      () => _i490.LoginWithGoogleUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i169.ResetPasswordUseCase>(
+      () => _i169.ResetPasswordUseCase(gh<_i787.AuthRepository>()),
     );
     gh.lazySingleton<_i697.ScoreCardRepository>(
       () => _i384.ScoreCardRepositoryImpl(gh<_i62.ScoreCardRemoteDataSource>()),
@@ -620,6 +672,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i755.GetNotebookWordsUseCase>(),
         gh<_i872.UpdateWordReviewStatusUseCase>(),
       ),
+    );
+    gh.lazySingleton<_i464.AudioFeedbackService>(
+      () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),
     );
     gh.lazySingleton<_i464.AudioFeedbackService>(
       () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),

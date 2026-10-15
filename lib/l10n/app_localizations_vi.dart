@@ -1180,4 +1180,109 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get reportUserSuccessMessage =>
       'Cảm ơn bạn. Báo cáo đã được tiếp nhận và chuyển tới đội ngũ kiểm duyệt.';
+
+  @override
+  String get reportReasonSpam => 'Quảng cáo hoặc tin rác';
+
+  @override
+  String get reportReasonHarassment => 'Quấy rối hoặc đe dọa';
+
+  @override
+  String get reportReasonInappropriateContent => 'Nội dung không phù hợp / 18+';
+
+  @override
+  String get reportReasonHateSpeech => 'Ngôn từ thù hận';
+
+  @override
+  String get reportReasonOther => 'Lý do khác';
+
+  @override
+  String get reportDetailsLabel => 'Chi tiết vi phạm (không bắt buộc)';
+
+  @override
+  String get reportDetailsHint => 'Mô tả bổ sung chi tiết vi phạm...';
+
+  @override
+  String get reportSuccess24h =>
+      'Cảm ơn bạn đã gửi báo cáo. Chúng tôi sẽ xem xét và xử lý vi phạm trong vòng 24 giờ.';
+
+  @override
+  String get reportSubmitting => 'Đang gửi báo cáo...';
+
+  @override
+  String get blockedUsersTitle => 'Người dùng đã chặn';
+
+  @override
+  String get blockedUsersEmpty => 'Bạn chưa chặn người dùng nào.';
+
+  @override
+  String get blockedUsersError => 'Không thể tải danh sách người dùng đã chặn.';
+
+  @override
+  String get unblockAction => 'Bỏ chặn';
+
+  @override
+  String unblockSuccess(String userName) {
+    return 'Đã bỏ chặn $userName.';
+  }
+
+  @override
+  String get unblockConfirmTitle => 'Bỏ chặn người dùng?';
+
+  @override
+  String unblockConfirmMessage(String userName) {
+    return 'Bạn có chắc chắn muốn bỏ chặn $userName? Người này sẽ có thể tương tác lại với bạn.';
+  }
+
+  @override
+  String get blockUserTitle => 'Chặn người dùng';
+
+  @override
+  String blockUserConfirmMessage(String userName) {
+    return 'Bạn có chắc chắn muốn chặn $userName? Hệ thống sẽ tự động hủy kết bạn và ẩn mọi tương tác từ người này.';
+  }
+
+  @override
+  String get blockUserAction => 'Chặn';
+
+  @override
+  String blockUserSuccess(String userName) {
+    return 'Đã chặn $userName thành công.';
+  }
+
+  @override
+  String get blockUserPromptTitle => 'Chặn người dùng này?';
+
+  @override
+  String get blockUserPromptDesc =>
+      'Bạn có muốn chặn người dùng này luôn không? Bạn sẽ không còn nhìn thấy hoạt động của họ nữa.';
+
+  @override
+  String get actionLater => 'Để sau';
+
+  @override
+  String get actionOptions => 'Tùy chọn tương tác';
+
+  @override
+  String get reportUserOption => 'Báo cáo vi phạm';
+
+  @override
+  String get blockUserOption => 'Chặn người dùng';
+
+  @override
+  String get cannotReportSelf => 'Bạn không thể tự báo cáo chính mình.';
+
+  @override
+  String get cannotBlockSelf => 'Bạn không thể tự chặn chính mình.';
+
+  @override
+  String blockedAtDate(String date) {
+    return 'Đã chặn: $date';
+  }
+
+  @override
+  String get unblocking => 'Đang bỏ chặn...';
+
+  @override
+  String get blocking => 'Đang chặn...';
 }

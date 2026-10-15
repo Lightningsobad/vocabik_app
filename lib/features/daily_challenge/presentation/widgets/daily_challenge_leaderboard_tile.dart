@@ -20,6 +20,7 @@ class DailyChallengeLeaderboardTile extends StatelessWidget {
 
     return SharedLeaderboardTile(
       rank: item.rank,
+      userId: item.userId,
       userName: item.userName,
       avatarUrl: item.avatarUrl,
       isCurrentUser: item.isCurrentUser,
