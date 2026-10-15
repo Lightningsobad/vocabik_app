@@ -20,7 +20,7 @@ class BadgeSectionWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.badges,
-    this.childAspectRatio = 1.23,
+    this.childAspectRatio = 0.85,
     this.crossAxisSpacing = AppSpacing.md,
     this.mainAxisSpacing = AppSpacing.md,
     this.titleSpacing = AppSpacing.md,

@@ -1895,13 +1895,13 @@ abstract class AppLocalizations {
   /// No description provided for @xpLeaderboardResetsIn.
   ///
   /// In vi, this message translates to:
-  /// **'Làm mới sau: {time}'**
+  /// **'Làm mới: {time}'**
   String xpLeaderboardResetsIn(String time);
 
   /// No description provided for @xpLeaderboardResetsInDays.
   ///
   /// In vi, this message translates to:
-  /// **'Làm mới sau: {days} ngày'**
+  /// **'Làm mới: {days} ngày'**
   String xpLeaderboardResetsInDays(int days);
 
   /// No description provided for @xpLeaderboardResetsInHours.

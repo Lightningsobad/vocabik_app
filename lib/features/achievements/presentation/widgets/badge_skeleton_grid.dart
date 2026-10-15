@@ -20,7 +20,7 @@ class BadgeSkeletonGrid extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: AppSpacing.md,
         mainAxisSpacing: AppSpacing.md,
-        childAspectRatio: 1.0,
+        childAspectRatio: 0.85,
       ),
       itemCount: itemCount,
       itemBuilder: (context, index) {

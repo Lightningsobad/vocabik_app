@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocabik_app/core/di/injection.dart';
-import 'package:vocabik_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/features/profile/presentation/widgets/account_tab_content.dart';
 import 'package:vocabik_app/features/profile/presentation/widgets/delete_account_confirmation_dialog.dart';

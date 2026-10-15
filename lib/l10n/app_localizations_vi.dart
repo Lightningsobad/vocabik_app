@@ -981,12 +981,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String xpLeaderboardResetsIn(String time) {
-    return 'Làm mới sau: $time';
+    return 'Làm mới: $time';
   }
 
   @override
   String xpLeaderboardResetsInDays(int days) {
-    return 'Làm mới sau: $days ngày';
+    return 'Làm mới: $days ngày';
   }
 
   @override

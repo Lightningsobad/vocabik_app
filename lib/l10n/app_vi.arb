@@ -476,7 +476,7 @@
   "dailyChallengeNoParticipants": "Chưa có ai tham gia hôm nay. Hãy là người đầu tiên!",
   "dailyChallengeNotConfigured": "Chưa có thử thách nào cho hôm nay",
   "xpLeaderboardTitle": "Bảng xếp hạng XP",
-  "xpLeaderboardResetsIn": "Làm mới sau: {time}",
+  "xpLeaderboardResetsIn": "Làm mới: {time}",
   "@xpLeaderboardResetsIn": {
     "placeholders": {
       "time": {
@@ -484,7 +484,7 @@
       }
     }
   },
-  "xpLeaderboardResetsInDays": "Làm mới sau: {days} ngày",
+  "xpLeaderboardResetsInDays": "Làm mới: {days} ngày",
   "@xpLeaderboardResetsInDays": {
     "placeholders": {
       "days": {

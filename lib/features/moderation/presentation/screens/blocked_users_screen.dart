@@ -178,7 +178,7 @@ class _BlockedUsersView extends StatelessWidget {
                 vertical: AppSpacing.md,
               ),
               itemCount: state.users.length,
-              separatorBuilder: (_, __) =>
+              separatorBuilder: (_, _) =>
                   const SizedBox(height: AppSpacing.sm2),
               itemBuilder: (context, index) {
                 final user = state.users[index];
