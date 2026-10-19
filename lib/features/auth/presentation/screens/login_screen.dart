@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,9 +43,26 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late final TapGestureRecognizer _termsRecognizer;
+  late final TapGestureRecognizer _privacyRecognizer;
+
+  @override
+  void initState() {
+    super.initState();
+    _termsRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        context.push('/terms-of-service');
+      };
+    _privacyRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        context.push('/privacy-policy');
+      };
+  }
 
   @override
   void dispose() {
+    _termsRecognizer.dispose();
+    _privacyRecognizer.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -163,6 +181,40 @@ class _LoginViewState extends State<LoginView> {
                   onPressed: _submit,
                 );
               },
+            ),
+            const SizedBox(height: 16),
+            // Terms & Privacy Notice
+            Text.rich(
+              TextSpan(
+                text: l10n.signUpTermsPrefix,
+                style: GoogleFonts.nunito(
+                  fontSize: 12,
+                  color: colors?.textSecondary,
+                ),
+                children: [
+                  TextSpan(
+                    text: l10n.termsText,
+                    recognizer: _termsRecognizer,
+                    style: TextStyle(
+                      color: colors?.primaryAccent,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  TextSpan(
+                    text: l10n.signUpTermsAnd,
+                    style: TextStyle(color: colors?.textSecondary),
+                  ),
+                  TextSpan(
+                    text: l10n.securityText,
+                    recognizer: _privacyRecognizer,
+                    style: TextStyle(
+                      color: colors?.primaryAccent,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             AuthFooterLink(

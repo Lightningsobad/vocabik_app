@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 
 abstract class AuthLocalDataSource {
+  static const currentLegalVersion = '2026-10-15';
   Future<void> init();
   Future<void> saveTokens(String accessToken, String refreshToken);
   String? getAccessToken();
@@ -16,6 +17,8 @@ abstract class AuthLocalDataSource {
   Future<void> clear();
   Future<void> setCefrSkipped(bool value);
   bool isCefrSkipped();
+  Future<void> setLegalAccepted(String version, {String? userId});
+  bool isLegalAccepted(String version, {String? userId});
 }
 
 @LazySingleton(as: AuthLocalDataSource)
@@ -117,5 +120,21 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   bool isCefrSkipped() {
     return _prefs.getBool(_cefrSkippedKey) ?? false;
+  }
+
+  static const _legalAcceptedPrefix = 'LEGAL_ACCEPTED_VERSION_';
+
+  @override
+  Future<void> setLegalAccepted(String version, {String? userId}) async {
+    final key = '$_legalAcceptedPrefix${userId ?? 'current'}';
+    await _prefs.setString(key, version);
+  }
+
+  @override
+  bool isLegalAccepted(String version, {String? userId}) {
+    final key = '$_legalAcceptedPrefix${userId ?? 'current'}';
+    final accepted = _prefs.getString(key) ??
+        (userId != null ? _prefs.getString('${_legalAcceptedPrefix}current') : null);
+    return accepted == version;
   }
 }

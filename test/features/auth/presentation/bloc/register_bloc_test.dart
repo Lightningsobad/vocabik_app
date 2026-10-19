@@ -60,6 +60,16 @@ class FakeAuthLocalDataSource implements AuthLocalDataSource {
   Future<void> setCefrSkipped(bool value) async {
     skipped = value;
   }
+
+  String? legalAcceptedVersion;
+  @override
+  Future<void> setLegalAccepted(String version, {String? userId}) async {
+    legalAcceptedVersion = version;
+  }
+
+  @override
+  bool isLegalAccepted(String version, {String? userId}) =>
+      legalAcceptedVersion == version;
 }
 
 class MockSocialAuthService implements SocialAuthService {
@@ -168,18 +178,20 @@ void main() {
   setUp(() {
     socialAuthService = MockSocialAuthService();
     repository = MockAuthRepository();
+    final localDataSource = FakeAuthLocalDataSource();
     registerUseCase = RegisterUseCase(repository);
     loginWithGoogleUseCase = LoginWithGoogleUseCase(repository);
     authBloc = AuthBloc(
       SignOutUseCase(repository),
       GetMeUseCase(repository),
-      FakeAuthLocalDataSource(),
+      localDataSource,
     );
     registerBloc = RegisterBloc(
       registerUseCase,
       loginWithGoogleUseCase,
       socialAuthService,
       authBloc,
+      localDataSource,
     );
   });
 

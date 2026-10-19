@@ -98,9 +98,12 @@ class PrimaryButton extends StatelessWidget {
                     leadingIcon!,
                     const SizedBox(width: AppSpacing.sm),
                   ],
-                  Text(
-                    text,
-                    style: effectiveTextStyle,
+                  Flexible(
+                    child: Text(
+                      text,
+                      style: effectiveTextStyle,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   if (trailingIcon != null) ...[
                     const SizedBox(width: AppSpacing.sm),

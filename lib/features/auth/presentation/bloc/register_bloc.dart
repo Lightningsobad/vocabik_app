@@ -12,6 +12,8 @@ import '../models/display_name_input.dart';
 import '../models/password_strength.dart';
 import '../../domain/use_cases/register_use_case.dart';
 import '../../domain/use_cases/login_with_google_use_case.dart';
+import '../../../../core/di/injection.dart';
+import '../../data/data_sources/auth_local_data_source.dart';
 import '../../../../core/services/social_auth_service.dart';
 import 'auth_bloc.dart';
 
@@ -25,13 +27,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final LoginWithGoogleUseCase _loginWithGoogleUseCase;
   final SocialAuthService _socialAuthService;
   final AuthBloc _authBloc;
+  final AuthLocalDataSource _authLocalDataSource;
 
   RegisterBloc(
     this._registerUseCase,
     this._loginWithGoogleUseCase,
     this._socialAuthService,
-    this._authBloc,
-  ) : super(const RegisterState()) {
+    this._authBloc, [
+    AuthLocalDataSource? authLocalDataSource,
+  ])  : _authLocalDataSource = authLocalDataSource ?? getIt<AuthLocalDataSource>(),
+        super(const RegisterState()) {
     on<RegisterDisplayNameChanged>(
       _onDisplayNameChanged,
       transformer: debounce(const Duration(milliseconds: 300)),
@@ -133,14 +138,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       ),
     );
 
-    result.fold(
-      (failure) => emit(
+    await result.fold(
+      (failure) async => emit(
         state.copyWith(
           status: RegisterStatus.failure,
           errorMessage: failure.message,
         ),
       ),
-      (_) => emit(state.copyWith(status: RegisterStatus.success)),
+      (_) async {
+        await _authLocalDataSource.setLegalAccepted(
+          AuthLocalDataSource.currentLegalVersion,
+        );
+        emit(state.copyWith(status: RegisterStatus.success));
+      },
     );
   }
 
@@ -168,8 +178,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       }
       final result = await _loginWithGoogleUseCase(idToken: idToken);
 
-      result.fold(
-        (failure) {
+      await result.fold(
+        (failure) async {
           if (kDebugMode) {
             debugPrint('[RegisterBloc] Backend Google Sign-Up failed: ${failure.message}');
           }
@@ -178,10 +188,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             errorMessage: failure.message,
           ));
         },
-        (user) {
+        (user) async {
           if (kDebugMode) {
             debugPrint('[RegisterBloc] Backend Google Sign-Up succeeded');
           }
+          await _authLocalDataSource.setLegalAccepted(
+            AuthLocalDataSource.currentLegalVersion,
+            userId: user.id,
+          );
           _authBloc.add(UserAuthenticated(user));
           emit(state.copyWith(status: RegisterStatus.socialSuccess));
         },

@@ -53,5 +53,18 @@ void main() {
       expect(dataSource.getRefreshToken(), isNull);
       expect(await secureStorage.read(key: 'ACCESS_TOKEN'), isNull);
     });
+
+    test('sets and checks legal accepted status', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final dataSource = AuthLocalDataSourceImpl(prefs);
+
+      expect(dataSource.isLegalAccepted(AuthLocalDataSource.currentLegalVersion, userId: 'user1'), isFalse);
+
+      await dataSource.setLegalAccepted(AuthLocalDataSource.currentLegalVersion, userId: 'user1');
+      expect(dataSource.isLegalAccepted(AuthLocalDataSource.currentLegalVersion, userId: 'user1'), isTrue);
+      expect(dataSource.isLegalAccepted('different_version', userId: 'user1'), isFalse);
+      expect(dataSource.isLegalAccepted(AuthLocalDataSource.currentLegalVersion, userId: 'user2'), isFalse);
+    });
   });
 }

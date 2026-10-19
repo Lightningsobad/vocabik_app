@@ -41,6 +41,12 @@ class FakeAuthLocalDataSource implements AuthLocalDataSource {
 
   @override
   Future<void> setCefrSkipped(bool value) async {}
+
+  @override
+  bool isLegalAccepted(String version, {String? userId}) => true;
+
+  @override
+  Future<void> setLegalAccepted(String version, {String? userId}) async {}
 }
 
 Widget createTestApp(Widget child) {

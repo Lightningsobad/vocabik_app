@@ -642,13 +642,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get termsText => 'Terms';
 
   @override
-  String get securityText => 'Security';
+  String get securityText => 'Privacy Policy';
 
   @override
-  String get signUpTermsPrefix => 'By signing up, you agree to ';
+  String get signUpTermsPrefix =>
+      'By continuing, you confirm that you are at least 13 years old and agree to our ';
 
   @override
   String get signUpTermsAnd => ' & ';
+
+  @override
+  String get legalConsentTitle => 'Terms & Privacy Update';
+
+  @override
+  String get legalConsentDescription =>
+      'Vocabik has updated its Terms of Service and Privacy Policy for users aged 13 and older. Please review and accept to continue.';
+
+  @override
+  String get legalConsentAgreeButton => 'I\'m 13+ & I Agree';
 
   @override
   String get verifySuccessRedirect => 'Verification successful. Redirecting...';
@@ -766,14 +777,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get legalLastUpdatedDefaultDate => '15/06/2026';
+  String get legalLastUpdatedDefaultDate => '15/10/2026';
 
   @override
   String get tosSection1Title => '1. Acceptance of Terms';
 
   @override
   String get tosSection1Content =>
-      'By using Vocabik, you agree to these terms, YouTube\'s Terms of Service (https://www.youtube.com/t/terms), and Google\'s Privacy Policy (https://policies.google.com/privacy).';
+      'Vocabik is an English learning service designed for individuals who are at least 13 years old. By using Vocabik and creating an account, you confirm that you are 13 years of age or older, and agree to these Terms, YouTube\'s Terms of Service (https://www.youtube.com/t/terms), and Google\'s Privacy Policy (https://policies.google.com/privacy).';
 
   @override
   String get tosSection2Title => '2. User Account';
@@ -811,7 +822,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacySummaryContent =>
-      'We collect email, display name, and learning data to provide services. We do not sell your data.';
+      'Vocabik is designed for users aged 13 and older. We collect email, display name, and learning data to provide services and do not sell your data. We do not knowingly collect personal information from children under 13.';
 
   @override
   String get privacySection1Title => '1. Information We Collect';
@@ -839,7 +850,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacySection4Content =>
-      'We collect necessary authentication tokens and pseudonymous diagnostic crash logs to improve app performance.';
+      'We collect necessary authentication tokens and pseudonymous diagnostic crash logs linked to your account to improve app performance.';
 
   @override
   String get privacySection5Title => '5. Your Rights & Data Deletion';

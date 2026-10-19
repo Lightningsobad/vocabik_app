@@ -8,10 +8,12 @@ import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrap
 import 'package:vocabik_app/shared/presentation/widgets/buttons/primary_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/di/injection.dart';
+import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/features/auth/presentation/widgets/auth_scaffold.dart';
 import 'package:vocabik_app/features/profile/presentation/cubit/cefr_selection_cubit.dart';
 import 'package:vocabik_app/features/profile/presentation/cubit/cefr_selection_state.dart';
 import 'package:vocabik_app/features/profile/presentation/widgets/cefr_card.dart';
+import 'package:vocabik_app/features/profile/presentation/widgets/delete_account_confirmation_dialog.dart';
 
 class CefrSelectionScreen extends StatelessWidget {
   const CefrSelectionScreen({super.key});
@@ -176,6 +178,117 @@ class _CefrSelectionScreenViewState extends State<CefrSelectionScreenView> {
                         ),
                       ),
                     ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+
+                  // Actions: Sign out / Delete account
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: AppSpacing.xs,
+                    runSpacing: AppSpacing.xs,
+                    children: [
+                      BounceWrapper(
+                        onTap: () {
+                          context.read<AuthBloc>().add(LogoutRequested());
+                          context.go('/login');
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.xs,
+                            vertical: AppSpacing.xs,
+                          ),
+                          child: Text(
+                            l10n.accountLogOut,
+                            style: GoogleFonts.nunito(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: colors?.textSecondary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '•',
+                        style: GoogleFonts.nunito(
+                          fontSize: 13,
+                          color: colors?.textSecondary,
+                        ),
+                      ),
+                      BounceWrapper(
+                        onTap: () => DeleteAccountConfirmationDialog.show(context),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.xs,
+                            vertical: AppSpacing.xs,
+                          ),
+                          child: Text(
+                            l10n.accountDeletePermanently,
+                            style: GoogleFonts.nunito(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: colors?.danger ?? Colors.red,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+
+                  // Legal Links
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: AppSpacing.xs,
+                    runSpacing: AppSpacing.xs,
+                    children: [
+                      BounceWrapper(
+                        onTap: () => context.push('/terms-of-service'),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.xs,
+                            vertical: AppSpacing.xs,
+                          ),
+                          child: Text(
+                            l10n.termsText,
+                            style: GoogleFonts.nunito(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: colors?.textSecondary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '•',
+                        style: GoogleFonts.nunito(
+                          fontSize: 12,
+                          color: colors?.textSecondary,
+                        ),
+                      ),
+                      BounceWrapper(
+                        onTap: () => context.push('/privacy-policy'),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.xs,
+                            vertical: AppSpacing.xs,
+                          ),
+                          child: Text(
+                            l10n.securityText,
+                            style: GoogleFonts.nunito(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: colors?.textSecondary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
