@@ -1,6 +1,7 @@
 {
   "@@locale": "en",
   "homeTitle": "Home",
+  "allPagesTitle": "All pages",
   "homeScreenContent": "Home Screen Content",
   "discoverTitle": "Discover",
   "progressTitle": "Progress",
