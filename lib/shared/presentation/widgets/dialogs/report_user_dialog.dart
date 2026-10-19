@@ -30,9 +30,11 @@ class ReportUserDialog extends StatefulWidget {
     String targetType = 'user',
     VoidCallback? onUserBlocked,
   }) {
-    final effectiveTargetId = targetId ?? userName;
+    if (targetId == null || targetId.isEmpty) {
+      return Future.value();
+    }
     if (AuthUtils.isCurrentSelf(
-      userId: effectiveTargetId,
+      userId: targetId,
       userName: userName,
       context: context,
     )) {
@@ -42,7 +44,7 @@ class ReportUserDialog extends StatefulWidget {
     return showDialog<void>(
       context: context,
       builder: (_) => ReportUserDialog(
-        targetId: effectiveTargetId,
+        targetId: targetId,
         userName: userName,
         targetType: targetType,
         onUserBlocked: onUserBlocked,

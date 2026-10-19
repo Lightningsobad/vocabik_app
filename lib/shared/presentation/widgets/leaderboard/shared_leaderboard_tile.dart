@@ -203,7 +203,8 @@ class SharedLeaderboardTile extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        final id = userId ?? userName;
+        final id = userId;
+        if (id == null || id.isEmpty) return;
         UserActionBottomSheet.show(
           context,
           userId: id,

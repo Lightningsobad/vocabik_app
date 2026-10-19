@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/core/utils/auth_utils.dart';
@@ -6,6 +7,7 @@ import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_sour
 import 'package:vocabik_app/features/auth/data/models/user_model.dart';
 import 'package:vocabik_app/features/moderation/presentation/widgets/block_user_dialog.dart';
 import 'package:vocabik_app/features/moderation/presentation/widgets/user_action_bottom_sheet.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/dialogs/report_user_dialog.dart';
 import 'package:vocabik_app/shared/presentation/widgets/leaderboard/shared_leaderboard_tile.dart';
 import 'package:vocabik_app/shared/theme/app_theme.dart';
@@ -41,6 +43,21 @@ class FakeAuthLocalDataSource implements AuthLocalDataSource {
   Future<void> setCefrSkipped(bool value) async {}
 }
 
+Widget createTestApp(Widget child) {
+  return MaterialApp(
+    theme: AppTheme.lightTheme,
+    locale: const Locale('en'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('en'), Locale('vi')],
+    home: Scaffold(body: child),
+  );
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -61,12 +78,6 @@ void main() {
   });
 
   group('AuthUtils', () {
-    test('isCurrentSelf returns true for literal "You"', () {
-      expect(AuthUtils.isCurrentSelf(userName: 'You'), isTrue);
-      expect(AuthUtils.isCurrentSelf(userName: 'you'), isTrue);
-      expect(AuthUtils.isCurrentSelf(userName: ' YOU '), isTrue);
-    });
-
     test('isCurrentSelf returns false when no user is logged in', () {
       expect(AuthUtils.isCurrentSelf(userId: 'u1', userName: 'John'), isFalse);
     });
@@ -84,7 +95,37 @@ void main() {
       expect(AuthUtils.isCurrentSelf(userId: 'other_456'), isFalse);
     });
 
-    test('isCurrentSelf returns true when displayName matches current user', () {
+    test('isCurrentSelf returns false for literal "You" when target has different userId', () {
+      fakeAuthLocalDataSource.user = const UserModel(
+        id: 'me_123',
+        email: 'me@example.com',
+        displayName: 'Alice',
+        tier: 'free',
+        emailVerified: true,
+      );
+
+      expect(AuthUtils.isCurrentSelf(userId: 'other_456', userName: 'You'), isFalse);
+      expect(AuthUtils.isCurrentSelf(userId: 'other_456', userName: 'you'), isFalse);
+      expect(AuthUtils.isCurrentSelf(userId: 'other_456', userName: ' YOU '), isFalse);
+      expect(AuthUtils.isCurrentSelf(userName: 'You'), isFalse);
+    });
+
+    test('isCurrentSelf returns false when target has different userId even if displayName matches current user', () {
+      fakeAuthLocalDataSource.user = const UserModel(
+        id: 'me_123',
+        email: 'me@example.com',
+        displayName: 'Alice',
+        tier: 'free',
+        emailVerified: true,
+      );
+
+      // Same name, different ID -> MUST be false
+      expect(AuthUtils.isCurrentSelf(userId: 'other_456', userName: 'Alice'), isFalse);
+      // Same ID -> true
+      expect(AuthUtils.isCurrentSelf(userId: 'me_123', userName: 'Alice'), isTrue);
+    });
+
+    test('isCurrentSelf falls back to displayName only when userId is omitted', () {
       fakeAuthLocalDataSource.user = const UserModel(
         id: 'me_123',
         email: 'me@example.com',
@@ -109,16 +150,13 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.lightTheme,
-          home: const Scaffold(
-            body: SharedLeaderboardTile(
-              rank: 1,
-              userId: 'user_self',
-              userName: 'quang pham',
-              isCurrentUser: false, // Notice false from API, but ID matches
-              trailing: Text('100 XP'),
-            ),
+        createTestApp(
+          const SharedLeaderboardTile(
+            rank: 1,
+            userId: 'user_self',
+            userName: 'quang pham',
+            isCurrentUser: false, // Notice false from API, but ID matches
+            trailing: Text('100 XP'),
           ),
         ),
       );
@@ -145,14 +183,12 @@ void main() {
 
       late BuildContext ctx;
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                ctx = context;
-                return const SizedBox();
-              },
-            ),
+        createTestApp(
+          Builder(
+            builder: (context) {
+              ctx = context;
+              return const SizedBox();
+            },
           ),
         ),
       );
@@ -178,14 +214,12 @@ void main() {
 
       late BuildContext ctx;
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                ctx = context;
-                return const SizedBox();
-              },
-            ),
+        createTestApp(
+          Builder(
+            builder: (context) {
+              ctx = context;
+              return const SizedBox();
+            },
           ),
         ),
       );
@@ -211,14 +245,12 @@ void main() {
 
       late BuildContext ctx;
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                ctx = context;
-                return const SizedBox();
-              },
-            ),
+        createTestApp(
+          Builder(
+            builder: (context) {
+              ctx = context;
+              return const SizedBox();
+            },
           ),
         ),
       );
@@ -232,6 +264,175 @@ void main() {
 
       expect(result, isFalse);
       expect(find.byType(BlockUserDialog), findsNothing);
+    });
+
+    testWidgets('Moderation dialogs guard against empty user/target ID', (tester) async {
+      fakeAuthLocalDataSource.user = const UserModel(
+        id: 'user_self',
+        email: 'self@example.com',
+        displayName: 'quang pham',
+        tier: 'free',
+        emailVerified: true,
+      );
+
+      late BuildContext ctx;
+      await tester.pumpWidget(
+        createTestApp(
+          Builder(
+            builder: (context) {
+              ctx = context;
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      await UserActionBottomSheet.show(ctx, userId: '', userName: 'Alice');
+      await ReportUserDialog.show(ctx, targetId: '', userName: 'Alice');
+      final blockResult = await BlockUserDialog.show(ctx, userId: '', userName: 'Alice');
+      await tester.pumpAndSettle();
+
+      expect(blockResult, isFalse);
+      expect(find.byType(UserActionBottomSheet), findsNothing);
+      expect(find.byType(ReportUserDialog), findsNothing);
+      expect(find.byType(BlockUserDialog), findsNothing);
+    });
+  });
+
+  group('Other-user moderation paths enabled', () {
+    testWidgets('SharedLeaderboardTile opens bottom sheet for other user named "You"', (tester) async {
+      fakeAuthLocalDataSource.user = const UserModel(
+        id: 'user_self',
+        email: 'self@example.com',
+        displayName: 'Alice',
+        tier: 'free',
+        emailVerified: true,
+      );
+
+      await tester.pumpWidget(
+        createTestApp(
+          const SharedLeaderboardTile(
+            rank: 2,
+            userId: 'user_other',
+            userName: 'You',
+            isCurrentUser: false,
+            trailing: Text('80 XP'),
+          ),
+        ),
+      );
+
+      // Verify YOU badge is NOT displayed for other user
+      expect(find.text('YOU'), findsNothing);
+
+      // Tap on the tile
+      await tester.tap(find.text('You'));
+      await tester.pumpAndSettle();
+
+      // Verify bottom sheet OPENS
+      expect(find.byType(UserActionBottomSheet), findsOneWidget);
+    });
+
+    testWidgets('SharedLeaderboardTile opens bottom sheet for other user with same displayName', (tester) async {
+      fakeAuthLocalDataSource.user = const UserModel(
+        id: 'user_self',
+        email: 'self@example.com',
+        displayName: 'Alice',
+        tier: 'free',
+        emailVerified: true,
+      );
+
+      await tester.pumpWidget(
+        createTestApp(
+          const SharedLeaderboardTile(
+            rank: 2,
+            userId: 'user_other',
+            userName: 'Alice',
+            isCurrentUser: false,
+            trailing: Text('80 XP'),
+          ),
+        ),
+      );
+
+      expect(find.text('YOU'), findsNothing);
+
+      await tester.tap(find.text('Alice'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(UserActionBottomSheet), findsOneWidget);
+    });
+
+    testWidgets('ReportUserDialog.show opens for other user named "You" or same displayName', (tester) async {
+      fakeAuthLocalDataSource.user = const UserModel(
+        id: 'user_self',
+        email: 'self@example.com',
+        displayName: 'Alice',
+        tier: 'free',
+        emailVerified: true,
+      );
+
+      late BuildContext ctx;
+      await tester.pumpWidget(
+        createTestApp(
+          Builder(
+            builder: (context) {
+              ctx = context;
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      // Test other user named "You"
+      ReportUserDialog.show(ctx, targetId: 'user_other_1', userName: 'You');
+      await tester.pumpAndSettle();
+      expect(find.byType(ReportUserDialog), findsOneWidget);
+
+      // Dismiss dialog
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+      expect(find.byType(ReportUserDialog), findsNothing);
+
+      // Test other user with same displayName "Alice"
+      ReportUserDialog.show(ctx, targetId: 'user_other_2', userName: 'Alice');
+      await tester.pumpAndSettle();
+      expect(find.byType(ReportUserDialog), findsOneWidget);
+    });
+
+    testWidgets('BlockUserDialog.show opens for other user named "You" or same displayName', (tester) async {
+      fakeAuthLocalDataSource.user = const UserModel(
+        id: 'user_self',
+        email: 'self@example.com',
+        displayName: 'Alice',
+        tier: 'free',
+        emailVerified: true,
+      );
+
+      late BuildContext ctx;
+      await tester.pumpWidget(
+        createTestApp(
+          Builder(
+            builder: (context) {
+              ctx = context;
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      // Test other user named "You"
+      BlockUserDialog.show(ctx, userId: 'user_other_1', userName: 'You');
+      await tester.pumpAndSettle();
+      expect(find.byType(BlockUserDialog), findsOneWidget);
+
+      // Dismiss dialog
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+      expect(find.byType(BlockUserDialog), findsNothing);
+
+      // Test other user with same displayName "Alice"
+      BlockUserDialog.show(ctx, userId: 'user_other_2', userName: 'Alice');
+      await tester.pumpAndSettle();
+      expect(find.byType(BlockUserDialog), findsOneWidget);
     });
   });
 }
