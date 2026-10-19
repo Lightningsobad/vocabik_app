@@ -39,42 +39,36 @@ class AuthUtils {
     // 1. Try matching by ID first (most accurate)
     final currentId = getCurrentUserId(context);
     if (currentId != null && currentId.isNotEmpty && userId != null && userId.isNotEmpty) {
-      if (currentId == userId) return true;
+      return currentId == userId;
     }
 
-    // 2. Fast check for literal 'You'
-    if (userName != null && userName.trim().toLowerCase() == 'you') {
-      return true;
-    }
-
-    // 3. Fallback check by display name
-    String? currentDisplayName;
-    if (context != null) {
-      try {
-        currentDisplayName = context.read<AuthBloc>().state.user?.displayName;
-      } catch (_) {}
-    }
-    if (currentDisplayName == null) {
-      try {
-        if (getIt.isRegistered<AuthBloc>()) {
-          currentDisplayName = getIt<AuthBloc>().state.user?.displayName;
-        }
-      } catch (_) {}
-    }
-    if (currentDisplayName == null) {
-      try {
-        if (getIt.isRegistered<AuthLocalDataSource>()) {
-          currentDisplayName = getIt<AuthLocalDataSource>().getUser()?.displayName;
-        }
-      } catch (_) {}
-    }
-
-    if (currentDisplayName != null && currentDisplayName.isNotEmpty) {
-      if (userName != null && userName.isNotEmpty && userName == currentDisplayName) {
-        return true;
+    // 2. Fallback check by display name only when userId is not provided
+    if (userId == null || userId.isEmpty) {
+      String? currentDisplayName;
+      if (context != null) {
+        try {
+          currentDisplayName = context.read<AuthBloc>().state.user?.displayName;
+        } catch (_) {}
       }
-      if (userId != null && userId.isNotEmpty && userId == currentDisplayName) {
-        return true;
+      if (currentDisplayName == null) {
+        try {
+          if (getIt.isRegistered<AuthBloc>()) {
+            currentDisplayName = getIt<AuthBloc>().state.user?.displayName;
+          }
+        } catch (_) {}
+      }
+      if (currentDisplayName == null) {
+        try {
+          if (getIt.isRegistered<AuthLocalDataSource>()) {
+            currentDisplayName = getIt<AuthLocalDataSource>().getUser()?.displayName;
+          }
+        } catch (_) {}
+      }
+
+      if (currentDisplayName != null && currentDisplayName.isNotEmpty) {
+        if (userName != null && userName.isNotEmpty && userName == currentDisplayName) {
+          return true;
+        }
       }
     }
 

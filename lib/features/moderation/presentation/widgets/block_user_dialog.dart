@@ -27,6 +27,9 @@ class BlockUserDialog extends StatefulWidget {
     required String userName,
     VoidCallback? onUserBlocked,
   }) {
+    if (userId.isEmpty) {
+      return Future.value(false);
+    }
     if (AuthUtils.isCurrentSelf(
       userId: userId,
       userName: userName,

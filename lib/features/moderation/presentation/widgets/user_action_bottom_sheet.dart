@@ -28,6 +28,9 @@ class UserActionBottomSheet extends StatelessWidget {
     required String userName,
     VoidCallback? onUserBlocked,
   }) {
+    if (userId.isEmpty) {
+      return Future.value();
+    }
     if (AuthUtils.isCurrentSelf(
       userId: userId,
       userName: userName,
@@ -61,115 +64,115 @@ class UserActionBottomSheet extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: colors.surfaceCard,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(AppRadius.xl),
+    return Material(
+      color: colors.surfaceCard,
+      borderRadius: const BorderRadius.vertical(
+        top: Radius.circular(AppRadius.xl),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: AppSpacing.sm2,
+          bottom: AppSpacing.lg3 + MediaQuery.paddingOf(context).bottom,
         ),
-      ),
-      padding: EdgeInsets.only(
-        top: AppSpacing.sm2,
-        bottom: AppSpacing.lg3 + MediaQuery.paddingOf(context).bottom,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Drag handle
-          Container(
-            width: AppSpacing.xl4,
-            height: AppSpacing.tn,
-            margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-            decoration: BoxDecoration(
-              color: colors.borderSubtle,
-              borderRadius: BorderRadius.circular(AppRadius.full),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.sm,
-            ),
-            child: Text(
-              userName,
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.lg,
-                fontWeight: FontWeight.bold,
-                color: colors.textPrimary,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Divider(color: colors.borderSubtle, height: 1.0),
-          const SizedBox(height: AppSpacing.sm),
-
-          // Option 1: Report
-          ListTile(
-            leading: Container(
-              padding: const EdgeInsets.all(AppSpacing.sm),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Drag handle
+            Container(
+              width: AppSpacing.xl4,
+              height: AppSpacing.tn,
+              margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
               decoration: BoxDecoration(
-                color: colors.warningSoft,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                LucideIcons.flag,
-                color: colors.warning,
-                size: AppSpacing.lg2,
+                color: colors.borderSubtle,
+                borderRadius: BorderRadius.circular(AppRadius.full),
               ),
             ),
-            title: Text(
-              l10n.reportUserOption,
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.md,
-                fontWeight: FontWeight.w600,
-                color: colors.warning,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.sm,
+              ),
+              child: Text(
+                userName,
+                style: AppTextStyles.custom(
+                  fontSize: AppFontSize.lg,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textPrimary,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              ReportUserDialog.show(
-                context,
-                targetId: userId,
-                userName: userName,
-                onUserBlocked: onUserBlocked,
-              );
-            },
-          ),
+            Divider(color: colors.borderSubtle, height: 1.0),
+            const SizedBox(height: AppSpacing.sm),
 
-          // Option 2: Block
-          ListTile(
-            leading: Container(
-              padding: const EdgeInsets.all(AppSpacing.sm),
-              decoration: BoxDecoration(
-                color: colors.dangerSoft,
-                shape: BoxShape.circle,
+            // Option 1: Report
+            ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: colors.warningSoft,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  LucideIcons.flag,
+                  color: colors.warning,
+                  size: AppSpacing.lg2,
+                ),
               ),
-              child: Icon(
-                LucideIcons.userX,
-                color: colors.danger,
-                size: AppSpacing.lg2,
+              title: Text(
+                l10n.reportUserOption,
+                style: AppTextStyles.custom(
+                  fontSize: AppFontSize.md,
+                  fontWeight: FontWeight.w600,
+                  color: colors.warning,
+                ),
               ),
+              onTap: () {
+                Navigator.of(context).pop();
+                ReportUserDialog.show(
+                  context,
+                  targetId: userId,
+                  userName: userName,
+                  onUserBlocked: onUserBlocked,
+                );
+              },
             ),
-            title: Text(
-              l10n.blockUserOption,
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.md,
-                fontWeight: FontWeight.w600,
-                color: colors.danger,
+
+            // Option 2: Block
+            ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: colors.dangerSoft,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  LucideIcons.userX,
+                  color: colors.danger,
+                  size: AppSpacing.lg2,
+                ),
               ),
+              title: Text(
+                l10n.blockUserOption,
+                style: AppTextStyles.custom(
+                  fontSize: AppFontSize.md,
+                  fontWeight: FontWeight.w600,
+                  color: colors.danger,
+                ),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                BlockUserDialog.show(
+                  context,
+                  userId: userId,
+                  userName: userName,
+                  onUserBlocked: onUserBlocked,
+                );
+              },
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              BlockUserDialog.show(
-                context,
-                userId: userId,
-                userName: userName,
-                onUserBlocked: onUserBlocked,
-              );
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
