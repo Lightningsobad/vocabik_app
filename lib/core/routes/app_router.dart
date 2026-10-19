@@ -21,6 +21,7 @@ import '../../features/exercise/presentation/screens/result_screen.dart';
 import '../../features/exercise/presentation/models/exercise_result_args.dart';
 import '../di/injection.dart';
 import '../../features/legal/presentation/screens/legal_screen.dart';
+import '../../features/legal/presentation/screens/legal_consent_screen.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../shared/domain/entities/video_entity.dart';
 import '../../shared/domain/enums/exercise_type.dart';
@@ -72,6 +73,81 @@ class PlaceholderScreen extends StatelessWidget {
   }
 }
 
+String? appRouterRedirect(BuildContext context, GoRouterState state) {
+  final localDataSource = getIt<AuthLocalDataSource>();
+  final isLoggedIn = localDataSource.getAccessToken() != null;
+
+  // Allowed routes for unauthenticated users
+  final unauthAllowedRoutes = [
+    '/',
+    '/login',
+    '/register',
+    '/verify-email',
+    '/forgot-password',
+    '/reset-password',
+    '/terms-of-service',
+    '/privacy-policy',
+  ];
+  final isUnauthAllowed =
+      unauthAllowedRoutes.contains(state.matchedLocation);
+
+  if (!isLoggedIn && !isUnauthAllowed) {
+    return '/login';
+  }
+
+  if (isLoggedIn) {
+    if (state.matchedLocation == '/terms-of-service' ||
+        state.matchedLocation == '/privacy-policy') {
+      return null;
+    }
+
+    final authBloc = getIt<AuthBloc>();
+    final user = authBloc.state.user ?? localDataSource.getUser();
+
+    final hasAcceptedLegal = localDataSource.isLegalAccepted(
+      AuthLocalDataSource.currentLegalVersion,
+      userId: user?.id,
+    );
+
+    if (!hasAcceptedLegal) {
+      if (state.matchedLocation != '/legal-consent') {
+        return '/legal-consent';
+      }
+      return null;
+    }
+
+    if (state.matchedLocation == '/legal-consent') {
+      return '/home';
+    }
+
+    // 1. Check if email is verified
+    if (user != null && !user.emailVerified) {
+      if (state.matchedLocation != '/verify-email') {
+        return '/verify-email';
+      }
+      return null;
+    }
+
+    // 2. Check if CEFR level is selected or skipped
+    final hasSkippedCefr = localDataSource.isCefrSkipped();
+    if (!hasSkippedCefr && user != null && user.cefrLevel == null) {
+      if (state.matchedLocation != '/cefr-selection') {
+        return '/cefr-selection';
+      }
+      return null;
+    }
+
+    if (state.matchedLocation == '/login' ||
+        state.matchedLocation == '/register' ||
+        state.matchedLocation == '/forgot-password' ||
+        state.matchedLocation == '/reset-password') {
+      return '/home';
+    }
+  }
+
+  return null;
+}
+
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
   observers: [
@@ -79,59 +155,7 @@ final GoRouter appRouter = GoRouter(
       getIt<AnalyticsService>().getNavigatorObserver(),
     CrashlyticsRouteObserver(),
   ],
-  redirect: (context, state) {
-    final localDataSource = getIt<AuthLocalDataSource>();
-    final isLoggedIn = localDataSource.getAccessToken() != null;
-
-    // Allowed routes for unauthenticated users
-    final unauthAllowedRoutes = [
-      '/',
-      '/login',
-      '/register',
-      '/verify-email',
-      '/forgot-password',
-      '/reset-password',
-      '/terms-of-service',
-      '/privacy-policy',
-    ];
-    final isUnauthAllowed =
-        unauthAllowedRoutes.contains(state.matchedLocation);
-
-    if (!isLoggedIn && !isUnauthAllowed) {
-      return '/login';
-    }
-
-    if (isLoggedIn) {
-      final authBloc = getIt<AuthBloc>();
-      final user = authBloc.state.user;
-
-      // 1. Check if email is verified
-      if (user != null && !user.emailVerified) {
-        if (state.matchedLocation != '/verify-email') {
-          return '/verify-email';
-        }
-        return null;
-      }
-
-      // 2. Check if CEFR level is selected or skipped
-      final hasSkippedCefr = localDataSource.isCefrSkipped();
-      if (!hasSkippedCefr && user != null && user.cefrLevel == null) {
-        if (state.matchedLocation != '/cefr-selection') {
-          return '/cefr-selection';
-        }
-        return null;
-      }
-
-      if (state.matchedLocation == '/login' ||
-          state.matchedLocation == '/register' ||
-          state.matchedLocation == '/forgot-password' ||
-          state.matchedLocation == '/reset-password') {
-        return '/home';
-      }
-    }
-
-    return null;
-  },
+  redirect: appRouterRedirect,
   routes: [
     GoRoute(
       path: '/',
@@ -169,6 +193,10 @@ final GoRouter appRouter = GoRouter(
         type: LegalScreenType.privacyPolicy,
         isFullscreen: true,
       ),
+    ),
+    GoRoute(
+      path: '/legal-consent',
+      builder: (context, state) => const LegalConsentScreen(),
     ),
     GoRoute(
       path: '/verify-email',

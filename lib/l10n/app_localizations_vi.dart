@@ -641,13 +641,24 @@ class AppLocalizationsVi extends AppLocalizations {
   String get termsText => 'Điều khoản';
 
   @override
-  String get securityText => 'Bảo mật';
+  String get securityText => 'Chính sách quyền riêng tư';
 
   @override
-  String get signUpTermsPrefix => 'Bằng cách đăng ký, bạn đồng ý ';
+  String get signUpTermsPrefix =>
+      'Bằng cách tiếp tục, bạn xác nhận từ 13 tuổi trở lên và đồng ý với ';
 
   @override
   String get signUpTermsAnd => ' & ';
+
+  @override
+  String get legalConsentTitle => 'Cập nhật Điều khoản & Bảo mật';
+
+  @override
+  String get legalConsentDescription =>
+      'Vocabik đã cập nhật Điều khoản dịch vụ và Chính sách quyền riêng tư dành cho người dùng từ 13 tuổi trở lên. Vui lòng xem lại và xác nhận để tiếp tục sử dụng.';
+
+  @override
+  String get legalConsentAgreeButton => 'Tôi từ 13 tuổi trở lên & Đồng ý';
 
   @override
   String get verifySuccessRedirect =>
@@ -765,14 +776,14 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get legalLastUpdatedDefaultDate => '15/06/2026';
+  String get legalLastUpdatedDefaultDate => '15/10/2026';
 
   @override
   String get tosSection1Title => '1. Chấp nhận điều khoản';
 
   @override
   String get tosSection1Content =>
-      'Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này, Điều khoản Dịch vụ của YouTube (https://www.youtube.com/t/terms) và Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).';
+      'Vocabik là dịch vụ học tiếng Anh dành cho người dùng từ 13 tuổi trở lên. Bằng việc sử dụng Vocabik và tạo tài khoản, bạn xác nhận mình từ 13 tuổi trở lên, đồng thời đồng ý với các Điều khoản này, Điều khoản Dịch vụ của YouTube (https://www.youtube.com/t/terms) và Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).';
 
   @override
   String get tosSection2Title => '2. Tài khoản người dùng';
@@ -810,7 +821,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get privacySummaryContent =>
-      'Chúng tôi thu thập email, tên hiển thị và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.';
+      'Vocabik dành cho người dùng từ 13 tuổi trở lên. Chúng tôi thu thập email, tên hiển thị và dữ liệu học tập để cung cấp dịch vụ và không bán dữ liệu của bạn. Chúng tôi không chủ đích thu thập dữ liệu cá nhân của trẻ em dưới 13 tuổi.';
 
   @override
   String get privacySection1Title => '1. Thông tin chúng tôi thu thập';
@@ -838,7 +849,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get privacySection4Content =>
-      'Chúng tôi lưu trữ token xác thực bảo mật và nhật ký lỗi chẩn đoán ẩn danh để cải thiện độ ổn định của ứng dụng.';
+      'Chúng tôi lưu trữ token xác thực bảo mật và nhật ký lỗi chẩn đoán định danh liên kết tài khoản (pseudonymous) để cải thiện độ ổn định của ứng dụng.';
 
   @override
   String get privacySection5Title => '5. Quyền của bạn & Yêu cầu xóa dữ liệu';

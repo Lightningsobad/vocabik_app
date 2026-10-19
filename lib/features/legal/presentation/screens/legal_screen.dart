@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:vocabik_app/core/di/injection.dart';
+import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
+import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vocabik_app/features/legal/presentation/widgets/privacy_policy_content_view.dart';
 import 'package:vocabik_app/features/legal/presentation/widgets/terms_of_service_content_view.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
@@ -42,7 +45,22 @@ class LegalScreen extends StatelessWidget {
               if (context.canPop()) {
                 context.pop();
               } else {
-                context.go('/register');
+                final isLoggedIn =
+                    getIt<AuthLocalDataSource>().getAccessToken() != null;
+                if (!isLoggedIn) {
+                  context.go('/login');
+                } else {
+                  final user = getIt<AuthBloc>().state.user;
+                  if (user != null && !user.emailVerified) {
+                    context.go('/verify-email');
+                  } else if (user != null &&
+                      user.cefrLevel == null &&
+                      !getIt<AuthLocalDataSource>().isCefrSkipped()) {
+                    context.go('/cefr-selection');
+                  } else {
+                    context.go('/home');
+                  }
+                }
               }
             },
             child: Icon(

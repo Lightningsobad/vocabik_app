@@ -1289,13 +1289,13 @@ abstract class AppLocalizations {
   /// No description provided for @securityText.
   ///
   /// In vi, this message translates to:
-  /// **'Bảo mật'**
+  /// **'Chính sách quyền riêng tư'**
   String get securityText;
 
   /// No description provided for @signUpTermsPrefix.
   ///
   /// In vi, this message translates to:
-  /// **'Bằng cách đăng ký, bạn đồng ý '**
+  /// **'Bằng cách tiếp tục, bạn xác nhận từ 13 tuổi trở lên và đồng ý với '**
   String get signUpTermsPrefix;
 
   /// No description provided for @signUpTermsAnd.
@@ -1303,6 +1303,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **' & '**
   String get signUpTermsAnd;
+
+  /// No description provided for @legalConsentTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật Điều khoản & Bảo mật'**
+  String get legalConsentTitle;
+
+  /// No description provided for @legalConsentDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vocabik đã cập nhật Điều khoản dịch vụ và Chính sách quyền riêng tư dành cho người dùng từ 13 tuổi trở lên. Vui lòng xem lại và xác nhận để tiếp tục sử dụng.'**
+  String get legalConsentDescription;
+
+  /// No description provided for @legalConsentAgreeButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tôi từ 13 tuổi trở lên & Đồng ý'**
+  String get legalConsentAgreeButton;
 
   /// No description provided for @verifySuccessRedirect.
   ///
@@ -1511,7 +1529,7 @@ abstract class AppLocalizations {
   /// No description provided for @legalLastUpdatedDefaultDate.
   ///
   /// In vi, this message translates to:
-  /// **'15/06/2026'**
+  /// **'15/10/2026'**
   String get legalLastUpdatedDefaultDate;
 
   /// No description provided for @tosSection1Title.
@@ -1523,7 +1541,7 @@ abstract class AppLocalizations {
   /// No description provided for @tosSection1Content.
   ///
   /// In vi, this message translates to:
-  /// **'Bằng cách sử dụng Vocabik, bạn đồng ý với các điều khoản này, Điều khoản Dịch vụ của YouTube (https://www.youtube.com/t/terms) và Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).'**
+  /// **'Vocabik là dịch vụ học tiếng Anh dành cho người dùng từ 13 tuổi trở lên. Bằng việc sử dụng Vocabik và tạo tài khoản, bạn xác nhận mình từ 13 tuổi trở lên, đồng thời đồng ý với các Điều khoản này, Điều khoản Dịch vụ của YouTube (https://www.youtube.com/t/terms) và Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).'**
   String get tosSection1Content;
 
   /// No description provided for @tosSection2Title.
@@ -1589,7 +1607,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySummaryContent.
   ///
   /// In vi, this message translates to:
-  /// **'Chúng tôi thu thập email, tên hiển thị và dữ liệu học tập để cung cấp dịch vụ. Chúng tôi không bán dữ liệu của bạn.'**
+  /// **'Vocabik dành cho người dùng từ 13 tuổi trở lên. Chúng tôi thu thập email, tên hiển thị và dữ liệu học tập để cung cấp dịch vụ và không bán dữ liệu của bạn. Chúng tôi không chủ đích thu thập dữ liệu cá nhân của trẻ em dưới 13 tuổi.'**
   String get privacySummaryContent;
 
   /// No description provided for @privacySection1Title.
@@ -1637,7 +1655,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySection4Content.
   ///
   /// In vi, this message translates to:
-  /// **'Chúng tôi lưu trữ token xác thực bảo mật và nhật ký lỗi chẩn đoán ẩn danh để cải thiện độ ổn định của ứng dụng.'**
+  /// **'Chúng tôi lưu trữ token xác thực bảo mật và nhật ký lỗi chẩn đoán định danh liên kết tài khoản (pseudonymous) để cải thiện độ ổn định của ứng dụng.'**
   String get privacySection4Content;
 
   /// No description provided for @privacySection5Title.

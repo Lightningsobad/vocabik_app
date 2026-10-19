@@ -53,6 +53,12 @@ class FakeAuthLocalDataSource implements AuthLocalDataSource {
   Future<void> setCefrSkipped(bool value) async {
     skipped = value;
   }
+
+  @override
+  bool isLegalAccepted(String version, {String? userId}) => true;
+
+  @override
+  Future<void> setLegalAccepted(String version, {String? userId}) async {}
 }
 
 class MockHttpClientAdapter implements HttpClientAdapter {
