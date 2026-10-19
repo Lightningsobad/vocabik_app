@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeTitle => 'Home';
 
   @override
+  String get allPagesTitle => 'All pages';
+
+  @override
   String get homeScreenContent => 'Home Screen Content';
 
   @override

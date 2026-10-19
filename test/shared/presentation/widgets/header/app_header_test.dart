@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/widgets/header/app_navigation_sheet.dart';
 import 'package:vocabik_app/shared/gamification/cubit/gamification_global_cubit.dart';
 import 'package:vocabik_app/shared/localization/cubit/localization_cubit.dart';
 import 'package:vocabik_app/shared/localization/domain/repositories/localization_repository.dart';
@@ -62,6 +66,14 @@ void main() {
       ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,
+        locale: const Locale('vi'),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('vi'), Locale('en')],
         home: MediaQuery(
           data: MediaQueryData(size: screenSize),
           child: Scaffold(
@@ -111,5 +123,42 @@ void main() {
       expect(find.byType(StatBadge), findsNWidgets(2));
       expect(tester.takeException(), isNull);
     }
+  });
+
+  testWidgets('AppHeader opens AppNavigationSheet when layoutGrid icon is tapped with null onMenuTap', (tester) async {
+    await tester.pumpWidget(buildTestWidget(
+      child: const AppHeader(),
+    ));
+    await tester.pumpAndSettle();
+
+    final layoutGridFinder = find.byIcon(LucideIcons.layoutGrid);
+    expect(layoutGridFinder, findsOneWidget);
+
+    await tester.tap(layoutGridFinder);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(AppNavigationSheet), findsOneWidget);
+    expect(find.text('Tất cả các trang'), findsOneWidget);
+  });
+
+  testWidgets('AppHeader triggers custom onMenuTap when provided', (tester) async {
+    var tapped = false;
+    await tester.pumpWidget(buildTestWidget(
+      child: AppHeader(
+        onMenuTap: () {
+          tapped = true;
+        },
+      ),
+    ));
+    await tester.pumpAndSettle();
+
+    final layoutGridFinder = find.byIcon(LucideIcons.layoutGrid);
+    expect(layoutGridFinder, findsOneWidget);
+
+    await tester.tap(layoutGridFinder);
+    await tester.pumpAndSettle();
+
+    expect(tapped, isTrue);
+    expect(find.byType(AppNavigationSheet), findsNothing);
   });
 }

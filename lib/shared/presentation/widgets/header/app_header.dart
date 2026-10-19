@@ -8,6 +8,7 @@ import 'header_pill_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'stat_badge.dart';
 import 'header_circle_button.dart';
+import 'app_navigation_sheet.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -162,7 +163,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                         size: 16,
                         color: colors.textSecondary,
                       ),
-                      onTap: onMenuTap ?? () {},
+                      onTap: onMenuTap ?? () => AppNavigationSheet.show(context),
                     ),
                   ],
                 ),

@@ -12,6 +12,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get homeTitle => 'Trang chủ';
 
   @override
+  String get allPagesTitle => 'Tất cả các trang';
+
+  @override
   String get homeScreenContent => 'Nội dung trang chủ';
 
   @override

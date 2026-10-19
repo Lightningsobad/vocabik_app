@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'Trang chủ'**
   String get homeTitle;
 
+  /// No description provided for @allPagesTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả các trang'**
+  String get allPagesTitle;
+
   /// No description provided for @homeScreenContent.
   ///
   /// In vi, this message translates to:
