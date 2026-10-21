@@ -1289,4 +1289,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blocking => 'Blocking...';
+
+  @override
+  String get reportVideoTitle => 'Report video';
+
+  @override
+  String reportVideoSubtitle(String videoTitle) {
+    return 'Select a reason for reporting video “$videoTitle”:';
+  }
+
+  @override
+  String get reportVideoOption => 'Report this video';
+
+  @override
+  String get reportVideoTooltip => 'Report video violation';
 }

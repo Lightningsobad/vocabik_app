@@ -85,7 +85,7 @@
   "homeAll": "All",
   "homeDailyChallenge": "Today's Daily Challenge",
   "homeTrending": "Trending this week",
-  "homeViewAll": "See all \u2192",
+  "homeViewAll": "See all →",
   "homeRecentlyAdded": "Newly added",
   "homeLibrary": "Library",
   "homePrivacyPolicy": "Privacy Policy",
@@ -224,7 +224,7 @@
   "videoDetailVocabulary": "Vocabulary",
   "videoDetailGrammar": "Grammar",
   "videoDetailSpeed": "Speed",
-  "videoDetailStartPractice": "Start practice \u2192",
+  "videoDetailStartPractice": "Start practice →",
   "videoDetailBlanksCount": "{count} blanks",
   "@videoDetailBlanksCount": {
     "placeholders": {
@@ -689,5 +689,16 @@
     }
   },
   "unblocking": "Unblocking...",
-  "blocking": "Blocking..."
+  "blocking": "Blocking...",
+  "reportVideoTitle": "Report video",
+  "reportVideoSubtitle": "Select a reason for reporting video “{videoTitle}”:",
+  "@reportVideoSubtitle": {
+    "placeholders": {
+      "videoTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "reportVideoOption": "Report this video",
+  "reportVideoTooltip": "Report video violation"
 }

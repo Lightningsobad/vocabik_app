@@ -13,6 +13,7 @@ import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_cubit.
 import 'package:vocabik_app/features/exercise/presentation/cubit/exercise_state.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/answer_interaction_area.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_header_widget.dart';
+import 'package:vocabik_app/shared/presentation/widgets/dialogs/report_content_dialog.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_line_widget.dart';
 import 'package:vocabik_app/features/exercise/presentation/widgets/exercise_video_player_widget.dart';
 import 'package:vocabik_app/features/exercise/presentation/models/exercise_result_args.dart';
@@ -125,6 +126,16 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
 
     _videoStateSubscription = _youtubeController.videoStateStream.listen(
       _onVideoStateChanged,
+    );
+  }
+
+  void _handleReport() {
+    _youtubeController.pauseVideo();
+    ReportContentDialog.show(
+      context,
+      targetId: widget.videoId,
+      targetTitle: widget.videoTitle,
+      targetType: 'video',
     );
   }
 
@@ -301,6 +312,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                         progress: state.progress,
                         currentStep: state.currentStep,
                         totalSteps: state.totalSteps,
+                        onReport: _handleReport,
                         isLandscape: true,
                       ),
 
@@ -446,6 +458,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                     progress: state.progress,
                     currentStep: state.currentStep,
                     totalSteps: state.totalSteps,
+                    onReport: _handleReport,
                   ),
 
                   // Video Player with custom controls overlay

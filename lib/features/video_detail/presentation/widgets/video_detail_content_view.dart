@@ -6,6 +6,7 @@ import 'package:vocabik_app/features/video_detail/presentation/cubit/video_detai
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/buttons/primary_button.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/course_tag_badge.dart';
+import 'package:vocabik_app/shared/presentation/widgets/dialogs/report_content_dialog.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
@@ -36,39 +37,79 @@ class VideoDetailContentView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
-          // Custom Back Button row matching design
+          // Custom Back Button & Report Video row matching design
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            child: BounceWrapper(
-              onTap: () {
-                if (context.canPop()) {
-                  context.pop();
-                } else {
-                  context.go('/home');
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.arrow_back,
-                      size: 16,
-                      color: colors.tabUnselectedText,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BounceWrapper(
+                  onTap: () {
+                    if (context.canPop()) {
+                      context.pop();
+                    } else {
+                      context.go('/home');
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.arrow_back,
+                          size: 16,
+                          color: colors.tabUnselectedText,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          l10n.videoDetailBack,
+                          style: AppTextStyles.custom(
+                            color: colors.tabUnselectedText,
+                            fontSize: AppFontSize.lg,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 6),
-                    Text(
-                      l10n.videoDetailBack,
-                      style: AppTextStyles.custom(
-                        color: colors.tabUnselectedText,
-                        fontSize: AppFontSize.lg,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                BounceWrapper(
+                  onTap: () {
+                    ReportContentDialog.show(
+                      context,
+                      targetId: video.id,
+                      targetTitle: video.title,
+                      targetType: 'video',
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: 4,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.flag_outlined,
+                          size: 16,
+                          color: colors.tabUnselectedText,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          l10n.reportVideoOption,
+                          style: AppTextStyles.custom(
+                            color: colors.tabUnselectedText,
+                            fontSize: AppFontSize.sm,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 12),
