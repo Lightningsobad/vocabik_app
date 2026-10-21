@@ -617,7 +617,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get exerciseAlmost => 'Gần đúng!';
 
   @override
-  String get exerciseHint => '💡 Gợi ý';
+  String get exerciseHint => 'Gợi ý';
 
   @override
   String get exerciseContinue => 'Tiếp tục →';

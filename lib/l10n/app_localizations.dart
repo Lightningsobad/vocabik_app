@@ -1241,7 +1241,7 @@ abstract class AppLocalizations {
   /// No description provided for @exerciseHint.
   ///
   /// In vi, this message translates to:
-  /// **'💡 Gợi ý'**
+  /// **'Gợi ý'**
   String get exerciseHint;
 
   /// No description provided for @exerciseContinue.
