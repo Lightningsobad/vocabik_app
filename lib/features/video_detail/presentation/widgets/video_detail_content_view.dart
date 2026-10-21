@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/core/routes/app_router.dart';
+import 'package:vocabik_app/core/services/share_service.dart';
 import 'package:vocabik_app/features/video_detail/presentation/cubit/video_detail_state.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/buttons/primary_button.dart';
@@ -274,7 +276,15 @@ class VideoDetailContentView extends StatelessWidget {
               ),
               border: Border.all(color: colors.optionCardBorder),
               onPressed: () {
-                // Share logic will be integrated later
+                final shareUrl = getIt<ShareService>().getLessonUrl(video.id);
+                final message = l10n.shareLessonMessage(video.title, shareUrl);
+                final box = context.findRenderObject() as RenderBox?;
+                final origin = box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+                getIt<ShareService>().shareLesson(
+                  videoId: video.id,
+                  message: message,
+                  sharePositionOrigin: origin,
+                );
               },
             ),
           ),

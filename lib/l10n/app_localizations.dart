@@ -1514,6 +1514,30 @@ abstract class AppLocalizations {
   /// **'Thử lại'**
   String get resultProgressRetry;
 
+  /// No description provided for @shareLessonMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện tiếng Anh qua video \"{title}\" trên Vocabik!\n{url}'**
+  String shareLessonMessage(String title, String url);
+
+  /// No description provided for @shareScoreCardMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tôi vừa đạt {score}% bài luyện \"{title}\" trên Vocabik! 🎯\n{url}'**
+  String shareScoreCardMessage(int score, String title, String url);
+
+  /// No description provided for @resultSharingImage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang chuẩn bị ảnh điểm số...'**
+  String get resultSharingImage;
+
+  /// No description provided for @resultShareImageFailedFallback.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể tải ảnh, đang chia sẻ liên kết...'**
+  String get resultShareImageFailedFallback;
+
   /// No description provided for @termsOfServiceTitle.
   ///
   /// In vi, this message translates to:

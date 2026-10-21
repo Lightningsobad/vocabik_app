@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vocabik_app/core/di/injection.dart';
+import 'package:vocabik_app/core/services/share_service.dart';
 import 'package:vocabik_app/features/exercise/presentation/cubit/result_state.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
@@ -10,9 +11,12 @@ import 'package:vocabik_app/shared/theme/app_font_size.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 import 'package:vocabik_app/shared/theme/app_text_style.dart';
 
-class ScoreCardShareSection extends StatelessWidget {
+class ScoreCardShareSection extends StatefulWidget {
   final ScoreCardStatus status;
   final String? imageUrl;
+  final String videoId;
+  final String videoTitle;
+  final int accuracyScore;
   final VoidCallback onRetry;
   final VoidCallback? onChallengeFriend;
 
@@ -20,36 +24,77 @@ class ScoreCardShareSection extends StatelessWidget {
     super.key,
     required this.status,
     required this.imageUrl,
+    required this.videoId,
+    this.videoTitle = '',
+    this.accuracyScore = 0,
     required this.onRetry,
     this.onChallengeFriend,
   });
 
-  void _onSharePressed(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: AppTextStyles.custom(
-            fontWeight: FontWeight.w600,
-            fontSize: AppFontSize.md,
+  @override
+  State<ScoreCardShareSection> createState() => _ScoreCardShareSectionState();
+}
+
+class _ScoreCardShareSectionState extends State<ScoreCardShareSection> {
+  bool _isSharing = false;
+
+  Future<void> _onShareImage(BuildContext context, AppLocalizations l10n) async {
+    if (_isSharing) return;
+    setState(() => _isSharing = true);
+    final messenger = ScaffoldMessenger.of(context);
+
+    try {
+      final shareUrl = getIt<ShareService>().getLessonUrl(widget.videoId);
+      final message = l10n.shareScoreCardMessage(
+        widget.accuracyScore,
+        widget.videoTitle,
+        shareUrl,
+      );
+
+      final box = context.findRenderObject() as RenderBox?;
+      final origin = box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+
+      final didShareImage = await getIt<ShareService>().shareScoreCardImage(
+        imageUrl: widget.imageUrl,
+        videoId: widget.videoId,
+        message: message,
+        sharePositionOrigin: origin,
+      );
+
+      if (!didShareImage && widget.imageUrl != null && mounted) {
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.resultShareImageFailedFallback,
+              style: AppTextStyles.custom(
+                fontWeight: FontWeight.w600,
+                fontSize: AppFontSize.md,
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 2),
           ),
-        ),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
-      ),
-    );
+        );
+      }
+    } catch (_) {
+      // shortcut: silent catch on user dismiss share sheet or platform error
+    } finally {
+      if (mounted) {
+        setState(() => _isSharing = false);
+      }
+    }
   }
 
-  void _onCopyPressed(
+  Future<void> _onCopyLessonLink(
     BuildContext context,
-    String textToCopy,
-    String successMessage,
-  ) {
-    Clipboard.setData(ClipboardData(text: textToCopy));
+    AppLocalizations l10n,
+  ) async {
+    await getIt<ShareService>().copyLessonLink(widget.videoId);
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          successMessage,
+          l10n.resultCopiedToClipboard,
           style: AppTextStyles.custom(
             fontWeight: FontWeight.w600,
             fontSize: AppFontSize.md,
@@ -108,8 +153,8 @@ class ScoreCardShareSection extends StatelessWidget {
                   height: 20,
                 ),
                 label: l10n.resultInstagram,
-                onTap: () =>
-                    _onSharePressed(context, l10n.resultFeatureInDevelopment),
+                isLoading: _isSharing,
+                onTap: () => _onShareImage(context, l10n),
               ),
             ),
             const SizedBox(width: AppSpacing.lg),
@@ -124,11 +169,7 @@ class ScoreCardShareSection extends StatelessWidget {
                   height: 20,
                 ),
                 label: l10n.resultCopy,
-                onTap: () => _onCopyPressed(
-                  context,
-                  imageUrl ?? 'https://vocabik.com',
-                  l10n.resultCopiedToClipboard,
-                ),
+                onTap: () => _onCopyLessonLink(context, l10n),
               ),
             ),
           ],
@@ -145,10 +186,8 @@ class ScoreCardShareSection extends StatelessWidget {
           ),
           label: l10n.resultChallengeFriend,
           onTap: () {
-            if (onChallengeFriend != null) {
-              onChallengeFriend!();
-            } else {
-              _onSharePressed(context, l10n.resultFeatureInDevelopment);
+            if (widget.onChallengeFriend != null) {
+              widget.onChallengeFriend!();
             }
           },
         ),
@@ -162,10 +201,10 @@ class ScoreCardShareSection extends StatelessWidget {
     AppColorsExtension colors,
     AppLocalizations l10n,
   ) {
-    if (status == ScoreCardStatus.loading ||
-        status == ScoreCardStatus.initial) {
+    if (widget.status == ScoreCardStatus.loading ||
+        widget.status == ScoreCardStatus.initial) {
       return AppShimmer(child: Container(color: colors.surfaceCard));
-    } else if (status == ScoreCardStatus.offline) {
+    } else if (widget.status == ScoreCardStatus.offline) {
       return Container(
         color: colors.surfaceCard,
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -185,7 +224,7 @@ class ScoreCardShareSection extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.tn),
             TextButton.icon(
-              onPressed: onRetry,
+              onPressed: widget.onRetry,
               icon: const Icon(Icons.refresh, size: 18),
               label: Text(
                 l10n.homeRetry,
@@ -199,7 +238,7 @@ class ScoreCardShareSection extends StatelessWidget {
           ],
         ),
       );
-    } else if (status == ScoreCardStatus.error) {
+    } else if (widget.status == ScoreCardStatus.error) {
       return Container(
         color: colors.surfaceCard,
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -219,7 +258,7 @@ class ScoreCardShareSection extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.tn),
             TextButton.icon(
-              onPressed: onRetry,
+              onPressed: widget.onRetry,
               icon: const Icon(Icons.refresh, size: 18),
               label: Text(
                 l10n.homeRetry,
@@ -233,9 +272,9 @@ class ScoreCardShareSection extends StatelessWidget {
           ],
         ),
       );
-    } else if (imageUrl != null && imageUrl!.isNotEmpty) {
+    } else if (widget.imageUrl != null && widget.imageUrl!.isNotEmpty) {
       return Image.network(
-        imageUrl!,
+        widget.imageUrl!,
         fit: BoxFit.cover,
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
@@ -267,10 +306,12 @@ class ScoreCardShareSection extends StatelessWidget {
     required String label,
     required AppColorsExtension colors,
     required VoidCallback onTap,
+    bool isLoading = false,
   }) {
     return PrimaryButton(
       leadingIcon: icon,
       text: label,
+      isLoading: isLoading,
       variant: PrimaryButtonVariant.secondary,
       backgroundColor: colors.scoreCardButtonBackground,
       border: Border.all(color: colors.scoreCardButtonBorder, width: 1.5),

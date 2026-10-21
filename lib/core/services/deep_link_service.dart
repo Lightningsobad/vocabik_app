@@ -16,6 +16,9 @@ class DeepLinkService {
   Stream<String> get onResetPasswordTokenReceived =>
       _resetPasswordTokenController.stream;
 
+  final _videoRouteController = StreamController<String>.broadcast();
+  Stream<String> get onVideoRouteReceived => _videoRouteController.stream;
+
   DeepLinkService() : _appLinks = AppLinks();
 
   void init() {
@@ -67,6 +70,15 @@ class DeepLinkService {
       if (token != null && token.isNotEmpty) {
         _resetPasswordTokenController.add(token);
       }
+    } else {
+      final videoMatch =
+          RegExp(r'^/(?:videos|video)/([^/?#]+)').firstMatch(uri.path);
+      if (videoMatch != null) {
+        final videoId = videoMatch.group(1);
+        if (videoId != null && videoId.isNotEmpty) {
+          _videoRouteController.add(videoId);
+        }
+      }
     }
   }
 
@@ -74,5 +86,6 @@ class DeepLinkService {
     _linkSubscription?.cancel();
     _tokenController.close();
     _resetPasswordTokenController.close();
+    _videoRouteController.close();
   }
 }

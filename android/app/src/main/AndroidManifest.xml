@@ -43,6 +43,8 @@
                 <data android:scheme="https" android:host="vocabik.com" android:pathPrefix="/auth/verify-email" />
                 <data android:scheme="https" android:host="vocabik.com" android:pathPrefix="/reset-password" />
                 <data android:scheme="https" android:host="vocabik.com" android:pathPrefix="/auth/reset-password" />
+                <data android:scheme="https" android:host="vocabik.com" android:pathPrefix="/videos" />
+                <data android:scheme="https" android:host="vocabik.com" android:pathPrefix="/video" />
             </intent-filter>
 
             <!-- Custom URL Scheme Intent Filter (e.g. vocabik://reset-password?token=...) -->
