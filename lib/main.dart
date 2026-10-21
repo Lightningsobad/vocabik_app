@@ -82,6 +82,9 @@ void main() async {
   deepLinkService.onResetPasswordTokenReceived.listen((token) {
     appRouter.go('/reset-password', extra: {'token': token});
   });
+  deepLinkService.onVideoRouteReceived.listen((videoId) {
+    appRouter.go('/home/video/$videoId');
+  });
 
   runApp(const VocabikApp());
 }

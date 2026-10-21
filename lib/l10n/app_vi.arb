@@ -382,6 +382,33 @@
   "resultProgressSavedSuccess": "Đã lưu tiến độ làm bài!",
   "resultProgressSaveError": "Không thể đồng bộ tiến độ",
   "resultProgressRetry": "Thử lại",
+  "shareLessonMessage": "Luyện tiếng Anh qua video \"{title}\" trên Vocabik!\n{url}",
+  "@shareLessonMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "shareScoreCardMessage": "Tôi vừa đạt {score}% bài luyện \"{title}\" trên Vocabik! 🎯\n{url}",
+  "@shareScoreCardMessage": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "resultSharingImage": "Đang chuẩn bị ảnh điểm số...",
+  "resultShareImageFailedFallback": "Không thể tải ảnh, đang chia sẻ liên kết...",
   "termsOfServiceTitle": "Điều khoản dịch vụ",
   "privacyPolicyTitle": "Chính sách bảo mật",
   "legalLastUpdated": "Cập nhật lần cuối: {date}",

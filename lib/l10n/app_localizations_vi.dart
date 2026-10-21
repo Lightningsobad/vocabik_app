@@ -768,6 +768,23 @@ class AppLocalizationsVi extends AppLocalizations {
   String get resultProgressRetry => 'Thử lại';
 
   @override
+  String shareLessonMessage(String title, String url) {
+    return 'Luyện tiếng Anh qua video \"$title\" trên Vocabik!\n$url';
+  }
+
+  @override
+  String shareScoreCardMessage(int score, String title, String url) {
+    return 'Tôi vừa đạt $score% bài luyện \"$title\" trên Vocabik! 🎯\n$url';
+  }
+
+  @override
+  String get resultSharingImage => 'Đang chuẩn bị ảnh điểm số...';
+
+  @override
+  String get resultShareImageFailedFallback =>
+      'Không thể tải ảnh, đang chia sẻ liên kết...';
+
+  @override
   String get termsOfServiceTitle => 'Điều khoản dịch vụ';
 
   @override

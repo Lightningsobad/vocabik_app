@@ -766,6 +766,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resultProgressRetry => 'Retry sync';
 
   @override
+  String shareLessonMessage(String title, String url) {
+    return 'Practice English with \"$title\" on Vocabik!\n$url';
+  }
+
+  @override
+  String shareScoreCardMessage(int score, String title, String url) {
+    return 'I just scored $score% on \"$title\" on Vocabik! 🎯\n$url';
+  }
+
+  @override
+  String get resultSharingImage => 'Preparing score card image...';
+
+  @override
+  String get resultShareImageFailedFallback =>
+      'Could not prepare image, sharing link instead...';
+
+  @override
   String get termsOfServiceTitle => 'Terms of Service';
 
   @override

@@ -257,6 +257,7 @@ import '../services/notification/in_app_messaging_service.dart' as _i408;
 import '../services/notification/local_notification_service.dart' as _i474;
 import '../services/notification/notification_router_handler.dart' as _i961;
 import '../services/notification/notification_service.dart' as _i446;
+import '../services/share_service.dart' as _i475;
 import '../services/social_auth_service.dart' as _i723;
 import 'app_module.dart' as _i461;
 
@@ -312,6 +313,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
       () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i475.ShareService>(
+      () => _i475.ShareService(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i723.SocialAuthService>(
       () => _i723.GoogleAuthServiceImpl(),
@@ -708,6 +712,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i155.GetDailyChallengeConfigUseCase>(),
       ),
     );
+    gh.factory<_i281.LoginCubit>(
+      () => _i281.LoginCubit(
+        gh<_i1038.LoginUseCase>(),
+        gh<_i490.LoginWithGoogleUseCase>(),
+        gh<_i723.SocialAuthService>(),
+        gh<_i797.AuthBloc>(),
+        gh<_i606.AuthLocalDataSource>(),
+      ),
+    );
     gh.factory<_i219.VerifyEmailCubit>(
       () => _i219.VerifyEmailCubit(
         gh<_i421.VerifyEmailUseCase>(),
@@ -730,20 +743,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i544.SubmitDailyChallengeResultUseCase>(),
       ),
     );
-    gh.factory<_i281.LoginCubit>(
-      () => _i281.LoginCubit(
-        gh<_i1038.LoginUseCase>(),
-        gh<_i490.LoginWithGoogleUseCase>(),
-        gh<_i723.SocialAuthService>(),
-        gh<_i797.AuthBloc>(),
-      ),
-    );
     gh.factory<_i691.RegisterBloc>(
       () => _i691.RegisterBloc(
         gh<_i1013.RegisterUseCase>(),
         gh<_i490.LoginWithGoogleUseCase>(),
         gh<_i723.SocialAuthService>(),
         gh<_i797.AuthBloc>(),
+        gh<_i606.AuthLocalDataSource>(),
       ),
     );
     return this;

@@ -228,6 +228,13 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: '/videos/:id',
+      redirect: (context, state) {
+        final id = state.pathParameters['id']!;
+        return '/home/video/$id';
+      },
+    ),
+    GoRoute(
       path: '/exercise/:videoId',
       pageBuilder: (context, state) {
         final videoId = state.pathParameters['videoId']!;

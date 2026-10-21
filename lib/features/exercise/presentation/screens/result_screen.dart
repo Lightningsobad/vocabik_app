@@ -199,6 +199,9 @@ class _ResultScreenViewState extends State<ResultScreenView> {
                         ScoreCardShareSection(
                           status: state.scoreCardStatus,
                           imageUrl: state.scoreCardImageUrl,
+                          videoId: widget.exercise.videoId,
+                          videoTitle: widget.videoTitle,
+                          accuracyScore: state.summary?.accuracyScore ?? 0,
                           onRetry: () {
                             context.read<ResultCubit>().generateScoreCard(
                               videoId: widget.exercise.videoId,
