@@ -9,6 +9,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
   final int currentStep;
   final int totalSteps;
   final VoidCallback? onClose;
+  final VoidCallback? onReport;
   final bool isLandscape;
 
   const ExerciseHeaderWidget({
@@ -17,6 +18,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
     required this.currentStep,
     required this.totalSteps,
     this.onClose,
+    this.onReport,
     this.isLandscape = false,
   });
 
@@ -54,6 +56,25 @@ class ExerciseHeaderWidget extends StatelessWidget {
             ),
           ),
           SizedBox(width: isLandscape ? AppSpacing.sm : AppSpacing.md2),
+          // Optional Report Button
+          if (onReport != null) ...[
+            GestureDetector(
+              onTap: onReport,
+              child: Container(
+                padding: EdgeInsets.all(isLandscape ? 5 : 8),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: colors.tabUnselectedBackground,
+                ),
+                child: Icon(
+                  Icons.flag_outlined,
+                  size: isLandscape ? 18 : 22,
+                  color: colors.textSecondary,
+                ),
+              ),
+            ),
+            SizedBox(width: isLandscape ? AppSpacing.sm : AppSpacing.md2),
+          ],
           // Close Button
           GestureDetector(
             onTap: onClose ?? () => Navigator.of(context).pop(),

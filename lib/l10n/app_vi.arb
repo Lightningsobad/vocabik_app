@@ -85,7 +85,7 @@
   "homeAll": "Tất cả",
   "homeDailyChallenge": "Daily Challenge hôm nay",
   "homeTrending": "Trending tuần này",
-  "homeViewAll": "Xem tất cả \u2192",
+  "homeViewAll": "Xem tất cả →",
   "homeRecentlyAdded": "Mới thêm",
   "homeLibrary": "Thư viện",
   "homePrivacyPolicy": "Chính sách bảo mật",
@@ -224,7 +224,7 @@
   "videoDetailVocabulary": "Từ vựng",
   "videoDetailGrammar": "Ngữ pháp",
   "videoDetailSpeed": "Tốc độ",
-  "videoDetailStartPractice": "Bắt đầu luyện tập \u2192",
+  "videoDetailStartPractice": "Bắt đầu luyện tập →",
   "videoDetailBlanksCount": "{count} chỗ trống",
   "@videoDetailBlanksCount": {
     "placeholders": {
@@ -689,5 +689,16 @@
     }
   },
   "unblocking": "Đang bỏ chặn...",
-  "blocking": "Đang chặn..."
+  "blocking": "Đang chặn...",
+  "reportVideoTitle": "Báo cáo video",
+  "reportVideoSubtitle": "Chọn lý do báo cáo video “{videoTitle}”:",
+  "@reportVideoSubtitle": {
+    "placeholders": {
+      "videoTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "reportVideoOption": "Báo cáo video này",
+  "reportVideoTooltip": "Báo cáo video vi phạm"
 }

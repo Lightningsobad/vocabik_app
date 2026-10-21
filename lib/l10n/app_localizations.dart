@@ -2431,6 +2431,30 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đang chặn...'**
   String get blocking;
+
+  /// No description provided for @reportVideoTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Báo cáo video'**
+  String get reportVideoTitle;
+
+  /// No description provided for @reportVideoSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn lý do báo cáo video “{videoTitle}”:'**
+  String reportVideoSubtitle(String videoTitle);
+
+  /// No description provided for @reportVideoOption.
+  ///
+  /// In vi, this message translates to:
+  /// **'Báo cáo video này'**
+  String get reportVideoOption;
+
+  /// No description provided for @reportVideoTooltip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Báo cáo video vi phạm'**
+  String get reportVideoTooltip;
 }
 
 class _AppLocalizationsDelegate

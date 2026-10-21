@@ -1292,4 +1292,18 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get blocking => 'Đang chặn...';
+
+  @override
+  String get reportVideoTitle => 'Báo cáo video';
+
+  @override
+  String reportVideoSubtitle(String videoTitle) {
+    return 'Chọn lý do báo cáo video “$videoTitle”:';
+  }
+
+  @override
+  String get reportVideoOption => 'Báo cáo video này';
+
+  @override
+  String get reportVideoTooltip => 'Báo cáo video vi phạm';
 }
