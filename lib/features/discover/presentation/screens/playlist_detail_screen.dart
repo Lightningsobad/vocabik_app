@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/features/discover/domain/entities/playlist_entity.dart';
@@ -231,22 +232,48 @@ class PlaylistDetailScreenView extends StatelessWidget {
           // Metadata row
           Wrap(
             spacing: AppSpacing.lg,
+            runSpacing: AppSpacing.xs,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text(
-                '📹 ${l10n.discoverVideosCount(playlist.videoCount)}',
-                style: AppTextStyles.custom(
-                  color: colors.textSecondary,
-                  fontSize: AppFontSize.md,
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/playlist_screen/video_icon.svg',
+                    width: 18,
+                    height: 18,
+                  ),
+                  const SizedBox(width: AppSpacing.tnn),
+                  Text(
+                    l10n.discoverVideosCount(playlist.videoCount),
+                    style: AppTextStyles.custom(
+                      color: colors.textSecondary,
+                      fontSize: AppFontSize.md,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                '⏱ $minutesText',
-                style: AppTextStyles.custom(
-                  color: colors.textSecondary,
-                  fontSize: AppFontSize.md,
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/playlist_screen/timer_icon.png',
+                    width: 18,
+                    height: 18,
+                  ),
+                  const SizedBox(width: AppSpacing.tnn),
+                  Text(
+                    minutesText,
+                    style: AppTextStyles.custom(
+                      color: colors.textSecondary,
+                      fontSize: AppFontSize.md,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
