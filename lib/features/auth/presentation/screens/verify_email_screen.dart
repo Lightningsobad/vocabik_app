@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -119,20 +120,15 @@ class _VerifyEmailScreenViewState extends State<VerifyEmailScreenView>
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == VerifyEmailStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(content: Text(state.errorMessage ?? l10n.verifyFailed)),
-              );
+            AppSnackBar.showError(
+              context,
+              state.errorMessage ?? l10n.verifyFailed,
+            );
           } else if (state.status == VerifyEmailStatus.success) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: Text(l10n.verifySuccessRedirect),
-                  backgroundColor: Colors.green,
-                ),
-              );
+            AppSnackBar.showSuccess(
+              context,
+              l10n.verifySuccessRedirect,
+            );
             context.go('/cefr-selection');
           }
         },

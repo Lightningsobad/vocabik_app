@@ -1,3 +1,6 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/di/injection.dart';
@@ -132,25 +135,27 @@ class _ResultScreenViewState extends State<ResultScreenView> {
           }
 
           if (state.progressStatus == ProgressSubmitStatus.error) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.progressErrorMessage ??
-                      l10n.resultProgressSaveError,
-                ),
-                backgroundColor: colors.danger,
-                behavior: SnackBarBehavior.floating,
-                action: SnackBarAction(
-                  label: l10n.resultProgressRetry,
-                  textColor: Colors.white,
-                  onPressed: () {
-                    if (state.summary != null) {
-                      context.read<ResultCubit>().submitProgress(
-                        exercise: widget.exercise,
-                        summary: state.summary!,
-                      );
-                    }
-                  },
+            AppSnackBar.showError(
+              context,
+              state.progressErrorMessage ??
+                  l10n.resultProgressSaveError,
+              action: TextButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  if (state.summary != null) {
+                    context.read<ResultCubit>().submitProgress(
+                      exercise: widget.exercise,
+                      summary: state.summary!,
+                    );
+                  }
+                },
+                child: Text(
+                  l10n.resultProgressRetry,
+                  style: AppTextStyles.custom(
+                    fontSize: AppFontSize.sm,
+                    fontWeight: FontWeight.bold,
+                    color: colors.danger,
+                  ),
                 ),
               ),
             );

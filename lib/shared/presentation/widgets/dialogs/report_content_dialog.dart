@@ -1,3 +1,4 @@
+import '../notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/utils/auth_utils.dart';
@@ -106,35 +107,16 @@ class _ReportContentDialogState extends State<ReportContentDialog> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              failure.message,
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.md,
-                color: Colors.white,
-              ),
-            ),
-            backgroundColor: colors.danger,
-          ),
-        );
+        AppSnackBar.showError(context, failure.message);
       },
       (response) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              response.message.isNotEmpty
-                  ? response.message
-                  : l10n.reportSuccess24h,
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.md,
-                color: Colors.white,
-              ),
-            ),
-            backgroundColor: colors.success,
-            duration: const Duration(seconds: 4),
-          ),
+        AppSnackBar.showSuccess(
+          context,
+          response.message.isNotEmpty
+              ? response.message
+              : l10n.reportSuccess24h,
+          duration: const Duration(seconds: 4),
         );
 
         // Prompt block option only for user reports
@@ -196,32 +178,13 @@ class _ReportContentDialogState extends State<ReportContentDialog> {
               if (!context.mounted) return;
               blockResult.fold(
                 (failure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        failure.message,
-                        style: AppTextStyles.custom(
-                          fontSize: AppFontSize.md,
-                          color: Colors.white,
-                        ),
-                      ),
-                      backgroundColor: colors.danger,
-                    ),
-                  );
+                  AppSnackBar.showError(context, failure.message);
                 },
                 (_) {
                   widget.onUserBlocked?.call();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        l10n.blockUserSuccess(widget.targetTitle),
-                        style: AppTextStyles.custom(
-                          fontSize: AppFontSize.md,
-                          color: Colors.white,
-                        ),
-                      ),
-                      backgroundColor: colors.danger,
-                    ),
+                  AppSnackBar.showSuccess(
+                    context,
+                    l10n.blockUserSuccess(widget.targetTitle),
                   );
                 },
               );

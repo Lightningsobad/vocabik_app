@@ -1,3 +1,4 @@
+import '../../../../shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/utils/auth_utils.dart';
@@ -77,33 +78,14 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              failure.message,
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.md,
-                color: colors.textPrimary,
-              ),
-            ),
-            backgroundColor: colors.danger,
-          ),
-        );
+        AppSnackBar.showError(context, failure.message);
       },
       (response) {
         Navigator.of(context).pop(true);
         widget.onUserBlocked?.call();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              l10n.blockUserSuccess(widget.userName),
-              style: AppTextStyles.custom(
-                fontSize: AppFontSize.md,
-                color: Colors.white,
-              ),
-            ),
-            backgroundColor: colors.danger,
-          ),
+        AppSnackBar.showSuccess(
+          context,
+          l10n.blockUserSuccess(widget.userName),
         );
       },
     );

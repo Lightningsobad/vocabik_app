@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/di/injection.dart';
@@ -77,17 +78,9 @@ class _DeleteAccountConfirmationDialogState
           if (state.status == DeleteAccountStatus.success) {
             Navigator.of(context).pop();
             context.read<AuthBloc>().add(const SessionExpired());
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  l10n.deleteAccountSuccessMessage,
-                  style: AppTextStyles.custom(
-                    fontSize: AppFontSize.md,
-                    color: Colors.white,
-                  ),
-                ),
-                backgroundColor: colors.success,
-              ),
+            AppSnackBar.showSuccess(
+              context,
+              l10n.deleteAccountSuccessMessage,
             );
           } else if (state.status == DeleteAccountStatus.failure) {
             if (state.failure is PasswordRequiredFailure ||

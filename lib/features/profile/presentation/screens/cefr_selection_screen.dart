@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
@@ -56,11 +57,10 @@ class _CefrSelectionScreenViewState extends State<CefrSelectionScreenView> {
     return BlocListener<CefrSelectionCubit, CefrSelectionState>(
       listener: (context, state) {
         if (state.status == CefrSelectionStatus.failure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? l10n.updateFailed)),
-            );
+          AppSnackBar.showError(
+            context,
+            state.errorMessage ?? l10n.updateFailed,
+          );
         } else if (state.status == CefrSelectionStatus.success) {
           context.go('/home');
         }

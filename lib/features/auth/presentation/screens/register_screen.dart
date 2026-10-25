@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -86,15 +87,10 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
             previous.status != current.status,
         listener: (context, state) {
           if (state.status == RegisterStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: Text(
-                    state.errorMessage ?? l10n.authGenericError,
-                  ),
-                ),
-              );
+            AppSnackBar.showError(
+              context,
+              state.errorMessage ?? l10n.authGenericError,
+            );
           } else if (state.status == RegisterStatus.success) {
             context.push('/verify-email', extra: {
               'email': state.email.value,

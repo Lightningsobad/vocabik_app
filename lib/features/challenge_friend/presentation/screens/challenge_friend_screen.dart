@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -76,18 +77,9 @@ class _ChallengeFriendViewState extends State<ChallengeFriendView> {
               ),
             );
           } else if (state.sendErrorMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.sendErrorMessage ?? l10n.challengeCreateLinkError,
-                  style: AppTextStyles.custom(
-                    color: Colors.white,
-                    fontSize: AppFontSize.md,
-                  ),
-                ),
-                backgroundColor: colors.danger,
-                behavior: SnackBarBehavior.floating,
-              ),
+            AppSnackBar.showError(
+              context,
+              state.sendErrorMessage ?? l10n.challengeCreateLinkError,
             );
           }
         },
