@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vocabik_app/core/di/injection.dart';
@@ -41,7 +42,6 @@ class _ScoreCardShareSectionState extends State<ScoreCardShareSection> {
   Future<void> _onShareImage(BuildContext context, AppLocalizations l10n) async {
     if (_isSharing) return;
     setState(() => _isSharing = true);
-    final messenger = ScaffoldMessenger.of(context);
 
     try {
       final shareUrl = getIt<ShareService>().getLessonUrl(widget.videoId);
@@ -62,18 +62,10 @@ class _ScoreCardShareSectionState extends State<ScoreCardShareSection> {
       );
 
       if (!didShareImage && widget.imageUrl != null && mounted) {
-        messenger.showSnackBar(
-          SnackBar(
-            content: Text(
-              l10n.resultShareImageFailedFallback,
-              style: AppTextStyles.custom(
-                fontWeight: FontWeight.w600,
-                fontSize: AppFontSize.md,
-              ),
-            ),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 2),
-          ),
+        AppSnackBar.showWarning(
+          this.context,
+          l10n.resultShareImageFailedFallback,
+          duration: const Duration(seconds: 2),
         );
       }
     } catch (_) {
@@ -91,18 +83,10 @@ class _ScoreCardShareSectionState extends State<ScoreCardShareSection> {
   ) async {
     await getIt<ShareService>().copyLessonLink(widget.videoId);
     if (!context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          l10n.resultCopiedToClipboard,
-          style: AppTextStyles.custom(
-            fontWeight: FontWeight.w600,
-            fontSize: AppFontSize.md,
-          ),
-        ),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
-      ),
+    AppSnackBar.showSuccess(
+      context,
+      l10n.resultCopiedToClipboard,
+      duration: const Duration(seconds: 2),
     );
   }
 

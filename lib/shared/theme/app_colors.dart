@@ -81,6 +81,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color deleteAccountBorder;
   final Color deleteAccountBackground;
   final Color deleteAccountText;
+  final Color cardShadowColor;
 
   const AppColorsExtension({
     required this.primaryAccent,
@@ -154,6 +155,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.deleteAccountBorder,
     required this.deleteAccountBackground,
     required this.deleteAccountText,
+    required this.cardShadowColor,
   });
 
   @override
@@ -229,6 +231,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? deleteAccountBorder,
     Color? deleteAccountBackground,
     Color? deleteAccountText,
+    Color? cardShadowColor,
   }) {
     return AppColorsExtension(
       primaryAccent: primaryAccent ?? this.primaryAccent,
@@ -312,6 +315,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       deleteAccountBackground:
           deleteAccountBackground ?? this.deleteAccountBackground,
       deleteAccountText: deleteAccountText ?? this.deleteAccountText,
+      cardShadowColor: cardShadowColor ?? this.cardShadowColor,
     );
   }
 
@@ -535,6 +539,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.deleteAccountText,
         t,
       )!,
+      cardShadowColor: Color.lerp(
+        cardShadowColor,
+        other.cardShadowColor,
+        t,
+      )!,
     );
   }
 
@@ -610,6 +619,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     deleteAccountBorder: Color(0xFFEDAFBB),
     deleteAccountBackground: Color(0xFFF2E1E9),
     deleteAccountText: Color(0xFFE3465B),
+    cardShadowColor: Color(0x1F000000),
   );
 
   static const dark = AppColorsExtension(
@@ -684,5 +694,6 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     deleteAccountBorder: Color(0xFF732E3E),
     deleteAccountBackground: Color(0xFF331A27),
     deleteAccountText: Color(0xFFF5586D),
+    cardShadowColor: Color(0x66000000),
   );
 }

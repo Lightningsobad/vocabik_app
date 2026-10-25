@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -114,17 +115,9 @@ class _UserProfileSectionContentState
           setState(() {
             _errorMessage = updateState.errorMessage;
           });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                updateState.errorMessage ?? l10n.profileLoadError,
-                style: AppTextStyles.custom(
-                  fontSize: 14.0,
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: colors.danger,
-            ),
+          AppSnackBar.showError(
+            context,
+            updateState.errorMessage ?? l10n.profileLoadError,
           );
         } else if (updateState.status == UpdateProfileStatus.success) {
           final authState = context.read<AuthBloc>().state;
@@ -151,17 +144,9 @@ class _UserProfileSectionContentState
           });
           _nameFocusNode.unfocus();
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                l10n.profileUpdateSuccess,
-                style: AppTextStyles.custom(
-                  fontSize: 14.0,
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: colors.success,
-            ),
+          AppSnackBar.showSuccess(
+            context,
+            l10n.profileUpdateSuccess,
           );
         }
       },

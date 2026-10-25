@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -71,21 +72,15 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == ResetPasswordStatus.success) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.successMessage ?? l10n.resetPasswordSuccess,
-                ),
-              ),
+            AppSnackBar.showSuccess(
+              context,
+              state.successMessage ?? l10n.resetPasswordSuccess,
             );
             context.go('/login');
           } else if (state.status == ResetPasswordStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.errorMessage ?? l10n.authGenericError,
-                ),
-              ),
+            AppSnackBar.showError(
+              context,
+              state.errorMessage ?? l10n.authGenericError,
             );
           }
         },

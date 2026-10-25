@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -30,8 +31,9 @@ class AccountTabContent extends StatelessWidget {
           if (state.status == AuthStatus.unauthenticated) {
             context.go('/login');
           } else if (state.status == AuthStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? l10n.logoutConfirmTitle)),
+            AppSnackBar.showError(
+              context,
+              state.errorMessage ?? l10n.logoutConfirmTitle,
             );
           }
         }

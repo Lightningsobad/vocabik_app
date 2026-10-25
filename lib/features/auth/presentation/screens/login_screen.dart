@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,10 +93,9 @@ class _LoginViewState extends State<LoginView> {
               },
             );
           } else if (state.status == LoginStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage ?? l10n.authGenericError),
-              ),
+            AppSnackBar.showError(
+              context,
+              state.errorMessage ?? l10n.authGenericError,
             );
           }
         },

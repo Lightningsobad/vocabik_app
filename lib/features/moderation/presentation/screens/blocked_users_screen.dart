@@ -1,3 +1,4 @@
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -67,17 +68,9 @@ class _BlockedUsersView extends StatelessWidget {
       body: BlocConsumer<BlockedUsersCubit, BlockedUsersState>(
         listener: (context, state) {
           if (state.errorMessage != null && state.users.isNotEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.errorMessage!,
-                  style: AppTextStyles.custom(
-                    fontSize: AppFontSize.md,
-                    color: Colors.white,
-                  ),
-                ),
-                backgroundColor: colors.danger,
-              ),
+            AppSnackBar.showError(
+              context,
+              state.errorMessage!,
             );
           }
         },
@@ -248,17 +241,9 @@ class _BlockedUsersView extends StatelessWidget {
               final cubit = context.read<BlockedUsersCubit>();
               final success = await cubit.unblockUser(user.userId);
               if (success && context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      l10n.unblockSuccess(user.displayName),
-                      style: AppTextStyles.custom(
-                        fontSize: AppFontSize.md,
-                        color: Colors.white,
-                      ),
-                    ),
-                    backgroundColor: colors.success,
-                  ),
+                AppSnackBar.showSuccess(
+                  context,
+                  l10n.unblockSuccess(user.displayName),
                 );
               }
             },
