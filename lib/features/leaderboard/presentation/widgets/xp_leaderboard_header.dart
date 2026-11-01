@@ -50,15 +50,22 @@ class XpLeaderboardHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-            l10n?.xpLeaderboardTitle ?? 'XP Leaderboard',
-            style: AppTextStyles.custom(
-              color: colors.textPrimary,
-              fontSize: AppFontSize.xl5,
-              fontWeight: FontWeight.w900,
+          Expanded(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                l10n?.xpLeaderboardTitle ?? 'XP Leaderboard',
+                style: AppTextStyles.custom(
+                  color: colors.textPrimary,
+                  fontSize: AppFontSize.xl5,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
             ),
           ),
-          if (resetText.isNotEmpty)
+          if (resetText.isNotEmpty) ...[
+            const SizedBox(width: AppSpacing.sm),
             Padding(
               padding: const EdgeInsets.only(bottom: 2.0),
               child: Text(
@@ -70,6 +77,7 @@ class XpLeaderboardHeader extends StatelessWidget {
                 ),
               ),
             ),
+          ],
         ],
       ),
     );
