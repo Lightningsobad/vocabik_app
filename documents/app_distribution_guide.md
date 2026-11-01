@@ -1,10 +1,23 @@
 # Hướng Dẫn Vận Hành Pipeline Phân Phối Thử Nghiệm (App Distribution Guide)
 
-Tài liệu này hướng dẫn cách cấu hình, kích hoạt và nhận bản build thử nghiệm tự động cho dự án **Vocabik Mobile App**.
+> [!WARNING]
+> **TRẠNG THÁI HIỆN TẠI: TẠM NGƯNG LUỒNG TỰ ĐỘNG QUA GITHUB ACTIONS**
+> 
+> File pipeline `.github/workflows/app_distribution.yml` hiện đã được tạm thời gỡ bỏ khỏi repository để ngăn ngừa lỗi phát hành gây gián đoạn khi merge nhánh `develop` vào `main`.
+> 
+> - **Build APK kiểm thử cục bộ (Manual Test Build):**
+>   ```bash
+>   flutter build apk --release -PallowDebugSigningForRelease=true
+>   ```
+> - File APK xuất ra sẽ nằm tại `build/app/outputs/flutter-apk/app-release.apk` để chuyển trực tiếp cho QA/Tester.
+> - **Khôi phục pipeline khi sẵn sàng hạ tầng:**
+>   ```bash
+>   git checkout e10d235 -- .github/workflows/app_distribution.yml
+>   ```
 
 ---
 
-## 1. Cơ Chế Hoạt Động Của Pipeline
+## 1. Cơ Chế Hoạt Động Của Pipeline (Tham khảo khi kích hoạt lại)
 
 Pipeline được định nghĩa tại file [app_distribution.yml](file:///.github/workflows/app_distribution.yml).
 
