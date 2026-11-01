@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -79,7 +80,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           children: [
             // Left Section: Logo & Name
             BounceWrapper(
-              onTap: onHomeTap,
+              onTap: onHomeTap ?? () => context.go('/home'),
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
