@@ -82,6 +82,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color deleteAccountBackground;
   final Color deleteAccountText;
   final Color cardShadowColor;
+  final Color videoSeekBarTrack;
+  final Color videoSeekBarProgress;
+  final Color videoSeekBarDotInactive;
+  final Color videoSeekBarDotActive;
+  final Color videoSeekBarDotBorder;
 
   const AppColorsExtension({
     required this.primaryAccent,
@@ -156,6 +161,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.deleteAccountBackground,
     required this.deleteAccountText,
     required this.cardShadowColor,
+    required this.videoSeekBarTrack,
+    required this.videoSeekBarProgress,
+    required this.videoSeekBarDotInactive,
+    required this.videoSeekBarDotActive,
+    required this.videoSeekBarDotBorder,
   });
 
   @override
@@ -232,6 +242,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? deleteAccountBackground,
     Color? deleteAccountText,
     Color? cardShadowColor,
+    Color? videoSeekBarTrack,
+    Color? videoSeekBarProgress,
+    Color? videoSeekBarDotInactive,
+    Color? videoSeekBarDotActive,
+    Color? videoSeekBarDotBorder,
   }) {
     return AppColorsExtension(
       primaryAccent: primaryAccent ?? this.primaryAccent,
@@ -316,6 +331,14 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
           deleteAccountBackground ?? this.deleteAccountBackground,
       deleteAccountText: deleteAccountText ?? this.deleteAccountText,
       cardShadowColor: cardShadowColor ?? this.cardShadowColor,
+      videoSeekBarTrack: videoSeekBarTrack ?? this.videoSeekBarTrack,
+      videoSeekBarProgress: videoSeekBarProgress ?? this.videoSeekBarProgress,
+      videoSeekBarDotInactive:
+          videoSeekBarDotInactive ?? this.videoSeekBarDotInactive,
+      videoSeekBarDotActive:
+          videoSeekBarDotActive ?? this.videoSeekBarDotActive,
+      videoSeekBarDotBorder:
+          videoSeekBarDotBorder ?? this.videoSeekBarDotBorder,
     );
   }
 
@@ -544,6 +567,31 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
         other.cardShadowColor,
         t,
       )!,
+      videoSeekBarTrack: Color.lerp(
+        videoSeekBarTrack,
+        other.videoSeekBarTrack,
+        t,
+      )!,
+      videoSeekBarProgress: Color.lerp(
+        videoSeekBarProgress,
+        other.videoSeekBarProgress,
+        t,
+      )!,
+      videoSeekBarDotInactive: Color.lerp(
+        videoSeekBarDotInactive,
+        other.videoSeekBarDotInactive,
+        t,
+      )!,
+      videoSeekBarDotActive: Color.lerp(
+        videoSeekBarDotActive,
+        other.videoSeekBarDotActive,
+        t,
+      )!,
+      videoSeekBarDotBorder: Color.lerp(
+        videoSeekBarDotBorder,
+        other.videoSeekBarDotBorder,
+        t,
+      )!,
     );
   }
 
@@ -620,6 +668,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     deleteAccountBackground: Color(0xFFF2E1E9),
     deleteAccountText: Color(0xFFE3465B),
     cardShadowColor: Color(0x1F000000),
+    videoSeekBarTrack: Color(0xFFE2E2EA),
+    videoSeekBarProgress: Color(0xFF0891B2),
+    videoSeekBarDotInactive: Color(0xFF9E9EB8),
+    videoSeekBarDotActive: Color(0xFFFFFFFF),
+    videoSeekBarDotBorder: Color(0x26000000),
   );
 
   static const dark = AppColorsExtension(
@@ -695,5 +748,10 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     deleteAccountBackground: Color(0xFF331A27),
     deleteAccountText: Color(0xFFF5586D),
     cardShadowColor: Color(0x66000000),
+    videoSeekBarTrack: Color(0x59FFFFFF),
+    videoSeekBarProgress: Color(0xFF00E5CC),
+    videoSeekBarDotInactive: Color(0x80FFFFFF),
+    videoSeekBarDotActive: Color(0xFFFFFFFF),
+    videoSeekBarDotBorder: Color(0x4D000000),
   );
 }

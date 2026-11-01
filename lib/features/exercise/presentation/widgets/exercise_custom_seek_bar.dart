@@ -21,6 +21,8 @@ class ExerciseCustomSeekBar extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final primaryColor = colors.primaryAccent;
     final dangerColor = colors.danger;
+    final trackColor = colors.videoSeekBarTrack;
+    final progressColor = colors.videoSeekBarProgress;
 
     final state = exerciseState;
     final checkResults = state?.checkResults ?? const {};
@@ -55,7 +57,7 @@ class ExerciseCustomSeekBar extends StatelessWidget {
                   width: barWidth,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.35),
+                    color: trackColor,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -65,7 +67,7 @@ class ExerciseCustomSeekBar extends StatelessWidget {
                   width: currentBarWidth,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: progressColor,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -93,11 +95,11 @@ class ExerciseCustomSeekBar extends StatelessWidget {
                         dotColor = dangerColor;
                       }
                     } else if (isActive) {
-                      dotColor = Colors.white;
+                      dotColor = colors.videoSeekBarDotActive;
                       borderColor = primaryColor;
                       dotSize = 11.0;
                     } else {
-                      dotColor = Colors.white.withValues(alpha: 0.5);
+                      dotColor = colors.videoSeekBarDotInactive;
                     }
 
                     return Positioned(
@@ -111,12 +113,12 @@ class ExerciseCustomSeekBar extends StatelessWidget {
                           border: Border.all(
                             color: borderColor != Colors.transparent
                                 ? borderColor
-                                : Colors.black.withValues(alpha: 0.3),
+                                : colors.videoSeekBarDotBorder,
                             width: isActive ? 2.0 : 1.0,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.4),
+                              color: colors.cardShadowColor,
                               blurRadius: 3,
                               offset: const Offset(0, 1),
                             ),
