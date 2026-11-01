@@ -85,21 +85,35 @@ class _DailyChallengeHeaderState extends State<DailyChallengeHeader> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            l10n.dailyChallengeTitle,
-            style: AppTextStyles.custom(
-              color: colors.textPrimary,
-              fontSize: AppFontSize.xl5,
-              fontWeight: FontWeight.w900,
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      l10n.dailyChallengeTitle,
+                      style: AppTextStyles.custom(
+                        color: colors.textPrimary,
+                        fontSize: AppFontSize.xl5,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                SvgPicture.asset(
+                  'assets/daily_challenge_screen/trophy.svg',
+                  width: 34,
+                  height: 34,
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: AppSpacing.md),
-          SvgPicture.asset(
-            'assets/daily_challenge_screen/trophy.svg',
-            width: 34,
-            height: 34,
-          ),
-          const Spacer(),
+          const SizedBox(width: AppSpacing.sm),
           Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
