@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/presentation/widgets/header/app_navigation_sheet.dart';
@@ -13,6 +14,7 @@ import 'package:vocabik_app/shared/localization/domain/usecases/save_language_us
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/header/app_header.dart';
 import 'package:vocabik_app/shared/presentation/widgets/header/stat_badge.dart';
+import 'package:vocabik_app/shared/presentation/widgets/header/vocabik_logo.dart';
 import 'package:vocabik_app/shared/theme/app_theme.dart';
 import 'package:vocabik_app/shared/theme/cubit/theme_cubit.dart';
 import 'package:vocabik_app/shared/theme/domain/repositories/theme_repository.dart';
@@ -160,5 +162,82 @@ void main() {
 
     expect(tapped, isTrue);
     expect(find.byType(AppNavigationSheet), findsNothing);
+  });
+
+
+  testWidgets('AppHeader triggers custom onHomeTap when provided', (tester) async {
+    var tapped = false;
+    await tester.pumpWidget(buildTestWidget(
+      child: AppHeader(
+        onHomeTap: () {
+          tapped = true;
+        },
+      ),
+    ));
+    await tester.pumpAndSettle();
+
+    final logoFinder = find.byType(VocabikLogo);
+    expect(logoFinder, findsOneWidget);
+
+    await tester.tap(logoFinder);
+    await tester.pumpAndSettle();
+
+    expect(tapped, isTrue);
+  });
+
+  testWidgets('AppHeader navigates to /home when logo is tapped with null onHomeTap', (tester) async {
+    String navigatedRoute = '/profile';
+
+    final router = GoRouter(
+      initialLocation: '/profile',
+      routes: [
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const Scaffold(
+            appBar: AppHeader(),
+            body: Text('Profile Page'),
+          ),
+        ),
+        GoRoute(
+          path: '/home',
+          builder: (context, state) {
+            navigatedRoute = '/home';
+            return const Scaffold(body: Text('Home Page'));
+          },
+        ),
+      ],
+    );
+
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<GamificationGlobalCubit>.value(value: gamificationCubit),
+          BlocProvider<LocalizationCubit>.value(value: localizationCubit),
+          BlocProvider<ThemeCubit>.value(value: themeCubit),
+        ],
+        child: MaterialApp.router(
+          theme: AppTheme.lightTheme,
+          locale: const Locale('vi'),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('vi'), Locale('en')],
+          routerConfig: router,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final logoFinder = find.byType(VocabikLogo);
+    expect(logoFinder, findsOneWidget);
+
+    await tester.tap(logoFinder);
+    await tester.pumpAndSettle();
+
+    expect(navigatedRoute, equals('/home'));
+    expect(find.text('Home Page'), findsOneWidget);
   });
 }
