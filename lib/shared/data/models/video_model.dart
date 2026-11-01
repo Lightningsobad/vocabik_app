@@ -23,7 +23,7 @@ class PaginatedVideoResponseModel {
           .toList(),
       page: json['page'] as int,
       pageSize: json['pageSize'] as int,
-      totalItems: json['totalItems'] as int,
+      totalItems: (json['totalItems'] as num?)?.toInt() ?? 0,
       totalPages: json['totalPages'] as int,
     );
   }
