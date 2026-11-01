@@ -22,11 +22,13 @@ class HomeVideosLoaded extends HomeVideosState {
   final List<VideoEntity> videos;
   final bool hasReachedMax;
   final int currentPage;
+  final int totalItems;
 
   const HomeVideosLoaded({
     required this.videos,
     required this.hasReachedMax,
     required this.currentPage,
+    this.totalItems = 0,
     super.currentCefr,
   });
 
@@ -34,6 +36,7 @@ class HomeVideosLoaded extends HomeVideosState {
     List<VideoEntity>? videos,
     bool? hasReachedMax,
     int? currentPage,
+    int? totalItems,
     String? currentCefr,
     bool clearCefr = false,
   }) {
@@ -41,12 +44,13 @@ class HomeVideosLoaded extends HomeVideosState {
       videos: videos ?? this.videos,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       currentPage: currentPage ?? this.currentPage,
+      totalItems: totalItems ?? this.totalItems,
       currentCefr: clearCefr ? null : (currentCefr ?? this.currentCefr),
     );
   }
 
   @override
-  List<Object?> get props => [videos, hasReachedMax, currentPage, currentCefr];
+  List<Object?> get props => [videos, hasReachedMax, currentPage, totalItems, currentCefr];
 }
 
 class HomeVideosError extends HomeVideosState {

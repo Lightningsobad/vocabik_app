@@ -27,7 +27,7 @@ class HomeLibrarySection extends StatelessWidget {
           child: BlocSelector<HomeVideosBloc, HomeVideosState, int>(
             selector: (state) {
               if (state is HomeVideosLoaded) {
-                return state.videos.length;
+                return state.totalItems;
               }
               return 0;
             },

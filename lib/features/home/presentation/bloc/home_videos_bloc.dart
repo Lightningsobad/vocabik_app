@@ -53,6 +53,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
         videos: _mapVideosWithNewFlag(data.items, data.page),
         hasReachedMax: data.hasReachedMax,
         currentPage: data.page,
+        totalItems: data.totalItems,
         currentCefr: event.cefr,
       )),
     );
@@ -77,6 +78,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
           videos: _mapVideosWithNewFlag(data.items, data.page),
           hasReachedMax: data.hasReachedMax,
           currentPage: data.page,
+          totalItems: data.totalItems,
           currentCefr: currentCefr,
         )),
       );
@@ -104,6 +106,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
                   videos: currentState.videos + mappedItems,
                   hasReachedMax: data.hasReachedMax,
                   currentPage: data.page,
+                  totalItems: data.totalItems,
                   currentCefr: currentState.currentCefr,
                 ));
         },
@@ -128,6 +131,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
         videos: _mapVideosWithNewFlag(data.items, data.page),
         hasReachedMax: data.hasReachedMax,
         currentPage: data.page,
+        totalItems: data.totalItems,
         currentCefr: currentCefr,
       )),
     );
