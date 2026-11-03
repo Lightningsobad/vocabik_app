@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
+import 'package:vocabik_app/shared/theme/app_font_size.dart';
+import 'package:vocabik_app/shared/theme/app_text_style.dart';
+
+class SharedSegmentedTabBar extends StatelessWidget {
+  final int selectedIndex;
+  final ValueChanged<int> onTabChanged;
+  final List<String> tabs;
+
+  const SharedSegmentedTabBar({
+    super.key,
+    required this.selectedIndex,
+    required this.onTabChanged,
+    required this.tabs,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: List.generate(tabs.length, (index) {
+          final isSelected = index == selectedIndex;
+          return Padding(
+            padding: const EdgeInsets.only(right: 9.0),
+            child: BounceWrapper(
+              onTap: () => onTabChanged(index),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                constraints: const BoxConstraints(
+                  minHeight: 42.0,
+                  minWidth: 42.0,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14.0,
+                  vertical: 5.0,
+                ),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? colors.primaryAccent
+                      : colors.tabUnselectedBackground,
+                  borderRadius: BorderRadius.circular(100.0),
+                  border: Border.all(
+                    color: isSelected
+                        ? colors.primaryAccent
+                        : colors.tabUnselectedBorder,
+                    width: 1.0,
+                  ),
+                ),
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 200),
+                  style: AppTextStyles.custom(
+                    fontSize: AppFontSize.md,
+
+                    color: isSelected
+                        ? colors.onPrimaryAccent
+                        : colors.tabUnselectedText,
+                    fontWeight: isSelected ? FontWeight.w800 : FontWeight.w700,
+                  ),
+                  child: Text(tabs[index]),
+                ),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}

@@ -1,0 +1,89 @@
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vocabik_app/features/auth/data/data_sources/auth_local_data_source.dart';
+import 'package:vocabik_app/features/auth/presentation/bloc/auth_bloc.dart';
+import '../network/auth_interceptor.dart';
+import '../services/analytics_service.dart';
+import '../services/crashlytics_service.dart';
+import '../services/notification/fcm_service.dart';
+import '../services/notification/in_app_messaging_service.dart';
+import '../services/notification/local_notification_service.dart';
+import '../services/notification/notification_router_handler.dart';
+import '../services/notification/notification_service.dart';
+import 'injection.dart';
+
+@module
+abstract class AppModule {
+  @preResolve
+  Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+
+  @lazySingleton
+  FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
+
+  @lazySingleton
+  AnalyticsService get analyticsService => FirebaseAnalyticsServiceImpl();
+
+  @lazySingleton
+  CrashlyticsService get crashlyticsService => FirebaseCrashlyticsServiceImpl();
+
+  @lazySingleton
+  NotificationRouterHandler get routerHandler => NotificationRouterHandler();
+
+  @lazySingleton
+  LocalNotificationService localNotificationService(
+    NotificationRouterHandler routerHandler,
+  ) =>
+      LocalNotificationService(routerHandler);
+
+  @lazySingleton
+  InAppMessagingService get inAppMessagingService => InAppMessagingService();
+
+  @lazySingleton
+  FcmService fcmService(
+    LocalNotificationService localNotificationService,
+    NotificationRouterHandler routerHandler,
+  ) =>
+      FcmService(localNotificationService, routerHandler);
+
+  @lazySingleton
+  NotificationService notificationService(
+    FcmService fcmService,
+    LocalNotificationService localNotificationService,
+    InAppMessagingService inAppMessagingService,
+    NotificationRouterHandler routerHandler,
+  ) =>
+      NotificationService(
+        fcmService: fcmService,
+        localNotificationService: localNotificationService,
+        inAppMessagingService: inAppMessagingService,
+        routerHandler: routerHandler,
+      );
+
+  @lazySingleton
+  Dio dio(AuthLocalDataSource authLocalDataSource) {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: 'https://api.vocabik.com/api/v1',
+        connectTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 15),
+        headers: {'accept': '*/*'},
+      ),
+    );
+
+    dio.interceptors.add(
+      AuthInterceptor(
+        dio: dio,
+        authLocalDataSource: authLocalDataSource,
+        onSessionExpired: () {
+          if (getIt.isRegistered<AuthBloc>()) {
+            getIt<AuthBloc>().add(const SessionExpired());
+          }
+        },
+      ),
+    );
+
+    return dio;
+  }
+}

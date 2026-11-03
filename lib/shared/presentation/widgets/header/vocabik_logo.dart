@@ -2,36 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 
 class VocabikLogo extends StatelessWidget {
-  const VocabikLogo({super.key});
+  final double size;
+  final double? borderWidth;
+  
+  const VocabikLogo({super.key, this.size = 30, this.borderWidth});
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final effectiveBorderWidth =
+        borderWidth ?? (size > 50 ? size * 0.025 : 1.0);
+
     return Container(
-      width: 30,
-      height: 30,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
-        color: AppColors.ink950, // Nền màu tối
-        borderRadius: BorderRadius.circular(9),
-        border: Border.all(color: AppColors.accentBorder), // Viền nhẹ
+        color: colors.logoBackground, // Nền logo
+        borderRadius: BorderRadius.circular(size * 0.3),
+        border: Border.all(
+          color: colors.logoBorder,
+          width: effectiveBorderWidth,
+        ), // Viền logo
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Biểu tượng nút play màu Cyan
-          const Icon(
+          // Biểu tượng nút play
+          Icon(
             Icons.play_arrow_rounded,
-            color: AppColors.accent, // Màu Cyan
-            size: 20,
+            color: colors.logoPlay,
+            size: size * 0.66,
           ),
-          // Đường gạch dưới màu Tím
+          // Đường gạch dưới
           Positioned(
-            bottom: 5,
+            bottom: size * 0.16,
             child: Container(
-              width: 13,
-              height: 2.4,
+              width: size * 0.43,
+              height: size * 0.08,
               decoration: BoxDecoration(
-                color: AppColors.premium, // Màu Tím
-                borderRadius: BorderRadius.circular(2),
+                color: colors.logoUnderline, // Màu đường gạch dưới
+                borderRadius: BorderRadius.circular(size * 0.06),
               ),
             ),
           ),

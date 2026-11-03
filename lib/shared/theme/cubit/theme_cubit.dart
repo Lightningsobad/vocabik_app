@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/shared/theme/domain/repositories/theme_repository.dart';
 
+@injectable
 class ThemeCubit extends Cubit<ThemeMode> {
-  static const String _themeKey = 'theme_mode';
-  final SharedPreferences prefs;
+  final ThemeRepository themeRepository;
 
-  ThemeCubit({required this.prefs}) : super(ThemeMode.system) {
+  ThemeCubit({required this.themeRepository})
+      : super(themeRepository.getCachedThemeMode()) {
     _loadTheme();
   }
 
-  void _loadTheme() {
-    final themeString = prefs.getString(_themeKey);
-    if (themeString != null) {
-      if (themeString == 'light') {
-        emit(ThemeMode.light);
-      } else if (themeString == 'dark') {
-        emit(ThemeMode.dark);
-      }
+  Future<void> _loadTheme() async {
+    try {
+      final theme = await themeRepository.getThemeMode();
+      emit(theme);
+    } catch (_) {
+      // Fallback to system theme on error
+      emit(ThemeMode.system);
     }
   }
 
-  void toggleTheme() {
-    if (state == ThemeMode.light || state == ThemeMode.system) {
-      emit(ThemeMode.dark);
-      prefs.setString(_themeKey, 'dark');
-    } else {
-      emit(ThemeMode.light);
-      prefs.setString(_themeKey, 'light');
+  Future<void> toggleTheme() async {
+    final newTheme = (state == ThemeMode.light || state == ThemeMode.system) 
+        ? ThemeMode.dark 
+        : ThemeMode.light;
+    
+    emit(newTheme);
+    
+    try {
+      await themeRepository.saveThemeMode(newTheme);
+    } catch (_) {
+      // Revert if saving fails? For now just handle the error silently or log.
+      // Reverting state would be: emit(state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
     }
   }
 }

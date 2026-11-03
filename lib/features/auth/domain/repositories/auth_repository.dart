@@ -1,0 +1,19 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:vocabik_app/core/errors/failures.dart';
+import '../entities/user.dart';
+import '../entities/user_session.dart';
+
+abstract class AuthRepository {
+  Future<Either<Failure, User>> login({required String email, required String password});
+  Future<Either<Failure, User>> loginWithGoogle(String idToken, {String? anonymousSessionId});
+  Future<Either<Failure, User>> getMe();
+  Future<Either<Failure, void>> signOut();
+  Future<Either<Failure, void>> register({required String email, required String password, required String displayName});
+  Future<Either<Failure, User>> verifyEmail(String token);
+  Future<Either<Failure, void>> resendVerificationEmail(String email);
+  Future<Either<Failure, void>> setCefrSkipped(bool value);
+  Future<Either<Failure, String>> forgotPassword(String email);
+  Future<Either<Failure, String>> resetPassword({required String token, required String newPassword});
+  Future<Either<Failure, List<UserSession>>> getSessions();
+  Future<Either<Failure, void>> deleteAccount({String? password, String? reason});
+}

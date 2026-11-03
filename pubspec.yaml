@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+6
 
 environment:
   sdk: ^3.12.2
@@ -39,9 +39,11 @@ dependencies:
   cupertino_icons: ^1.0.8
   dio: ^5.11.0
 
+
   # --- State Management ---
   flutter_bloc: ^9.1.1
   equatable: ^2.1.0
+  bloc_concurrency: ^0.3.0
 
   # --- Routing ---
   go_router: ^17.3.0
@@ -63,32 +65,70 @@ dependencies:
   lottie: ^3.1.2
   rive: ^0.14.10
   haptic_feedback: ^0.6.5
+  audioplayers: ^6.1.0
 
-  # --- IAP ---
-  purchases_flutter: ^10.6.0
 
   # --- Firebase / Auth (Khởi tạo dependency, setup Native sau) ---
   firebase_core: ^4.12.1
   firebase_analytics: ^12.4.5
   firebase_crashlytics: ^5.2.6
   firebase_messaging: ^16.4.3
-  firebase_auth: ^6.5.6
+  firebase_auth: ^6.7.0
   google_sign_in: ^7.2.0
-  flutter_facebook_auth: ^7.1.1
   sign_in_with_apple: ^8.1.0
   lucide_icons_flutter: ^3.1.15
   google_fonts: ^8.2.0
+  fpdart: 1.2.0
+  formz: 0.8.0
+  app_links: ^7.2.1
+  stream_transform: ^2.1.1
+  shimmer: ^3.0.0
+  youtube_player_iframe: ^6.0.2
+  url_launcher: ^6.3.2
+  flutter_svg: ^2.3.0
+  confetti: ^0.8.0
+  flutter_local_notifications: ^22.3.1
+  firebase_in_app_messaging: ^0.9.4
+  flutter_native_splash: ^2.4.8
+  share_plus: ^13.3.1
+  share_plus_platform_interface: ^7.2.0
+  path_provider: ^2.1.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^6.0.0
+  path_provider_platform_interface: ^2.1.2
   
   # --- Codegen ---
   build_runner: ^2.4.13
   injectable_generator: ^3.1.1
   flutter_flavorizr: ^2.2.3
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/branding/app_icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#0D0D1A"
+  adaptive_icon_foreground: "assets/branding/app_icon_foreground.png"
+
+flutter_native_splash:
+  color: "#F5F5FA"
+  color_dark: "#0D0D1A"
+  image: "assets/branding/splash_logo.png"
+  image_dark: "assets/branding/splash_logo_dark.png"
+  android: true
+  ios: true
+  web: false
+  android_12:
+    color: "#F5F5FA"
+    color_dark: "#0D0D1A"
+    image: "assets/branding/splash_logo.png"
+    image_dark: "assets/branding/splash_logo_dark.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -102,10 +142,23 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/audio_asset/
+    - assets/auth_screen/
+    - assets/verify_email_screen/
+    - assets/cefr_screen/
+    - assets/home_screen/
+    - assets/result_screen/
+    - assets/video_detail/
+    - assets/pricing_screen/
+    - assets/exercise_screen/
+    - assets/progress_screen/
+    - assets/archievements_screen/
+    - assets/daily_challenge_screen/
+    - assets/xp_leaderboard_screen/
+    - assets/profile_screen/
+    - assets/notebook_screen/
+    - assets/playlist_screen/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

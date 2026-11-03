@@ -1,8 +1,731 @@
 {
   "@@locale": "en",
   "homeTitle": "Home",
+  "allPagesTitle": "All pages",
   "homeScreenContent": "Home Screen Content",
   "discoverTitle": "Discover",
   "progressTitle": "Progress",
-  "profileTitle": "Profile"
+  "profileTitle": "Profile",
+  "discoverScreenContent": "Discover Screen Content",
+  "progressScreenContent": "Progress Screen Content",
+  "profileSettingsTitle": "Profile & Settings",
+  "profileTab": "Profile",
+  "preferencesTab": "Preferences",
+  "securityTab": "Security",
+  "accountTab": "Account",
+  "tabNotImplemented": "Content for Tab {tabIndex} is not implemented yet.",
+  "@tabNotImplemented": {
+    "placeholders": {
+      "tabIndex": {
+        "type": "int"
+      }
+    }
+  },
+  "actionAchievements": "Achievements",
+  "actionNotebook": "Notebook",
+  "actionLeaderboard": "Leaderboard",
+  "actionDailyChallenge": "Daily Challenge",
+  "profileChangePhoto": "Change photo",
+  "profileYourName": "Your name",
+  "profileUpdateSuccess": "Name updated successfully!",
+  "actionSave": "Save",
+  "actionEdit": "Edit",
+  "profileEmail": "Email: ",
+  "profileReadOnly": " (readonly)",
+  "profileMemberSince": "Member since: {date}",
+  "@profileMemberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "profileLoadError": "Could not load profile information.",
+  "profileRetry": "Retry",
+  "profileDefaultUser": "User",
+  "appearance": "Appearance",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "soundDuringExercise": "Sound during exercise",
+  "interfaceLanguage": "Interface Language",
+  "languageVietnamese": "Vietnamese",
+  "languageEnglish": "English",
+  "accountLogOut": "Log out",
+  "accountDeletePermanently": "Delete account permanently",
+  "deleteAccountDialogTitle": "Delete your account?",
+  "deleteAccountDialogWarning": "This action cannot be undone. All your learning progress, XP points, streak, personal notebook, and friends list will be permanently deleted.",
+  "deleteAccountPasswordLabel": "Confirmation password",
+  "deleteAccountPasswordHint": "Enter your password",
+  "deleteAccountPasswordOptionalNote": "(Leave blank if signed in with Google)",
+  "deleteAccountConfirmAction": "Confirm delete account",
+  "deleteAccountSuccessMessage": "Your account has been deleted successfully.",
+  "deleteAccountErrorPasswordRequired": "Password is required to confirm account deletion.",
+  "deleteAccountErrorInvalidPassword": "Incorrect password. Please try again.",
+  "deleteAccountErrorGeneric": "Could not delete account. Please try again later.",
+  "securityTab_currentPasswordLabel": "Current password",
+  "securityTab_newPasswordLabel": "New password",
+  "securityTab_updateButton": "Update",
+  "securityTab_activeSessionsTitle": "Active sessions",
+  "securityTab_sessionEmpty": "No active sessions",
+  "securityTab_sessionRetry": "Retry",
+  "securityTab_sessionLoadError": "Unable to load active sessions.",
+  "securityTab_sessionShowMore": "Show more ({count})",
+  "@securityTab_sessionShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "securityTab_sessionShowLess": "Show less",
+  "action_show": "Show",
+  "action_hide": "Hide",
+  "homeDailyPickTitle": "Handpicked for you today",
+  "homeRecommendedTitle": "ALSO FOR YOU",
+  "homeAll": "All",
+  "homeDailyChallenge": "Today's Daily Challenge",
+  "homeTrending": "Trending this week",
+  "homeViewAll": "See all →",
+  "homeRecentlyAdded": "Newly added",
+  "homeLibrary": "Library",
+  "homePrivacyPolicy": "Privacy Policy",
+  "homeTerms": "Terms",
+  "homePracticed": "{count} practiced",
+  "@homePracticed": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "homeDailyPickTag": "DAILY PICK",
+  "homeNewTag": "NEW",
+  "homeChallengeParticipants": "{count} participants",
+  "@homeChallengeParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverSearchHint": "Search by song, artist...",
+  "discoverFilterAll": "All",
+  "genreMusic": "Music",
+  "genreVlog": "Vlog",
+  "genreNews": "News",
+  "genreEducation": "Education",
+  "genreEntertainment": "Entertainment",
+  "genreTedTalks": "TED Talks",
+  "genreNewsEnglish": "News English",
+  "genreOther": "Other",
+  "exerciseTypeMc": "MC",
+  "exerciseTypeFreeText": "Free-text",
+  "exerciseTypeSentenceReorder": "Sentence reorder",
+  "discoverTrendingTitle": "Trending",
+  "discoverPlaylistTitle": "Selected Playlists",
+  "discoverTimeUnder3": "< 3 mins",
+  "discoverTime3To7": "3-7 mins",
+  "discoverTimeOver7": "> 7 mins",
+  "discoverFilter7Days": "7 Days",
+  "discoverEmptyResult": "No results found",
+  "discoverErrorLoad": "An error occurred",
+  "discoverRetryButton": "Retry",
+  "discoverSearchResultsWithQuery": "Found {count} results for \"{query}\"",
+  "@discoverSearchResultsWithQuery": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverSearchResults": "Found {count} results",
+  "@discoverSearchResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoverVideosCount": "{count} videos",
+  "@discoverVideosCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "logoutConfirmTitle": "Log out",
+  "logoutConfirmMessage": "Are you sure you want to log out?",
+  "actionCancel": "Cancel",
+  "actionConfirm": "Confirm",
+  "signUpTitle": "Sign up",
+  "createFreeAccount": "Create a free account",
+  "startLearningToday": "Start learning today",
+  "signUpWithGoogle": "Sign up with Google",
+  "orText": "or",
+  "yourName": "Your name",
+  "emailHint": "Your email",
+  "passwordHint": "Password",
+  "passwordStrengthNone": "None",
+  "passwordStrengthWeak": "Weak",
+  "passwordStrengthMedium": "Medium",
+  "passwordStrengthStrong": "Strong",
+  "signUpTerms": "By signing up, you agree to the Terms & Privacy",
+  "alreadyHaveAccount": "Already have an account? Log in →",
+  "alreadyHaveAccountPrompt": "Already have an account? ",
+  "loginActionLink": "Log in →",
+  "checkYourEmail": "Check your email",
+  "checkEmailSubtitle": "We have sent it to:\n{email}",
+  "@checkEmailSubtitle": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "resendIn": "Resend in {seconds}s",
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "resendEmail": "Resend email",
+  "iHaveVerified": "I've verified → continue",
+  "spamCheckTip": "Don't see it? Check your Spam folder.",
+  "whereIsYourEnglish": "Where is your English right now?",
+  "weWillSuggest": "We'll suggest the exercises that fit you best.",
+  "levelA1A2": "A1–A2",
+  "levelA1A2Desc": "Beginner",
+  "levelB1": "B1",
+  "levelB1Desc": "Basic",
+  "levelB2": "B2",
+  "levelB2Desc": "Intermediate",
+  "levelC1": "C1",
+  "levelC1Desc": "Advanced",
+  "startLearning": "Start learning →",
+  "skipForNow": "Skip, I'll choose later",
+  "actionSignUp": "Sign up",
+  "homeVideosEmpty": "No exercises found.",
+  "homeVideosError": "Failed to load exercises.",
+  "homeRetry": "Retry",
+  "emptySectionText": "No video yet",
+  "emptyVideos": "No videos found",
+  "videoDetailBack": "Back",
+  "videoDetailMultipleChoice": "Multiple choice",
+  "videoDetailExerciseType": "Exercise type",
+  "videoDetailFillBlank": "Fill-blank",
+  "videoDetailTypeTheAnswer": "Type the answer",
+  "videoDetailVersion": "VERSION",
+  "videoDetailVocabulary": "Vocabulary",
+  "videoDetailGrammar": "Grammar",
+  "videoDetailSpeed": "Speed",
+  "videoDetailStartPractice": "Start practice →",
+  "videoDetailBlanksCount": "{count} blanks",
+  "@videoDetailBlanksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "videoDetailLength": "Length",
+  "videoDetailShareThis": "Share this exercise",
+  "videoDetailLastAttempt": "Last attempt",
+  "authGenericError": "An error occurred",
+  "loginTitle": "Log in to Vocabik",
+  "continueWithGoogle": "Continue with Google",
+  "emailInvalid": "Invalid email",
+  "passwordMinLength": "Password must be at least 6 characters",
+  "forgotPassword": "Forgot password? →",
+  "actionLogin": "Log in",
+  "noAccount": "No account yet? ",
+  "signUpFreeAction": "Sign up free →",
+  "progressYourProgress": "Your progress",
+  "progressWeeklyXP": "Weekly XP",
+  "progressAreasToImprove": "Areas to improve",
+  "progressLearningHistory": "Learning history",
+  "progressAchievements": "Achievements",
+  "progressLeaderboard": "Leaderboard",
+  "progressDayStreak": "day streak",
+  "progressXP": "XP",
+  "progressExercisesDone": "exercises done",
+  "progressAccuracy": "accuracy",
+  "progress30DayStreak": "30-day streak",
+  "progressStreakFreezeCount": "Streak Freeze: {count} left",
+  "@progressStreakFreezeCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "progressXpRatio": "{current} / {max} XP",
+  "@progressXpRatio": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "progressNextLevel": "→ Next: {title}",
+  "@progressNextLevel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "progressMaxLevelReached": "Max level reached! 🎉",
+  "progressNoAreasToImprove": "No weak points data yet",
+  "progressPracticeTarget": "Practice {category} →",
+  "@progressPracticeTarget": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "progressNoLearningHistory": "No recent learning history",
+  "progressDateToday": "Today",
+  "progressDateYesterday": "Yesterday",
+  "exerciseTitle": "PRACTICE",
+  "exerciseCorrect": "Correct!",
+  "exerciseCorrectAwesome": "Awesome!",
+  "exerciseCorrectSpotOn": "Spot on!",
+  "exerciseAlmost": "Almost!",
+  "exerciseHint": "Hint",
+  "exerciseContinue": "Continue →",
+  "exerciseCheck": "Check",
+  "exercisePlayingVideo": "Playing video...",
+  "exerciseCompleted": "Exercise completed!",
+  "viewVietnameseTranslation": "Show Vietnamese",
+  "hideVietnameseTranslation": "Hide translation",
+  "nameCannotBeEmpty": "Name cannot be empty",
+  "termsText": "Terms",
+  "securityText": "Privacy Policy",
+  "signUpTermsPrefix": "By continuing, you confirm that you are at least 13 years old and agree to our ",
+  "signUpTermsAnd": " & ",
+  "legalConsentTitle": "Terms & Privacy Update",
+  "legalConsentDescription": "Vocabik has updated its Terms of Service and Privacy Policy for users aged 13 and older. Please review and accept to continue.",
+  "legalConsentAgreeButton": "I'm 13+ & I Agree",
+  "verifySuccessRedirect": "Verification successful. Redirecting...",
+  "verifyFailed": "Verification failed",
+  "updateFailed": "Update failed",
+  "invalidToken": "Invalid or expired token.",
+  "networkError": "No network connection. Please check again.",
+  "serverError": "Server error, please try again later.",
+  "exerciseTypeAnswerHint": "Type the answer...",
+  "exercisePleaseEnterAnswer": "Please enter an answer",
+  "exerciseAlmostCorrect": "Almost correct — the answer is \"{answer}\".",
+  "@exerciseAlmostCorrect": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "userAlreadyExists": "Account already exists.",
+  "resultWhatWentWrong": "What went wrong?",
+  "resultShare": "Share",
+  "resultInstagram": "Instagram",
+  "resultCopy": "Copy",
+  "resultChallengeFriend": "Challenge a friend",
+  "resultNextSuggestedExercise": "Next suggested exercise →",
+  "resultPracticeAgain": "Practice again",
+  "resultBackToLibrary": "Back to library",
+  "resultXpEarned": "XP earned",
+  "resultDayStreak": "day streak",
+  "resultNewBadge": "New badge: First {level}!",
+  "@resultNewBadge": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCompletedFirstExercise": "Completed your first {level} exercise",
+  "@resultCompletedFirstExercise": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCorrectCount": "{count} correct",
+  "@resultCorrectCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultWrongCount": "{count} wrong",
+  "@resultWrongCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultFeatureInDevelopment": "Feature in development",
+  "resultScoreCardError": "Unable to load Score Card",
+  "resultNoInternetScoreCard": "No internet connection to generate Score Card",
+  "resultCopiedToClipboard": "Copied to clipboard!",
+  "resultProgressSavedSuccess": "Progress saved successfully!",
+  "resultProgressSaveError": "Could not sync progress",
+  "resultProgressRetry": "Retry sync",
+  "shareLessonMessage": "Practice English with \"{title}\" on Vocabik!\n{url}",
+  "@shareLessonMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "shareScoreCardMessage": "I just scored {score}% on \"{title}\" on Vocabik! 🎯\n{url}",
+  "@shareScoreCardMessage": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "resultSharingImage": "Preparing score card image...",
+  "resultShareImageFailedFallback": "Could not prepare image, sharing link instead...",
+  "termsOfServiceTitle": "Terms of Service",
+  "privacyPolicyTitle": "Privacy Policy",
+  "legalLastUpdated": "Last updated: {date}",
+  "@legalLastUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalLastUpdatedDefaultDate": "15/10/2026",
+  "tosSection1Title": "1. Acceptance of Terms",
+  "tosSection1Content": "Vocabik is an English learning service designed for individuals who are at least 13 years old. By using Vocabik and creating an account, you confirm that you are 13 years of age or older, and agree to these Terms, YouTube's Terms of Service (https://www.youtube.com/t/terms), and Google's Privacy Policy (https://policies.google.com/privacy).",
+  "tosSection2Title": "2. User Account",
+  "tosSection2Content": "You are responsible for safeguarding your login credentials.",
+  "tosSection3Title": "3. Use of Service & User Conduct",
+  "tosSection3Content": "Do not use the service for illegal purposes, violate YouTube Terms of Service, post abusive content, or harass others. Vocabik enforces zero tolerance for objectionable content and abusive users.",
+  "tosSection4Title": "4. Content & Intellectual Property",
+  "tosSection4Content": "Video content belongs to original owners on YouTube; Vocabik only creates learning exercises.",
+  "tosSection5Title": "5. Account Termination",
+  "tosSection5Content": "Accounts that violate terms, engage in abusive behavior, or post objectionable content may be terminated immediately.",
+  "tosContact": "Contact: support@vocabik.com",
+  "privacySummaryTitle": "Summary:",
+  "privacySummaryContent": "Vocabik is designed for users aged 13 and older. We collect email, display name, and learning data to provide services and do not sell your data. We do not knowingly collect personal information from children under 13.",
+  "privacySection1Title": "1. Information We Collect",
+  "privacySection1Content": "Email, display name, pseudonymous identifiers, and learning data (progress, scores, saved vocabulary) to personalize your experience.",
+  "privacySection2Title": "2. How We Use Information",
+  "privacySection2Content": "Provide learning services, recommend suitable videos, track progress, maintain leaderboards, and send streak reminders (if enabled).",
+  "privacySection3Title": "3. Third-Party Services",
+  "privacySection3Content": "Google Sign-In, YouTube API Services, Firebase (Crashlytics diagnostics, Cloud Messaging, In-App Messaging), and Google Analytics. By using YouTube-powered features, you agree to the Google Privacy Policy (https://policies.google.com/privacy).",
+  "privacySection4Title": "4. Cookies & Diagnostics",
+  "privacySection4Content": "We collect necessary authentication tokens and pseudonymous diagnostic crash logs linked to your account to improve app performance.",
+  "privacySection5Title": "5. Your Rights & Data Deletion",
+  "privacySection5Content": "You can request account deletion or data inquiry at any time by visiting https://vocabik.com/delete-account or contacting privacy@vocabik.com.",
+  "privacySection6Title": "6. Data Security",
+  "privacySection6Content": "Data is encrypted in transit using HTTPS and stored on secure infrastructure.",
+  "privacyContact": "Contact: privacy@vocabik.com",
+  "forgotPasswordHeading": "Forgot password?",
+  "forgotPasswordSubtitle": "Enter your email, we will send you a reset link.",
+  "backToLogin": "Back to login",
+  "sendResetLink": "Send reset link →",
+  "resetPasswordHeading": "Set new password",
+  "newPasswordHint": "New password",
+  "confirmPasswordHint": "Confirm password",
+  "resetPasswordAction": "Reset password →",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "emailSentSuccess": "A password reset link has been sent to your email.",
+  "resetPasswordSuccess": "Password updated successfully. You may now sign in.",
+  "achievementsYourAchievements": "Your achievements",
+  "achievementsBadgesUnlocked": "{count} / {total} badges unlocked",
+  "@achievementsBadgesUnlocked": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsUnlockedHeader": "UNLOCKED",
+  "achievementsLockedHeader": "LOCKED",
+  "achievementsEmpty": "No achievements available yet.",
+  "achievementsFilterAll": "All",
+  "achievementsFilterExercise": "Exercise",
+  "achievementsFilterStreak": "Streak",
+  "achievementsFilterProficiency": "Proficiency",
+  "achievementsFilterDiversity": "Diversity",
+  "achievementsFilterVocabulary": "Vocabulary",
+  "achievementsFilterSpeed": "Speed",
+  "achievementsFilterGeneral": "General",
+  "achievementsFilterMilestones": "Milestones",
+  "achievementsFilterGenre": "Genre",
+  "dailyChallengeTitle": "Daily Challenge",
+  "dailyChallengeJoinNow": "Join now! →",
+  "dailyChallengeTopToday": "Top today",
+  "dailyChallengeStreakDays": "You've joined {count} days in a row!",
+  "@dailyChallengeStreakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyChallengeStreakKeep": "Join today to start or keep your streak!",
+  "dailyChallengeParticipants": "{count} participants",
+  "@dailyChallengeParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "dailyChallengeNoParticipants": "No participants yet today. Be the first!",
+  "dailyChallengeNotConfigured": "No challenge available for today",
+  "xpLeaderboardTitle": "XP Leaderboard",
+  "xpLeaderboardResetsIn": "Resets in: {time}",
+  "@xpLeaderboardResetsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "xpLeaderboardResetsInDays": "Resets in: {days} days",
+  "@xpLeaderboardResetsInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResetsInHours": "Resets in: {hours} hours",
+  "@xpLeaderboardResetsInHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResetsInMinutes": "Resets in: {minutes} mins",
+  "@xpLeaderboardResetsInMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResettingSoon": "Resetting soon",
+  "xpLeaderboardFilterThisWeek": "This week",
+  "xpLeaderboardFilterLastWeek": "Last week",
+  "xpLeaderboardFilterThisMonth": "This month",
+  "xpLeaderboardFilterGlobal": "Global",
+  "xpLeaderboardFilterFriends": "Friends",
+  "xpLeaderboardYourRank": "Your rank",
+  "xpLeaderboardEmpty": "No leaderboard data found",
+  "challengeFriendTitle": "Challenge a friend",
+  "challengeFriendSubtitle": "Pick friends to take this exercise. Higher score wins.",
+  "challengeSearchFriendsHint": "Search friends...",
+  "challengeFriendsSection": "FRIENDS ON VOCABIK",
+  "challengePickAtLeastOne": "Pick at least 1",
+  "challengeSelectedCount": "{count} selected",
+  "@challengeSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeSend": "Send challenge",
+  "challengeSendWithCount": "Send challenge ({count}) →",
+  "@challengeSendWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeBlanksCount": "{count} blanks",
+  "@challengeBlanksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeNoFriendsFound": "No friends found",
+  "challengeLoadingFriends": "Loading friends...",
+  "challengeLoadFriendsError": "Failed to load friends",
+  "challengeCreateLinkError": "Failed to create challenge link",
+  "challengeSentTitle": "Challenge sent!",
+  "challengeSentSubtitleSingle": "Your score {score}% on “{title}” was sent to {friend}.",
+  "@challengeSentSubtitleSingle": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "friend": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeSentSubtitleMultiple": "Your score {score}% on “{title}” was sent to {count} friends.",
+  "@challengeSentSubtitleMultiple": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeInfo24HoursTitle": "They have 24 hours to reply",
+  "challengeInfo24HoursDesc": "If they run out of time, you win by default.",
+  "challengeInfoNotifiedTitle": "You'll be notified",
+  "challengeInfoNotifiedDesc": "As soon as someone finishes the challenge.",
+  "challengeInfoWinXpTitle": "Win to earn +50 XP",
+  "challengeInfoWinXpDesc": "Beat their score to win.",
+  "challengeCopyLink": "Copy challenge link",
+  "challengeViewLeaderboard": "View leaderboard →",
+  "challengeLinkCopied": "Challenge link copied to clipboard!",
+  "notebookTitle": "Notebook",
+  "wordsCount": "{count} words",
+  "@wordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchWordsPlaceholder": "Search words...",
+  "tabList": "List",
+  "tabFlashcard": "Flashcard",
+  "tapToFlip": "Tap to flip",
+  "reviewAgain": "Review again",
+  "gotIt": "Got it",
+  "emptyNotebook": "No words saved yet.",
+  "noSearchResults": "No words found matching your search.",
+  "reviewFinishedTitle": "All caught up!",
+  "reviewFinishedDesc": "You have reviewed all your flashcards.",
+  "reportUserTitle": "Report user",
+  "reportUserSubtitle": "Select a reason for reporting account “{userName}”:",
+  "@reportUserSubtitle": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "reportReasonInappropriateName": "Inappropriate or offensive display name",
+  "reportReasonInappropriateAvatar": "Profile picture violates community guidelines",
+  "reportReasonHarassmentOrCheating": "Harassment or cheating",
+  "reportReasonSpamOrAd": "Spam or advertising content",
+  "reportUserSubmit": "Submit report",
+  "reportUserSuccessMessage": "Thank you. Your report has been received and forwarded to our moderation team.",
+  "reportReasonSpam": "Spam or advertising content",
+  "reportReasonHarassment": "Harassment or bullying",
+  "reportReasonInappropriateContent": "Inappropriate content / 18+",
+  "reportReasonHateSpeech": "Hate speech",
+  "reportReasonOther": "Other reason",
+  "reportDetailsLabel": "Violation details (optional)",
+  "reportDetailsHint": "Enter additional details about this violation...",
+  "reportSuccess24h": "Thank you for your report. Our moderation team will review and take action within 24 hours.",
+  "reportSubmitting": "Submitting report...",
+  "blockedUsersTitle": "Blocked users",
+  "blockedUsersEmpty": "You have not blocked any users.",
+  "blockedUsersError": "Unable to load blocked users.",
+  "unblockAction": "Unblock",
+  "unblockSuccess": "Unblocked {userName}.",
+  "@unblockSuccess": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "unblockConfirmTitle": "Unblock user?",
+  "unblockConfirmMessage": "Are you sure you want to unblock {userName}? They will be able to interact with you again.",
+  "@unblockConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserTitle": "Block user",
+  "blockUserConfirmMessage": "Are you sure you want to block {userName}? They will be removed from your friends and hidden from all interactions.",
+  "@blockUserConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserAction": "Block",
+  "blockUserSuccess": "Blocked {userName} successfully.",
+  "@blockUserSuccess": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserPromptTitle": "Block this user?",
+  "blockUserPromptDesc": "Would you like to block this user as well? You will no longer see their activity.",
+  "actionLater": "Later",
+  "actionOptions": "Interaction options",
+  "reportUserOption": "Report violation",
+  "blockUserOption": "Block user",
+  "cannotReportSelf": "You cannot report yourself.",
+  "cannotBlockSelf": "You cannot block yourself.",
+  "blockedAtDate": "Blocked on: {date}",
+  "@blockedAtDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "unblocking": "Unblocking...",
+  "blocking": "Blocking...",
+  "reportVideoTitle": "Report video",
+  "reportVideoSubtitle": "Select a reason for reporting video “{videoTitle}”:",
+  "@reportVideoSubtitle": {
+    "placeholders": {
+      "videoTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "reportVideoOption": "Report this video",
+  "reportVideoTooltip": "Report video violation"
 }

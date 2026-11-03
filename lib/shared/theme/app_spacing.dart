@@ -1,9 +1,41 @@
 class AppSpacing {
   AppSpacing._();
-
+  static const double xs = 2.0;
+  static const double tn = 4.0;
+  static const double tnn = 6.0;
   static const double sm = 8.0;
+  static const double sm1 = 9.0;
+  static const double sm2 = 10.0;
+  static const double sm3 = 11.0;
   static const double md = 12.0;
+  static const double mdt = 13.0;
+  static const double md2 = 14.0;
+  static const double md3 = 15.0;
   static const double lg = 16.0;
+  static const double lg1 = 18.0;
+  static const double lg2 = 20.0;
+  static const double lg3 = 22.0;
+  static const double xl = 24.0;
+  static const double xl1 = 26.0;
+  static const double xl2 = 28.0;
+  static const double xl3 = 32.0;
+  static const double xl4 = 40.0;
+  static const double xl5 = 48.0;
+  static const double xl5_5 = 52.0;
+  static const double xl6 = 56.0;
+  static const double xl7 = 64.0;
+  static const double xl8 = 72.0;
+  static const double xl9 = 80.0;
+  static const double xl10 = 88.0;
+  static const double xl11 = 96.0;
+  static const double xl12 = 104.0;
+  static const double xl12_2 = 120.0;
+  static const double xl13 = 220.0;
+  static const double xl14 = 240.0;
 
+  static const double cardWidth = 260.0;
   static const double headerHeight = 56.0;
+  static const double radiusSm = 8.0;
+  static const double radiusMd = 12.0;
+  static const double radiusLg = 16.0;
 }

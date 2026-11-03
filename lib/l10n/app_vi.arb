@@ -1,8 +1,731 @@
 {
   "@@locale": "vi",
   "homeTitle": "Trang chủ",
+  "allPagesTitle": "Tất cả các trang",
   "homeScreenContent": "Nội dung trang chủ",
   "discoverTitle": "Khám phá",
   "progressTitle": "Tiến độ",
-  "profileTitle": "Hồ sơ"
+  "profileTitle": "Hồ sơ",
+  "discoverScreenContent": "Nội dung Khám phá",
+  "progressScreenContent": "Nội dung Tiến độ",
+  "profileSettingsTitle": "Hồ sơ & Cài đặt",
+  "profileTab": "Hồ sơ",
+  "preferencesTab": "Tuỳ chỉnh",
+  "securityTab": "Bảo mật",
+  "accountTab": "Tài khoản",
+  "tabNotImplemented": "Nội dung cho Tab {tabIndex} chưa được phát triển.",
+  "@tabNotImplemented": {
+    "placeholders": {
+      "tabIndex": {
+        "type": "int"
+      }
+    }
+  },
+  "actionAchievements": "Thành tích",
+  "actionNotebook": "Sổ từ vựng",
+  "actionLeaderboard": "Xếp hạng",
+  "actionDailyChallenge": "Thử thách ngày",
+  "profileChangePhoto": "Đổi ảnh",
+  "profileYourName": "Tên của bạn",
+  "profileUpdateSuccess": "Cập nhật tên thành công!",
+  "actionSave": "Lưu",
+  "actionEdit": "Chỉnh sửa",
+  "profileEmail": "Email: ",
+  "profileReadOnly": " (chỉ xem)",
+  "profileMemberSince": "Thành viên từ: {date}",
+  "@profileMemberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "profileLoadError": "Không thể tải thông tin hồ sơ.",
+  "profileRetry": "Thử lại",
+  "profileDefaultUser": "Người dùng",
+  "appearance": "Giao diện",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "soundDuringExercise": "Âm thanh khi làm bài",
+  "interfaceLanguage": "Ngôn ngữ giao diện",
+  "languageVietnamese": "Vietnamese",
+  "languageEnglish": "English",
+  "accountLogOut": "Đăng xuất",
+  "accountDeletePermanently": "Xóa tài khoản vĩnh viễn",
+  "deleteAccountDialogTitle": "Xóa tài khoản của bạn?",
+  "deleteAccountDialogWarning": "Hành động này không thể hoàn tác. Toàn bộ tiến trình học, điểm số XP, chuỗi ngày học Streak, sổ từ vựng cá nhân và danh sách bạn bè của bạn sẽ bị xóa vĩnh viễn.",
+  "deleteAccountPasswordLabel": "Mật khẩu xác nhận",
+  "deleteAccountPasswordHint": "Nhập mật khẩu của bạn",
+  "deleteAccountPasswordOptionalNote": "(Bỏ trống nếu đăng nhập bằng Google)",
+  "deleteAccountConfirmAction": "Xác nhận xóa tài khoản",
+  "deleteAccountSuccessMessage": "Tài khoản của bạn đã được xóa thành công.",
+  "deleteAccountErrorPasswordRequired": "Vui lòng nhập mật khẩu để xác nhận xóa tài khoản.",
+  "deleteAccountErrorInvalidPassword": "Mật khẩu không chính xác, vui lòng thử lại.",
+  "deleteAccountErrorGeneric": "Không thể xóa tài khoản. Vui lòng thử lại sau.",
+  "securityTab_currentPasswordLabel": "Mật khẩu hiện tại",
+  "securityTab_newPasswordLabel": "Mật khẩu mới",
+  "securityTab_updateButton": "Cập nhật",
+  "securityTab_activeSessionsTitle": "Phiên đăng nhập",
+  "securityTab_sessionEmpty": "Không có phiên hoạt động nào",
+  "securityTab_sessionRetry": "Thử lại",
+  "securityTab_sessionLoadError": "Không thể tải danh sách phiên đăng nhập.",
+  "securityTab_sessionShowMore": "Xem thêm ({count})",
+  "@securityTab_sessionShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "securityTab_sessionShowLess": "Thu gọn",
+  "action_show": "Hiện",
+  "action_hide": "Ẩn",
+  "homeDailyPickTitle": "Tuyển chọn cho bạn hôm nay",
+  "homeRecommendedTitle": "CŨNG DÀNH CHO BẠN",
+  "homeAll": "Tất cả",
+  "homeDailyChallenge": "Daily Challenge hôm nay",
+  "homeTrending": "Trending tuần này",
+  "homeViewAll": "Xem tất cả →",
+  "homeRecentlyAdded": "Mới thêm",
+  "homeLibrary": "Thư viện",
+  "homePrivacyPolicy": "Chính sách bảo mật",
+  "homeTerms": "Điều khoản",
+  "homePracticed": "{count} đã luyện",
+  "@homePracticed": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "homeDailyPickTag": "DAILY PICK",
+  "homeNewTag": "NEW",
+  "homeChallengeParticipants": "{count} người đã tham gia",
+  "@homeChallengeParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverSearchHint": "Tìm theo bài hát, nghệ sĩ...",
+  "discoverFilterAll": "Tất cả",
+  "genreMusic": "Âm nhạc",
+  "genreVlog": "Vlog",
+  "genreNews": "Tin tức",
+  "genreEducation": "Giáo dục",
+  "genreEntertainment": "Giải trí",
+  "genreTedTalks": "TED Talks",
+  "genreNewsEnglish": "Tin tức Tiếng Anh",
+  "genreOther": "Khác",
+  "exerciseTypeMc": "Trắc nghiệm",
+  "exerciseTypeFreeText": "Điền từ",
+  "exerciseTypeSentenceReorder": "Sắp xếp câu",
+  "discoverTrendingTitle": "Trending",
+  "discoverPlaylistTitle": "Playlist tuyển chọn",
+  "discoverTimeUnder3": "< 3 phút",
+  "discoverTime3To7": "3-7 phút",
+  "discoverTimeOver7": "> 7 phút",
+  "discoverFilter7Days": "7 Ngày",
+  "discoverEmptyResult": "Không tìm thấy kết quả",
+  "discoverErrorLoad": "Đã có lỗi xảy ra",
+  "discoverRetryButton": "Thử lại",
+  "discoverSearchResultsWithQuery": "Found {count} kết quả cho \"{query}\"",
+  "@discoverSearchResultsWithQuery": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverSearchResults": "Found {count} kết quả",
+  "@discoverSearchResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoverVideosCount": "{count} videos",
+  "@discoverVideosCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "logoutConfirmTitle": "Đăng xuất",
+  "logoutConfirmMessage": "Bạn có chắc chắn muốn đăng xuất không?",
+  "actionCancel": "Hủy",
+  "actionConfirm": "Xác nhận",
+  "signUpTitle": "Đăng ký",
+  "createFreeAccount": "Tạo tài khoản miễn phí",
+  "startLearningToday": "Bắt đầu học ngay hôm nay",
+  "signUpWithGoogle": "Đăng ký với Google",
+  "orText": "hoặc",
+  "yourName": "Tên của bạn",
+  "emailHint": "Email của bạn",
+  "passwordHint": "Mật khẩu",
+  "passwordStrengthNone": "Chưa có",
+  "passwordStrengthWeak": "Yếu",
+  "passwordStrengthMedium": "Trung bình",
+  "passwordStrengthStrong": "Mạnh",
+  "signUpTerms": "Bằng cách đăng ký, bạn đồng ý Điều khoản & Bảo mật",
+  "alreadyHaveAccount": "Đã có tài khoản? Đăng nhập →",
+  "alreadyHaveAccountPrompt": "Đã có tài khoản? ",
+  "loginActionLink": "Đăng nhập →",
+  "checkYourEmail": "Kiểm tra email của bạn",
+  "checkEmailSubtitle": "Chúng tôi đã gửi đến:\n{email}",
+  "@checkEmailSubtitle": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "resendIn": "Gửi lại sau {seconds} giây",
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "resendEmail": "Gửi lại email",
+  "iHaveVerified": "Tôi đã xác thực → tiếp tục",
+  "spamCheckTip": "Không thấy email? Kiểm tra thư mục Spam.",
+  "whereIsYourEnglish": "Tiếng Anh của bạn hiện ở đâu?",
+  "weWillSuggest": "Chúng tôi sẽ gợi ý bài phù hợp nhất với bạn.",
+  "levelA1A2": "A1–A2",
+  "levelA1A2Desc": "Mới bắt đầu",
+  "levelB1": "B1",
+  "levelB1Desc": "Cơ bản",
+  "levelB2": "B2",
+  "levelB2Desc": "Khá",
+  "levelC1": "C1",
+  "levelC1Desc": "Nâng cao",
+  "startLearning": "Bắt đầu học →",
+  "skipForNow": "Bỏ qua, tôi tự chọn sau",
+  "actionSignUp": "Đăng ký",
+  "homeVideosEmpty": "Chưa có bài tập nào.",
+  "homeVideosError": "Không thể tải danh sách bài tập.",
+  "homeRetry": "Thử lại",
+  "emptySectionText": "Chưa có video nào",
+  "emptyVideos": "Không có video nào",
+  "videoDetailBack": "Quay lại",
+  "videoDetailMultipleChoice": "Trắc nghiệm",
+  "videoDetailExerciseType": "Dạng bài",
+  "videoDetailFillBlank": "Điền từ",
+  "videoDetailTypeTheAnswer": "Tự gõ đáp án",
+  "videoDetailVersion": "PHIÊN BẢN",
+  "videoDetailVocabulary": "Từ vựng",
+  "videoDetailGrammar": "Ngữ pháp",
+  "videoDetailSpeed": "Tốc độ",
+  "videoDetailStartPractice": "Bắt đầu luyện tập →",
+  "videoDetailBlanksCount": "{count} chỗ trống",
+  "@videoDetailBlanksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "videoDetailLength": "Độ dài",
+  "videoDetailShareThis": "Chia sẻ bài này",
+  "videoDetailLastAttempt": "Lần trước",
+  "authGenericError": "Có lỗi xảy ra",
+  "loginTitle": "Đăng nhập vào Vocabik",
+  "continueWithGoogle": "Tiếp tục với Google",
+  "emailInvalid": "Email không hợp lệ",
+  "passwordMinLength": "Mật khẩu phải từ 6 ký tự",
+  "forgotPassword": "Quên mật khẩu? →",
+  "actionLogin": "Đăng nhập",
+  "noAccount": "Chưa có tài khoản? ",
+  "signUpFreeAction": "Đăng ký miễn phí →",
+  "progressYourProgress": "Tiến độ của bạn",
+  "progressWeeklyXP": "XP theo tuần",
+  "progressAreasToImprove": "Điểm cần cải thiện",
+  "progressLearningHistory": "Lịch sử học tập",
+  "progressAchievements": "Thành tích",
+  "progressLeaderboard": "Xếp hạng",
+  "progressDayStreak": "ngày streak",
+  "progressXP": "XP",
+  "progressExercisesDone": "bài đã làm",
+  "progressAccuracy": "độ chính xác",
+  "progress30DayStreak": "Streak 30 ngày",
+  "progressStreakFreezeCount": "Streak Freeze: {count} còn lại",
+  "@progressStreakFreezeCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "progressXpRatio": "{current} / {max} XP",
+  "@progressXpRatio": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "progressNextLevel": "→ Tiếp theo: {title}",
+  "@progressNextLevel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "progressMaxLevelReached": "Đã đạt cấp độ cao nhất! 🎉",
+  "progressNoAreasToImprove": "Chưa có dữ liệu lỗi cần cải thiện",
+  "progressPracticeTarget": "Luyện tập {category} →",
+  "@progressPracticeTarget": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "progressNoLearningHistory": "Chưa có lịch sử làm bài gần đây",
+  "progressDateToday": "Hôm nay",
+  "progressDateYesterday": "Hôm qua",
+  "exerciseTitle": "ĐANG LUYỆN",
+  "exerciseCorrect": "Chính xác!",
+  "exerciseCorrectAwesome": "Tuyệt vời!",
+  "exerciseCorrectSpotOn": "Chuẩn xác!",
+  "exerciseAlmost": "Gần đúng!",
+  "exerciseHint": "Gợi ý",
+  "exerciseContinue": "Tiếp tục →",
+  "exerciseCheck": "Kiểm tra",
+  "exercisePlayingVideo": "Đang phát video...",
+  "exerciseCompleted": "Hoàn thành bài tập!",
+  "viewVietnameseTranslation": "Xem dịch tiếng Việt",
+  "hideVietnameseTranslation": "Ẩn dịch tiếng Việt",
+  "nameCannotBeEmpty": "Tên không được để trống",
+  "termsText": "Điều khoản",
+  "securityText": "Chính sách quyền riêng tư",
+  "signUpTermsPrefix": "Bằng cách tiếp tục, bạn xác nhận từ 13 tuổi trở lên và đồng ý với ",
+  "signUpTermsAnd": " & ",
+  "legalConsentTitle": "Cập nhật Điều khoản & Bảo mật",
+  "legalConsentDescription": "Vocabik đã cập nhật Điều khoản dịch vụ và Chính sách quyền riêng tư dành cho người dùng từ 13 tuổi trở lên. Vui lòng xem lại và xác nhận để tiếp tục sử dụng.",
+  "legalConsentAgreeButton": "Tôi từ 13 tuổi trở lên & Đồng ý",
+  "verifySuccessRedirect": "Xác thực thành công. Đang chuyển hướng...",
+  "verifyFailed": "Xác thực thất bại",
+  "updateFailed": "Cập nhật thất bại",
+  "invalidToken": "Token không hợp lệ hoặc đã hết hạn.",
+  "networkError": "Không có kết nối mạng. Vui lòng kiểm tra lại.",
+  "serverError": "Lỗi máy chủ, vui lòng thử lại sau.",
+  "exerciseTypeAnswerHint": "Gõ đáp án...",
+  "exercisePleaseEnterAnswer": "Vui lòng nhập đáp án",
+  "exerciseAlmostCorrect": "Gần đúng — đáp án là \"{answer}\".",
+  "@exerciseAlmostCorrect": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "userAlreadyExists": "Tài khoản đã tồn tại.",
+  "resultWhatWentWrong": "Sai ở đâu?",
+  "resultShare": "Chia sẻ",
+  "resultInstagram": "Instagram",
+  "resultCopy": "Sao chép",
+  "resultChallengeFriend": "Thách bạn bè",
+  "resultNextSuggestedExercise": "Bài tiếp theo gợi ý →",
+  "resultPracticeAgain": "Luyện lại",
+  "resultBackToLibrary": "Về thư viện",
+  "resultXpEarned": "XP nhận được",
+  "resultDayStreak": "ngày liên tiếp",
+  "resultNewBadge": "Huy hiệu mới: First {level}!",
+  "@resultNewBadge": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCompletedFirstExercise": "Hoàn thành bài {level} đầu tiên",
+  "@resultCompletedFirstExercise": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "resultCorrectCount": "{count} đúng",
+  "@resultCorrectCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultWrongCount": "{count} sai",
+  "@resultWrongCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultFeatureInDevelopment": "Tính năng đang phát triển",
+  "resultScoreCardError": "Không thể tải Score Card",
+  "resultNoInternetScoreCard": "Không có kết nối mạng để tạo thẻ",
+  "resultCopiedToClipboard": "Đã sao chép vào bộ nhớ tạm!",
+  "resultProgressSavedSuccess": "Đã lưu tiến độ làm bài!",
+  "resultProgressSaveError": "Không thể đồng bộ tiến độ",
+  "resultProgressRetry": "Thử lại",
+  "shareLessonMessage": "Luyện tiếng Anh qua video \"{title}\" trên Vocabik!\n{url}",
+  "@shareLessonMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "shareScoreCardMessage": "Tôi vừa đạt {score}% bài luyện \"{title}\" trên Vocabik! 🎯\n{url}",
+  "@shareScoreCardMessage": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "resultSharingImage": "Đang chuẩn bị ảnh điểm số...",
+  "resultShareImageFailedFallback": "Không thể tải ảnh, đang chia sẻ liên kết...",
+  "termsOfServiceTitle": "Điều khoản dịch vụ",
+  "privacyPolicyTitle": "Chính sách bảo mật",
+  "legalLastUpdated": "Cập nhật lần cuối: {date}",
+  "@legalLastUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalLastUpdatedDefaultDate": "15/10/2026",
+  "tosSection1Title": "1. Chấp nhận điều khoản",
+  "tosSection1Content": "Vocabik là dịch vụ học tiếng Anh dành cho người dùng từ 13 tuổi trở lên. Bằng việc sử dụng Vocabik và tạo tài khoản, bạn xác nhận mình từ 13 tuổi trở lên, đồng thời đồng ý với các Điều khoản này, Điều khoản Dịch vụ của YouTube (https://www.youtube.com/t/terms) và Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).",
+  "tosSection2Title": "2. Tài khoản người dùng",
+  "tosSection2Content": "Bạn chịu trách nhiệm bảo mật thông tin đăng nhập của mình.",
+  "tosSection3Title": "3. Sử dụng dịch vụ & Quy tắc cộng đồng",
+  "tosSection3Content": "Không sử dụng dịch vụ cho mục đích bất hợp pháp, vi phạm Điều khoản YouTube, đăng tải nội dung phản cảm hoặc quấy rối người khác. Vocabik kiên quyết không dung thứ đối với hành vi lạm dụng và nội dung phản cảm.",
+  "tosSection4Title": "4. Nội dung & sở hữu trí tuệ",
+  "tosSection4Content": "Nội dung video thuộc về chủ sở hữu gốc trên YouTube; Vocabik chỉ tạo bài tập học tập.",
+  "tosSection5Title": "5. Chấm dứt tài khoản",
+  "tosSection5Content": "Tài khoản vi phạm điều khoản, có hành vi lạm dụng hoặc tạo nội dung phản cảm có thể bị khóa hoặc chấm dứt ngay lập tức.",
+  "tosContact": "Liên hệ: support@vocabik.com",
+  "privacySummaryTitle": "Tóm tắt:",
+  "privacySummaryContent": "Vocabik dành cho người dùng từ 13 tuổi trở lên. Chúng tôi thu thập email, tên hiển thị và dữ liệu học tập để cung cấp dịch vụ và không bán dữ liệu của bạn. Chúng tôi không chủ đích thu thập dữ liệu cá nhân của trẻ em dưới 13 tuổi.",
+  "privacySection1Title": "1. Thông tin chúng tôi thu thập",
+  "privacySection1Content": "Email, tên hiển thị, mã định danh tài khoản và dữ liệu học tập (tiến độ, điểm số, từ vựng đã lưu) để cá nhân hóa trải nghiệm.",
+  "privacySection2Title": "2. Cách sử dụng thông tin",
+  "privacySection2Content": "Cung cấp dịch vụ học tập, gợi ý video phù hợp, theo dõi tiến độ, bảng xếp hạng và gửi nhắc nhở streak (nếu bạn bật).",
+  "privacySection3Title": "3. Dịch vụ bên thứ ba",
+  "privacySection3Content": "Google Sign-In, YouTube API Services, Firebase (chẩn đoán lỗi Crashlytics, Cloud Messaging, In-App Messaging) và Google Analytics. Khi dùng tính năng YouTube, bạn cũng tuân thủ Chính sách Quyền riêng tư của Google (https://policies.google.com/privacy).",
+  "privacySection4Title": "4. Chẩn đoán & Dữ liệu kỹ thuật",
+  "privacySection4Content": "Chúng tôi lưu trữ token xác thực bảo mật và nhật ký lỗi chẩn đoán định danh liên kết tài khoản (pseudonymous) để cải thiện độ ổn định của ứng dụng.",
+  "privacySection5Title": "5. Quyền của bạn & Yêu cầu xóa dữ liệu",
+  "privacySection5Content": "Bạn có thể gửi yêu cầu xóa tài khoản hoặc tra cứu dữ liệu bất cứ lúc nào tại https://vocabik.com/delete-account hoặc qua email privacy@vocabik.com.",
+  "privacySection6Title": "6. Bảo mật dữ liệu",
+  "privacySection6Content": "Dữ liệu được mã hóa khi truyền tải qua HTTPS và lưu trữ trên hạ tầng bảo mật.",
+  "privacyContact": "Liên hệ: privacy@vocabik.com",
+  "forgotPasswordHeading": "Quên mật khẩu?",
+  "forgotPasswordSubtitle": "Nhập email, chúng tôi sẽ gửi link đặt lại.",
+  "backToLogin": "Quay lại đăng nhập",
+  "sendResetLink": "Gửi link đặt lại →",
+  "resetPasswordHeading": "Đặt mật khẩu mới",
+  "newPasswordHint": "Mật khẩu mới",
+  "confirmPasswordHint": "Xác nhận mật khẩu",
+  "resetPasswordAction": "Đặt lại mật khẩu →",
+  "passwordsDoNotMatch": "Mật khẩu xác nhận không khớp",
+  "emailSentSuccess": "Link đặt lại mật khẩu đã được gửi đến email.",
+  "resetPasswordSuccess": "Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại.",
+  "achievementsYourAchievements": "Thành tích của bạn",
+  "achievementsBadgesUnlocked": "{count} / {total} badges đã mở khóa",
+  "@achievementsBadgesUnlocked": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsUnlockedHeader": "ĐÃ MỞ KHÓA",
+  "achievementsLockedHeader": "CHƯA MỞ KHÓA",
+  "achievementsEmpty": "Chưa có thành tích nào.",
+  "achievementsFilterAll": "Tất cả",
+  "achievementsFilterExercise": "Bài tập",
+  "achievementsFilterStreak": "Streak",
+  "achievementsFilterProficiency": "Trình độ",
+  "achievementsFilterDiversity": "Đa dạng",
+  "achievementsFilterVocabulary": "Từ vựng",
+  "achievementsFilterSpeed": "Tốc độ",
+  "achievementsFilterGeneral": "Chung",
+  "achievementsFilterMilestones": "Cột mốc",
+  "achievementsFilterGenre": "Thể loại",
+  "dailyChallengeTitle": "Daily Challenge",
+  "dailyChallengeJoinNow": "Tham gia ngay! →",
+  "dailyChallengeTopToday": "Top hôm nay",
+  "dailyChallengeStreakDays": "Bạn đã tham gia {count} ngày liên tiếp!",
+  "@dailyChallengeStreakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyChallengeStreakKeep": "Tham gia hôm nay để duy trì chuỗi ngày!",
+  "dailyChallengeParticipants": "{count} đang tham gia",
+  "@dailyChallengeParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "dailyChallengeNoParticipants": "Chưa có ai tham gia hôm nay. Hãy là người đầu tiên!",
+  "dailyChallengeNotConfigured": "Chưa có thử thách nào cho hôm nay",
+  "xpLeaderboardTitle": "Bảng xếp hạng XP",
+  "xpLeaderboardResetsIn": "Làm mới: {time}",
+  "@xpLeaderboardResetsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "xpLeaderboardResetsInDays": "Làm mới: {days} ngày",
+  "@xpLeaderboardResetsInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResetsInHours": "Làm mới sau: {hours} giờ",
+  "@xpLeaderboardResetsInHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResetsInMinutes": "Làm mới sau: {minutes} phút",
+  "@xpLeaderboardResetsInMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "xpLeaderboardResettingSoon": "Sắp làm mới",
+  "xpLeaderboardFilterThisWeek": "Tuần này",
+  "xpLeaderboardFilterLastWeek": "Tuần trước",
+  "xpLeaderboardFilterThisMonth": "Tháng này",
+  "xpLeaderboardFilterGlobal": "Toàn cầu",
+  "xpLeaderboardFilterFriends": "Bạn bè",
+  "xpLeaderboardYourRank": "Hạng của bạn",
+  "xpLeaderboardEmpty": "Chưa có dữ liệu bảng xếp hạng",
+  "challengeFriendTitle": "Thách đấu bạn bè",
+  "challengeFriendSubtitle": "Chọn bạn bè để cùng làm bài tập này. Điểm cao hơn sẽ chiến thắng.",
+  "challengeSearchFriendsHint": "Tìm kiếm bạn bè...",
+  "challengeFriendsSection": "BẠN BÈ TRÊN VOCABIK",
+  "challengePickAtLeastOne": "Chọn ít nhất 1",
+  "challengeSelectedCount": "Đã chọn {count}",
+  "@challengeSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeSend": "Gửi lời thách đấu",
+  "challengeSendWithCount": "Gửi lời thách đấu ({count}) →",
+  "@challengeSendWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeBlanksCount": "{count} chỗ trống",
+  "@challengeBlanksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeNoFriendsFound": "Không tìm thấy bạn bè nào",
+  "challengeLoadingFriends": "Đang tải danh sách bạn bè...",
+  "challengeLoadFriendsError": "Không thể tải danh sách bạn bè",
+  "challengeCreateLinkError": "Không thể tạo liên kết thách đấu",
+  "challengeSentTitle": "Đã gửi lời thách đấu!",
+  "challengeSentSubtitleSingle": "Điểm {score}% của bạn trong bài “{title}” đã được gửi tới {friend}.",
+  "@challengeSentSubtitleSingle": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "friend": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeSentSubtitleMultiple": "Điểm {score}% của bạn trong bài “{title}” đã được gửi tới {count} người bạn.",
+  "@challengeSentSubtitleMultiple": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeInfo24HoursTitle": "Họ có 24 giờ để phản hồi",
+  "challengeInfo24HoursDesc": "Nếu hết thời gian, bạn sẽ mặc định chiến thắng.",
+  "challengeInfoNotifiedTitle": "Bạn sẽ nhận được thông báo",
+  "challengeInfoNotifiedDesc": "Ngay khi có người hoàn thành bài tập thách đấu.",
+  "challengeInfoWinXpTitle": "Chiến thắng nhận +50 XP",
+  "challengeInfoWinXpDesc": "Vượt điểm đối thủ để giành chiến thắng.",
+  "challengeCopyLink": "Sao chép link thách đấu",
+  "challengeViewLeaderboard": "Xem bảng xếp hạng →",
+  "challengeLinkCopied": "Đã sao chép liên kết thách đấu vào bộ nhớ tạm!",
+  "notebookTitle": "Sổ từ vựng",
+  "wordsCount": "{count} từ",
+  "@wordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchWordsPlaceholder": "Tìm kiếm từ vựng...",
+  "tabList": "Danh sách",
+  "tabFlashcard": "Thẻ ghi nhớ",
+  "tapToFlip": "Chạm để lật",
+  "reviewAgain": "Ôn lại",
+  "gotIt": "Đã thuộc",
+  "emptyNotebook": "Chưa có từ vựng nào được lưu.",
+  "noSearchResults": "Không tìm thấy từ vựng phù hợp.",
+  "reviewFinishedTitle": "Đã hoàn thành!",
+  "reviewFinishedDesc": "Bạn đã ôn tập xong tất cả các thẻ từ vựng.",
+  "reportUserTitle": "Báo cáo người dùng",
+  "reportUserSubtitle": "Chọn lý do báo cáo tài khoản “{userName}”:",
+  "@reportUserSubtitle": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "reportReasonInappropriateName": "Tên hiển thị không phù hợp hoặc phản cảm",
+  "reportReasonInappropriateAvatar": "Ảnh đại diện vi phạm quy chuẩn cộng đồng",
+  "reportReasonHarassmentOrCheating": "Hành vi quấy rối hoặc gian lận",
+  "reportReasonSpamOrAd": "Spam hoặc nội dung quảng cáo",
+  "reportUserSubmit": "Gửi báo cáo",
+  "reportUserSuccessMessage": "Cảm ơn bạn. Báo cáo đã được tiếp nhận và chuyển tới đội ngũ kiểm duyệt.",
+  "reportReasonSpam": "Quảng cáo hoặc tin rác",
+  "reportReasonHarassment": "Quấy rối hoặc đe dọa",
+  "reportReasonInappropriateContent": "Nội dung không phù hợp / 18+",
+  "reportReasonHateSpeech": "Ngôn từ thù hận",
+  "reportReasonOther": "Lý do khác",
+  "reportDetailsLabel": "Chi tiết vi phạm (không bắt buộc)",
+  "reportDetailsHint": "Mô tả bổ sung chi tiết vi phạm...",
+  "reportSuccess24h": "Cảm ơn bạn đã gửi báo cáo. Chúng tôi sẽ xem xét và xử lý vi phạm trong vòng 24 giờ.",
+  "reportSubmitting": "Đang gửi báo cáo...",
+  "blockedUsersTitle": "Người dùng đã chặn",
+  "blockedUsersEmpty": "Bạn chưa chặn người dùng nào.",
+  "blockedUsersError": "Không thể tải danh sách người dùng đã chặn.",
+  "unblockAction": "Bỏ chặn",
+  "unblockSuccess": "Đã bỏ chặn {userName}.",
+  "@unblockSuccess": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "unblockConfirmTitle": "Bỏ chặn người dùng?",
+  "unblockConfirmMessage": "Bạn có chắc chắn muốn bỏ chặn {userName}? Người này sẽ có thể tương tác lại với bạn.",
+  "@unblockConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserTitle": "Chặn người dùng",
+  "blockUserConfirmMessage": "Bạn có chắc chắn muốn chặn {userName}? Hệ thống sẽ tự động hủy kết bạn và ẩn mọi tương tác từ người này.",
+  "@blockUserConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserAction": "Chặn",
+  "blockUserSuccess": "Đã chặn {userName} thành công.",
+  "@blockUserSuccess": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "blockUserPromptTitle": "Chặn người dùng này?",
+  "blockUserPromptDesc": "Bạn có muốn chặn người dùng này luôn không? Bạn sẽ không còn nhìn thấy hoạt động của họ nữa.",
+  "actionLater": "Để sau",
+  "actionOptions": "Tùy chọn tương tác",
+  "reportUserOption": "Báo cáo vi phạm",
+  "blockUserOption": "Chặn người dùng",
+  "cannotReportSelf": "Bạn không thể tự báo cáo chính mình.",
+  "cannotBlockSelf": "Bạn không thể tự chặn chính mình.",
+  "blockedAtDate": "Đã chặn: {date}",
+  "@blockedAtDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "unblocking": "Đang bỏ chặn...",
+  "blocking": "Đang chặn...",
+  "reportVideoTitle": "Báo cáo video",
+  "reportVideoSubtitle": "Chọn lý do báo cáo video “{videoTitle}”:",
+  "@reportVideoSubtitle": {
+    "placeholders": {
+      "videoTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "reportVideoOption": "Báo cáo video này",
+  "reportVideoTooltip": "Báo cáo video vi phạm"
 }

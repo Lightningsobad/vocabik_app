@@ -138,3 +138,30 @@ Nhờ kiến trúc **Feature-First Clean Architecture**, việc phân nhánh man
 | **Sửa bug dev/staging** | `develop` | `bugfix/name` | `git checkout develop && git pull && git checkout -b bugfix/name` |
 | **Chuẩn bị Release** | `develop` | `release/vX.Y.Z` | `git checkout develop && git pull && git checkout -b release/v1.0.0` |
 | **Sửa hotfix app store** | `main` | `hotfix/vX.Y.Z` | `git checkout main && git pull && git checkout -b hotfix/v1.0.1` |
+
+---
+
+## 7. Thiết Lập Bảo Vệ Nhánh (Branch Protection Rules) trên GitHub
+
+Để đảm bảo tính toàn vẹn của mã nguồn, dự án bắt buộc phải thiết lập Branch Protection Rules trên GitHub cho 2 nhánh `main` và `develop`.
+
+### 7.1. Bảo vệ nhánh `main` (Nhánh Production)
+1. Truy cập repo trên GitHub > **Settings** > **Branches**.
+2. Bấm **Add branch protection rule** (hoặc Edit nếu đã có).
+3. **Branch name pattern**: `main`
+4. **Protect matching branches**:
+   - [x] **Require a pull request before merging**
+     - [x] **Require approvals** (Số lượng: **1**)
+   - [x] **Require status checks to pass before merging** (Cần thiết lập GitHub Actions trước, yêu cầu các job như `test`, `analyze` phải PASS).
+   - [x] **Do not allow bypassing the above settings** (Áp dụng kỷ luật cho cả Admin).
+5. Bấm **Create** / **Save changes**.
+
+### 7.2. Bảo vệ nhánh `develop` (Nhánh Development/Staging)
+1. Bấm **Add branch protection rule**.
+2. **Branch name pattern**: `develop`
+3. **Protect matching branches**:
+   - [x] **Require a pull request before merging**
+     - [x] **Require approvals** (Số lượng: **1**)
+   - [x] **Require status checks to pass before merging**
+   - [x] **Do not allow bypassing the above settings**
+4. Bấm **Create** / **Save changes**.

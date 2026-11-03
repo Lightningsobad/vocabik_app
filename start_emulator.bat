@@ -1,0 +1,3 @@
+@echo off
+echo Dang khoi dong may ao Android Pixel 6 Pro...
+start "" "%LOCALAPPDATA%\Android\Sdk\emulator\emulator.exe" -avd Pixel_6_Pro

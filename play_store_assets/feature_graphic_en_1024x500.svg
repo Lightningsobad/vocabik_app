@@ -1,0 +1,235 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090912"/>
+      <stop offset="40%" stop-color="#0D0D1A"/>
+      <stop offset="100%" stop-color="#121224"/>
+    </linearGradient>
+
+    <!-- Ambient Glow Filters -->
+    <filter id="glowTeal" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="70" result="blur"/>
+    </filter>
+    <filter id="glowPurple" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="60" result="blur"/>
+    </filter>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+
+    <!-- Card Gradients -->
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1A2E"/>
+      <stop offset="100%" stop-color="#141424"/>
+    </linearGradient>
+    <linearGradient id="cardBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5CC" stop-opacity="0.6"/>
+      <stop offset="40%" stop-color="#2A2A3D"/>
+      <stop offset="100%" stop-color="#A854F7" stop-opacity="0.4"/>
+    </linearGradient>
+    
+    <!-- Player Bar Gradient -->
+    <linearGradient id="playerBg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E1E38"/>
+    </linearGradient>
+    
+    <!-- Waveform / Equalizer Gradient -->
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00E5CC"/>
+      <stop offset="100%" stop-color="#A854F7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 1. Deep Canvas Background -->
+  <rect width="1024" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid texture -->
+  <g opacity="0.04" stroke="#FFFFFF" stroke-width="1">
+    <line x1="0" y1="100" x2="1024" y2="100"/>
+    <line x1="0" y1="200" x2="1024" y2="200"/>
+    <line x1="0" y1="300" x2="1024" y2="300"/>
+    <line x1="0" y1="400" x2="1024" y2="400"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="600" y1="0" x2="600" y2="500"/>
+    <line x1="800" y1="0" x2="800" y2="500"/>
+  </g>
+
+  <!-- 2. Ambient Lighting / Glow Orbs -->
+  <!-- Teal glow behind the interactive card -->
+  <circle cx="760" cy="250" r="140" fill="#00E5CC" opacity="0.18" filter="url(#glowTeal)"/>
+  <!-- Purple glow top left -->
+  <circle cx="280" cy="140" r="130" fill="#8B5CF6" opacity="0.16" filter="url(#glowPurple)"/>
+  <!-- Amber glow bottom right -->
+  <circle cx="940" cy="420" r="90" fill="#F59E0B" opacity="0.10" filter="url(#glowTeal)"/>
+
+  <!-- ========================================================= -->
+  <!-- 3. LEFT COLUMN: BRANDING &amp; MESSAGING (Safe zone respected) -->
+  <!-- ========================================================= -->
+  <g transform="translate(68, 64)">
+    <!-- Brand Header: Logo Badge + Vocabik Text -->
+    <g>
+      <!-- Small Logo Squircle Container -->
+      <rect x="0" y="0" width="56" height="56" rx="16" fill="#141426" stroke="#00E5CC" stroke-width="1.5" stroke-opacity="0.8"/>
+      <image href="data:image/png;base64,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" x="10" y="8" width="36" height="40"/>
+      
+      <!-- Brand Name -->
+      <text x="70" y="42" font-family="Nunito" font-size="44" font-weight="900" letter-spacing="-1">
+        <tspan fill="#FFFFFF">Vocab</tspan><tspan fill="#00E5CC">ik</tspan>
+      </text>
+    </g>
+
+    <!-- Main Headline -->
+    <text x="0" y="128" font-family="Nunito" font-size="28" font-weight="900" fill="#F8FAFC" letter-spacing="-0.5">
+      Learn Vocabulary with Music &amp; Videos
+    </text>
+
+    <!-- Subtitle -->
+    <text x="0" y="162" font-family="Nunito" font-size="15.5" font-weight="600" fill="#94A3B8">
+      Listen, fill the blanks &amp; master English naturally
+    </text>
+
+    <!-- Feature Pills Stack -->
+    <g transform="translate(0, 204)">
+      <!-- Pill 1: Music & Videos -->
+      <g>
+        <rect x="0" y="0" width="390" height="42" rx="21" fill="#17172B" stroke="#252540" stroke-width="1.2"/>
+        <circle cx="21" cy="21" r="12" fill="#00E5CC" fill-opacity="0.15"/>
+        <polygon points="18,16 26,21 18,26" fill="#00E5CC"/>
+        <text x="44" y="26" font-family="Nunito" font-size="14.5" font-weight="700" fill="#E2E8F0">
+          YouTube Videos &amp; Hit Music
+        </text>
+      </g>
+
+      <!-- Pill 2: CEFR Standard -->
+      <g transform="translate(0, 52)">
+        <rect x="0" y="0" width="390" height="42" rx="21" fill="#17172B" stroke="#252540" stroke-width="1.2"/>
+        <circle cx="21" cy="21" r="12" fill="#A854F7" fill-opacity="0.18"/>
+        <!-- Target / Bullseye icon -->
+        <circle cx="21" cy="21" r="7" stroke="#C084FC" stroke-width="1.8" fill="none"/>
+        <circle cx="21" cy="21" r="2.5" fill="#C084FC"/>
+        <text x="44" y="26" font-family="Nunito" font-size="14.5" font-weight="700" fill="#E2E8F0">
+          Standard CEFR A1 — C1 Levels
+        </text>
+      </g>
+
+      <!-- Pill 3: Gamified Streak & XP -->
+      <g transform="translate(0, 104)">
+        <rect x="0" y="0" width="390" height="42" rx="21" fill="#17172B" stroke="#252540" stroke-width="1.2"/>
+        <circle cx="21" cy="21" r="12" fill="#F59E0B" fill-opacity="0.18"/>
+        <!-- Flame icon representation -->
+        <path d="M21 14 C22 17 25 18 25 21 C25 23.5 23 25.5 21 25.5 C19 25.5 17 23.5 17 21 C17 19 19 17.5 20 16 Z" fill="#FBBF24"/>
+        <text x="44" y="26" font-family="Nunito" font-size="14.5" font-weight="700" fill="#E2E8F0">
+          Gamified Daily Streak &amp; XP
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================= -->
+  <!-- 4. RIGHT COLUMN: INTERACTIVE APP CARD SHOWCASE -->
+  <!-- ========================================================= -->
+  <g transform="translate(530, 50)" filter="url(#cardShadow)">
+    <!-- Floating Card Frame -->
+    <rect x="0" y="0" width="435" height="400" rx="24" fill="url(#cardBg)" stroke="url(#cardBorder)" stroke-width="1.8"/>
+
+    <!-- Inside Card Header: Mini Video Player Preview -->
+    <g transform="translate(20, 20)">
+      <rect x="0" y="0" width="395" height="110" rx="16" fill="url(#playerBg)" stroke="#262640" stroke-width="1"/>
+      
+      <!-- Video thumbnail background artwork -->
+      <rect x="12" y="12" width="116" height="86" rx="12" fill="#161B2E"/>
+      
+      <!-- Waveform graphic inside thumbnail -->
+      <g transform="translate(24, 38)">
+        <rect x="0" y="10" width="4" height="20" rx="2" fill="url(#waveGrad)"/>
+        <rect x="8" y="2" width="4" height="36" rx="2" fill="url(#waveGrad)"/>
+        <rect x="16" y="16" width="4" height="12" rx="2" fill="url(#waveGrad)"/>
+        <rect x="24" y="6" width="4" height="28" rx="2" fill="url(#waveGrad)"/>
+        <rect x="32" y="0" width="4" height="40" rx="2" fill="url(#waveGrad)"/>
+        <rect x="40" y="8" width="4" height="24" rx="2" fill="url(#waveGrad)"/>
+        <rect x="48" y="14" width="4" height="16" rx="2" fill="url(#waveGrad)"/>
+        <rect x="56" y="4" width="4" height="32" rx="2" fill="url(#waveGrad)"/>
+        <rect x="64" y="12" width="4" height="18" rx="2" fill="url(#waveGrad)"/>
+        <rect x="72" y="8" width="4" height="24" rx="2" fill="url(#waveGrad)"/>
+        <rect x="80" y="18" width="4" height="10" rx="2" fill="url(#waveGrad)"/>
+      </g>
+      <!-- Circular play button over video thumbnail -->
+      <circle cx="70" cy="55" r="18" fill="#00E5CC" opacity="0.95"/>
+      <polygon points="67,48 76,55 67,62" fill="#0D0D1A"/>
+
+      <!-- Song Metadata -->
+      <text x="140" y="38" font-family="Nunito" font-size="11" font-weight="800" fill="#00E5CC" letter-spacing="1">
+        FILL-IN-THE-BLANK
+      </text>
+      <text x="140" y="60" font-family="Nunito" font-size="15" font-weight="800" fill="#F8FAFC">
+        Blinding Lights — The Weeknd
+      </text>
+      <text x="140" y="80" font-family="Nunito" font-size="12" font-weight="600" fill="#94A3B8">
+        POP / R&amp;B • 03:20
+      </text>
+    </g>
+
+    <!-- Inside Card Body: Fill-in-the-Blank Exercise -->
+    <g transform="translate(20, 146)">
+      <!-- Question instruction -->
+      <text x="0" y="18" font-family="Nunito" font-size="13" font-weight="700" fill="#A0A0C0">
+        Listen and fill in the missing word:
+      </text>
+
+      <!-- Lyric Box -->
+      <rect x="0" y="30" width="395" height="135" rx="16" fill="#101020" stroke="#232338" stroke-width="1.2"/>
+
+      <!-- Lyric Sentence with glowing blank pill -->
+      <g transform="translate(16, 52)">
+        <text x="0" y="18" font-family="Nunito" font-size="15.5" font-weight="800" fill="#F1F5F9">
+          I said, ooh, I'm blinded by the
+        </text>
+        
+        <!-- Highlighted Blank Pill -->
+        <g transform="translate(230, -4)">
+          <rect x="0" y="0" width="76" height="30" rx="8" fill="#00E5CC"/>
+          <text x="38" y="20" font-family="Nunito" font-size="15" font-weight="900" fill="#0D0D1A" text-anchor="middle">
+            lights
+          </text>
+        </g>
+      </g>
+
+      <!-- Correct Answer Validation Badge -->
+      <g transform="translate(16, 96)">
+        <rect x="0" y="0" width="94" height="24" rx="6" fill="#22D98C" fill-opacity="0.18"/>
+        <text x="47" y="16" font-family="Nunito" font-size="11.5" font-weight="800" fill="#22D98C" text-anchor="middle">
+          ✓ Correct
+        </text>
+
+        <!-- Translation line -->
+        <text x="106" y="16" font-family="Nunito" font-size="12" font-style="italic" font-weight="600" fill="#8E8EA8">
+          « I said, ooh, I'm blinded by the lights »
+        </text>
+      </g>
+    </g>
+
+    <!-- Inside Card Footer: Gamification Badges Row -->
+    <g transform="translate(20, 335)">
+      <!-- Streak Tag -->
+      <rect x="0" y="0" width="138" height="34" rx="10" fill="#2E2017" stroke="#735229" stroke-width="1"/>
+      <text x="69" y="22" font-family="Nunito" font-size="12.5" font-weight="800" fill="#FFB13D" text-anchor="middle">
+        🔥 7-Day Streak
+      </text>
+
+      <!-- XP Tag -->
+      <rect x="148" y="0" width="105" height="34" rx="10" fill="#142B28" stroke="#166B60" stroke-width="1"/>
+      <text x="200" y="22" font-family="Nunito" font-size="12.5" font-weight="800" fill="#00E5CC" text-anchor="middle">
+        ⚡ +20 XP
+      </text>
+
+      <!-- CEFR Level Tag -->
+      <rect x="263" y="0" width="132" height="34" rx="10" fill="#241B38" stroke="#5B368C" stroke-width="1"/>
+      <text x="329" y="22" font-family="Nunito" font-size="12.5" font-weight="800" fill="#C084FC" text-anchor="middle">
+        B2 Upper-Int
+      </text>
+    </g>
+  </g>
+</svg>
