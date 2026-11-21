@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/di/injection.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_daily_challenge_bloc.dart';
@@ -74,7 +77,6 @@ class _HomeScreenContent extends StatefulWidget {
 class _HomeScreenContentState extends State<_HomeScreenContent> {
   final ValueNotifier<int> _selectedTabIndex = ValueNotifier<int>(0);
   final ScrollController _scrollController = ScrollController();
-  bool _isFetchingMore = false;
 
   @override
   void initState() {
@@ -90,26 +92,21 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
   }
 
   void _onScroll() {
-    if (_isFetchingMore) return;
-    if (_isBottom) {
-      final state = context.read<HomeVideosBloc>().state;
-      if (state is HomeVideosLoaded && !state.hasReachedMax) {
-        _isFetchingMore = true;
-        context.read<HomeVideosBloc>().add(const FetchVideos());
-        Future.delayed(const Duration(milliseconds: 500), () {
-          if (mounted) {
-            _isFetchingMore = false;
-          }
-        });
-      }
+    if (!_shouldPrefetch) return;
+    final state = context.read<HomeVideosBloc>().state;
+    if (state is HomeVideosLoaded &&
+        !state.hasReachedMax &&
+        !state.isLoadingMore &&
+        state.loadMoreError == null) {
+      context.read<HomeVideosBloc>().add(const FetchVideos());
     }
   }
 
-  bool get _isBottom {
+  bool get _shouldPrefetch {
     if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll - 200);
+    final pos = _scrollController.position;
+    final threshold = (pos.viewportDimension * 1.5).clamp(600.0, 1200.0);
+    return pos.pixels >= (pos.maxScrollExtent - threshold);
   }
 
   @override
@@ -125,7 +122,8 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
       backgroundColor: colors.background,
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<HomeVideosBloc>().add(const RefreshVideos());
+          final completer = Completer<void>();
+          context.read<HomeVideosBloc>().add(RefreshVideos(completer: completer));
           context.read<HomeDailyPickBloc>().add(const RefreshDailyPick());
           context.read<HomePersonalizedBloc>().add(
             const RefreshPersonalizedSlots(),
@@ -135,9 +133,11 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
           context.read<HomeDailyChallengeBloc>().add(
             const RefreshHomeDailyChallenge(),
           );
+          await completer.future;
         },
         child: CustomScrollView(
           controller: _scrollController,
+          scrollCacheExtent: const ScrollCacheExtent.pixels(600),
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm2)),

@@ -23,12 +23,16 @@ class HomeVideosLoaded extends HomeVideosState {
   final bool hasReachedMax;
   final int currentPage;
   final int totalItems;
+  final bool isLoadingMore;
+  final String? loadMoreError;
 
   const HomeVideosLoaded({
     required this.videos,
     required this.hasReachedMax,
     required this.currentPage,
     this.totalItems = 0,
+    this.isLoadingMore = false,
+    this.loadMoreError,
     super.currentCefr,
   });
 
@@ -37,6 +41,9 @@ class HomeVideosLoaded extends HomeVideosState {
     bool? hasReachedMax,
     int? currentPage,
     int? totalItems,
+    bool? isLoadingMore,
+    String? loadMoreError,
+    bool clearLoadMoreError = false,
     String? currentCefr,
     bool clearCefr = false,
   }) {
@@ -45,12 +52,22 @@ class HomeVideosLoaded extends HomeVideosState {
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       currentPage: currentPage ?? this.currentPage,
       totalItems: totalItems ?? this.totalItems,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      loadMoreError: clearLoadMoreError ? null : (loadMoreError ?? this.loadMoreError),
       currentCefr: clearCefr ? null : (currentCefr ?? this.currentCefr),
     );
   }
 
   @override
-  List<Object?> get props => [videos, hasReachedMax, currentPage, totalItems, currentCefr];
+  List<Object?> get props => [
+        videos,
+        hasReachedMax,
+        currentPage,
+        totalItems,
+        isLoadingMore,
+        loadMoreError,
+        currentCefr,
+      ];
 }
 
 class HomeVideosError extends HomeVideosState {
