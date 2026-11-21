@@ -5,6 +5,7 @@ import 'package:vocabik_app/features/home/presentation/bloc/home_videos_event.da
 import 'package:vocabik_app/features/home/presentation/bloc/home_videos_state.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/section_header.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_empty_state.dart';
@@ -44,47 +45,35 @@ class HomeLibrarySection extends StatelessWidget {
 
         // 2. Content (Loading / Error / Empty / Grid)
         BlocBuilder<HomeVideosBloc, HomeVideosState>(
-          buildWhen: (prev, curr) {
-            if (prev is HomeVideosLoaded && curr is HomeVideosLoaded) {
-              return prev.videos.length != curr.videos.length ||
-                  prev.hasReachedMax != curr.hasReachedMax;
-            }
-            return prev.runtimeType != curr.runtimeType;
-          },
           builder: (context, state) {
             final isLoading =
                 state is HomeVideosInitial || state is HomeVideosLoading;
             final hasError = state is HomeVideosError;
-            final videos = state is HomeVideosLoaded ? state.videos : [];
-            final hasReachedMax = state is HomeVideosLoaded
-                ? state.hasReachedMax
-                : true;
+            final videos = state is HomeVideosLoaded
+                ? state.videos
+                : const <VideoEntity>[];
+            final isLoadingMore =
+                state is HomeVideosLoaded && state.isLoadingMore;
+            final loadMoreError =
+                state is HomeVideosLoaded ? state.loadMoreError : null;
             final isEmpty = videos.isEmpty && !isLoading && !hasError;
+
+            const gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: AppSpacing.md2,
+              mainAxisSpacing: AppSpacing.md2,
+              childAspectRatio: 0.85,
+            );
 
             // Loading Placeholder (Initial load)
             if (isLoading && videos.isEmpty) {
               return SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                sliver: SliverToBoxAdapter(
-                  child: AppShimmer(
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: AppSpacing.md2,
-                            mainAxisSpacing: AppSpacing.md2,
-                            childAspectRatio: 0.85,
-                          ),
-                      itemCount: 4,
-                      itemBuilder: (context, index) => Container(
-                        decoration: BoxDecoration(
-                          color: colors.surfaceCard,
-                          borderRadius: BorderRadius.circular(AppRadius.lg),
-                        ),
-                      ),
-                    ),
+                sliver: SliverGrid(
+                  gridDelegate: gridDelegate,
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => const _LibraryCardSkeleton(),
+                    childCount: 4,
                   ),
                 ),
               );
@@ -144,26 +133,54 @@ class HomeLibrarySection extends StatelessWidget {
                     horizontal: AppSpacing.lg,
                   ),
                   sliver: SliverGrid(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: AppSpacing.md2,
-                          mainAxisSpacing: AppSpacing.md2,
-                          childAspectRatio: 0.85,
-                        ),
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return SharedCourseCard(
-                        video: videos[index],
-                        width: double.infinity,
-                      );
-                    }, childCount: videos.length),
+                    gridDelegate: gridDelegate,
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        if (index >= videos.length) {
+                          return const _LibraryCardSkeleton();
+                        }
+                        return SharedCourseCard(
+                          video: videos[index],
+                          width: double.infinity,
+                        );
+                      },
+                      childCount: videos.length + (isLoadingMore ? 2 : 0),
+                    ),
                   ),
                 ),
-                if (state is HomeVideosLoaded && !hasReachedMax)
-                  const SliverToBoxAdapter(
+                if (loadMoreError != null)
+                  SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.all(AppSpacing.md),
-                      child: Center(child: CircularProgressIndicator()),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.md,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            size: 18,
+                            color: colors.textSecondary,
+                          ),
+                          const SizedBox(width: AppSpacing.xs),
+                          Flexible(
+                            child: Text(
+                              l10n.homeVideosError,
+                              style: TextStyle(color: colors.textSecondary),
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          TextButton(
+                            onPressed: () {
+                              context.read<HomeVideosBloc>().add(
+                                const FetchVideos(),
+                              );
+                            },
+                            child: Text(l10n.homeRetry),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
               ],
@@ -171,6 +188,90 @@ class HomeLibrarySection extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class _LibraryCardSkeleton extends StatelessWidget {
+  const _LibraryCardSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.surfaceCard,
+        borderRadius: BorderRadius.circular(AppRadius.lg2),
+        border: Border.all(color: colors.borderSubtle),
+      ),
+      child: AppShimmer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppRadius.lg),
+                  topRight: Radius.circular(AppRadius.lg),
+                ),
+                child: ColoredBox(
+                  color: Colors.white,
+                  child: SizedBox.expand(),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.sm2),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Container(
+                    width: 90,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 18,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      Container(
+                        width: 40,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

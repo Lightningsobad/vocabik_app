@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/core/utils/number_format_utils.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
-import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
@@ -73,28 +72,40 @@ class SharedCourseCard extends StatelessWidget {
                         topLeft: Radius.circular(AppRadius.lg),
                         topRight: Radius.circular(AppRadius.lg),
                       ),
-                      child: SizedBox.expand(
-                        child: Transform.scale(
-                          scale: 1.34,
-                          child: Image.network(
-                            video.thumbnailUrl,
-                            fit: BoxFit.cover,
-                            cacheWidth: 500,
-                            cacheHeight: 310,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Container(
-                                  color: colors.surfaceCard,
-                                  child: Icon(
-                                    Icons.broken_image,
-                                    color: colors.textSecondary,
+                      child: ColoredBox(
+                        color: colors.surfaceCard,
+                        child: SizedBox.expand(
+                          child: Transform.scale(
+                            scale: 1.34,
+                            child: Image.network(
+                              video.thumbnailUrl,
+                              fit: BoxFit.cover,
+                              cacheWidth: 500,
+                              cacheHeight: 310,
+                              gaplessPlayback: true,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                    color: colors.surfaceCard,
+                                    child: Icon(
+                                      Icons.broken_image,
+                                      color: colors.textSecondary,
+                                    ),
                                   ),
-                                ),
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return const AppShimmer(
-                                child: ColoredBox(color: Colors.white),
-                              );
-                            },
+                              frameBuilder: (
+                                context,
+                                child,
+                                frame,
+                                wasSynchronouslyLoaded,
+                              ) {
+                                if (wasSynchronouslyLoaded) return child;
+                                return AnimatedOpacity(
+                                  opacity: frame == null ? 0 : 1,
+                                  duration: const Duration(milliseconds: 180),
+                                  curve: Curves.easeOut,
+                                  child: child,
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
