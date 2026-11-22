@@ -6,11 +6,10 @@ import 'package:vocabik_app/features/home/presentation/bloc/home_videos_state.da
 import 'package:vocabik_app/features/home/presentation/widgets/section_header.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
-import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
+import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card_skeleton.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_empty_state.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
-import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 
 class HomeLibrarySection extends StatelessWidget {
@@ -72,7 +71,7 @@ class HomeLibrarySection extends StatelessWidget {
                 sliver: SliverGrid(
                   gridDelegate: gridDelegate,
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => const _LibraryCardSkeleton(),
+                    (context, index) => const SharedCourseCardSkeleton(),
                     childCount: 4,
                   ),
                 ),
@@ -137,7 +136,7 @@ class HomeLibrarySection extends StatelessWidget {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         if (index >= videos.length) {
-                          return const _LibraryCardSkeleton();
+                          return const SharedCourseCardSkeleton();
                         }
                         return SharedCourseCard(
                           video: videos[index],
@@ -188,90 +187,6 @@ class HomeLibrarySection extends StatelessWidget {
           },
         ),
       ],
-    );
-  }
-}
-
-class _LibraryCardSkeleton extends StatelessWidget {
-  const _LibraryCardSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: colors.surfaceCard,
-        borderRadius: BorderRadius.circular(AppRadius.lg2),
-        border: Border.all(color: colors.borderSubtle),
-      ),
-      child: AppShimmer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(AppRadius.lg),
-                  topRight: Radius.circular(AppRadius.lg),
-                ),
-                child: ColoredBox(
-                  color: Colors.white,
-                  child: SizedBox.expand(),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.sm2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Container(
-                    width: 90,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 18,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      Container(
-                        width: 40,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

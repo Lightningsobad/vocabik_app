@@ -16,6 +16,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
   final GetTrendingVideosUseCase _getTrendingVideosUseCase;
   final GetPlaylistsUseCase _getPlaylistsUseCase;
   static const int _pageSize = 20;
+  int _requestGeneration = 0;
 
   DiscoverBloc(
     this._getVideosUseCase,
@@ -28,21 +29,30 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       transformer: restartable(),
     );
     on<DiscoverFilterChanged>(_onFilterChanged, transformer: restartable());
-    on<DiscoverRefreshRequested>(_onRefreshRequested, transformer: droppable());
+    on<DiscoverRefreshRequested>(_onRefreshRequested);
   }
 
   Future<void> _onVideosFetched(
     DiscoverVideosFetched event,
     Emitter<DiscoverState> emit,
   ) async {
-    // Initial fetch (both trending & library)
-    if (state.status == DiscoverStatus.initial) {
+    // Initial fetch (or retry initial failure when no videos are loaded)
+    if (state.status == DiscoverStatus.initial ||
+        (state.status == DiscoverStatus.failure &&
+            state.allFetchedVideos.isEmpty)) {
       await _fetchDiscoverData(emit);
       return;
     }
 
     // Load more for library
-    if (state.hasReachedMax || state.status == DiscoverStatus.loading) return;
+    if (state.hasReachedMax ||
+        state.status == DiscoverStatus.loading ||
+        state.isLoadingMore) {
+      return;
+    }
+
+    final generation = _requestGeneration;
+    emit(state.copyWith(isLoadingMore: true, clearLoadMoreError: true));
 
     final nextPage = state.currentPage + 1;
     final result = await _getVideosUseCase(
@@ -53,17 +63,22 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       duration: state.duration,
       exerciseType: state.exerciseType,
     );
+    if (generation != _requestGeneration) return;
 
     result.fold(
       (failure) => emit(
         state.copyWith(
-          status: DiscoverStatus.failure,
-          errorMessage: failure.message,
+          isLoadingMore: false,
+          loadMoreError: failure.message,
         ),
       ),
       (paginatedResult) {
+        final existingIds = state.allFetchedVideos.map((v) => v.id).toSet();
+        final uniqueItems = paginatedResult.items
+            .where((v) => existingIds.add(v.id))
+            .toList();
         final allVideos = List<VideoEntity>.of(state.allFetchedVideos)
-          ..addAll(paginatedResult.items);
+          ..addAll(uniqueItems);
         final displayedVideos = _filterLocal(
           allVideos,
           state.searchQuery,
@@ -73,8 +88,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
             status: DiscoverStatus.success,
             allFetchedVideos: allVideos,
             displayedVideos: displayedVideos,
-            hasReachedMax: nextPage >= paginatedResult.totalPages,
-            currentPage: nextPage,
+            hasReachedMax:
+                paginatedResult.hasReachedMax || paginatedResult.items.isEmpty,
+            currentPage: paginatedResult.page,
+            isLoadingMore: false,
+            clearLoadMoreError: true,
           ),
         );
       },
@@ -111,7 +129,13 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     DiscoverRefreshRequested event,
     Emitter<DiscoverState> emit,
   ) async {
-    await _fetchDiscoverData(emit);
+    try {
+      await _fetchDiscoverData(emit, preserveExistingData: true);
+    } finally {
+      if (event.completer != null && !event.completer!.isCompleted) {
+        event.completer!.complete();
+      }
+    }
   }
 
   Future<void> _fetchDiscoverData(
@@ -120,25 +144,41 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     String? genre,
     String? duration,
     String? exerciseType,
+    bool preserveExistingData = false,
   }) async {
+    final generation = ++_requestGeneration;
     final targetCefr = cefr ?? state.cefr;
     final targetGenre = genre ?? state.genre;
     final targetDuration = duration ?? state.duration;
     final targetExerciseType = exerciseType ?? state.exerciseType;
 
-    emit(state.copyWith(
-      cefr: targetCefr,
-      genre: targetGenre,
-      duration: targetDuration,
-      exerciseType: targetExerciseType,
-      status: DiscoverStatus.loading,
-      trendingStatus: DiscoverStatus.loading,
-      playlistStatus: DiscoverStatus.loading,
-      displayedVideos: const [],
-      trendingVideos: const [],
-      playlists: const [],
-      allFetchedVideos: const [],
-    ));
+    final hasExistingData = preserveExistingData &&
+        (state.allFetchedVideos.isNotEmpty ||
+            state.trendingVideos.isNotEmpty ||
+            state.playlists.isNotEmpty);
+
+    if (!hasExistingData) {
+      emit(state.copyWith(
+        cefr: targetCefr,
+        genre: targetGenre,
+        duration: targetDuration,
+        exerciseType: targetExerciseType,
+        status: DiscoverStatus.loading,
+        trendingStatus: DiscoverStatus.loading,
+        playlistStatus: DiscoverStatus.loading,
+        displayedVideos: const [],
+        trendingVideos: const [],
+        playlists: const [],
+        allFetchedVideos: const [],
+        hasReachedMax: false,
+        currentPage: 1,
+        isLoadingMore: false,
+        clearLoadMoreError: true,
+      ));
+    } else if (state.isLoadingMore) {
+      // In-flight load-more was invalidated by ++_requestGeneration above.
+      emit(state.copyWith(isLoadingMore: false));
+    }
 
     final trendingFuture = _getTrendingVideosUseCase(
       cefr: targetCefr,
@@ -164,32 +204,66 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     final trendingResult = await trendingFuture;
     final libraryResult = await libraryFuture;
     final playlistsResult = await playlistsFuture;
+    if (generation != _requestGeneration) return;
 
-    List<VideoEntity> trendingVideos = [];
-    DiscoverStatus trendingStatus = DiscoverStatus.success;
+    List<VideoEntity> trendingVideos =
+        hasExistingData ? state.trendingVideos : [];
+    DiscoverStatus trendingStatus =
+        hasExistingData ? state.trendingStatus : DiscoverStatus.success;
     trendingResult.fold(
-      (failure) => trendingStatus = DiscoverStatus.failure,
-      (data) => trendingVideos = data,
+      (failure) {
+        if (!hasExistingData || state.trendingVideos.isEmpty) {
+          trendingStatus = DiscoverStatus.failure;
+        }
+      },
+      (data) {
+        trendingVideos = data;
+        trendingStatus = DiscoverStatus.success;
+      },
     );
 
-    List<PlaylistEntity> playlists = [];
-    DiscoverStatus playlistStatus = DiscoverStatus.success;
+    List<PlaylistEntity> playlists = hasExistingData ? state.playlists : [];
+    DiscoverStatus playlistStatus =
+        hasExistingData ? state.playlistStatus : DiscoverStatus.success;
     playlistsResult.fold(
-      (failure) => playlistStatus = DiscoverStatus.failure,
-      (data) => playlists = data.items,
+      (failure) {
+        if (!hasExistingData || state.playlists.isEmpty) {
+          playlistStatus = DiscoverStatus.failure;
+        }
+      },
+      (data) {
+        playlists = data.items;
+        playlistStatus = DiscoverStatus.success;
+      },
     );
 
     libraryResult.fold(
-      (failure) => emit(
-        state.copyWith(
-          status: DiscoverStatus.failure,
-          trendingStatus: trendingStatus,
-          trendingVideos: trendingVideos,
-          playlistStatus: playlistStatus,
-          playlists: playlists,
-          errorMessage: failure.message,
-        ),
-      ),
+      (failure) {
+        if (hasExistingData && state.allFetchedVideos.isNotEmpty) {
+          emit(
+            state.copyWith(
+              trendingStatus: trendingStatus,
+              trendingVideos: trendingVideos,
+              playlistStatus: playlistStatus,
+              playlists: playlists,
+              isLoadingMore: false,
+            ),
+          );
+          return;
+        }
+        emit(
+          state.copyWith(
+            status: DiscoverStatus.failure,
+            trendingStatus: trendingStatus,
+            trendingVideos: trendingVideos,
+            playlistStatus: playlistStatus,
+            playlists: playlists,
+            errorMessage: failure.message,
+            isLoadingMore: false,
+            clearLoadMoreError: true,
+          ),
+        );
+      },
       (paginatedResult) {
         final allVideos = paginatedResult.items;
         final displayedVideos = _filterLocal(
@@ -205,8 +279,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
             playlists: playlists,
             allFetchedVideos: allVideos,
             displayedVideos: displayedVideos,
-            hasReachedMax: paginatedResult.totalPages <= 1,
-            currentPage: 1,
+            hasReachedMax:
+                paginatedResult.hasReachedMax || paginatedResult.items.isEmpty,
+            currentPage: paginatedResult.page,
+            isLoadingMore: false,
+            clearLoadMoreError: true,
           ),
         );
       },
