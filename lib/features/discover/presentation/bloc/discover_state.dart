@@ -14,6 +14,8 @@ class DiscoverState extends Equatable {
   final List<VideoEntity> displayedVideos; // Filtered library list
   final int currentPage;
   final bool hasReachedMax;
+  final bool isLoadingMore;
+  final String? loadMoreError;
   final String searchQuery;
   final String cefr;
   final String genre;
@@ -31,6 +33,8 @@ class DiscoverState extends Equatable {
     this.displayedVideos = const [],
     this.currentPage = 1,
     this.hasReachedMax = false,
+    this.isLoadingMore = false,
+    this.loadMoreError,
     this.searchQuery = '',
     this.cefr = '',
     this.genre = '',
@@ -49,6 +53,9 @@ class DiscoverState extends Equatable {
     List<VideoEntity>? displayedVideos,
     int? currentPage,
     bool? hasReachedMax,
+    bool? isLoadingMore,
+    String? loadMoreError,
+    bool clearLoadMoreError = false,
     String? searchQuery,
     String? cefr,
     String? genre,
@@ -66,6 +73,10 @@ class DiscoverState extends Equatable {
       displayedVideos: displayedVideos ?? this.displayedVideos,
       currentPage: currentPage ?? this.currentPage,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      loadMoreError: clearLoadMoreError
+          ? null
+          : (loadMoreError ?? this.loadMoreError),
       searchQuery: searchQuery ?? this.searchQuery,
       cefr: cefr ?? this.cefr,
       genre: genre ?? this.genre,
@@ -76,7 +87,7 @@ class DiscoverState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         status,
         trendingStatus,
         playlistStatus,
@@ -86,6 +97,8 @@ class DiscoverState extends Equatable {
         displayedVideos,
         currentPage,
         hasReachedMax,
+        isLoadingMore,
+        loadMoreError,
         searchQuery,
         cefr,
         genre,

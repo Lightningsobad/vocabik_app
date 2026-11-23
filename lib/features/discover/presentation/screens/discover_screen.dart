@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/core/di/injection.dart';
@@ -77,9 +78,14 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
       backgroundColor: colors.background,
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<DiscoverBloc>().add(DiscoverRefreshRequested());
+          final completer = Completer<void>();
+          context.read<DiscoverBloc>().add(
+            DiscoverRefreshRequested(completer: completer),
+          );
+          await completer.future;
         },
         child: CustomScrollView(
+          scrollCacheExtent: const ScrollCacheExtent.pixels(600),
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             // 1. Filter Section (Search Bar + Tabs + Chips)
@@ -166,10 +172,18 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                     DiscoverHorizontalLibrarySection(
                       title: libraryTitle,
                       isLoading: isLibraryLoading,
+                      isLoadingMore: state.isLoadingMore,
+                      loadMoreError: state.loadMoreError,
+                      hasError: state.status == DiscoverStatus.failure,
                       videos: state.displayedVideos,
                       hasReachedMax: state.hasReachedMax,
                       emptyText: l10n.emptyVideos,
                       onLoadMore: () {
+                        context.read<DiscoverBloc>().add(
+                          DiscoverVideosFetched(),
+                        );
+                      },
+                      onRetry: () {
                         context.read<DiscoverBloc>().add(
                           DiscoverVideosFetched(),
                         );

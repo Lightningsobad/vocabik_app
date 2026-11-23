@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:vocabik_app/core/domain/entities/paginated_result.dart';
@@ -14,6 +16,13 @@ import 'package:vocabik_app/shared/domain/usecases/get_trending_videos_usecase.d
 import 'package:vocabik_app/shared/domain/usecases/get_videos_usecase.dart';
 
 class FakeSharedVideoRepository implements SharedVideoRepository {
+  PaginatedResult<VideoEntity>? mockResult;
+  Failure? mockFailure;
+  Future<Either<Failure, PaginatedResult<VideoEntity>>> Function(
+    int page,
+    String? cefr,
+  )? onGetVideos;
+
   @override
   Future<Either<Failure, PaginatedResult<VideoEntity>>> getVideos({
     required int page,
@@ -24,14 +33,21 @@ class FakeSharedVideoRepository implements SharedVideoRepository {
     String? duration,
     String? exerciseType,
   }) async {
+    if (onGetVideos != null) {
+      return onGetVideos!(page, cefr);
+    }
+    if (mockFailure != null) {
+      return left(mockFailure!);
+    }
     return right(
-      const PaginatedResult<VideoEntity>(
-        items: [],
-        page: 1,
-        pageSize: 20,
-        totalItems: 0,
-        totalPages: 1,
-      ),
+      mockResult ??
+          PaginatedResult<VideoEntity>(
+            items: const [],
+            page: page,
+            pageSize: pageSize,
+            totalItems: 0,
+            totalPages: 1,
+          ),
     );
   }
 
@@ -185,6 +201,398 @@ void main() {
       );
 
       expect(videoRepo.lastTrendingExerciseType, equals('MC'));
+    });
+  });
+
+  group('DiscoverBloc Library Pagination & Refresh', () {
+    late FakeSharedVideoRepository videoRepo;
+    late FakePlaylistRepository playlistRepo;
+    late DiscoverBloc bloc;
+
+    final video1 = VideoEntity(
+      id: '1',
+      youtubeVideoId: 'yt1',
+      title: 'Video One',
+      thumbnailUrl: 'https://example.com/1.jpg',
+      category: 'tech',
+      cefrLevel: 'B1',
+      publishedAt: DateTime(2025, 1, 1),
+      breakingBadge: false,
+    );
+
+    final video2 = VideoEntity(
+      id: '2',
+      youtubeVideoId: 'yt2',
+      title: 'Video Two',
+      thumbnailUrl: 'https://example.com/2.jpg',
+      category: 'tech',
+      cefrLevel: 'B1',
+      publishedAt: DateTime(2025, 1, 2),
+      breakingBadge: false,
+    );
+
+    setUp(() {
+      videoRepo = FakeSharedVideoRepository();
+      playlistRepo = FakePlaylistRepository();
+      bloc = DiscoverBloc(
+        GetVideosUseCase(videoRepo),
+        GetTrendingVideosUseCase(videoRepo),
+        GetPlaylistsUseCase(playlistRepo),
+      );
+    });
+
+    tearDown(() async {
+      await bloc.close();
+    });
+
+    test('load-more pagination updates currentPage, isLoadingMore, and hasReachedMax', () async {
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1],
+        page: 1,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<DiscoverState>((s) =>
+              s.status == DiscoverStatus.success &&
+              s.displayedVideos.length == 1 &&
+              !s.hasReachedMax),
+        ),
+      );
+
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video2],
+        page: 2,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      final loadMoreFuture = expectLater(
+        bloc.stream,
+        emitsInOrder([
+          predicate<DiscoverState>((s) => s.isLoadingMore && s.loadMoreError == null),
+          predicate<DiscoverState>((s) =>
+              !s.isLoadingMore &&
+              s.currentPage == 2 &&
+              s.hasReachedMax &&
+              s.displayedVideos.length == 2),
+        ]),
+      );
+
+      bloc.add(DiscoverVideosFetched());
+      await loadMoreFuture;
+    });
+
+    test('load-more failure preserves loaded videos, sets loadMoreError, and recovers on retry', () async {
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1],
+        page: 1,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(predicate<DiscoverState>((s) => s.status == DiscoverStatus.success)),
+      );
+
+      videoRepo.mockFailure = const ServerFailure('Network error');
+      final errorFuture = expectLater(
+        bloc.stream,
+        emitsInOrder([
+          predicate<DiscoverState>((s) => s.isLoadingMore && s.loadMoreError == null),
+          predicate<DiscoverState>((s) =>
+              s.status == DiscoverStatus.success &&
+              !s.isLoadingMore &&
+              s.loadMoreError == 'Network error' &&
+              s.displayedVideos.length == 1),
+        ]),
+      );
+      bloc.add(DiscoverVideosFetched());
+      await errorFuture;
+
+      videoRepo.mockFailure = null;
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video2],
+        page: 2,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      final retryFuture = expectLater(
+        bloc.stream,
+        emitsInOrder([
+          predicate<DiscoverState>((s) => s.isLoadingMore && s.loadMoreError == null),
+          predicate<DiscoverState>((s) =>
+              !s.isLoadingMore &&
+              s.loadMoreError == null &&
+              s.currentPage == 2 &&
+              s.displayedVideos.length == 2),
+        ]),
+      );
+      bloc.add(DiscoverVideosFetched());
+      await retryFuture;
+    });
+
+    test('load-more deduplicates videos by id', () async {
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1],
+        page: 1,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(predicate<DiscoverState>((s) => s.status == DiscoverStatus.success)),
+      );
+
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1, video2, video2],
+        page: 2,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      final dedupFuture = expectLater(
+        bloc.stream,
+        emitsInOrder([
+          predicate<DiscoverState>((s) => s.isLoadingMore),
+          predicate<DiscoverState>((s) =>
+              s.displayedVideos.map((v) => v.id).toList().length == 2 &&
+              s.displayedVideos.first.id == '1' &&
+              s.displayedVideos.last.id == '2'),
+        ]),
+      );
+      bloc.add(DiscoverVideosFetched());
+      await dedupFuture;
+    });
+
+    test('in-flight load-more does not overwrite newer DiscoverFilterChanged state', () async {
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1],
+        page: 1,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(predicate<DiscoverState>((s) => s.status == DiscoverStatus.success)),
+      );
+
+      final stalePage2Completer =
+          Completer<Either<Failure, PaginatedResult<VideoEntity>>>();
+      final b2Video = VideoEntity(
+        id: 'b2-1',
+        youtubeVideoId: 'yt-b2',
+        title: 'B2 Video',
+        thumbnailUrl: 'https://example.com/b2.jpg',
+        category: 'tech',
+        cefrLevel: 'B2',
+        publishedAt: DateTime(2025, 1, 3),
+        breakingBadge: false,
+      );
+
+      videoRepo.onGetVideos = (page, cefr) async {
+        if ((cefr == null || cefr.isEmpty) && page == 2) {
+          return stalePage2Completer.future;
+        }
+        return right(
+          PaginatedResult<VideoEntity>(
+            items: [b2Video],
+            page: 1,
+            pageSize: 20,
+            totalItems: 1,
+            totalPages: 1,
+          ),
+        );
+      };
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(predicate<DiscoverState>((s) => s.isLoadingMore)),
+      );
+
+      final filterFuture = expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<DiscoverState>((s) =>
+              s.status == DiscoverStatus.success &&
+              s.cefr == 'B2' &&
+              s.displayedVideos.map((v) => v.id).toList().length == 1 &&
+              s.displayedVideos.first.id == 'b2-1'),
+        ),
+      );
+      bloc.add(const DiscoverFilterChanged(cefr: 'B2'));
+      await filterFuture;
+
+      stalePage2Completer.complete(
+        right(
+          PaginatedResult<VideoEntity>(
+            items: [video2],
+            page: 2,
+            pageSize: 20,
+            totalItems: 2,
+            totalPages: 2,
+          ),
+        ),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(bloc.state.cefr, equals('B2'));
+      expect(bloc.state.displayedVideos.map((v) => v.id).toList(), equals(['b2-1']));
+    });
+
+    test('DiscoverRefreshRequested when already loaded preserves data, completes completer, and survives failure', () async {
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1],
+        page: 1,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(predicate<DiscoverState>((s) => s.status == DiscoverStatus.success)),
+      );
+
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video2],
+        page: 1,
+        pageSize: 20,
+        totalItems: 1,
+        totalPages: 1,
+      );
+
+      final completer1 = Completer<void>();
+      final emittedStates = <DiscoverState>[];
+      final sub = bloc.stream.listen(emittedStates.add);
+
+      bloc.add(DiscoverRefreshRequested(completer: completer1));
+      await completer1.future;
+
+      expect(completer1.isCompleted, isTrue);
+      expect(emittedStates.any((s) => s.status == DiscoverStatus.loading), isFalse);
+      expect(bloc.state.displayedVideos.map((v) => v.id).toList(), equals(['2']));
+
+      videoRepo.mockFailure = const ServerFailure('Refresh error');
+      final completer2 = Completer<void>();
+      bloc.add(DiscoverRefreshRequested(completer: completer2));
+      await completer2.future;
+      await sub.cancel();
+
+      expect(completer2.isCompleted, isTrue);
+      expect(bloc.state.status, equals(DiscoverStatus.success));
+      expect(bloc.state.displayedVideos.map((v) => v.id).toList(), equals(['2']));
+    });
+
+    test('concurrent DiscoverRefreshRequested completes every completer without hanging', () async {
+      final firstRefreshCompleter =
+          Completer<Either<Failure, PaginatedResult<VideoEntity>>>();
+      var calls = 0;
+      videoRepo.onGetVideos = (page, cefr) {
+        calls++;
+        if (calls == 1) return firstRefreshCompleter.future;
+        return Future.value(
+          right(
+            PaginatedResult<VideoEntity>(
+              items: [video2],
+              page: 1,
+              pageSize: 20,
+              totalItems: 1,
+              totalPages: 1,
+            ),
+          ),
+        );
+      };
+
+      final c1 = Completer<void>();
+      final c2 = Completer<void>();
+      bloc.add(DiscoverRefreshRequested(completer: c1));
+      bloc.add(DiscoverRefreshRequested(completer: c2));
+
+      firstRefreshCompleter.complete(
+        right(
+          PaginatedResult<VideoEntity>(
+            items: [video1],
+            page: 1,
+            pageSize: 20,
+            totalItems: 1,
+            totalPages: 1,
+          ),
+        ),
+      );
+
+      await Future.wait([c1.future, c2.future]);
+      expect(c1.isCompleted, isTrue);
+      expect(c2.isCompleted, isTrue);
+    });
+
+    test('failed refresh during in-flight load-more resets isLoadingMore to false', () async {
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1],
+        page: 1,
+        pageSize: 20,
+        totalItems: 2,
+        totalPages: 2,
+      );
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(predicate<DiscoverState>((s) => s.status == DiscoverStatus.success)),
+      );
+
+      final page2Completer =
+          Completer<Either<Failure, PaginatedResult<VideoEntity>>>();
+      videoRepo.onGetVideos = (page, cefr) {
+        if (page == 2) return page2Completer.future;
+        return Future.value(left(const ServerFailure('Refresh failed')));
+      };
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(predicate<DiscoverState>((s) => s.isLoadingMore)),
+      );
+
+      final refreshCompleter = Completer<void>();
+      bloc.add(DiscoverRefreshRequested(completer: refreshCompleter));
+      await refreshCompleter.future;
+
+      page2Completer.complete(
+        right(
+          PaginatedResult<VideoEntity>(
+            items: [video2],
+            page: 2,
+            pageSize: 20,
+            totalItems: 2,
+            totalPages: 2,
+          ),
+        ),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(bloc.state.isLoadingMore, isFalse);
+      expect(bloc.state.displayedVideos.map((v) => v.id).toList(), equals(['1']));
     });
   });
 }

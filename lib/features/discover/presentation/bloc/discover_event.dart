@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 
 abstract class DiscoverEvent extends Equatable {
@@ -35,4 +37,11 @@ class DiscoverFilterChanged extends DiscoverEvent {
   List<Object?> get props => [cefr, genre, exerciseType, duration];
 }
 
-class DiscoverRefreshRequested extends DiscoverEvent {}
+class DiscoverRefreshRequested extends DiscoverEvent {
+  final Completer<void>? completer;
+
+  const DiscoverRefreshRequested({this.completer});
+
+  @override
+  List<Object?> get props => [completer];
+}
