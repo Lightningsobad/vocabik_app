@@ -12,6 +12,7 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
   final GetVideosUseCase getVideosUseCase;
   static const int _pageSize = 20;
   int _requestGeneration = 0;
+  int _refreshErrorSeq = 0;
 
   HomeVideosBloc(this.getVideosUseCase) : super(const HomeVideosInitial()) {
     on<FetchVideos>(
@@ -136,16 +137,28 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
       final hasExistingData = state is HomeVideosLoaded;
       if (!hasExistingData) {
         emit(HomeVideosLoading(currentCefr: currentCefr));
+      } else if ((state as HomeVideosLoaded).isLoadingMore) {
+        // In-flight load-more was invalidated by ++_requestGeneration above.
+        emit((state as HomeVideosLoaded).copyWith(isLoadingMore: false));
       }
       final result = await getVideosUseCase(
         page: 1,
         pageSize: _pageSize,
         cefr: currentCefr,
+        forceRefresh: true,
       );
       if (generation != _requestGeneration) return;
       result.fold(
         (failure) {
-          if (!hasExistingData) {
+          if (state is HomeVideosLoaded) {
+            emit(
+              (state as HomeVideosLoaded).copyWith(
+                isLoadingMore: false,
+                refreshError: failure.message,
+                refreshErrorId: ++_refreshErrorSeq,
+              ),
+            );
+          } else {
             emit(HomeVideosError(failure.message, currentCefr: currentCefr));
           }
         },

@@ -32,6 +32,7 @@ class FakeSharedVideoRepository implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   }) async {
     if (onGetVideos != null) {
       return onGetVideos!(page, cefr);

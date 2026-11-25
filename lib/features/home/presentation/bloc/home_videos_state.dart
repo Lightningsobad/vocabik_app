@@ -25,6 +25,8 @@ class HomeVideosLoaded extends HomeVideosState {
   final int totalItems;
   final bool isLoadingMore;
   final String? loadMoreError;
+  final String? refreshError;
+  final int refreshErrorId;
 
   const HomeVideosLoaded({
     required this.videos,
@@ -33,6 +35,8 @@ class HomeVideosLoaded extends HomeVideosState {
     this.totalItems = 0,
     this.isLoadingMore = false,
     this.loadMoreError,
+    this.refreshError,
+    this.refreshErrorId = 0,
     super.currentCefr,
   });
 
@@ -44,6 +48,8 @@ class HomeVideosLoaded extends HomeVideosState {
     bool? isLoadingMore,
     String? loadMoreError,
     bool clearLoadMoreError = false,
+    String? refreshError,
+    int? refreshErrorId,
     String? currentCefr,
     bool clearCefr = false,
   }) {
@@ -54,6 +60,8 @@ class HomeVideosLoaded extends HomeVideosState {
       totalItems: totalItems ?? this.totalItems,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       loadMoreError: clearLoadMoreError ? null : (loadMoreError ?? this.loadMoreError),
+      refreshError: refreshError ?? this.refreshError,
+      refreshErrorId: refreshErrorId ?? this.refreshErrorId,
       currentCefr: clearCefr ? null : (currentCefr ?? this.currentCefr),
     );
   }
@@ -66,6 +74,8 @@ class HomeVideosLoaded extends HomeVideosState {
         totalItems,
         isLoadingMore,
         loadMoreError,
+        refreshError,
+        refreshErrorId,
         currentCefr,
       ];
 }

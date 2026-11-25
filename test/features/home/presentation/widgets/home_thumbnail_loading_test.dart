@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vocabik_app/features/home/domain/entities/daily_pick_entity.dart';
@@ -5,7 +6,10 @@ import 'package:vocabik_app/features/home/domain/entities/personalized_slot_enti
 import 'package:vocabik_app/features/home/presentation/widgets/also_for_you_video_card.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/daily_pick_card.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/presentation/utils/video_thumbnail_cache_manager.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
+import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 
 Widget _wrapWithApp(Widget child) {
@@ -97,6 +101,45 @@ void main() {
       await tester.pump();
 
       _verifySmoothThumbnailImage(tester);
+    },
+  );
+
+  testWidgets(
+    'SharedCourseCard uses CachedNetworkImage with VideoThumbnailCacheManager and preserves aspect ratio',
+    (tester) async {
+      final video = VideoEntity(
+        id: 'lib-1',
+        youtubeVideoId: 'yt-lib-1',
+        title: 'Library Video',
+        thumbnailUrl: 'https://example.com/lib-thumb.jpg',
+        category: 'tech',
+        cefrLevel: 'B1',
+        publishedAt: DateTime(2026, 1, 1),
+        breakingBadge: false,
+        durationSeconds: 125,
+      );
+
+      await tester.pumpWidget(
+        _wrapWithApp(
+          SizedBox(
+            width: 180,
+            height: 220,
+            child: SharedCourseCard(video: video, width: 180),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(AppShimmer), findsNothing);
+      final cachedImageFinder = find.byType(CachedNetworkImage);
+      expect(cachedImageFinder, findsOneWidget);
+
+      final cachedImage = tester.widget<CachedNetworkImage>(cachedImageFinder);
+      expect(cachedImage.cacheManager, same(VideoThumbnailCacheManager.instance));
+      expect(cachedImage.memCacheWidth, 500);
+      expect(cachedImage.memCacheHeight, isNull);
+      expect(cachedImage.fadeInDuration, const Duration(milliseconds: 180));
+      expect(cachedImage.fadeInCurve, Curves.easeOut);
     },
   );
 }

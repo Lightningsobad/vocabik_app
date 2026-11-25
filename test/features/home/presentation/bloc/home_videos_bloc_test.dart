@@ -14,6 +14,7 @@ import 'package:vocabik_app/shared/domain/usecases/get_videos_usecase.dart';
 class FakeSharedVideoRepository implements SharedVideoRepository {
   PaginatedResult<VideoEntity>? mockResult;
   Failure? mockFailure;
+  bool? lastForceRefresh;
   Future<Either<Failure, PaginatedResult<VideoEntity>>> Function(int page, String? cefr)? onGetVideos;
 
   @override
@@ -25,7 +26,9 @@ class FakeSharedVideoRepository implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   }) async {
+    lastForceRefresh = forceRefresh;
     if (onGetVideos != null) {
       return onGetVideos!(page, cefr);
     }
@@ -310,9 +313,10 @@ void main() {
     bloc.add(RefreshVideos(completer: completer));
     await Future.wait([completer.future, refreshFuture]);
     expect(completer.isCompleted, isTrue);
+    expect(repository.lastForceRefresh, isTrue);
   });
 
-  test('RefreshVideos failure when already loaded preserves videos and completes completer', () async {
+  test('RefreshVideos failure when already loaded preserves videos, emits refreshError with incrementing id, and completes completer', () async {
     repository.mockResult = PaginatedResult<VideoEntity>(
       items: [sampleVideo],
       page: 1,
@@ -328,12 +332,29 @@ void main() {
     );
 
     repository.mockFailure = const ServerFailure('Refresh failed');
-    final completer = Completer<void>();
-    bloc.add(RefreshVideos(completer: completer));
-    await completer.future;
+    final completer1 = Completer<void>();
+    bloc.add(RefreshVideos(completer: completer1));
+    await completer1.future;
 
-    expect(completer.isCompleted, isTrue);
-    expect(bloc.state, isA<HomeVideosLoaded>().having((s) => s.videos.length, 'videos.length', 1));
+    expect(completer1.isCompleted, isTrue);
+    expect(repository.lastForceRefresh, isTrue);
+    expect(
+      bloc.state,
+      isA<HomeVideosLoaded>()
+          .having((s) => s.videos.length, 'videos.length', 1)
+          .having((s) => s.refreshError, 'refreshError', 'Refresh failed')
+          .having((s) => s.refreshErrorId, 'refreshErrorId', 1),
+    );
+
+    final completer2 = Completer<void>();
+    bloc.add(RefreshVideos(completer: completer2));
+    await completer2.future;
+
+    expect(
+      bloc.state,
+      isA<HomeVideosLoaded>()
+          .having((s) => s.refreshErrorId, 'refreshErrorId', 2),
+    );
   });
 
   test('in-flight FetchVideos does not overwrite newer ChangeCefrFilter state', () async {
@@ -461,5 +482,98 @@ void main() {
     );
 
     bloc.add(const RefreshVideos());
+  });
+
+  test('failed RefreshVideos during in-flight load-more resets isLoadingMore and allows subsequent pagination', () async {
+    repository.mockResult = PaginatedResult<VideoEntity>(
+      items: [sampleVideo],
+      page: 1,
+      pageSize: 20,
+      totalItems: 40,
+      totalPages: 2,
+    );
+
+    bloc.add(const FetchVideos());
+    await expectLater(
+      bloc.stream,
+      emitsThrough(isA<HomeVideosLoaded>()),
+    );
+
+    final stalePage2Completer = Completer<Either<Failure, PaginatedResult<VideoEntity>>>();
+    final refreshCompleter = Completer<void>();
+    final page2Video = VideoEntity(
+      id: '2',
+      youtubeVideoId: 'yt2',
+      title: 'Page 2 Video',
+      thumbnailUrl: 'http://thumb2.jpg',
+      category: 'tech',
+      cefrLevel: 'b1',
+      publishedAt: DateTime(2025, 1, 2),
+      breakingBadge: false,
+    );
+
+    var page2Calls = 0;
+    repository.onGetVideos = (page, cefr) async {
+      if (page == 2) {
+        page2Calls++;
+        if (page2Calls == 1) {
+          return stalePage2Completer.future;
+        }
+        return right(
+          PaginatedResult<VideoEntity>(
+            items: [page2Video],
+            page: 2,
+            pageSize: 20,
+            totalItems: 40,
+            totalPages: 2,
+          ),
+        );
+      }
+      return left(const ServerFailure('Refresh failed'));
+    };
+
+    bloc.add(const FetchVideos());
+    await expectLater(
+      bloc.stream,
+      emitsThrough(isA<HomeVideosLoaded>().having((s) => s.isLoadingMore, 'isLoadingMore', true)),
+    );
+
+    bloc.add(RefreshVideos(completer: refreshCompleter));
+    await refreshCompleter.future;
+
+    expect(
+      bloc.state,
+      isA<HomeVideosLoaded>()
+          .having((s) => s.isLoadingMore, 'isLoadingMore', false)
+          .having((s) => s.refreshError, 'refreshError', 'Refresh failed')
+          .having((s) => s.videos.length, 'videos.length', 1),
+    );
+
+    // Late stale page 2 response must be ignored.
+    stalePage2Completer.complete(
+      right(
+        PaginatedResult<VideoEntity>(
+          items: [page2Video],
+          page: 2,
+          pageSize: 20,
+          totalItems: 40,
+          totalPages: 2,
+        ),
+      ),
+    );
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+    expect((bloc.state as HomeVideosLoaded).videos.length, 1);
+
+    // Subsequent pagination must still work.
+    bloc.add(const FetchVideos());
+    await expectLater(
+      bloc.stream,
+      emitsThrough(
+        isA<HomeVideosLoaded>()
+            .having((s) => s.videos.map((v) => v.id).toList(), 'ids', ['1', '2'])
+            .having((s) => s.currentPage, 'currentPage', 2)
+            .having((s) => s.isLoadingMore, 'isLoadingMore', false),
+      ),
+    );
   });
 }

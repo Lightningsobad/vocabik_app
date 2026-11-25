@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
@@ -7,15 +8,40 @@ import 'package:vocabik_app/shared/data/datasources/shared_video_remote_data_sou
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/domain/repositories/shared_video_repository.dart';
 
+class _CachedVideoPage {
+  final PaginatedResult<VideoEntity> data;
+  final DateTime cachedAt;
+
+  const _CachedVideoPage(this.data, this.cachedAt);
+}
+
 @LazySingleton(as: SharedVideoRepository)
 class SharedVideoRepositoryImpl implements SharedVideoRepository {
   final SharedVideoRemoteDataSource remoteDataSource;
+  final DateTime Function() _now;
 
-  // In-memory cache for the first page of default videos
-  PaginatedResult<VideoEntity>? _defaultCachedVideos;
-  bool _isRefreshing = false; // Guard: chỉ một background refresh chạy tại một thời điểm
+  static const Duration _cacheTtl = Duration(minutes: 3);
+  final Map<String, _CachedVideoPage> _pageCache = {};
 
-  SharedVideoRepositoryImpl({required this.remoteDataSource});
+  @factoryMethod
+  SharedVideoRepositoryImpl({required this.remoteDataSource})
+      : _now = DateTime.now;
+
+  @visibleForTesting
+  SharedVideoRepositoryImpl.withClock(
+    this.remoteDataSource,
+    this._now,
+  );
+
+  String? _normalizeFilter(String? value) {
+    if (value == null || value.isEmpty || value.toLowerCase() == 'all') {
+      return null;
+    }
+    return value.toLowerCase();
+  }
+
+  String _cacheKey(int pageSize, String? normalizedCefr) =>
+      '$pageSize|${normalizedCefr ?? 'all'}';
 
   @override
   Future<Either<Failure, PaginatedResult<VideoEntity>>> getVideos({
@@ -26,19 +52,21 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   }) async {
-    final isDefaultQuery = page == 1 &&
-        (cefr == null || cefr.isEmpty || cefr.toLowerCase() == 'all') &&
-        (genre == null || genre.isEmpty || genre.toLowerCase() == 'all') &&
+    final normalizedCefr = _normalizeFilter(cefr);
+    final isCacheable = page == 1 &&
+        _normalizeFilter(genre) == null &&
         (window == null || window.isEmpty) &&
         (duration == null || duration.isEmpty) &&
         (exerciseType == null || exerciseType.isEmpty);
+    final cacheKey = _cacheKey(pageSize, normalizedCefr);
+    final cached = isCacheable ? _pageCache[cacheKey] : null;
 
-    // Return cache immediately if available and it's a default query
-    if (isDefaultQuery && _defaultCachedVideos != null) {
-      // Trigger background refresh optionally if needed, but returning cache for now
-      _fetchAndCacheDefault(page, pageSize); // Async fire-and-forget
-      return right(_defaultCachedVideos!);
+    if (!forceRefresh &&
+        cached != null &&
+        _now().difference(cached.cachedAt) < _cacheTtl) {
+      return right(cached.data);
     }
 
     try {
@@ -51,23 +79,22 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
         duration: duration,
         exerciseType: exerciseType,
       );
-      
+
       final entity = response.toEntity();
 
-      if (isDefaultQuery) {
-        _defaultCachedVideos = entity;
+      if (isCacheable) {
+        _pageCache[cacheKey] = _CachedVideoPage(entity, _now());
       }
 
       return right(entity);
     } on ServerException catch (e) {
-      // If we have cache and server fails on default query, we could fallback to cache
-      if (isDefaultQuery && _defaultCachedVideos != null) {
-        return right(_defaultCachedVideos!);
+      if (!forceRefresh && cached != null) {
+        return right(cached.data);
       }
       return left(ServerFailure(e.message));
     } catch (e) {
-      if (isDefaultQuery && _defaultCachedVideos != null) {
-        return right(_defaultCachedVideos!);
+      if (!forceRefresh && cached != null) {
+        return right(cached.data);
       }
       return left(ServerFailure(e.toString()));
     }
@@ -93,22 +120,6 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
       return left(ServerFailure(e.message));
     } catch (e) {
       return left(ServerFailure(e.toString()));
-    }
-  }
-
-  Future<void> _fetchAndCacheDefault(int page, int pageSize) async {
-    if (_isRefreshing) return; // Chặn concurrent refresh để tránh race condition
-    _isRefreshing = true;
-    try {
-      final response = await remoteDataSource.getVideos(
-        page: page,
-        pageSize: pageSize,
-      );
-      _defaultCachedVideos = response.toEntity();
-    } catch (_) {
-      // Ignore errors for background refresh
-    } finally {
-      _isRefreshing = false; // Luôn reset dù thành công hay thất bại
     }
   }
 }

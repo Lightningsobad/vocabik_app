@@ -26,6 +26,7 @@ import 'package:vocabik_app/features/home/presentation/widgets/home_recommended_
 import 'package:vocabik_app/features/home/presentation/widgets/home_trending_section.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/enums/cefr_level.dart';
+import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
@@ -120,90 +121,113 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
 
     return Scaffold(
       backgroundColor: colors.background,
-      body: RefreshIndicator(
-        onRefresh: () async {
-          final completer = Completer<void>();
-          context.read<HomeVideosBloc>().add(RefreshVideos(completer: completer));
-          context.read<HomeDailyPickBloc>().add(const RefreshDailyPick());
-          context.read<HomePersonalizedBloc>().add(
-            const RefreshPersonalizedSlots(),
-          );
-          context.read<HomeTrendingBloc>().add(const RefreshTrendingVideos());
-          context.read<HomeNewlyBloc>().add(const RefreshNewlyVideos());
-          context.read<HomeDailyChallengeBloc>().add(
-            const RefreshHomeDailyChallenge(),
-          );
-          await completer.future;
-        },
-        child: CustomScrollView(
-          controller: _scrollController,
-          scrollCacheExtent: const ScrollCacheExtent.pixels(600),
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm2)),
-
-            // 1. Daily Pick Section
-            const HomeDailyPickSection(),
-
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
-
-            // 2. Recommended / Also For You Section
-            const HomeRecommendedSection(),
-
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
-
-            // 3. Tag Filters
-            SliverToBoxAdapter(
-              child: ValueListenableBuilder<int>(
-                valueListenable: _selectedTabIndex,
-                builder: (context, index, child) {
-                  return SharedSegmentedTabBar(
-                    selectedIndex: index,
-                    onTabChanged: (newIndex) {
-                      _selectedTabIndex.value = newIndex;
-                      final cefrLevel = CefrLevel.fromIndex(newIndex);
-                      context.read<HomeVideosBloc>().add(
-                        ChangeCefrFilter(cefrLevel.code),
-                      );
-                      context.read<HomeTrendingBloc>().add(
-                        ChangeTrendingCefrFilter(cefrLevel.code),
-                      );
-                      context.read<HomeNewlyBloc>().add(
-                        ChangeNewlyCefrFilter(cefrLevel.code),
-                      );
-                    },
-                    tabs: tags,
-                  );
-                },
-              ),
+      body: BlocListener<HomeVideosBloc, HomeVideosState>(
+        listenWhen: (previous, current) =>
+            current is HomeVideosLoaded &&
+            current.refreshError != null &&
+            (previous is! HomeVideosLoaded ||
+                previous.refreshErrorId != current.refreshErrorId),
+        listener: (context, state) {
+          AppSnackBar.showError(
+            context,
+            l10n.homeVideosError,
+            action: TextButton(
+              onPressed: () {
+                if (!mounted) return;
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                context.read<HomeVideosBloc>().add(const RefreshVideos());
+              },
+              child: Text(l10n.homeRetry),
             ),
+          );
+        },
+        child: RefreshIndicator(
+          onRefresh: () async {
+            final completer = Completer<void>();
+            context.read<HomeVideosBloc>().add(
+              RefreshVideos(completer: completer),
+            );
+            context.read<HomeDailyPickBloc>().add(const RefreshDailyPick());
+            context.read<HomePersonalizedBloc>().add(
+              const RefreshPersonalizedSlots(),
+            );
+            context.read<HomeTrendingBloc>().add(const RefreshTrendingVideos());
+            context.read<HomeNewlyBloc>().add(const RefreshNewlyVideos());
+            context.read<HomeDailyChallengeBloc>().add(
+              const RefreshHomeDailyChallenge(),
+            );
+            await completer.future;
+          },
+          child: CustomScrollView(
+            controller: _scrollController,
+            scrollCacheExtent: const ScrollCacheExtent.pixels(600),
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm2)),
 
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl3)),
+              // 1. Daily Pick Section
+              const HomeDailyPickSection(),
 
-            // 4. Daily Challenge
-            const SliverToBoxAdapter(child: DailyChallengeCard()),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
 
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
+              // 2. Recommended / Also For You Section
+              const HomeRecommendedSection(),
 
-            // 5. Trending Section
-            const HomeTrendingSection(),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
+              // 3. Tag Filters
+              SliverToBoxAdapter(
+                child: ValueListenableBuilder<int>(
+                  valueListenable: _selectedTabIndex,
+                  builder: (context, index, child) {
+                    return SharedSegmentedTabBar(
+                      selectedIndex: index,
+                      onTabChanged: (newIndex) {
+                        _selectedTabIndex.value = newIndex;
+                        final cefrLevel = CefrLevel.fromIndex(newIndex);
+                        context.read<HomeVideosBloc>().add(
+                          ChangeCefrFilter(cefrLevel.code),
+                        );
+                        context.read<HomeTrendingBloc>().add(
+                          ChangeTrendingCefrFilter(cefrLevel.code),
+                        );
+                        context.read<HomeNewlyBloc>().add(
+                          ChangeNewlyCefrFilter(cefrLevel.code),
+                        );
+                      },
+                      tabs: tags,
+                    );
+                  },
+                ),
+              ),
 
-            // 6. Recently Added (Newly added) Section
-            const HomeNewlyAddedSection(),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl3)),
 
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
+              // 4. Daily Challenge
+              const SliverToBoxAdapter(child: DailyChallengeCard()),
 
-            // 7. Library Section (Grid of all videos)
-            const HomeLibrarySection(),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
 
-            // 8. Footer
-            const SliverToBoxAdapter(child: HomeFooter()),
+              // 5. Trending Section
+              const HomeTrendingSection(),
 
-            // 9. Padding bottom for FAB
-            const SliverToBoxAdapter(child: SizedBox(height: 80)),
-          ],
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
+
+              // 6. Recently Added (Newly added) Section
+              const HomeNewlyAddedSection(),
+
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
+
+              // 7. Library Section (Grid of all videos)
+              const HomeLibrarySection(),
+
+              // 8. Footer
+              const SliverToBoxAdapter(child: HomeFooter()),
+
+              // 9. Padding bottom for FAB
+              const SliverToBoxAdapter(child: SizedBox(height: 80)),
+            ],
+          ),
         ),
       ),
     );

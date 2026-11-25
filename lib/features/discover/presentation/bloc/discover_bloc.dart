@@ -194,6 +194,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       genre: targetGenre,
       duration: targetDuration,
       exerciseType: targetExerciseType,
+      forceRefresh: preserveExistingData,
     );
 
     final playlistsFuture = _getPlaylistsUseCase(

@@ -19,6 +19,7 @@ class GetVideosUseCase {
     String? window,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   }) {
     return repository.getVideos(
       page: page,
@@ -28,6 +29,7 @@ class GetVideosUseCase {
       window: window,
       duration: duration,
       exerciseType: exerciseType,
+      forceRefresh: forceRefresh,
     );
   }
 }

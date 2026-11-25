@@ -31,6 +31,7 @@ class _StubVideoRepository implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   }) async {
     getVideosCalls++;
     if (pendingCompleter != null) {

@@ -12,6 +12,7 @@ abstract class SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   });
 
   Future<Either<Failure, List<VideoEntity>>> getTrendingVideos({

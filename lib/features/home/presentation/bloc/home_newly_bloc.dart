@@ -80,9 +80,14 @@ class HomeNewlyBloc extends Bloc<HomeNewlyEvent, HomeNewlyState> {
       page: 1,
       pageSize: 10,
       cefr: currentCefr,
+      forceRefresh: true,
     );
     result.fold(
-      (failure) => emit(HomeNewlyError(failure.message, currentCefr: currentCefr)),
+      (failure) {
+        if (state is! HomeNewlyLoaded) {
+          emit(HomeNewlyError(failure.message, currentCefr: currentCefr));
+        }
+      },
       (data) {
         final newVideos =
             data.items.map((e) => e.copyWith(isNew: true)).toList();

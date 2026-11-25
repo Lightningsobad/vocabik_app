@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/core/utils/number_format_utils.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/presentation/utils/video_thumbnail_cache_manager.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_font_size.dart';
@@ -77,34 +79,22 @@ class SharedCourseCard extends StatelessWidget {
                         child: SizedBox.expand(
                           child: Transform.scale(
                             scale: 1.34,
-                            child: Image.network(
-                              video.thumbnailUrl,
+                            child: CachedNetworkImage(
+                              imageUrl: video.thumbnailUrl,
+                              cacheManager: VideoThumbnailCacheManager.instance,
                               fit: BoxFit.cover,
-                              cacheWidth: 500,
-                              cacheHeight: 310,
-                              gaplessPlayback: true,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Container(
-                                    color: colors.surfaceCard,
-                                    child: Icon(
-                                      Icons.broken_image,
-                                      color: colors.textSecondary,
-                                    ),
-                                  ),
-                              frameBuilder: (
-                                context,
-                                child,
-                                frame,
-                                wasSynchronouslyLoaded,
-                              ) {
-                                if (wasSynchronouslyLoaded) return child;
-                                return AnimatedOpacity(
-                                  opacity: frame == null ? 0 : 1,
-                                  duration: const Duration(milliseconds: 180),
-                                  curve: Curves.easeOut,
-                                  child: child,
-                                );
-                              },
+                              memCacheWidth: 500,
+                              fadeInDuration: const Duration(milliseconds: 180),
+                              fadeInCurve: Curves.easeOut,
+                              placeholder: (context, url) =>
+                                  ColoredBox(color: colors.surfaceCard),
+                              errorWidget: (context, url, error) => Container(
+                                color: colors.surfaceCard,
+                                child: Icon(
+                                  Icons.broken_image,
+                                  color: colors.textSecondary,
+                                ),
+                              ),
                             ),
                           ),
                         ),
