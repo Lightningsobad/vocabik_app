@@ -24,41 +24,28 @@ Widget _wrapWithApp(Widget child) {
   );
 }
 
-void _verifySmoothThumbnailImage(WidgetTester tester) {
+void _verifyCachedThumbnailImage(
+  WidgetTester tester, {
+  required int expectedMemCacheWidth,
+}) {
   expect(find.byType(AppShimmer), findsNothing);
 
-  final imageFinder = find.byWidgetPredicate(
-    (w) => w is Image && (w.image is NetworkImage || w.image is ResizeImage),
-  );
-  expect(imageFinder, findsOneWidget);
+  final cachedImageFinder = find.byType(CachedNetworkImage);
+  expect(cachedImageFinder, findsOneWidget);
 
-  final image = tester.widget<Image>(imageFinder);
-  expect(image.gaplessPlayback, isTrue);
-  expect(image.loadingBuilder, isNull);
-  expect(image.frameBuilder, isNotNull);
-
-  final context = tester.element(imageFinder);
-  const dummyChild = SizedBox(key: ValueKey('dummy-child'));
-
-  final loadingWidget = image.frameBuilder!(context, dummyChild, null, false);
-  expect(loadingWidget, isA<AnimatedOpacity>());
-  final loadingOpacity = loadingWidget as AnimatedOpacity;
-  expect(loadingOpacity.opacity, 0);
-  expect(loadingOpacity.duration, const Duration(milliseconds: 180));
-  expect(loadingOpacity.curve, Curves.easeOut);
-
-  final loadedWidget = image.frameBuilder!(context, dummyChild, 0, false);
-  expect(loadedWidget, isA<AnimatedOpacity>());
-  final loadedOpacity = loadedWidget as AnimatedOpacity;
-  expect(loadedOpacity.opacity, 1);
-
-  final syncLoadedWidget = image.frameBuilder!(context, dummyChild, 0, true);
-  expect(syncLoadedWidget, same(dummyChild));
+  final cachedImage = tester.widget<CachedNetworkImage>(cachedImageFinder);
+  expect(cachedImage.cacheManager, same(VideoThumbnailCacheManager.instance));
+  expect(cachedImage.memCacheWidth, expectedMemCacheWidth);
+  expect(cachedImage.memCacheHeight, isNull);
+  expect(cachedImage.fadeInDuration, const Duration(milliseconds: 180));
+  expect(cachedImage.fadeInCurve, Curves.easeOut);
+  expect(cachedImage.placeholder, isNotNull);
+  expect(cachedImage.errorWidget, isNotNull);
 }
 
 void main() {
   testWidgets(
-    'DailyPickCard uses static placeholder with 180ms fade-in and gaplessPlayback',
+    'DailyPickCard uses CachedNetworkImage with VideoThumbnailCacheManager and preserves aspect ratio',
     (tester) async {
       const dailyPick = DailyPickEntity(
         videoId: 'dp-1',
@@ -77,12 +64,12 @@ void main() {
       );
       await tester.pump();
 
-      _verifySmoothThumbnailImage(tester);
+      _verifyCachedThumbnailImage(tester, expectedMemCacheWidth: 800);
     },
   );
 
   testWidgets(
-    'AlsoForYouVideoCard uses static placeholder with 180ms fade-in and gaplessPlayback',
+    'AlsoForYouVideoCard uses CachedNetworkImage with VideoThumbnailCacheManager and preserves aspect ratio',
     (tester) async {
       const slot = PersonalizedSlotEntity(
         position: 1,
@@ -100,7 +87,7 @@ void main() {
       );
       await tester.pump();
 
-      _verifySmoothThumbnailImage(tester);
+      _verifyCachedThumbnailImage(tester, expectedMemCacheWidth: 220);
     },
   );
 
@@ -130,16 +117,7 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.byType(AppShimmer), findsNothing);
-      final cachedImageFinder = find.byType(CachedNetworkImage);
-      expect(cachedImageFinder, findsOneWidget);
-
-      final cachedImage = tester.widget<CachedNetworkImage>(cachedImageFinder);
-      expect(cachedImage.cacheManager, same(VideoThumbnailCacheManager.instance));
-      expect(cachedImage.memCacheWidth, 500);
-      expect(cachedImage.memCacheHeight, isNull);
-      expect(cachedImage.fadeInDuration, const Duration(milliseconds: 180));
-      expect(cachedImage.fadeInCurve, Curves.easeOut);
+      _verifyCachedThumbnailImage(tester, expectedMemCacheWidth: 500);
     },
   );
 }

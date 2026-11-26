@@ -32,4 +32,11 @@ class GetVideosUseCase {
       forceRefresh: forceRefresh,
     );
   }
+
+  PaginatedResult<VideoEntity>? getCached({
+    required int pageSize,
+    String? cefr,
+  }) {
+    return repository.getCachedVideos(pageSize: pageSize, cefr: cefr);
+  }
 }

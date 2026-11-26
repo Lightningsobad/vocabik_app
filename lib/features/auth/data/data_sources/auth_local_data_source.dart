@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vocabik_app/core/cache/json_disk_cache.dart';
 
 import '../models/user_model.dart';
 
@@ -110,6 +111,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     await _prefs.remove(_refreshTokenKey);
     await _prefs.remove(_cefrSkippedKey);
     await _prefs.remove(_userKey);
+    await JsonDiskCache.clearPrefixOn(_prefs, JsonDiskCache.homeKeyPrefix);
   }
 
   @override

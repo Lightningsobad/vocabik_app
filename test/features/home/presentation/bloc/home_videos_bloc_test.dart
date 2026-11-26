@@ -53,9 +53,20 @@ class FakeSharedVideoRepository implements SharedVideoRepository {
     String? genre,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   }) async {
     return right(const []);
   }
+
+  @override
+  PaginatedResult<VideoEntity>? getCachedVideos({
+    required int pageSize,
+    String? cefr,
+  }) =>
+      null;
+
+  @override
+  List<VideoEntity>? getCachedTrendingVideos({String? cefr}) => null;
 }
 
 void main() {

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_personalized_bloc.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_personalized_event.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_personalized_state.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/also_for_you_shimmer.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/also_for_you_video_card.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/section_header.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
+import 'package:vocabik_app/shared/theme/app_radius.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 
 class HomeRecommendedSection extends StatelessWidget {
@@ -44,12 +46,30 @@ class HomeRecommendedSection extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.md,
                   ),
-                  child: Center(
-                    child: Text(
-                      l10n.emptySectionText,
-                      style: TextStyle(color: colors.textSecondary),
+                  child: Container(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    decoration: BoxDecoration(
+                      color: colors.surfaceCard,
+                      borderRadius: BorderRadius.circular(AppRadius.lg),
+                      border: Border.all(color: colors.borderSubtle),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            l10n.homeVideosError,
+                            style: TextStyle(color: colors.textSecondary),
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        TextButton(
+                          onPressed: () => context
+                              .read<HomePersonalizedBloc>()
+                              .add(const FetchPersonalizedSlots()),
+                          child: Text(l10n.homeRetry),
+                        ),
+                      ],
                     ),
                   ),
                 );

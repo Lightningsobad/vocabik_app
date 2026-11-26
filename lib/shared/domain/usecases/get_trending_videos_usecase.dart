@@ -15,12 +15,18 @@ class GetTrendingVideosUseCase {
     String? genre,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   }) {
     return repository.getTrendingVideos(
       cefr: cefr,
       genre: genre,
       duration: duration,
       exerciseType: exerciseType,
+      forceRefresh: forceRefresh,
     );
+  }
+
+  List<VideoEntity>? getCached({String? cefr}) {
+    return repository.getCachedTrendingVideos(cefr: cefr);
   }
 }

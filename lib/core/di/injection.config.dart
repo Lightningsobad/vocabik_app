@@ -13,6 +13,8 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:share_plus_platform_interface/share_plus_platform_interface.dart'
+    as _i394;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../features/achievements/data/datasources/badge_remote_data_source.dart'
@@ -248,6 +250,7 @@ import '../../shared/theme/cubit/theme_cubit.dart' as _i909;
 import '../../shared/theme/data/repositories/theme_repository_impl.dart'
     as _i108;
 import '../../shared/theme/domain/repositories/theme_repository.dart' as _i416;
+import '../cache/json_disk_cache.dart' as _i489;
 import '../services/analytics_service.dart' as _i222;
 import '../services/audio_feedback_service.dart' as _i464;
 import '../services/crashlytics_service.dart' as _i352;
@@ -314,23 +317,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
       () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i475.ShareService>(
-      () => _i475.ShareService(gh<_i361.Dio>()),
-    );
     gh.lazySingleton<_i723.SocialAuthService>(
       () => _i723.GoogleAuthServiceImpl(),
+    );
+    gh.lazySingleton<_i489.JsonDiskCache>(
+      () => _i489.JsonDiskCache(gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i431.SettingsLocalDataSource>(
       () => _i431.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
-    gh.lazySingleton<_i959.SharedVideoRepository>(
-      () => _i676.SharedVideoRepositoryImpl(
-        remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
-      ),
-    );
     gh.lazySingleton<_i729.LocalizationLocalDataSource>(
       () =>
           _i729.LocalizationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i959.SharedVideoRepository>(
+      () => _i676.SharedVideoRepositoryImpl(
+        remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
+        diskCache: gh<_i489.JsonDiskCache>(),
+      ),
     );
     gh.factory<_i821.GetTrendingVideosUseCase>(
       () => _i821.GetTrendingVideosUseCase(gh<_i959.SharedVideoRepository>()),
@@ -363,6 +367,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i25.AuthRemoteDataSource>(
       () => _i25.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i475.ShareService>(
+      () => _i475.ShareService(
+        gh<_i361.Dio>(),
+        sharePlatform: gh<_i394.SharePlatform>(),
+      ),
     );
     gh.lazySingleton<_i854.ProgressRemoteDataSource>(
       () => _i854.ProgressRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -418,6 +428,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i991.BadgeRemoteDataSource>(
       () => _i991.BadgeRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i134.DailyChallengeRepository>(
+      () => _i617.DailyChallengeRepositoryImpl(
+        gh<_i951.DailyChallengeRemoteDataSource>(),
+        gh<_i489.JsonDiskCache>(),
+      ),
+    );
     gh.lazySingleton<_i344.ChallengeFriendRemoteDataSource>(
       () => _i344.ChallengeFriendRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -433,6 +449,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i520.SettingsRepository>(
       () => _i668.SettingsRepositoryImpl(gh<_i431.SettingsLocalDataSource>()),
     );
+    gh.lazySingleton<_i0.HomeRepository>(
+      () => _i76.HomeRepositoryImpl(
+        remoteDataSource: gh<_i362.HomeRemoteDataSource>(),
+        diskCache: gh<_i489.JsonDiskCache>(),
+      ),
+    );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(
         gh<_i25.AuthRemoteDataSource>(),
@@ -445,11 +467,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i718.NotebookRepository>(
       () => _i168.NotebookRepositoryImpl(gh<_i828.NotebookRemoteDataSource>()),
-    );
-    gh.lazySingleton<_i0.HomeRepository>(
-      () => _i76.HomeRepositoryImpl(
-        remoteDataSource: gh<_i362.HomeRemoteDataSource>(),
-      ),
     );
     gh.lazySingleton<_i785.ProgressRepository>(
       () => _i779.ProgressRepositoryImpl(gh<_i854.ProgressRemoteDataSource>()),
@@ -485,6 +502,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1010.GetPersonalizedSlotsUseCase>(
       () => _i1010.GetPersonalizedSlotsUseCase(gh<_i0.HomeRepository>()),
     );
+    gh.lazySingleton<_i155.GetDailyChallengeConfigUseCase>(
+      () => _i155.GetDailyChallengeConfigUseCase(
+        gh<_i134.DailyChallengeRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1016.GetDailyChallengeLeaderboardUseCase>(
+      () => _i1016.GetDailyChallengeLeaderboardUseCase(
+        gh<_i134.DailyChallengeRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i935.GetDailyChallengeStreakUseCase>(
+      () => _i935.GetDailyChallengeStreakUseCase(
+        gh<_i134.DailyChallengeRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i544.SubmitDailyChallengeResultUseCase>(
+      () => _i544.SubmitDailyChallengeResultUseCase(
+        gh<_i134.DailyChallengeRepository>(),
+      ),
+    );
     gh.lazySingleton<_i1011.ChallengeFriendRepository>(
       () => _i594.ChallengeFriendRepositoryImpl(
         gh<_i344.ChallengeFriendRemoteDataSource>(),
@@ -505,11 +542,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i241.SendVideoReactionUseCase>(
       () => _i241.SendVideoReactionUseCase(gh<_i291.VideoDetailRepository>()),
-    );
-    gh.lazySingleton<_i134.DailyChallengeRepository>(
-      () => _i617.DailyChallengeRepositoryImpl(
-        gh<_i951.DailyChallengeRemoteDataSource>(),
-      ),
     );
     gh.lazySingleton<_i738.GetLanguageUseCase>(
       () => _i738.GetLanguageUseCase(gh<_i960.LocalizationRepository>()),
@@ -554,6 +586,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i203.GetVideoExerciseBlanksUseCase>(),
         gh<_i209.GetLatestVideoProgressUseCase>(),
         gh<_i241.SendVideoReactionUseCase>(),
+      ),
+    );
+    gh.factory<_i860.HomeDailyChallengeBloc>(
+      () => _i860.HomeDailyChallengeBloc(
+        gh<_i155.GetDailyChallengeConfigUseCase>(),
       ),
     );
     gh.singleton<_i97.LocalizationCubit>(
@@ -625,6 +662,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i575.UpdateProfileCubit>(
       () => _i575.UpdateProfileCubit(gh<_i186.UpdateProfileUseCase>()),
     );
+    gh.factory<_i838.DailyChallengeBloc>(
+      () => _i838.DailyChallengeBloc(
+        gh<_i155.GetDailyChallengeConfigUseCase>(),
+        gh<_i1016.GetDailyChallengeLeaderboardUseCase>(),
+        gh<_i935.GetDailyChallengeStreakUseCase>(),
+      ),
+    );
     gh.factory<_i679.ForgotPasswordCubit>(
       () => _i679.ForgotPasswordCubit(gh<_i897.ForgotPasswordUseCase>()),
     );
@@ -644,28 +688,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i872.UpdateWordReviewStatusUseCase>(),
       ),
     );
+    gh.factory<_i292.ResultCubit>(
+      () => _i292.ResultCubit(
+        gh<_i697.ScoreCardRepository>(),
+        gh<_i5.SubmitProgressUseCase>(),
+        gh<_i544.SubmitDailyChallengeResultUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i464.AudioFeedbackService>(
       () => _i464.AudioFeedbackServiceImpl(gh<_i521.SoundSettingsCubit>()),
-    );
-    gh.lazySingleton<_i155.GetDailyChallengeConfigUseCase>(
-      () => _i155.GetDailyChallengeConfigUseCase(
-        gh<_i134.DailyChallengeRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i1016.GetDailyChallengeLeaderboardUseCase>(
-      () => _i1016.GetDailyChallengeLeaderboardUseCase(
-        gh<_i134.DailyChallengeRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i935.GetDailyChallengeStreakUseCase>(
-      () => _i935.GetDailyChallengeStreakUseCase(
-        gh<_i134.DailyChallengeRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i544.SubmitDailyChallengeResultUseCase>(
-      () => _i544.SubmitDailyChallengeResultUseCase(
-        gh<_i134.DailyChallengeRepository>(),
-      ),
     );
     gh.factory<_i498.CefrSelectionCubit>(
       () => _i498.CefrSelectionCubit(
@@ -707,11 +738,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i841.DeleteAccountCubit>(
       () => _i841.DeleteAccountCubit(gh<_i353.DeleteAccountUseCase>()),
     );
-    gh.factory<_i860.HomeDailyChallengeBloc>(
-      () => _i860.HomeDailyChallengeBloc(
-        gh<_i155.GetDailyChallengeConfigUseCase>(),
-      ),
-    );
     gh.factory<_i281.LoginCubit>(
       () => _i281.LoginCubit(
         gh<_i1038.LoginUseCase>(),
@@ -727,20 +753,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i518.ResendEmailUseCase>(),
         gh<_i1038.LoginUseCase>(),
         gh<_i797.AuthBloc>(),
-      ),
-    );
-    gh.factory<_i838.DailyChallengeBloc>(
-      () => _i838.DailyChallengeBloc(
-        gh<_i155.GetDailyChallengeConfigUseCase>(),
-        gh<_i1016.GetDailyChallengeLeaderboardUseCase>(),
-        gh<_i935.GetDailyChallengeStreakUseCase>(),
-      ),
-    );
-    gh.factory<_i292.ResultCubit>(
-      () => _i292.ResultCubit(
-        gh<_i697.ScoreCardRepository>(),
-        gh<_i5.SubmitProgressUseCase>(),
-        gh<_i544.SubmitDailyChallengeResultUseCase>(),
       ),
     );
     gh.factory<_i691.RegisterBloc>(

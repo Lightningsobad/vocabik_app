@@ -11,7 +11,11 @@ class GetDailyChallengeConfigUseCase {
 
   GetDailyChallengeConfigUseCase(this._repository);
 
-  Future<Either<Failure, DailyChallengeResponseEntity>> call() async {
-    return await _repository.getConfig();
+  Future<Either<Failure, DailyChallengeResponseEntity>> call({
+    bool forceRefresh = false,
+  }) async {
+    return await _repository.getConfig(forceRefresh: forceRefresh);
   }
+
+  DailyChallengeResponseEntity? getCached() => _repository.getCachedConfig();
 }

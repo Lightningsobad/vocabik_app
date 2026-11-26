@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 
 abstract class HomeDailyChallengeEvent extends Equatable {
@@ -12,5 +14,10 @@ class FetchHomeDailyChallenge extends HomeDailyChallengeEvent {
 }
 
 class RefreshHomeDailyChallenge extends HomeDailyChallengeEvent {
-  const RefreshHomeDailyChallenge();
+  final Completer<void>? completer;
+
+  const RefreshHomeDailyChallenge({this.completer});
+
+  @override
+  List<Object?> get props => [completer];
 }

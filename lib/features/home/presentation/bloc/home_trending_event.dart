@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 
 abstract class HomeTrendingEvent extends Equatable {
@@ -12,7 +14,12 @@ class FetchTrendingVideos extends HomeTrendingEvent {
 }
 
 class RefreshTrendingVideos extends HomeTrendingEvent {
-  const RefreshTrendingVideos();
+  final Completer<void>? completer;
+
+  const RefreshTrendingVideos({this.completer});
+
+  @override
+  List<Object?> get props => [completer];
 }
 
 class ChangeTrendingCefrFilter extends HomeTrendingEvent {
