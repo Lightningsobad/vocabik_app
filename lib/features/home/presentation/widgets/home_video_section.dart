@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/section_header.dart';
+import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
@@ -15,6 +16,8 @@ class HomeVideoSection extends StatelessWidget {
   final String? actionText;
   final VoidCallback? onActionTap;
   final bool isLoading;
+  final bool hasError;
+  final VoidCallback? onRetry;
   final List<VideoEntity> videos;
   final String emptyText;
 
@@ -26,6 +29,8 @@ class HomeVideoSection extends StatelessWidget {
     this.actionText,
     this.onActionTap,
     required this.isLoading,
+    this.hasError = false,
+    this.onRetry,
     required this.videos,
     required this.emptyText,
   });
@@ -33,6 +38,7 @@ class HomeVideoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
 
     return SliverToBoxAdapter(
       child: Column(
@@ -83,6 +89,35 @@ class HomeVideoSection extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return SharedCourseCard(video: videos[index], width: 282);
                   },
+                ),
+              ),
+            )
+          else if (hasError)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: colors.surfaceCard,
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                  border: Border.all(color: colors.borderSubtle),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.homeVideosError,
+                        style: TextStyle(color: colors.textSecondary),
+                      ),
+                    ),
+                    if (onRetry != null) ...[
+                      const SizedBox(width: AppSpacing.sm),
+                      TextButton(
+                        onPressed: onRetry,
+                        child: Text(l10n.homeRetry),
+                      ),
+                    ],
+                  ],
                 ),
               ),
             )

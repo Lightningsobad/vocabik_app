@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_trending_bloc.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_trending_event.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_trending_state.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_video_section.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
@@ -23,6 +24,7 @@ class HomeTrendingSection extends StatelessWidget {
       },
       builder: (context, state) {
         final isLoading = state is HomeTrendingLoading || state is HomeTrendingInitial;
+        final hasError = state is HomeTrendingError;
         final videos = state is HomeTrendingLoaded ? state.videos : const <VideoEntity>[];
 
         return HomeVideoSection(
@@ -31,6 +33,10 @@ class HomeTrendingSection extends StatelessWidget {
           actionText: l10n.homeViewAll,
           onActionTap: () => context.go('/discover'),
           isLoading: isLoading,
+          hasError: hasError,
+          onRetry: () => context
+              .read<HomeTrendingBloc>()
+              .add(const FetchTrendingVideos()),
           videos: videos,
           emptyText: l10n.emptyVideos,
         );

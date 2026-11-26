@@ -37,6 +37,16 @@ class PaginatedVideoResponseModel {
       totalPages: totalPages,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'items': items.map((e) => e.toJson()).toList(),
+      'page': page,
+      'pageSize': pageSize,
+      'totalItems': totalItems,
+      'totalPages': totalPages,
+    };
+  }
 }
 
 class VideoModel {
@@ -106,5 +116,23 @@ class VideoModel {
       durationSeconds: durationSeconds,
       practiced: practiced,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'youtubeVideoId': youtubeVideoId,
+      'title': title,
+      'thumbnailUrl': thumbnailUrl,
+      'category': category,
+      'cefrLevel': cefrLevel,
+      'artist': artist,
+      'publishedAt': publishedAt.toIso8601String(),
+      'breakingBadge': breakingBadge,
+      'canonicalVersion': canonicalVersion,
+      'reactionCounts': reactionCounts,
+      'durationSeconds': durationSeconds,
+      'practiced': practiced,
+    };
   }
 }

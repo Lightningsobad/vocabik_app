@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/core/bloc/droppable_completer.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/domain/usecases/get_videos_usecase.dart';
 
@@ -19,7 +20,10 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
       _onFetchVideos,
       transformer: droppable(),
     );
-    on<RefreshVideos>(_onRefreshVideos);
+    on<RefreshVideos>(
+      _onRefreshVideos,
+      transformer: droppableCompleter((e) => e.completer),
+    );
     on<ChangeCefrFilter>(
       _onChangeCefrFilter,
       transformer: restartable(),
@@ -43,16 +47,35 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
     }
 
     final generation = ++_requestGeneration;
-    emit(HomeVideosLoading(currentCefr: event.cefr));
+    final cached = getVideosUseCase.getCached(
+      pageSize: _pageSize,
+      cefr: event.cefr,
+    );
+    if (cached != null) {
+      emit(HomeVideosLoaded(
+        videos: _mapVideosWithNewFlag(cached.items, cached.page),
+        hasReachedMax: cached.hasReachedMax,
+        currentPage: cached.page,
+        totalItems: cached.totalItems,
+        currentCefr: event.cefr,
+      ));
+    } else {
+      emit(HomeVideosLoading(currentCefr: event.cefr));
+    }
     final result = await getVideosUseCase(
       page: 1,
       pageSize: _pageSize,
       cefr: event.cefr,
+      forceRefresh: cached != null,
     );
     if (generation != _requestGeneration) return;
 
     result.fold(
-      (failure) => emit(HomeVideosError(failure.message, currentCefr: event.cefr)),
+      (failure) {
+        if (state is! HomeVideosLoaded || state.currentCefr != event.cefr) {
+          emit(HomeVideosError(failure.message, currentCefr: event.cefr));
+        }
+      },
       (data) => emit(HomeVideosLoaded(
         videos: _mapVideosWithNewFlag(data.items, data.page),
         hasReachedMax: data.hasReachedMax,
@@ -71,15 +94,34 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
     final generation = _requestGeneration;
 
     if (state is HomeVideosInitial || state is HomeVideosError) {
-      emit(HomeVideosLoading(currentCefr: currentCefr));
+      final cached = getVideosUseCase.getCached(
+        pageSize: _pageSize,
+        cefr: currentCefr,
+      );
+      if (cached != null) {
+        emit(HomeVideosLoaded(
+          videos: _mapVideosWithNewFlag(cached.items, cached.page),
+          hasReachedMax: cached.hasReachedMax,
+          currentPage: cached.page,
+          totalItems: cached.totalItems,
+          currentCefr: currentCefr,
+        ));
+      } else {
+        emit(HomeVideosLoading(currentCefr: currentCefr));
+      }
       final result = await getVideosUseCase(
         page: 1,
         pageSize: _pageSize,
         cefr: currentCefr,
+        forceRefresh: cached != null,
       );
       if (generation != _requestGeneration) return;
       result.fold(
-        (failure) => emit(HomeVideosError(failure.message, currentCefr: currentCefr)),
+        (failure) {
+          if (state is! HomeVideosLoaded || state.currentCefr != currentCefr) {
+            emit(HomeVideosError(failure.message, currentCefr: currentCefr));
+          }
+        },
         (data) => emit(HomeVideosLoaded(
           videos: _mapVideosWithNewFlag(data.items, data.page),
           hasReachedMax: data.hasReachedMax,

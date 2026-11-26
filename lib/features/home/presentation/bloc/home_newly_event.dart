@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 
 abstract class HomeNewlyEvent extends Equatable {
@@ -12,7 +14,12 @@ class FetchNewlyVideos extends HomeNewlyEvent {
 }
 
 class RefreshNewlyVideos extends HomeNewlyEvent {
-  const RefreshNewlyVideos();
+  final Completer<void>? completer;
+
+  const RefreshNewlyVideos({this.completer});
+
+  @override
+  List<Object?> get props => [completer];
 }
 
 class ChangeNewlyCefrFilter extends HomeNewlyEvent {

@@ -1,6 +1,7 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/core/bloc/droppable_completer.dart';
 import 'package:vocabik_app/features/home/domain/usecases/get_daily_pick_usecase.dart';
 
 import 'home_daily_pick_event.dart';
@@ -17,7 +18,7 @@ class HomeDailyPickBloc extends Bloc<HomeDailyPickEvent, HomeDailyPickState> {
     );
     on<RefreshDailyPick>(
       _onRefreshDailyPick,
-      transformer: droppable(),
+      transformer: droppableCompleter((e) => e.completer),
     );
   }
 
@@ -25,10 +26,20 @@ class HomeDailyPickBloc extends Bloc<HomeDailyPickEvent, HomeDailyPickState> {
     FetchDailyPick event,
     Emitter<HomeDailyPickState> emit,
   ) async {
-    emit(HomeDailyPickLoading());
-    final result = await getDailyPickUseCase();
+    final cached = getDailyPickUseCase.getCached();
+    if (cached != null) {
+      emit(HomeDailyPickLoaded(cached));
+    } else {
+      emit(HomeDailyPickLoading());
+    }
+
+    final result = await getDailyPickUseCase(forceRefresh: cached != null);
     result.fold(
-      (failure) => emit(HomeDailyPickError(failure.message)),
+      (failure) {
+        if (state is! HomeDailyPickLoaded) {
+          emit(HomeDailyPickError(failure.message));
+        }
+      },
       (dailyPick) => emit(HomeDailyPickLoaded(dailyPick)),
     );
   }
@@ -37,10 +48,20 @@ class HomeDailyPickBloc extends Bloc<HomeDailyPickEvent, HomeDailyPickState> {
     RefreshDailyPick event,
     Emitter<HomeDailyPickState> emit,
   ) async {
-    final result = await getDailyPickUseCase();
-    result.fold(
-      (failure) => emit(HomeDailyPickError(failure.message)),
-      (dailyPick) => emit(HomeDailyPickLoaded(dailyPick)),
-    );
+    try {
+      final result = await getDailyPickUseCase(forceRefresh: true);
+      result.fold(
+        (failure) {
+          if (state is! HomeDailyPickLoaded) {
+            emit(HomeDailyPickError(failure.message));
+          }
+        },
+        (dailyPick) => emit(HomeDailyPickLoaded(dailyPick)),
+      );
+    } finally {
+      if (event.completer != null && !event.completer!.isCompleted) {
+        event.completer!.complete();
+      }
+    }
   }
 }

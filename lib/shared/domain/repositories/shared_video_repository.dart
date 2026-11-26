@@ -20,5 +20,14 @@ abstract class SharedVideoRepository {
     String? genre,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   });
+
+  PaginatedResult<VideoEntity>? getCachedVideos({
+    required int pageSize,
+    String? cefr,
+  }) =>
+      null;
+
+  List<VideoEntity>? getCachedTrendingVideos({String? cefr}) => null;
 }

@@ -110,6 +110,45 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
     return pos.pixels >= (pos.maxScrollExtent - threshold);
   }
 
+  Future<void> _dispatchRefreshAll({bool awaitAll = false}) async {
+    if (!awaitAll) {
+      context.read<HomeVideosBloc>().add(const RefreshVideos());
+      context.read<HomeDailyPickBloc>().add(const RefreshDailyPick());
+      context.read<HomePersonalizedBloc>().add(
+        const RefreshPersonalizedSlots(),
+      );
+      context.read<HomeTrendingBloc>().add(const RefreshTrendingVideos());
+      context.read<HomeNewlyBloc>().add(const RefreshNewlyVideos());
+      context.read<HomeDailyChallengeBloc>().add(
+        const RefreshHomeDailyChallenge(),
+      );
+      return;
+    }
+
+    final completers = List.generate(6, (_) => Completer<void>());
+    context.read<HomeVideosBloc>().add(RefreshVideos(completer: completers[0]));
+    context.read<HomeDailyPickBloc>().add(
+      RefreshDailyPick(completer: completers[1]),
+    );
+    context.read<HomePersonalizedBloc>().add(
+      RefreshPersonalizedSlots(completer: completers[2]),
+    );
+    context.read<HomeTrendingBloc>().add(
+      RefreshTrendingVideos(completer: completers[3]),
+    );
+    context.read<HomeNewlyBloc>().add(
+      RefreshNewlyVideos(completer: completers[4]),
+    );
+    context.read<HomeDailyChallengeBloc>().add(
+      RefreshHomeDailyChallenge(completer: completers[5]),
+    );
+
+    await Future.wait(completers.map((c) => c.future)).timeout(
+      const Duration(seconds: 10),
+      onTimeout: () => const [],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
@@ -135,29 +174,14 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
               onPressed: () {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                context.read<HomeVideosBloc>().add(const RefreshVideos());
+                _dispatchRefreshAll();
               },
               child: Text(l10n.homeRetry),
             ),
           );
         },
         child: RefreshIndicator(
-          onRefresh: () async {
-            final completer = Completer<void>();
-            context.read<HomeVideosBloc>().add(
-              RefreshVideos(completer: completer),
-            );
-            context.read<HomeDailyPickBloc>().add(const RefreshDailyPick());
-            context.read<HomePersonalizedBloc>().add(
-              const RefreshPersonalizedSlots(),
-            );
-            context.read<HomeTrendingBloc>().add(const RefreshTrendingVideos());
-            context.read<HomeNewlyBloc>().add(const RefreshNewlyVideos());
-            context.read<HomeDailyChallengeBloc>().add(
-              const RefreshHomeDailyChallenge(),
-            );
-            await completer.future;
-          },
+          onRefresh: () => _dispatchRefreshAll(awaitAll: true),
           child: CustomScrollView(
             controller: _scrollController,
             scrollCacheExtent: const ScrollCacheExtent.pixels(600),
