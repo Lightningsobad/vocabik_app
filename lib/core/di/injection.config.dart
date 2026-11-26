@@ -340,6 +340,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i959.SharedVideoRepository>(
       () => _i676.SharedVideoRepositoryImpl(
         remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
+        diskCache: gh<_i489.JsonDiskCache>(),
         localDataSource: gh<_i968.SharedVideoLocalDataSource>(),
       ),
     );

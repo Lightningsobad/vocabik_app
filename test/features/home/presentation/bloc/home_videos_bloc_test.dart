@@ -71,6 +71,8 @@ class FakeSharedVideoRepository implements SharedVideoRepository {
   }) async {
     return right(const []);
   }
+
+  @override
   PaginatedResult<VideoEntity>? getCachedVideos({
     required int pageSize,
     String? cefr,

@@ -7,14 +7,12 @@ import 'package:vocabik_app/core/cache/json_disk_cache.dart';
 import 'package:vocabik_app/core/domain/entities/paginated_result.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
-import 'package:vocabik_app/core/domain/entities/paginated_result.dart';
 import 'package:vocabik_app/core/network/app_cancel_token.dart';
 import 'package:vocabik_app/core/network/dio_cancel_token.dart';
 import 'package:vocabik_app/shared/data/datasources/shared_video_local_data_source.dart';
 import 'package:vocabik_app/shared/data/datasources/shared_video_remote_data_source.dart';
-import 'package:vocabik_app/shared/domain/entities/video_category_entity.dart';
-import 'package:vocabik_app/shared/data/datasources/shared_video_remote_data_source.dart';
 import 'package:vocabik_app/shared/data/models/video_model.dart';
+import 'package:vocabik_app/shared/domain/entities/video_category_entity.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/domain/repositories/shared_video_repository.dart';
 
@@ -36,17 +34,11 @@ class _InFlightVideoRequest {
 class SharedVideoRepositoryImpl implements SharedVideoRepository {
   final SharedVideoRemoteDataSource remoteDataSource;
   final SharedVideoLocalDataSource? localDataSource;
-  final DateTime Function() _now;
-
-  static const Duration _cacheTtl = Duration(minutes: 3);
-  static const Duration _categoriesCacheTtl = Duration(minutes: 10);
-  final Map<String, _CachedVideoPage> _pageCache = {};
-  List<VideoCategoryEntity>? _cachedCategories;
-  DateTime? _categoriesCachedAt;
   final JsonDiskCache? _diskCache;
   final DateTime Function() _now;
 
   static const Duration _cacheTtl = Duration(minutes: 3);
+  static const Duration _categoriesCacheTtl = Duration(minutes: 10);
   static const String _videosDiskPrefix = '${JsonDiskCache.homeKeyPrefix}videos_';
   static const String _trendingDiskPrefix =
       '${JsonDiskCache.homeKeyPrefix}trending_';
@@ -54,13 +46,14 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
   final Map<String, _CacheEntry<PaginatedResult<VideoEntity>>> _pageCache = {};
   final Map<String, _CacheEntry<List<VideoEntity>>> _trendingCache = {};
   final Map<String, _InFlightVideoRequest> _inFlightPage1 = {};
+  List<VideoCategoryEntity>? _cachedCategories;
+  DateTime? _categoriesCachedAt;
 
   @factoryMethod
   SharedVideoRepositoryImpl({
     required this.remoteDataSource,
-    this.localDataSource,
-  }) : _now = DateTime.now;
     required JsonDiskCache diskCache,
+    this.localDataSource,
     // ignore: prefer_initializing_formals
   })  : _diskCache = diskCache,
         _now = DateTime.now {
@@ -71,11 +64,10 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
   SharedVideoRepositoryImpl.withClock(
     this.remoteDataSource,
     this._now, {
+    JsonDiskCache? diskCache,
     this.localDataSource,
-  });
-    this._now, [
-    this._diskCache,
-  ]) {
+    // ignore: prefer_initializing_formals
+  }) : _diskCache = diskCache {
     JsonDiskCache.registerHomeMemoryClearer(_clearMemoryCache);
   }
 
@@ -218,6 +210,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
         window: window,
         duration: duration,
         exerciseType: exerciseType,
+        searchQuery: searchQuery,
+        cancelToken: cancelToken,
         forceRefresh: forceRefresh,
         staleFallback: cached,
       );
@@ -239,6 +233,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
       window: window,
       duration: duration,
       exerciseType: exerciseType,
+      searchQuery: searchQuery,
+      cancelToken: cancelToken,
     );
   }
 
@@ -251,6 +247,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    String? searchQuery,
+    AppCancelToken? cancelToken,
     required bool forceRefresh,
     required _CacheEntry<PaginatedResult<VideoEntity>>? staleFallback,
   }) async {
@@ -304,6 +302,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    String? searchQuery,
+    AppCancelToken? cancelToken,
   }) async {
     try {
       final response = await remoteDataSource.getVideos(
@@ -314,8 +314,12 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
         window: window,
         duration: duration,
         exerciseType: exerciseType,
+        searchQuery: searchQuery,
+        cancelToken: cancelToken.toDio(),
       );
       return right(response.toEntity());
+    } on RequestCancelledException {
+      return left(const CancelledFailure());
     } on ServerException catch (e) {
       return left(ServerFailure(e.message));
     } catch (e) {

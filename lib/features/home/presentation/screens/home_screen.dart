@@ -104,13 +104,6 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
     }
   }
 
-  bool get _shouldPrefetch {
-    if (!_scrollController.hasClients) return false;
-    final pos = _scrollController.position;
-    final threshold = (pos.viewportDimension * 1.5).clamp(600.0, 1200.0);
-    return pos.pixels >= (pos.maxScrollExtent - threshold);
-  }
-
   Future<void> _dispatchRefreshAll({bool awaitAll = false}) async {
     if (!awaitAll) {
       context.read<HomeVideosBloc>().add(const RefreshVideos());

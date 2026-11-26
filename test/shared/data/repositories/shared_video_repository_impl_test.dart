@@ -1,11 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocabik_app/core/cache/json_disk_cache.dart';
@@ -412,37 +409,6 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
     final localDataSource = SharedVideoLocalDataSourceImpl(prefs);
-  test('deduplicates concurrent pageSize=10 request when pageSize=20 is in-flight', () async {
-    final gate = Completer<void>();
-    remoteDataSource.getVideosGate = gate;
-
-    final f20 = repository.getVideos(page: 1, pageSize: 20);
-    final f10 = repository.getVideos(page: 1, pageSize: 10);
-    gate.complete();
-
-    final results = await Future.wait([f20, f10]);
-    expect(remoteDataSource.getVideosCalls, 1);
-    expect(results[0].getOrElse((_) => throw StateError('')).items.length, 20);
-    expect(results[1].getOrElse((_) => throw StateError('')).items.length, 10);
-  });
-
-  test('caches getTrendingVideos by cefr and bypasses on forceRefresh', () async {
-    final first = await repository.getTrendingVideos(cefr: 'b1');
-    final second = await repository.getTrendingVideos(cefr: 'B1');
-    final other = await repository.getTrendingVideos(cefr: 'a2');
-    final forced = await repository.getTrendingVideos(cefr: 'b1', forceRefresh: true);
-
-    expect(remoteDataSource.getTrendingCalls, 3);
-    expect(first.getOrElse((_) => throw StateError('')).single.id, 'trend-b1-1');
-    expect(second.getOrElse((_) => throw StateError('')).single.id, 'trend-b1-1');
-    expect(other.getOrElse((_) => throw StateError('')).single.id, 'trend-a2-2');
-    expect(forced.getOrElse((_) => throw StateError('')).single.id, 'trend-b1-3');
-  });
-
-  test('persists page 1 and trending snapshots to JsonDiskCache across instances', () async {
-    SharedPreferences.setMockInitialValues({});
-    final prefs = await SharedPreferences.getInstance();
-    final diskCache = JsonDiskCache(prefs);
 
     final repo1 = SharedVideoRepositoryImpl.withClock(
       remoteDataSource,
@@ -516,44 +482,43 @@ void main() {
     expect(result.getOrElse((_) => const []).single.slug, 'music');
     expect(repo.getCachedCategories().single.slug, 'music');
   });
-}
 
-class _ThrowingSaveLocalDataSource implements SharedVideoLocalDataSource {
-  @override
-  List<VideoCategoryModel>? getCachedCategories() => null;
+  test('deduplicates concurrent pageSize=10 request when pageSize=20 is in-flight', () async {
+    final gate = Completer<void>();
+    remoteDataSource.getVideosGate = gate;
 
-  @override
-  DateTime? getCategoriesCachedAt() => null;
+    final f20 = repository.getVideos(page: 1, pageSize: 20);
+    final f10 = repository.getVideos(page: 1, pageSize: 10);
+    gate.complete();
 
-  @override
-  Future<void> saveCategories(
-    List<VideoCategoryModel> categories,
-    DateTime cachedAt,
-  ) async {
-    throw StateError('Disk full');
-  }
-}
+    final results = await Future.wait([f20, f10]);
+    expect(remoteDataSource.getVideosCalls, 1);
+    expect(results[0].getOrElse((_) => throw StateError('')).items.length, 20);
+    expect(results[1].getOrElse((_) => throw StateError('')).items.length, 10);
+  });
 
-class _FakeHttpClientAdapter implements HttpClientAdapter {
-  final Future<ResponseBody> Function(
-    RequestOptions options,
-    Future<void>? cancelFuture,
-  ) onFetch;
+  test('caches getTrendingVideos by cefr and bypasses on forceRefresh', () async {
+    final first = await repository.getTrendingVideos(cefr: 'b1');
+    final second = await repository.getTrendingVideos(cefr: 'B1');
+    final other = await repository.getTrendingVideos(cefr: 'a2');
+    final forced = await repository.getTrendingVideos(cefr: 'b1', forceRefresh: true);
 
-  _FakeHttpClientAdapter(this.onFetch);
+    expect(remoteDataSource.getTrendingCalls, 3);
+    expect(first.getOrElse((_) => throw StateError('')).single.id, 'trend-b1-1');
+    expect(second.getOrElse((_) => throw StateError('')).single.id, 'trend-b1-1');
+    expect(other.getOrElse((_) => throw StateError('')).single.id, 'trend-a2-2');
+    expect(forced.getOrElse((_) => throw StateError('')).single.id, 'trend-b1-3');
+  });
 
-  @override
-  Future<ResponseBody> fetch(
-    RequestOptions options,
-    Stream<Uint8List>? requestStream,
-    Future<void>? cancelFuture,
-  ) {
-    return onFetch(options, cancelFuture);
-  }
+  test('persists page 1 and trending snapshots to JsonDiskCache across instances', () async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    final diskCache = JsonDiskCache(prefs);
 
-  @override
-  void close({bool force = false}) {}
-      diskCache,
+    final repo1 = SharedVideoRepositoryImpl.withClock(
+      remoteDataSource,
+      () => currentTime,
+      diskCache: diskCache,
     );
     await repo1.getVideos(page: 1, pageSize: 20, cefr: 'b1');
     await repo1.getTrendingVideos(cefr: 'b1');
@@ -561,7 +526,7 @@ class _FakeHttpClientAdapter implements HttpClientAdapter {
     final repo2 = SharedVideoRepositoryImpl.withClock(
       remoteDataSource,
       () => currentTime,
-      diskCache,
+      diskCache: diskCache,
     );
     final cachedVideos = repo2.getCachedVideos(pageSize: 10, cefr: 'B1');
     final cachedTrending = repo2.getCachedTrendingVideos(cefr: 'B1');
@@ -603,4 +568,41 @@ class _FakeHttpClientAdapter implements HttpClientAdapter {
     expect(entity10.totalItems, 15);
     expect(entity10.totalPages, 2);
   });
+}
+
+class _ThrowingSaveLocalDataSource implements SharedVideoLocalDataSource {
+  @override
+  List<VideoCategoryModel>? getCachedCategories() => null;
+
+  @override
+  DateTime? getCategoriesCachedAt() => null;
+
+  @override
+  Future<void> saveCategories(
+    List<VideoCategoryModel> categories,
+    DateTime cachedAt,
+  ) async {
+    throw StateError('Disk full');
+  }
+}
+
+class _FakeHttpClientAdapter implements HttpClientAdapter {
+  final Future<ResponseBody> Function(
+    RequestOptions options,
+    Future<void>? cancelFuture,
+  ) onFetch;
+
+  _FakeHttpClientAdapter(this.onFetch);
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
+    return onFetch(options, cancelFuture);
+  }
+
+  @override
+  void close({bool force = false}) {}
 }
