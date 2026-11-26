@@ -1,23 +1,26 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:vocabik_app/core/bloc/droppable_completer.dart';
 import 'package:vocabik_app/features/home/domain/usecases/get_personalized_slots_usecase.dart';
 
 import 'home_personalized_event.dart';
 import 'home_personalized_state.dart';
 
 @injectable
-class HomePersonalizedBloc extends Bloc<HomePersonalizedEvent, HomePersonalizedState> {
+class HomePersonalizedBloc
+    extends Bloc<HomePersonalizedEvent, HomePersonalizedState> {
   final GetPersonalizedSlotsUseCase getPersonalizedSlotsUseCase;
 
-  HomePersonalizedBloc(this.getPersonalizedSlotsUseCase) : super(HomePersonalizedInitial()) {
+  HomePersonalizedBloc(this.getPersonalizedSlotsUseCase)
+      : super(HomePersonalizedInitial()) {
     on<FetchPersonalizedSlots>(
       _onFetchPersonalizedSlots,
       transformer: droppable(),
     );
     on<RefreshPersonalizedSlots>(
       _onRefreshPersonalizedSlots,
-      transformer: droppable(),
+      transformer: droppableCompleter((e) => e.completer),
     );
   }
 
@@ -25,10 +28,22 @@ class HomePersonalizedBloc extends Bloc<HomePersonalizedEvent, HomePersonalizedS
     FetchPersonalizedSlots event,
     Emitter<HomePersonalizedState> emit,
   ) async {
-    emit(HomePersonalizedLoading());
-    final result = await getPersonalizedSlotsUseCase();
+    final cached = getPersonalizedSlotsUseCase.getCached();
+    if (cached != null) {
+      emit(HomePersonalizedLoaded(cached));
+    } else {
+      emit(HomePersonalizedLoading());
+    }
+
+    final result = await getPersonalizedSlotsUseCase(
+      forceRefresh: cached != null,
+    );
     result.fold(
-      (failure) => emit(HomePersonalizedError(failure.message)),
+      (failure) {
+        if (state is! HomePersonalizedLoaded) {
+          emit(HomePersonalizedError(failure.message));
+        }
+      },
       (slots) => emit(HomePersonalizedLoaded(slots)),
     );
   }
@@ -37,10 +52,20 @@ class HomePersonalizedBloc extends Bloc<HomePersonalizedEvent, HomePersonalizedS
     RefreshPersonalizedSlots event,
     Emitter<HomePersonalizedState> emit,
   ) async {
-    final result = await getPersonalizedSlotsUseCase();
-    result.fold(
-      (failure) => emit(HomePersonalizedError(failure.message)),
-      (slots) => emit(HomePersonalizedLoaded(slots)),
-    );
+    try {
+      final result = await getPersonalizedSlotsUseCase(forceRefresh: true);
+      result.fold(
+        (failure) {
+          if (state is! HomePersonalizedLoaded) {
+            emit(HomePersonalizedError(failure.message));
+          }
+        },
+        (slots) => emit(HomePersonalizedLoaded(slots)),
+      );
+    } finally {
+      if (event.completer != null && !event.completer!.isCompleted) {
+        event.completer!.complete();
+      }
+    }
   }
 }

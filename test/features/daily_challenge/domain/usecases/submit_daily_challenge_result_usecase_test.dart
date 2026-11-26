@@ -15,9 +15,14 @@ class FakeDailyChallengeRepository implements DailyChallengeRepository {
   FakeDailyChallengeRepository({required this.submitResultReturnValue});
 
   @override
-  Future<Either<Failure, DailyChallengeResponseEntity>> getConfig() async {
+  Future<Either<Failure, DailyChallengeResponseEntity>> getConfig({
+    bool forceRefresh = false,
+  }) async {
     return left(const ServerFailure('Not used'));
   }
+
+  @override
+  DailyChallengeResponseEntity? getCachedConfig() => null;
 
   @override
   Future<Either<Failure, List<DailyChallengeLeaderboardItemEntity>>>

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 
 abstract class HomePersonalizedEvent extends Equatable {
@@ -12,5 +14,10 @@ class FetchPersonalizedSlots extends HomePersonalizedEvent {
 }
 
 class RefreshPersonalizedSlots extends HomePersonalizedEvent {
-  const RefreshPersonalizedSlots();
+  final Completer<void>? completer;
+
+  const RefreshPersonalizedSlots({this.completer});
+
+  @override
+  List<Object?> get props => [completer];
 }

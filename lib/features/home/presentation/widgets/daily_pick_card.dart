@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/core/utils/number_format_utils.dart';
 import 'package:vocabik_app/features/home/domain/entities/daily_pick_entity.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/presentation/utils/video_thumbnail_cache_manager.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/course_tag_badge.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -59,13 +61,16 @@ class DailyPickCard extends StatelessWidget {
                     color: colors.surfaceCard,
                     child: Transform.scale(
                       scale: 1.34,
-                      child: Image.network(
-                        dailyPick.thumbnailUrl,
+                      child: CachedNetworkImage(
+                        imageUrl: dailyPick.thumbnailUrl,
+                        cacheManager: VideoThumbnailCacheManager.instance,
                         fit: BoxFit.cover,
-                        cacheWidth: 800,
-                        cacheHeight: 430,
-                        gaplessPlayback: true,
-                        errorBuilder: (context, error, stackTrace) => Container(
+                        memCacheWidth: 800,
+                        fadeInDuration: const Duration(milliseconds: 180),
+                        fadeInCurve: Curves.easeOut,
+                        placeholder: (context, url) =>
+                            ColoredBox(color: colors.surfaceCard),
+                        errorWidget: (context, url, error) => Container(
                           color: colors.surfaceCard,
                           child: Center(
                             child: Icon(
@@ -74,20 +79,6 @@ class DailyPickCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        frameBuilder: (
-                          context,
-                          child,
-                          frame,
-                          wasSynchronouslyLoaded,
-                        ) {
-                          if (wasSynchronouslyLoaded) return child;
-                          return AnimatedOpacity(
-                            opacity: frame == null ? 0 : 1,
-                            duration: const Duration(milliseconds: 180),
-                            curve: Curves.easeOut,
-                            child: child,
-                          );
-                        },
                       ),
                     ),
                   )

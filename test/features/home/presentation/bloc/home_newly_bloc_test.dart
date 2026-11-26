@@ -51,6 +51,7 @@ class _FakeSharedVideoRepository implements SharedVideoRepository {
     String? genre,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   }) async {
     return right(const []);
   }
@@ -64,6 +65,14 @@ class _FakeSharedVideoRepository implements SharedVideoRepository {
   }) async {
     return right(const []);
   }
+  PaginatedResult<VideoEntity>? getCachedVideos({
+    required int pageSize,
+    String? cefr,
+  }) =>
+      null;
+
+  @override
+  List<VideoEntity>? getCachedTrendingVideos({String? cefr}) => null;
 }
 
 void main() {

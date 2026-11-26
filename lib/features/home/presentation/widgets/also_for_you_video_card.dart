@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabik_app/core/utils/string_extensions.dart';
 import 'package:vocabik_app/features/home/domain/entities/personalized_slot_entity.dart';
+import 'package:vocabik_app/shared/presentation/utils/video_thumbnail_cache_manager.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/course_tag_badge.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -65,36 +67,24 @@ class AlsoForYouVideoCard extends StatelessWidget {
                         color: colors.surfaceCard,
                         child: Transform.scale(
                           scale: 1.34,
-                          child: Image.network(
-                            slot.thumbnailUrl,
+                          child: CachedNetworkImage(
+                            imageUrl: slot.thumbnailUrl,
+                            cacheManager: VideoThumbnailCacheManager.instance,
                             fit: BoxFit.cover,
-                            cacheWidth: 220,
-                            cacheHeight: 130,
-                            gaplessPlayback: true,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Container(
-                                  color: colors.surfaceCard,
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.image_not_supported_outlined,
-                                      color: colors.textSecondary,
-                                    ),
-                                  ),
+                            memCacheWidth: 220,
+                            fadeInDuration: const Duration(milliseconds: 180),
+                            fadeInCurve: Curves.easeOut,
+                            placeholder: (context, url) =>
+                                ColoredBox(color: colors.surfaceCard),
+                            errorWidget: (context, url, error) => Container(
+                              color: colors.surfaceCard,
+                              child: Center(
+                                child: Icon(
+                                  Icons.image_not_supported_outlined,
+                                  color: colors.textSecondary,
                                 ),
-                            frameBuilder: (
-                              context,
-                              child,
-                              frame,
-                              wasSynchronouslyLoaded,
-                            ) {
-                              if (wasSynchronouslyLoaded) return child;
-                              return AnimatedOpacity(
-                                opacity: frame == null ? 0 : 1,
-                                duration: const Duration(milliseconds: 180),
-                                curve: Curves.easeOut,
-                                child: child,
-                              );
-                            },
+                              ),
+                            ),
                           ),
                         ),
                       )

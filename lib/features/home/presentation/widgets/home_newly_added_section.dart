@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_newly_bloc.dart';
+import 'package:vocabik_app/features/home/presentation/bloc/home_newly_event.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_newly_state.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_video_section.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
@@ -22,12 +23,17 @@ class HomeNewlyAddedSection extends StatelessWidget {
       },
       builder: (context, state) {
         final isLoading = state is HomeNewlyLoading || state is HomeNewlyInitial;
+        final hasError = state is HomeNewlyError;
         final videos = state is HomeNewlyLoaded ? state.videos : const <VideoEntity>[];
 
         return HomeVideoSection(
           title: l10n.homeRecentlyAdded,
           iconAsset: 'assets/home_screen/newly_icon.svg',
           isLoading: isLoading,
+          hasError: hasError,
+          onRetry: () => context
+              .read<HomeNewlyBloc>()
+              .add(const FetchNewlyVideos()),
           videos: videos,
           emptyText: l10n.emptySectionText,
         );

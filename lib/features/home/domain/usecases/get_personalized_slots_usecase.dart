@@ -10,7 +10,12 @@ class GetPersonalizedSlotsUseCase {
 
   GetPersonalizedSlotsUseCase(this.repository);
 
-  Future<Either<Failure, List<PersonalizedSlotEntity>>> call() {
-    return repository.getPersonalizedSlots();
+  Future<Either<Failure, List<PersonalizedSlotEntity>>> call({
+    bool forceRefresh = false,
+  }) {
+    return repository.getPersonalizedSlots(forceRefresh: forceRefresh);
   }
+
+  List<PersonalizedSlotEntity>? getCached() =>
+      repository.getCachedPersonalizedSlots();
 }

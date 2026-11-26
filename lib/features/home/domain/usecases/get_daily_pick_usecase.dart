@@ -10,7 +10,9 @@ class GetDailyPickUseCase {
 
   GetDailyPickUseCase(this.repository);
 
-  Future<Either<Failure, DailyPickEntity>> call() {
-    return repository.getDailyPick();
+  Future<Either<Failure, DailyPickEntity>> call({bool forceRefresh = false}) {
+    return repository.getDailyPick(forceRefresh: forceRefresh);
   }
+
+  DailyPickEntity? getCached() => repository.getCachedDailyPick();
 }

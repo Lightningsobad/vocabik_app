@@ -37,4 +37,11 @@ class GetVideosUseCase {
       cancelToken: cancelToken,
     );
   }
+
+  PaginatedResult<VideoEntity>? getCached({
+    required int pageSize,
+    String? cefr,
+  }) {
+    return repository.getCachedVideos(pageSize: pageSize, cefr: cefr);
+  }
 }

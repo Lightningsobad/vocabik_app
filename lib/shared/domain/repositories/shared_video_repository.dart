@@ -24,6 +24,7 @@ abstract class SharedVideoRepository {
     String? genre,
     String? duration,
     String? exerciseType,
+    bool forceRefresh = false,
   });
 
   List<VideoCategoryEntity> getCachedCategories();
@@ -31,4 +32,11 @@ abstract class SharedVideoRepository {
   Future<Either<Failure, List<VideoCategoryEntity>>> getCategories({
     bool forceRefresh = false,
   });
+  PaginatedResult<VideoEntity>? getCachedVideos({
+    required int pageSize,
+    String? cefr,
+  }) =>
+      null;
+
+  List<VideoEntity>? getCachedTrendingVideos({String? cefr}) => null;
 }
