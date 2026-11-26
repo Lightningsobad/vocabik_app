@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:vocabik_app/shared/domain/entities/video_category_entity.dart';
 
 abstract class DiscoverEvent extends Equatable {
   const DiscoverEvent();
@@ -44,4 +45,13 @@ class DiscoverRefreshRequested extends DiscoverEvent {
 
   @override
   List<Object?> get props => [completer];
+}
+
+class DiscoverCategoriesUpdated extends DiscoverEvent {
+  final List<VideoCategoryEntity> categories;
+
+  const DiscoverCategoriesUpdated(this.categories);
+
+  @override
+  List<Object?> get props => [categories];
 }

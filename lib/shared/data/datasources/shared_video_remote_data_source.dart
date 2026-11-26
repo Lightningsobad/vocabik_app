@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
+import 'package:vocabik_app/shared/data/models/video_category_model.dart';
 import 'package:vocabik_app/shared/data/models/video_model.dart';
 
 PaginatedVideoResponseModel _parseVideos(dynamic data) {
@@ -16,6 +17,17 @@ List<VideoModel> _parseTrendingVideos(dynamic data) {
       .toList();
 }
 
+List<VideoCategoryModel> _parseCategories(dynamic data) {
+  final map = data as Map<String, dynamic>;
+  final items = map['items'] as List<dynamic>? ?? const [];
+  final categories = items
+      .map((item) => VideoCategoryModel.fromJson(item as Map<String, dynamic>))
+      .where((category) => category.slug.isNotEmpty)
+      .toList();
+  categories.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+  return categories;
+}
+
 abstract class SharedVideoRemoteDataSource {
   Future<PaginatedVideoResponseModel> getVideos({
     required int page,
@@ -25,6 +37,8 @@ abstract class SharedVideoRemoteDataSource {
     String? window,
     String? duration,
     String? exerciseType,
+    String? searchQuery,
+    CancelToken? cancelToken,
   });
 
   Future<List<VideoModel>> getTrendingVideos({
@@ -33,6 +47,8 @@ abstract class SharedVideoRemoteDataSource {
     String? duration,
     String? exerciseType,
   });
+
+  Future<List<VideoCategoryModel>> getCategories();
 }
 
 @LazySingleton(as: SharedVideoRemoteDataSource)
@@ -50,6 +66,8 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
     String? window,
     String? duration,
     String? exerciseType,
+    String? searchQuery,
+    CancelToken? cancelToken,
   }) async {
     try {
       final queryParameters = <String, dynamic>{
@@ -63,9 +81,16 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
       if (duration != null && duration.isNotEmpty) queryParameters['duration'] = duration;
       if (exerciseType != null && exerciseType.isNotEmpty) queryParameters['exerciseType'] = exerciseType;
 
+      final trimmedQuery = searchQuery?.trim();
+      final isSearch = trimmedQuery != null && trimmedQuery.isNotEmpty;
+      if (isSearch) {
+        queryParameters['q'] = trimmedQuery;
+      }
+
       final response = await dio.get(
-        '/public/videos',
+        isSearch ? '/public/exercises/search' : '/public/videos',
         queryParameters: queryParameters,
+        cancelToken: cancelToken,
       );
       
       if (response.statusCode == 200) {
@@ -74,6 +99,9 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
         throw ServerException();
       }
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.cancel) {
+        throw const RequestCancelledException();
+      }
       throw ServerException(e.message ?? 'Unknown DioException');
     } catch (e) {
       throw ServerException(e.toString());
@@ -109,6 +137,23 @@ class SharedVideoRemoteDataSourceImpl implements SharedVideoRemoteDataSource {
       
       if (response.statusCode == 200) {
         return await compute(_parseTrendingVideos, response.data);
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      throw ServerException(e.message ?? 'Unknown DioException');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<VideoCategoryModel>> getCategories() async {
+    try {
+      final response = await dio.get('/public/categories');
+
+      if (response.statusCode == 200) {
+        return await compute(_parseCategories, response.data);
       } else {
         throw ServerException();
       }

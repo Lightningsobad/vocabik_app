@@ -2,9 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:vocabik_app/core/domain/entities/paginated_result.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/core/network/app_cancel_token.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_newly_bloc.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_newly_event.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_newly_state.dart';
+import 'package:vocabik_app/shared/domain/entities/video_category_entity.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/domain/repositories/shared_video_repository.dart';
 import 'package:vocabik_app/shared/domain/usecases/get_videos_usecase.dart';
@@ -23,7 +25,9 @@ class _FakeSharedVideoRepository implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    String? searchQuery,
     bool forceRefresh = false,
+    AppCancelToken? cancelToken,
   }) async {
     lastForceRefresh = forceRefresh;
     if (mockFailure != null) {
@@ -47,6 +51,16 @@ class _FakeSharedVideoRepository implements SharedVideoRepository {
     String? genre,
     String? duration,
     String? exerciseType,
+  }) async {
+    return right(const []);
+  }
+
+  @override
+  List<VideoCategoryEntity> getCachedCategories() => const [];
+
+  @override
+  Future<Either<Failure, List<VideoCategoryEntity>>> getCategories({
+    bool forceRefresh = false,
   }) async {
     return right(const []);
   }

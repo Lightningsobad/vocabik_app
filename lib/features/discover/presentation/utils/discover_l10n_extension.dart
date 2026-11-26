@@ -27,8 +27,11 @@ extension DiscoverL10nExtension on AppLocalizations {
   String getDiscoverLibraryTitle({
     required String genre,
     required String cefr,
+    String? genreLabel,
   }) {
-    final genreText = getGenreDisplayName(genre);
+    final genreText = (genreLabel != null && genreLabel.isNotEmpty)
+        ? genreLabel
+        : getGenreDisplayName(genre);
     final hasGenre = genreText.isNotEmpty;
     final hasCefr = cefr.isNotEmpty;
 

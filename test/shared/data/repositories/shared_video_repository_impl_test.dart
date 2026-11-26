@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/shared/data/datasources/shared_video_local_data_source.dart';
 import 'package:vocabik_app/shared/data/datasources/shared_video_remote_data_source.dart';
+import 'package:vocabik_app/shared/data/models/video_category_model.dart';
 import 'package:vocabik_app/shared/data/models/video_model.dart';
 import 'package:vocabik_app/shared/data/repositories/shared_video_repository_impl.dart';
 
@@ -23,6 +30,8 @@ class _FakeSharedVideoRemoteDataSource implements SharedVideoRemoteDataSource {
     String? window,
     String? duration,
     String? exerciseType,
+    String? searchQuery,
+    CancelToken? cancelToken,
   }) async {
     getVideosCalls++;
     if (errorToThrow != null) {
@@ -60,6 +69,19 @@ class _FakeSharedVideoRemoteDataSource implements SharedVideoRemoteDataSource {
     String? exerciseType,
   }) async {
     return const [];
+  }
+
+  int getCategoriesCalls = 0;
+  List<VideoCategoryModel> mockCategories = const [];
+  Object? categoriesErrorToThrow;
+
+  @override
+  Future<List<VideoCategoryModel>> getCategories() async {
+    getCategoriesCalls++;
+    if (categoriesErrorToThrow != null) {
+      throw categoriesErrorToThrow!;
+    }
+    return mockCategories;
   }
 }
 
@@ -170,4 +192,309 @@ void main() {
       isA<ServerFailure>().having((f) => f.message, 'message', 'Network offline'),
     );
   });
+
+  test('searchQuery bypasses page-1 cache and does not fall back to stale cache', () async {
+    await repository.getVideos(page: 1, pageSize: 20);
+    expect(remoteDataSource.getVideosCalls, 1);
+
+    await repository.getVideos(page: 1, pageSize: 20, searchQuery: 'nasa');
+    await repository.getVideos(page: 1, pageSize: 20, searchQuery: 'nasa');
+    expect(remoteDataSource.getVideosCalls, 3);
+
+    remoteDataSource.errorToThrow = ServerException('Search error');
+    final searchFailure = await repository.getVideos(
+      page: 1,
+      pageSize: 20,
+      searchQuery: 'nasa',
+    );
+    expect(searchFailure.isLeft(), isTrue);
+  });
+
+  test('RequestCancelledException returns CancelledFailure without falling back to stale cache', () async {
+    await repository.getVideos(page: 1, pageSize: 20);
+    currentTime = currentTime.add(const Duration(minutes: 4));
+    remoteDataSource.errorToThrow = const RequestCancelledException();
+
+    final cancelled = await repository.getVideos(page: 1, pageSize: 20);
+    expect(cancelled.getLeft().toNullable(), isA<CancelledFailure>());
+  });
+
+  test('PaginatedVideoResponseModel.fromJson parses /public/exercises/search schema', () {
+    final model = PaginatedVideoResponseModel.fromJson({
+      'items': [
+        {
+          'id': 'c3c8763f-ad1a-4c43-8369-5475eaed017b',
+          'title': 'Who Works at NASA?',
+          'thumbnailUrl': 'https://i.ytimg.com/vi/OXkxQbZEn5E/hqdefault.jpg',
+          'cefrLevel': 'C1',
+          'genre': 'work-career',
+          'artist': 'NASA Goddard',
+          'durationSeconds': 176,
+          'practiced': 0,
+          'publishedAt': '2026-11-25T17:03:55.022Z',
+        },
+      ],
+      'totalCount': 43,
+      'page': 1,
+      'pageSize': 20,
+      'hasMore': true,
+    });
+
+    final entity = model.toEntity();
+    expect(entity.totalItems, 43);
+    expect(entity.hasReachedMax, isFalse);
+    expect(entity.items.single.category, 'work-career');
+    expect(entity.items.single.youtubeVideoId, 'OXkxQbZEn5E');
+
+    final lastPage = PaginatedVideoResponseModel.fromJson({
+      'items': const [],
+      'totalCount': 43,
+      'page': 3,
+      'pageSize': 20,
+      'hasMore': false,
+    }).toEntity();
+    expect(lastPage.hasReachedMax, isTrue);
+
+    final emptyCategoryModel = VideoModel.fromJson({
+      'id': 'v-empty-cat',
+      'title': 'Empty Category',
+      'thumbnailUrl': 'https://i.ytimg.com/vi/OXkxQbZEn5E/hqdefault.jpg',
+      'category': '',
+      'genre': 'science-space',
+      'cefrLevel': 'B2',
+      'publishedAt': '2026-11-25T17:03:55.022Z',
+    });
+    expect(emptyCategoryModel.category, 'science-space');
+  });
+
+  test('SharedVideoRemoteDataSourceImpl routes search to /public/exercises/search and maps cancel', () async {
+    RequestOptions? capturedOptions;
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+    dio.httpClientAdapter = _FakeHttpClientAdapter((options, cancelFuture) async {
+      capturedOptions = options;
+      if (options.cancelToken?.isCancelled ?? false) {
+        throw DioException(
+          requestOptions: options,
+          type: DioExceptionType.cancel,
+        );
+      }
+      return ResponseBody.fromString(
+        jsonEncode({
+          'items': const [],
+          'totalCount': 0,
+          'page': 1,
+          'pageSize': 20,
+          'hasMore': false,
+        }),
+        200,
+        headers: {
+          Headers.contentTypeHeader: [Headers.jsonContentType],
+        },
+      );
+    });
+
+    final dataSource = SharedVideoRemoteDataSourceImpl(dio);
+
+    await dataSource.getVideos(page: 1, pageSize: 20, searchQuery: '  nasa  ');
+    expect(capturedOptions?.path, '/public/exercises/search');
+    expect(capturedOptions?.queryParameters['q'], 'nasa');
+
+    await dataSource.getVideos(page: 1, pageSize: 20, searchQuery: '   ');
+    expect(capturedOptions?.path, '/public/videos');
+    expect(capturedOptions?.queryParameters.containsKey('q'), isFalse);
+
+    final cancelToken = CancelToken()..cancel('user switched filter');
+    await expectLater(
+      dataSource.getVideos(
+        page: 1,
+        pageSize: 20,
+        searchQuery: 'nasa',
+        cancelToken: cancelToken,
+      ),
+      throwsA(isA<RequestCancelledException>()),
+    );
+  });
+
+  test('getCategories caches for 10 minutes and falls back to stale cache when offline', () async {
+    remoteDataSource.mockCategories = const [
+      VideoCategoryModel(
+        slug: 'kids',
+        label: 'Thiếu nhi',
+        shortLabel: 'Thiếu nhi',
+        labels: {'en': 'Kids', 'vi': 'Thiếu nhi'},
+        shortLabels: {'en': 'Kids', 'vi': 'Thiếu nhi'},
+        sortOrder: 170,
+      ),
+    ];
+
+    final first = await repository.getCategories();
+    expect(first.isRight(), isTrue);
+    expect(remoteDataSource.getCategoriesCalls, 1);
+
+    currentTime = currentTime.add(const Duration(minutes: 5));
+    final second = await repository.getCategories();
+    expect(second.isRight(), isTrue);
+    expect(remoteDataSource.getCategoriesCalls, 1);
+
+    currentTime = currentTime.add(const Duration(minutes: 6));
+    remoteDataSource.categoriesErrorToThrow = ServerException('Offline');
+    final staleFallback = await repository.getCategories();
+    expect(staleFallback.isRight(), isTrue);
+    expect(staleFallback.getOrElse((_) => const []).single.slug, 'kids');
+    expect(remoteDataSource.getCategoriesCalls, 2);
+  });
+
+  test('SharedVideoRemoteDataSourceImpl.getCategories parses and sorts by sortOrder', () async {
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+    dio.httpClientAdapter = _FakeHttpClientAdapter((options, cancelFuture) async {
+      expect(options.path, '/public/categories');
+      return ResponseBody.fromString(
+        jsonEncode({
+          'items': [
+            {
+              'slug': 'kids',
+              'label': 'Thiếu nhi',
+              'shortLabel': 'Thiếu nhi',
+              'labels': {'en': 'Kids', 'vi': 'Thiếu nhi'},
+              'shortLabels': {'en': 'Kids', 'vi': 'Thiếu nhi'},
+              'sortOrder': 170,
+            },
+            {
+              'slug': 'music',
+              'label': 'Âm nhạc',
+              'shortLabel': 'Âm nhạc',
+              'labels': {'en': 'Music', 'vi': 'Âm nhạc'},
+              'shortLabels': {'en': 'Music', 'vi': 'Âm nhạc'},
+              'sortOrder': 10,
+            },
+          ],
+        }),
+        200,
+        headers: {
+          Headers.contentTypeHeader: [Headers.jsonContentType],
+        },
+      );
+    });
+
+    final dataSource = SharedVideoRemoteDataSourceImpl(dio);
+    final categories = await dataSource.getCategories();
+    expect(categories.map((c) => c.slug).toList(), ['music', 'kids']);
+    expect(categories.first.toEntity().localizedShortLabel('en'), 'Music');
+    expect(categories.first.toEntity().localizedShortLabel('vi'), 'Âm nhạc');
+  });
+
+  test('SharedVideoRepositoryImpl persists categories to disk and reads Cache-First on cold start', () async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    final localDataSource = SharedVideoLocalDataSourceImpl(prefs);
+
+    final repo1 = SharedVideoRepositoryImpl.withClock(
+      remoteDataSource,
+      () => currentTime,
+      localDataSource: localDataSource,
+    );
+    remoteDataSource.mockCategories = const [
+      VideoCategoryModel(
+        slug: 'kids',
+        label: 'Thiếu nhi',
+        shortLabel: 'Thiếu nhi',
+        shortLabels: {'en': 'Kids', 'vi': 'Thiếu nhi'},
+        sortOrder: 170,
+      ),
+    ];
+
+    expect(repo1.getCachedCategories(), isEmpty);
+    await repo1.getCategories();
+    expect(remoteDataSource.getCategoriesCalls, 1);
+
+    // Simulate cold start with a fresh repository instance sharing the same disk prefs
+    final repo2 = SharedVideoRepositoryImpl.withClock(
+      remoteDataSource,
+      () => currentTime,
+      localDataSource: SharedVideoLocalDataSourceImpl(prefs),
+    );
+    final coldStartCached = repo2.getCachedCategories();
+    expect(coldStartCached.single.slug, 'kids');
+
+    // Within 10-minute TTL, getCategories returns disk cache without calling remote
+    currentTime = currentTime.add(const Duration(minutes: 5));
+    final fromDiskTtl = await repo2.getCategories();
+    expect(fromDiskTtl.getOrElse((_) => const []).single.slug, 'kids');
+    expect(remoteDataSource.getCategoriesCalls, 1);
+
+    // After TTL expires, offline error still falls back to disk cache
+    currentTime = currentTime.add(const Duration(minutes: 6));
+    remoteDataSource.categoriesErrorToThrow = ServerException('Offline');
+    final offlineFallback = await repo2.getCategories();
+    expect(offlineFallback.getOrElse((_) => const []).single.slug, 'kids');
+    expect(remoteDataSource.getCategoriesCalls, 2);
+  });
+
+  test('SharedVideoLocalDataSourceImpl handles corrupt JSON gracefully', () async {
+    SharedPreferences.setMockInitialValues({
+      'cached_video_categories_v1': '{not-valid-json',
+    });
+    final prefs = await SharedPreferences.getInstance();
+    final localDataSource = SharedVideoLocalDataSourceImpl(prefs);
+
+    expect(localDataSource.getCachedCategories(), isNull);
+  });
+
+  test('getCategories still returns fresh remote data when disk save throws', () async {
+    final repo = SharedVideoRepositoryImpl.withClock(
+      remoteDataSource,
+      () => currentTime,
+      localDataSource: _ThrowingSaveLocalDataSource(),
+    );
+    remoteDataSource.mockCategories = const [
+      VideoCategoryModel(
+        slug: 'music',
+        label: 'Âm nhạc',
+        shortLabel: 'Âm nhạc',
+        sortOrder: 10,
+      ),
+    ];
+
+    final result = await repo.getCategories();
+    expect(result.isRight(), isTrue);
+    expect(result.getOrElse((_) => const []).single.slug, 'music');
+    expect(repo.getCachedCategories().single.slug, 'music');
+  });
+}
+
+class _ThrowingSaveLocalDataSource implements SharedVideoLocalDataSource {
+  @override
+  List<VideoCategoryModel>? getCachedCategories() => null;
+
+  @override
+  DateTime? getCategoriesCachedAt() => null;
+
+  @override
+  Future<void> saveCategories(
+    List<VideoCategoryModel> categories,
+    DateTime cachedAt,
+  ) async {
+    throw StateError('Disk full');
+  }
+}
+
+class _FakeHttpClientAdapter implements HttpClientAdapter {
+  final Future<ResponseBody> Function(
+    RequestOptions options,
+    Future<void>? cancelFuture,
+  ) onFetch;
+
+  _FakeHttpClientAdapter(this.onFetch);
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
+    return onFetch(options, cancelFuture);
+  }
+
+  @override
+  void close({bool force = false}) {}
 }

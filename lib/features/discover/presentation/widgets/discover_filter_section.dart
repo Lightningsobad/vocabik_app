@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vocabik_app/features/discover/presentation/widgets/discover_filter_chip_row.dart';
 import 'package:vocabik_app/features/discover/presentation/widgets/discover_search_input.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/domain/entities/video_category_entity.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 
@@ -9,8 +10,9 @@ class DiscoverFilterSection extends StatelessWidget {
   final ValueChanged<String> onSearchChanged;
   final int selectedLevelIndex;
   final ValueChanged<int> onLevelIndexChanged;
-  final int selectedGenreIndex;
-  final ValueChanged<int> onGenreIndexChanged;
+  final List<VideoCategoryEntity> categories;
+  final String selectedGenre;
+  final ValueChanged<String> onGenreChanged;
   final String selectedDuration;
   final ValueChanged<String> onDurationChanged;
   final String selectedExerciseType;
@@ -21,8 +23,9 @@ class DiscoverFilterSection extends StatelessWidget {
     required this.onSearchChanged,
     required this.selectedLevelIndex,
     required this.onLevelIndexChanged,
-    required this.selectedGenreIndex,
-    required this.onGenreIndexChanged,
+    required this.categories,
+    required this.selectedGenre,
+    required this.onGenreChanged,
     required this.selectedDuration,
     required this.onDurationChanged,
     required this.selectedExerciseType,
@@ -32,20 +35,17 @@ class DiscoverFilterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final languageCode = Localizations.localeOf(context).languageCode;
 
     final levels = [l10n.discoverFilterAll, 'A1', 'A2', 'B1', 'B2', 'C1'];
 
-    final genres = [
+    final genres = <String>[
       l10n.discoverFilterAll,
-      l10n.genreMusic,
-      l10n.genreVlog,
-      l10n.genreNews,
-      l10n.genreEducation,
-      l10n.genreEntertainment,
-      l10n.genreTedTalks,
-      l10n.genreNewsEnglish,
-      l10n.genreOther,
+      ...categories.map((c) => c.localizedShortLabel(languageCode)),
     ];
+    final selectedGenreIndex = selectedGenre.isEmpty
+        ? 0
+        : categories.indexWhere((c) => c.slug == selectedGenre) + 1;
 
     return SliverToBoxAdapter(
       child: Column(
@@ -54,9 +54,7 @@ class DiscoverFilterSection extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg3),
           // Search Bar
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: DiscoverSearchInput(onChanged: onSearchChanged),
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -71,8 +69,14 @@ class DiscoverFilterSection extends StatelessWidget {
 
           // Genre Filters
           SharedSegmentedTabBar(
-            selectedIndex: selectedGenreIndex,
-            onTabChanged: onGenreIndexChanged,
+            selectedIndex: selectedGenreIndex < 0 ? 0 : selectedGenreIndex,
+            onTabChanged: (index) {
+              if (index <= 0 || index - 1 >= categories.length) {
+                onGenreChanged('');
+              } else {
+                onGenreChanged(categories[index - 1].slug);
+              }
+            },
             tabs: genres,
           ),
           const SizedBox(height: AppSpacing.sm),

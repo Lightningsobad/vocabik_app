@@ -26,6 +26,7 @@ import 'package:vocabik_app/features/home/presentation/widgets/home_recommended_
 import 'package:vocabik_app/features/home/presentation/widgets/home_trending_section.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/enums/cefr_level.dart';
+import 'package:vocabik_app/shared/presentation/utils/scroll_pagination_extension.dart';
 import 'package:vocabik_app/shared/presentation/widgets/notifications/app_snack_bar.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_segmented_tab_bar.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
@@ -93,7 +94,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
   }
 
   void _onScroll() {
-    if (!_shouldPrefetch) return;
+    if (!_scrollController.isNearPrefetchThreshold) return;
     final state = context.read<HomeVideosBloc>().state;
     if (state is HomeVideosLoaded &&
         !state.hasReachedMax &&
@@ -101,13 +102,6 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
         state.loadMoreError == null) {
       context.read<HomeVideosBloc>().add(const FetchVideos());
     }
-  }
-
-  bool get _shouldPrefetch {
-    if (!_scrollController.hasClients) return false;
-    final pos = _scrollController.position;
-    final threshold = (pos.viewportDimension * 1.5).clamp(600.0, 1200.0);
-    return pos.pixels >= (pos.maxScrollExtent - threshold);
   }
 
   @override
