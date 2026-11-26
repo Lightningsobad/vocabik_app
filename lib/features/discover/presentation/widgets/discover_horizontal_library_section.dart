@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/section_header.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
+import 'package:vocabik_app/shared/presentation/utils/scroll_pagination_extension.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
 import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card_skeleton.dart';
 import 'package:vocabik_app/shared/presentation/widgets/shared_empty_state.dart';
@@ -58,10 +59,7 @@ class _DiscoverHorizontalLibrarySectionState
   }
 
   void _onScroll() {
-    if (!_scrollController.hasClients) return;
-    final pos = _scrollController.position;
-    final threshold = (pos.viewportDimension * 1.5).clamp(600.0, 1200.0);
-    if (pos.pixels >= (pos.maxScrollExtent - threshold) &&
+    if (_scrollController.isNearPrefetchThreshold &&
         !widget.hasReachedMax &&
         !widget.isLoading &&
         !widget.isLoadingMore &&

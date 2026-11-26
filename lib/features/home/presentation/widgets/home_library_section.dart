@@ -6,11 +6,8 @@ import 'package:vocabik_app/features/home/presentation/bloc/home_videos_state.da
 import 'package:vocabik_app/features/home/presentation/widgets/section_header.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
-import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card.dart';
-import 'package:vocabik_app/shared/presentation/widgets/cards/shared_course_card_skeleton.dart';
-import 'package:vocabik_app/shared/presentation/widgets/shared_empty_state.dart';
+import 'package:vocabik_app/shared/presentation/widgets/cards/shared_video_grid_sliver.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
-import 'package:vocabik_app/shared/theme/app_spacing.dart';
 
 class HomeLibrarySection extends StatelessWidget {
   const HomeLibrarySection({super.key});
@@ -53,136 +50,23 @@ class HomeLibrarySection extends StatelessWidget {
                 : const <VideoEntity>[];
             final isLoadingMore =
                 state is HomeVideosLoaded && state.isLoadingMore;
-            final loadMoreError =
-                state is HomeVideosLoaded ? state.loadMoreError : null;
-            final isEmpty = videos.isEmpty && !isLoading && !hasError;
+            final loadMoreError = state is HomeVideosLoaded
+                ? state.loadMoreError
+                : null;
 
-            const gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: AppSpacing.md2,
-              mainAxisSpacing: AppSpacing.md2,
-              childAspectRatio: 0.85,
-            );
-
-            // Loading Placeholder (Initial load)
-            if (isLoading && videos.isEmpty) {
-              return SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                sliver: SliverGrid(
-                  gridDelegate: gridDelegate,
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => const SharedCourseCardSkeleton(),
-                    childCount: 4,
-                  ),
-                ),
-              );
-            }
-
-            // Error state (localized to library)
-            if (hasError && videos.isEmpty) {
-              return SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.xl),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        size: 48,
-                        color: colors.textSecondary,
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                      Text(
-                        l10n.homeVideosError,
-                        style: TextStyle(color: colors.textSecondary),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<HomeVideosBloc>().add(
-                            const FetchVideos(),
-                          );
-                        },
-                        child: Text(l10n.homeRetry),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-
-            // Empty state
-            if (isEmpty) {
-              return SliverToBoxAdapter(
-                child: SharedEmptyState(
-                  message: l10n.emptyVideos,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.md,
-                  ),
-                ),
-              );
-            }
-
-            // Loaded list
-            return SliverMainAxisGroup(
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  sliver: SliverGrid(
-                    gridDelegate: gridDelegate,
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index >= videos.length) {
-                          return const SharedCourseCardSkeleton();
-                        }
-                        return SharedCourseCard(
-                          video: videos[index],
-                          width: double.infinity,
-                        );
-                      },
-                      childCount: videos.length + (isLoadingMore ? 2 : 0),
-                    ),
-                  ),
-                ),
-                if (loadMoreError != null)
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.lg,
-                        vertical: AppSpacing.md,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.error_outline,
-                            size: 18,
-                            color: colors.textSecondary,
-                          ),
-                          const SizedBox(width: AppSpacing.xs),
-                          Flexible(
-                            child: Text(
-                              l10n.homeVideosError,
-                              style: TextStyle(color: colors.textSecondary),
-                            ),
-                          ),
-                          const SizedBox(width: AppSpacing.sm),
-                          TextButton(
-                            onPressed: () {
-                              context.read<HomeVideosBloc>().add(
-                                const FetchVideos(),
-                              );
-                            },
-                            child: Text(l10n.homeRetry),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-              ],
+            return SharedVideoGridSliver(
+              isLoading: isLoading,
+              hasError: hasError,
+              videos: videos,
+              isLoadingMore: isLoadingMore,
+              loadMoreError: loadMoreError,
+              emptyText: l10n.emptyVideos,
+              onRetry: () {
+                context.read<HomeVideosBloc>().add(const FetchVideos());
+              },
+              onLoadMoreRetry: () {
+                context.read<HomeVideosBloc>().add(const FetchVideos());
+              },
             );
           },
         ),

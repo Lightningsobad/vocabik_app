@@ -7,6 +7,12 @@ import 'package:vocabik_app/core/cache/json_disk_cache.dart';
 import 'package:vocabik_app/core/domain/entities/paginated_result.dart';
 import 'package:vocabik_app/core/errors/exceptions.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/core/domain/entities/paginated_result.dart';
+import 'package:vocabik_app/core/network/app_cancel_token.dart';
+import 'package:vocabik_app/core/network/dio_cancel_token.dart';
+import 'package:vocabik_app/shared/data/datasources/shared_video_local_data_source.dart';
+import 'package:vocabik_app/shared/data/datasources/shared_video_remote_data_source.dart';
+import 'package:vocabik_app/shared/domain/entities/video_category_entity.dart';
 import 'package:vocabik_app/shared/data/datasources/shared_video_remote_data_source.dart';
 import 'package:vocabik_app/shared/data/models/video_model.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
@@ -29,6 +35,14 @@ class _InFlightVideoRequest {
 @LazySingleton(as: SharedVideoRepository)
 class SharedVideoRepositoryImpl implements SharedVideoRepository {
   final SharedVideoRemoteDataSource remoteDataSource;
+  final SharedVideoLocalDataSource? localDataSource;
+  final DateTime Function() _now;
+
+  static const Duration _cacheTtl = Duration(minutes: 3);
+  static const Duration _categoriesCacheTtl = Duration(minutes: 10);
+  final Map<String, _CachedVideoPage> _pageCache = {};
+  List<VideoCategoryEntity>? _cachedCategories;
+  DateTime? _categoriesCachedAt;
   final JsonDiskCache? _diskCache;
   final DateTime Function() _now;
 
@@ -44,6 +58,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
   @factoryMethod
   SharedVideoRepositoryImpl({
     required this.remoteDataSource,
+    this.localDataSource,
+  }) : _now = DateTime.now;
     required JsonDiskCache diskCache,
     // ignore: prefer_initializing_formals
   })  : _diskCache = diskCache,
@@ -54,6 +70,9 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
   @visibleForTesting
   SharedVideoRepositoryImpl.withClock(
     this.remoteDataSource,
+    this._now, {
+    this.localDataSource,
+  });
     this._now, [
     this._diskCache,
   ]) {
@@ -159,10 +178,14 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    String? searchQuery,
     bool forceRefresh = false,
+    AppCancelToken? cancelToken,
   }) async {
     final normalizedCefr = _normalizeFilter(cefr);
+    final isSearch = searchQuery != null && searchQuery.trim().isNotEmpty;
     final isCacheable = page == 1 &&
+        !isSearch &&
         _normalizeFilter(genre) == null &&
         (window == null || window.isEmpty) &&
         (duration == null || duration.isEmpty) &&
@@ -240,6 +263,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
         window: window,
         duration: duration,
         exerciseType: exerciseType,
+        searchQuery: searchQuery,
+        cancelToken: cancelToken.toDio(),
       );
       final entity = response.toEntity();
       final existing = _pageCache[cefrKey];
@@ -256,6 +281,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
         );
       }
       return right(entity);
+    } on RequestCancelledException {
+      return left(const CancelledFailure());
     } on ServerException catch (e) {
       if (!forceRefresh && staleFallback != null) {
         return right(_slicePage(staleFallback.data, pageSize));
@@ -343,6 +370,69 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
     } catch (e) {
       if (!forceRefresh && cached != null) {
         return right(cached.data);
+      }
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  List<VideoCategoryEntity> getCachedCategories() {
+    if (_cachedCategories != null) {
+      return _cachedCategories!;
+    }
+    final diskModels = localDataSource?.getCachedCategories();
+    if (diskModels != null && diskModels.isNotEmpty) {
+      final entities = diskModels.map((m) => m.toEntity()).toList();
+      _cachedCategories = entities;
+      _categoriesCachedAt ??= localDataSource?.getCategoriesCachedAt();
+      return entities;
+    }
+    return const [];
+  }
+
+  @override
+  Future<Either<Failure, List<VideoCategoryEntity>>> getCategories({
+    bool forceRefresh = false,
+  }) async {
+    final cached = _cachedCategories ??
+        localDataSource
+            ?.getCachedCategories()
+            ?.map((m) => m.toEntity())
+            .toList();
+    final cachedAt =
+        _categoriesCachedAt ?? localDataSource?.getCategoriesCachedAt();
+    if (cached != null) {
+      _cachedCategories = cached;
+      _categoriesCachedAt ??= cachedAt;
+    }
+
+    if (!forceRefresh &&
+        cached != null &&
+        cachedAt != null &&
+        _now().difference(cachedAt) < _categoriesCacheTtl) {
+      return right(cached);
+    }
+
+    try {
+      final response = await remoteDataSource.getCategories();
+      final entities = response.map((model) => model.toEntity()).toList();
+      final fetchedAt = _now();
+      _cachedCategories = entities;
+      _categoriesCachedAt = fetchedAt;
+      try {
+        await localDataSource?.saveCategories(response, fetchedAt);
+      } catch (_) {
+        // Best-effort local persistence; keep fresh remote data in RAM.
+      }
+      return right(entities);
+    } on ServerException catch (e) {
+      if (!forceRefresh && cached != null) {
+        return right(cached);
+      }
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      if (!forceRefresh && cached != null) {
+        return right(cached);
       }
       return left(ServerFailure(e.toString()));
     }

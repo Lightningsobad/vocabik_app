@@ -6,10 +6,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:vocabik_app/core/domain/entities/paginated_result.dart';
 import 'package:vocabik_app/core/errors/failures.dart';
+import 'package:vocabik_app/core/network/app_cancel_token.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_videos_bloc.dart';
 import 'package:vocabik_app/features/home/presentation/bloc/home_videos_event.dart';
 import 'package:vocabik_app/features/home/presentation/widgets/home_library_section.dart';
 import 'package:vocabik_app/l10n/app_localizations.dart';
+import 'package:vocabik_app/shared/domain/entities/video_category_entity.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/domain/repositories/shared_video_repository.dart';
 import 'package:vocabik_app/shared/domain/usecases/get_videos_usecase.dart';
@@ -31,7 +33,9 @@ class _StubVideoRepository implements SharedVideoRepository {
     String? window,
     String? duration,
     String? exerciseType,
+    String? searchQuery,
     bool forceRefresh = false,
+    AppCancelToken? cancelToken,
   }) async {
     getVideosCalls++;
     if (pendingCompleter != null) {
@@ -61,6 +65,14 @@ class _StubVideoRepository implements SharedVideoRepository {
   }
 
   @override
+  List<VideoCategoryEntity> getCachedCategories() => const [];
+
+  @override
+  Future<Either<Failure, List<VideoCategoryEntity>>> getCategories({
+    bool forceRefresh = false,
+  }) async {
+    return right(const []);
+  }
   PaginatedResult<VideoEntity>? getCachedVideos({
     required int pageSize,
     String? cefr,

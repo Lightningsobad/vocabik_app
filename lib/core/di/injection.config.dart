@@ -219,12 +219,16 @@ import '../../features/video_detail/domain/use_cases/send_video_reaction_use_cas
     as _i241;
 import '../../features/video_detail/presentation/cubit/video_detail_cubit.dart'
     as _i483;
+import '../../shared/data/datasources/shared_video_local_data_source.dart'
+    as _i968;
 import '../../shared/data/datasources/shared_video_remote_data_source.dart'
     as _i967;
 import '../../shared/data/repositories/shared_video_repository_impl.dart'
     as _i676;
 import '../../shared/domain/repositories/shared_video_repository.dart' as _i959;
 import '../../shared/domain/usecases/get_trending_videos_usecase.dart' as _i821;
+import '../../shared/domain/usecases/get_video_categories_usecase.dart'
+    as _i822;
 import '../../shared/domain/usecases/get_videos_usecase.dart' as _i552;
 import '../../shared/gamification/cubit/gamification_global_cubit.dart'
     as _i561;
@@ -314,6 +318,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i961.NotificationRouterHandler>(),
       ),
     );
+    gh.lazySingleton<_i968.SharedVideoLocalDataSource>(
+      () => _i968.SharedVideoLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
     gh.lazySingleton<_i967.SharedVideoRemoteDataSource>(
       () => _i967.SharedVideoRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -333,11 +340,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i959.SharedVideoRepository>(
       () => _i676.SharedVideoRepositoryImpl(
         remoteDataSource: gh<_i967.SharedVideoRemoteDataSource>(),
-        diskCache: gh<_i489.JsonDiskCache>(),
+        localDataSource: gh<_i968.SharedVideoLocalDataSource>(),
       ),
     );
     gh.factory<_i821.GetTrendingVideosUseCase>(
       () => _i821.GetTrendingVideosUseCase(gh<_i959.SharedVideoRepository>()),
+    );
+    gh.factory<_i822.GetVideoCategoriesUseCase>(
+      () => _i822.GetVideoCategoriesUseCase(gh<_i959.SharedVideoRepository>()),
     );
     gh.factory<_i552.GetVideosUseCase>(
       () => _i552.GetVideosUseCase(gh<_i959.SharedVideoRepository>()),
@@ -680,6 +690,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i552.GetVideosUseCase>(),
         gh<_i821.GetTrendingVideosUseCase>(),
         gh<_i880.GetPlaylistsUseCase>(),
+        gh<_i822.GetVideoCategoriesUseCase>(),
       ),
     );
     gh.factory<_i720.NotebookCubit>(
