@@ -115,7 +115,7 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
       videoId: safeVideoId,
       autoPlay: true,
       params: const YoutubePlayerParams(
-        showControls: false,
+        showControls: true,
         showFullscreenButton: false,
         enableCaption: false,
         mute: false,
@@ -190,11 +190,17 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
         child: BlocConsumer<ExerciseCubit, ExerciseState>(
           listenWhen: (previous, current) {
             if (previous is ExerciseLoaded && current is ExerciseLoaded) {
-              final prevChecked = previous.checkResults.containsKey(previous.currentBlankIndex);
-              final currChecked = current.checkResults.containsKey(current.currentBlankIndex);
+              final prevChecked = previous.checkResults.containsKey(
+                previous.currentBlankIndex,
+              );
+              final currChecked = current.checkResults.containsKey(
+                current.currentBlankIndex,
+              );
               final hasNewCheckResult = !prevChecked && currChecked;
-              final hasBlankChange = previous.currentBlankIndex != current.currentBlankIndex;
-              final hasFinishedChange = previous.isFinished != current.isFinished;
+              final hasBlankChange =
+                  previous.currentBlankIndex != current.currentBlankIndex;
+              final hasFinishedChange =
+                  previous.isFinished != current.isFinished;
               return hasNewCheckResult || hasBlankChange || hasFinishedChange;
             }
             return false;
@@ -233,7 +239,8 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
               if (state.checkResults[state.currentBlankIndex] == null) {
                 final activeLine = state.activeLine;
                 // If the next sentence is ahead in the video, hide question and play
-                if (activeLine.endMs > 0 && _currentPositionMs < activeLine.endMs - 300) {
+                if (activeLine.endMs > 0 &&
+                    _currentPositionMs < activeLine.endMs - 300) {
                   if (mounted) {
                     setState(() {
                       _isQuestionVisible = false;
@@ -401,22 +408,23 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                                         ),
                                         if (state.isTranslationVisible &&
                                             state.translations[state
-                                                    .activeLine.lineIndex] !=
+                                                    .activeLine
+                                                    .lineIndex] !=
                                                 null &&
                                             state
                                                 .translations[state
-                                                    .activeLine.lineIndex]!
+                                                    .activeLine
+                                                    .lineIndex]!
                                                 .isNotEmpty) ...[
-                                          const SizedBox(
-                                            height: AppSpacing.xs,
-                                          ),
+                                          const SizedBox(height: AppSpacing.xs),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: AppSpacing.md,
                                             ),
                                             child: Text(
-                                              state.translations[
-                                                  state.activeLine.lineIndex]!,
+                                              state.translations[state
+                                                  .activeLine
+                                                  .lineIndex]!,
                                               textAlign: TextAlign.center,
                                               style: AppTextStyles.custom(
                                                 color: colors.textSecondary,
@@ -426,13 +434,9 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(
-                                            height: AppSpacing.xs,
-                                          ),
+                                          const SizedBox(height: AppSpacing.xs),
                                         ] else
-                                          const SizedBox(
-                                            height: AppSpacing.tn,
-                                          ),
+                                          const SizedBox(height: AppSpacing.tn),
 
                                         // Interaction Area: Type the answer OR Multiple Choice
                                         if (widget.exerciseType ==
@@ -525,9 +529,14 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                                   ),
                                 ),
                                 if (state.isTranslationVisible &&
-                                    state.translations[state.activeLine.lineIndex] !=
+                                    state.translations[state
+                                            .activeLine
+                                            .lineIndex] !=
                                         null &&
-                                    state.translations[state.activeLine.lineIndex]!
+                                    state
+                                        .translations[state
+                                            .activeLine
+                                            .lineIndex]!
                                         .isNotEmpty) ...[
                                   const SizedBox(height: AppSpacing.xs),
                                   Padding(
@@ -535,8 +544,9 @@ class _ExerciseScreenViewState extends State<ExerciseScreenView> {
                                       horizontal: AppSpacing.md,
                                     ),
                                     child: Text(
-                                      state.translations[
-                                          state.activeLine.lineIndex]!,
+                                      state.translations[state
+                                          .activeLine
+                                          .lineIndex]!,
                                       textAlign: TextAlign.center,
                                       style: AppTextStyles.custom(
                                         color: colors.textSecondary,
