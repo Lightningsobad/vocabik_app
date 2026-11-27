@@ -96,10 +96,14 @@ class _FakeSharedVideoRemoteDataSource implements SharedVideoRemoteDataSource {
   int getCategoriesCalls = 0;
   List<VideoCategoryModel> mockCategories = const [];
   Object? categoriesErrorToThrow;
+  Completer<void>? getCategoriesGate;
 
   @override
   Future<List<VideoCategoryModel>> getCategories() async {
     getCategoriesCalls++;
+    if (getCategoriesGate != null) {
+      await getCategoriesGate!.future;
+    }
     if (categoriesErrorToThrow != null) {
       throw categoriesErrorToThrow!;
     }
@@ -567,6 +571,28 @@ void main() {
     expect(entity10.items.length, 10);
     expect(entity10.totalItems, 15);
     expect(entity10.totalPages, 2);
+  });
+
+  test('deduplicates concurrent getCategories calls into a single remote request', () async {
+    final gate = Completer<void>();
+    remoteDataSource.getCategoriesGate = gate;
+    remoteDataSource.mockCategories = const [
+      VideoCategoryModel(
+        slug: 'music',
+        label: 'Music',
+        shortLabel: 'Music',
+        sortOrder: 10,
+      ),
+    ];
+
+    final f1 = repository.getCategories();
+    final f2 = repository.getCategories();
+    gate.complete();
+
+    final results = await Future.wait([f1, f2]);
+    expect(remoteDataSource.getCategoriesCalls, 1);
+    expect(results[0].getOrElse((_) => const []).single.slug, 'music');
+    expect(results[1].getOrElse((_) => const []).single.slug, 'music');
   });
 }
 

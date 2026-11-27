@@ -207,11 +207,13 @@ void main() {
           predicate<DiscoverState>((state) =>
               state.status == DiscoverStatus.loading &&
               state.playlistStatus == DiscoverStatus.loading),
-          predicate<DiscoverState>((state) =>
-              state.status == DiscoverStatus.success &&
-              state.playlistStatus == DiscoverStatus.success &&
-              state.playlists.length == 1 &&
-              state.playlists.first.slug == 'top-pop-hits-a2-b1'),
+          emitsThrough(
+            predicate<DiscoverState>((state) =>
+                state.status == DiscoverStatus.success &&
+                state.playlistStatus == DiscoverStatus.success &&
+                state.playlists.length == 1 &&
+                state.playlists.first.slug == 'top-pop-hits-a2-b1'),
+          ),
         ]),
       );
 
@@ -235,10 +237,12 @@ void main() {
           predicate<DiscoverState>((state) =>
               state.status == DiscoverStatus.loading &&
               state.playlistStatus == DiscoverStatus.loading),
-          predicate<DiscoverState>((state) =>
-              state.status == DiscoverStatus.success &&
-              state.playlistStatus == DiscoverStatus.failure &&
-              state.playlists.isEmpty),
+          emitsThrough(
+            predicate<DiscoverState>((state) =>
+                state.status == DiscoverStatus.success &&
+                state.playlistStatus == DiscoverStatus.failure &&
+                state.playlists.isEmpty),
+          ),
         ]),
       );
 
@@ -1360,6 +1364,138 @@ void main() {
 
       expect(bloc.state.status, equals(DiscoverStatus.success));
       expect(bloc.state.categories, isEmpty);
+      expect(bloc.state.isCategoriesLoading, isFalse);
+    });
+
+    test('cold start sets isCategoriesLoading true then false on fetch completion or failure', () async {
+      final bgCompleter =
+          Completer<Either<Failure, List<VideoCategoryEntity>>>();
+      videoRepo.onGetCategories = (_) => bgCompleter.future;
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1],
+        page: 1,
+        pageSize: 20,
+        totalItems: 1,
+        totalPages: 1,
+      );
+
+      await bloc.close();
+      bloc = DiscoverBloc(
+        GetVideosUseCase(videoRepo),
+        GetTrendingVideosUseCase(videoRepo),
+        GetPlaylistsUseCase(playlistRepo),
+        GetVideoCategoriesUseCase(videoRepo),
+      );
+
+      expect(bloc.state.categories, isEmpty);
+      expect(bloc.state.isCategoriesLoading, isTrue);
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<DiscoverState>(
+            (s) => s.status == DiscoverStatus.success && s.isCategoriesLoading,
+          ),
+        ),
+      );
+
+      bgCompleter.complete(left(const ServerFailure('Offline')));
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<DiscoverState>(
+            (s) => !s.isCategoriesLoading && s.categories.isEmpty,
+          ),
+        ),
+      );
+    });
+
+    test('warm start with cached categories sets isCategoriesLoading false immediately', () async {
+      const cached = [
+        VideoCategoryEntity(
+          slug: 'music',
+          label: 'Music',
+          shortLabel: 'Music',
+          sortOrder: 10,
+        ),
+      ];
+      videoRepo.cachedCategories = cached;
+
+      await bloc.close();
+      bloc = DiscoverBloc(
+        GetVideosUseCase(videoRepo),
+        GetTrendingVideosUseCase(videoRepo),
+        GetPlaylistsUseCase(playlistRepo),
+        GetVideoCategoriesUseCase(videoRepo),
+      );
+
+      expect(bloc.state.categories, equals(cached));
+      expect(bloc.state.isCategoriesLoading, isFalse);
+    });
+
+    test('DiscoverRefreshRequested sets isCategoriesLoading true when categories empty and clears on completion', () async {
+      const recovered = [
+        VideoCategoryEntity(
+          slug: 'music',
+          label: 'Music',
+          shortLabel: 'Music',
+          sortOrder: 10,
+        ),
+      ];
+      videoRepo.mockFailure = const ServerFailure('Offline');
+      videoRepo.mockCategoriesFailure = const ServerFailure('Offline');
+
+      bloc.add(DiscoverVideosFetched());
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<DiscoverState>(
+            (s) =>
+                s.status == DiscoverStatus.failure &&
+                s.categories.isEmpty &&
+                !s.isCategoriesLoading,
+          ),
+        ),
+      );
+
+      final refreshCategoriesCompleter =
+          Completer<Either<Failure, List<VideoCategoryEntity>>>();
+      videoRepo.mockFailure = null;
+      videoRepo.mockCategoriesFailure = null;
+      videoRepo.onGetCategories = (_) => refreshCategoriesCompleter.future;
+      videoRepo.mockResult = PaginatedResult<VideoEntity>(
+        items: [video1],
+        page: 1,
+        pageSize: 20,
+        totalItems: 1,
+        totalPages: 1,
+      );
+
+      final refreshCompleter = Completer<void>();
+      bloc.add(DiscoverRefreshRequested(completer: refreshCompleter));
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<DiscoverState>(
+            (s) => s.isCategoriesLoading && s.categories.isEmpty,
+          ),
+        ),
+      );
+      await refreshCompleter.future;
+
+      refreshCategoriesCompleter.complete(right(recovered));
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<DiscoverState>(
+            (s) =>
+                !s.isCategoriesLoading &&
+                s.categories.length == 1 &&
+                s.categories.single.slug == 'music',
+          ),
+        ),
+      );
     });
   });
 }
