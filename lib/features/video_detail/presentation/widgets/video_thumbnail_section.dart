@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabik_app/core/routes/app_router.dart';
@@ -5,26 +6,68 @@ import 'package:vocabik_app/features/video_detail/presentation/cubit/video_detai
 import 'package:vocabik_app/features/video_detail/presentation/cubit/video_detail_state.dart';
 import 'package:vocabik_app/shared/domain/entities/video_entity.dart';
 import 'package:vocabik_app/shared/domain/enums/exercise_type.dart';
-import 'package:vocabik_app/shared/presentation/widgets/app_shimmer.dart';
+import 'package:vocabik_app/shared/presentation/utils/video_thumbnail_cache_manager.dart';
 import 'package:vocabik_app/shared/presentation/widgets/interactions/bounce_wrapper.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/theme/app_spacing.dart';
 
-class VideoThumbnailSection extends StatelessWidget {
+class VideoThumbnailSection extends StatefulWidget {
+  static const double _letterboxCropScale = 1.34;
+  static const String _maxResSuffix = '/maxresdefault.jpg';
+
   final VideoEntity video;
   final VoidCallback? onTap;
 
   const VideoThumbnailSection({super.key, required this.video, this.onTap});
 
+  static bool _needsLetterboxCrop(String url) {
+    final path = (Uri.tryParse(url)?.path ?? url).toLowerCase();
+    return path.endsWith('/hqdefault.jpg') ||
+        path.endsWith('/sddefault.jpg') ||
+        path.endsWith('/default.jpg');
+  }
+
+  static String? _resolveHqFallbackUrl(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null || !uri.path.toLowerCase().endsWith(_maxResSuffix)) {
+      return null;
+    }
+    final newPath =
+        '${uri.path.substring(0, uri.path.length - _maxResSuffix.length)}/hqdefault.jpg';
+    return uri.replace(path: newPath).toString();
+  }
+
+  @override
+  State<VideoThumbnailSection> createState() => _VideoThumbnailSectionState();
+}
+
+class _VideoThumbnailSectionState extends State<VideoThumbnailSection> {
+  bool _useFallbackUrl = false;
+
+  @override
+  void didUpdateWidget(covariant VideoThumbnailSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.video.thumbnailUrl != widget.video.thumbnailUrl) {
+      _useFallbackUrl = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final fallbackUrl = VideoThumbnailSection._resolveHqFallbackUrl(
+      widget.video.thumbnailUrl,
+    );
+    final effectiveUrl = (_useFallbackUrl && fallbackUrl != null)
+        ? fallbackUrl
+        : widget.video.thumbnailUrl;
+    final needsScale = VideoThumbnailSection._needsLetterboxCrop(effectiveUrl);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: BounceWrapper(
         onTap:
-            onTap ??
+            widget.onTap ??
             () {
               final detailState = context.read<VideoDetailCubit>().state;
               final selectedType = (detailState is VideoDetailLoaded)
@@ -34,7 +77,7 @@ class VideoThumbnailSection extends StatelessWidget {
                   ? detailState.selectedVersion
                   : 'v1';
               context.pushVideoToExercise(
-                video: video,
+                video: widget.video,
                 versionId: selectedVersion,
                 exerciseType: selectedType,
               );
@@ -59,27 +102,48 @@ class VideoThumbnailSection extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 // 1. Background Thumbnail
-                if (video.thumbnailUrl.isNotEmpty)
-                  Transform.scale(
-                    scale: 1.34,
-                    child: Image.network(
-                      video.thumbnailUrl,
+                if (effectiveUrl.isNotEmpty)
+                  ColoredBox(
+                    color: colors.surfaceCard,
+                    child: CachedNetworkImage(
+                      key: ValueKey(effectiveUrl),
+                      imageUrl: effectiveUrl,
+                      cacheManager: VideoThumbnailCacheManager.instance,
                       fit: BoxFit.cover,
-                      cacheWidth: 800,
-                      cacheHeight: 430,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        color: colors.surfaceCard,
-                        child: Center(
-                          child: Icon(
-                            Icons.image_not_supported_outlined,
-                            color: colors.textSecondary,
+                      memCacheWidth: 800,
+                      fadeInDuration: const Duration(milliseconds: 180),
+                      fadeInCurve: Curves.easeOut,
+                      imageBuilder: needsScale
+                          ? (context, imageProvider) => Transform.scale(
+                              scale: VideoThumbnailSection._letterboxCropScale,
+                              child: Image(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : null,
+                      placeholder: (context, url) =>
+                          ColoredBox(color: colors.surfaceCard),
+                      errorWidget: (context, url, error) {
+                        if (!_useFallbackUrl && fallbackUrl != null) {
+                          final failedUrl = widget.video.thumbnailUrl;
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (mounted &&
+                                !_useFallbackUrl &&
+                                widget.video.thumbnailUrl == failedUrl) {
+                              setState(() => _useFallbackUrl = true);
+                            }
+                          });
+                          return ColoredBox(color: colors.surfaceCard);
+                        }
+                        return Container(
+                          color: colors.surfaceCard,
+                          child: Center(
+                            child: Icon(
+                              Icons.image_not_supported_outlined,
+                              color: colors.textSecondary,
+                            ),
                           ),
-                        ),
-                      ),
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return const AppShimmer(
-                          child: ColoredBox(color: Colors.white),
                         );
                       },
                     ),
