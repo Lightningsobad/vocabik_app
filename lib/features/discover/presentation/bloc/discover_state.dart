@@ -26,6 +26,7 @@ class DiscoverState extends Equatable {
   final String exerciseType;
   final String duration;
   final String errorMessage;
+  final bool isCategoriesLoading;
 
   const DiscoverState({
     this.status = DiscoverStatus.initial,
@@ -48,6 +49,7 @@ class DiscoverState extends Equatable {
     this.exerciseType = '',
     this.duration = '',
     this.errorMessage = '',
+    this.isCategoriesLoading = false,
   });
 
   DiscoverState copyWith({
@@ -73,6 +75,7 @@ class DiscoverState extends Equatable {
     String? exerciseType,
     String? duration,
     String? errorMessage,
+    bool? isCategoriesLoading,
   }) {
     return DiscoverState(
       status: status ?? this.status,
@@ -99,6 +102,7 @@ class DiscoverState extends Equatable {
       exerciseType: exerciseType ?? this.exerciseType,
       duration: duration ?? this.duration,
       errorMessage: errorMessage ?? this.errorMessage,
+      isCategoriesLoading: isCategoriesLoading ?? this.isCategoriesLoading,
     );
   }
 
@@ -124,5 +128,6 @@ class DiscoverState extends Equatable {
         exerciseType,
         duration,
         errorMessage,
+        isCategoriesLoading,
       ];
 }

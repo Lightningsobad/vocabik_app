@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vocabik_app/core/di/injection.dart';
+import 'package:vocabik_app/shared/domain/usecases/get_video_categories_usecase.dart';
 import 'package:vocabik_app/shared/theme/app_colors.dart';
 import 'package:vocabik_app/shared/presentation/widgets/header/app_header.dart';
 
@@ -24,6 +28,9 @@ class _MainShellScreenState extends State<MainShellScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         context.read<MainShellCubit>().loadSummary();
+        if (getIt.isRegistered<GetVideoCategoriesUseCase>()) {
+          unawaited(getIt<GetVideoCategoriesUseCase>()());
+        }
       }
     });
   }

@@ -126,10 +126,17 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
               BlocSelector<
                 DiscoverBloc,
                 DiscoverState,
-                ({List<VideoCategoryEntity> categories, String genre})
+                ({
+                  List<VideoCategoryEntity> categories,
+                  String genre,
+                  bool isCategoriesLoading,
+                })
               >(
-                selector: (state) =>
-                    (categories: state.categories, genre: state.genre),
+                selector: (state) => (
+                  categories: state.categories,
+                  genre: state.genre,
+                  isCategoriesLoading: state.isCategoriesLoading,
+                ),
                 builder: (context, filterData) {
                   return DiscoverFilterSection(
                     onSearchChanged: _onSearchChanged,
@@ -141,6 +148,7 @@ class _DiscoverScreenViewState extends State<DiscoverScreenView> {
                       );
                     },
                     categories: filterData.categories,
+                    isCategoriesLoading: filterData.isCategoriesLoading,
                     selectedGenre: filterData.genre,
                     onGenreChanged: (genreSlug) {
                       context.read<DiscoverBloc>().add(

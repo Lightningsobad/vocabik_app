@@ -37,9 +37,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     this._getTrendingVideosUseCase,
     this._getPlaylistsUseCase,
     this._getVideoCategoriesUseCase,
-  ) : super(
-        DiscoverState(categories: _getVideoCategoriesUseCase.getCached()),
-      ) {
+  ) : super(_initialState(_getVideoCategoriesUseCase)) {
     on<DiscoverVideosFetched>(_onVideosFetched);
     on<DiscoverSearchQueryChanged>(
       _onSearchQueryChanged,
@@ -48,6 +46,14 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     on<DiscoverFilterChanged>(_onFilterChanged, transformer: restartable());
     on<DiscoverRefreshRequested>(_onRefreshRequested);
     on<DiscoverCategoriesUpdated>(_onCategoriesUpdated);
+  }
+
+  static DiscoverState _initialState(GetVideoCategoriesUseCase useCase) {
+    final cached = useCase.getCached();
+    return DiscoverState(
+      categories: cached,
+      isCategoriesLoading: cached.isEmpty,
+    );
   }
 
   @override
@@ -72,6 +78,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     if (state.status == DiscoverStatus.failure &&
         state.displayedVideos.isEmpty) {
       if (state.categories.isEmpty) {
+        if (!state.isCategoriesLoading) {
+          emit(state.copyWith(isCategoriesLoading: true));
+        }
         unawaited(_refreshCategoriesInBackground());
       }
       final canRetryLibraryOnly =
@@ -217,6 +226,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     DiscoverRefreshRequested event,
     Emitter<DiscoverState> emit,
   ) async {
+    if (state.categories.isEmpty && !state.isCategoriesLoading) {
+      emit(state.copyWith(isCategoriesLoading: true));
+    }
     unawaited(_refreshCategoriesInBackground(forceRefresh: true));
     try {
       if (state.searchQuery.isNotEmpty) {
@@ -240,8 +252,15 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     DiscoverCategoriesUpdated event,
     Emitter<DiscoverState> emit,
   ) {
-    if (!listEquals(event.categories, state.categories)) {
-      emit(state.copyWith(categories: event.categories));
+    final nextCategories = event.categories ?? state.categories;
+    if (!listEquals(nextCategories, state.categories) ||
+        state.isCategoriesLoading) {
+      emit(
+        state.copyWith(
+          categories: nextCategories,
+          isCategoriesLoading: false,
+        ),
+      );
     }
   }
 
@@ -250,13 +269,25 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     _isRefreshingCategories = true;
     try {
       final result = await _getVideoCategoriesUseCase(forceRefresh: forceRefresh);
-      result.fold((_) {}, (categories) {
-        if (!isClosed && !listEquals(categories, state.categories)) {
-          add(DiscoverCategoriesUpdated(categories));
-        }
-      });
+      result.fold(
+        (_) {
+          if (!isClosed && state.isCategoriesLoading) {
+            add(const DiscoverCategoriesUpdated(null));
+          }
+        },
+        (categories) {
+          if (!isClosed &&
+              (!listEquals(categories, state.categories) ||
+                  state.isCategoriesLoading)) {
+            add(DiscoverCategoriesUpdated(categories));
+          }
+        },
+      );
     } catch (_) {
       // Background refresh is best-effort; preserve cached categories.
+      if (!isClosed && state.isCategoriesLoading) {
+        add(const DiscoverCategoriesUpdated(null));
+      }
     } finally {
       _isRefreshingCategories = false;
     }

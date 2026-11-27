@@ -48,6 +48,8 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
   final Map<String, _InFlightVideoRequest> _inFlightPage1 = {};
   List<VideoCategoryEntity>? _cachedCategories;
   DateTime? _categoriesCachedAt;
+  Future<Either<Failure, List<VideoCategoryEntity>>>? _inFlightCategories;
+  Future<Either<Failure, List<VideoCategoryEntity>>>? _inFlightForceCategories;
 
   @factoryMethod
   SharedVideoRepositoryImpl({
@@ -417,6 +419,41 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
       return right(cached);
     }
 
+    final existingInFlight = forceRefresh
+        ? _inFlightForceCategories
+        : (_inFlightCategories ?? _inFlightForceCategories);
+    if (existingInFlight != null) {
+      return existingInFlight;
+    }
+
+    final future = _fetchCategoriesRemote(
+      forceRefresh: forceRefresh,
+      staleFallback: cached,
+    );
+    if (forceRefresh) {
+      _inFlightForceCategories = future;
+    } else {
+      _inFlightCategories = future;
+    }
+    try {
+      return await future;
+    } finally {
+      if (forceRefresh) {
+        if (identical(_inFlightForceCategories, future)) {
+          _inFlightForceCategories = null;
+        }
+      } else {
+        if (identical(_inFlightCategories, future)) {
+          _inFlightCategories = null;
+        }
+      }
+    }
+  }
+
+  Future<Either<Failure, List<VideoCategoryEntity>>> _fetchCategoriesRemote({
+    required bool forceRefresh,
+    required List<VideoCategoryEntity>? staleFallback,
+  }) async {
     try {
       final response = await remoteDataSource.getCategories();
       final entities = response.map((model) => model.toEntity()).toList();
@@ -430,13 +467,13 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
       }
       return right(entities);
     } on ServerException catch (e) {
-      if (!forceRefresh && cached != null) {
-        return right(cached);
+      if (!forceRefresh && staleFallback != null) {
+        return right(staleFallback);
       }
       return left(ServerFailure(e.message));
     } catch (e) {
-      if (!forceRefresh && cached != null) {
-        return right(cached);
+      if (!forceRefresh && staleFallback != null) {
+        return right(staleFallback);
       }
       return left(ServerFailure(e.toString()));
     }

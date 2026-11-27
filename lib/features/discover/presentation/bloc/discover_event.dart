@@ -48,7 +48,7 @@ class DiscoverRefreshRequested extends DiscoverEvent {
 }
 
 class DiscoverCategoriesUpdated extends DiscoverEvent {
-  final List<VideoCategoryEntity> categories;
+  final List<VideoCategoryEntity>? categories;
 
   const DiscoverCategoriesUpdated(this.categories);
 
