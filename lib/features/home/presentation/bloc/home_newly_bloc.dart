@@ -45,24 +45,20 @@ class HomeNewlyBloc extends Bloc<HomeNewlyEvent, HomeNewlyState> {
       final cachedVideos =
           cached.items.map((e) => e.copyWith(isNew: true)).toList();
       emit(HomeNewlyLoaded(videos: cachedVideos, currentCefr: event.cefr));
-    } else {
-      emit(HomeNewlyLoading(currentCefr: event.cefr));
+      return;
     }
+    emit(HomeNewlyLoading(currentCefr: event.cefr));
 
     final result = await getVideosUseCase(
       page: 1,
       pageSize: _pageSize,
       cefr: event.cefr,
-      forceRefresh: cached != null,
     );
     if (generation != _requestGeneration) return;
 
     result.fold(
-      (failure) {
-        if (state is! HomeNewlyLoaded || state.currentCefr != event.cefr) {
-          emit(HomeNewlyError(failure.message, currentCefr: event.cefr));
-        }
-      },
+      (failure) =>
+          emit(HomeNewlyError(failure.message, currentCefr: event.cefr)),
       (data) {
         final newVideos =
             data.items.map((e) => e.copyWith(isNew: true)).toList();
@@ -85,24 +81,20 @@ class HomeNewlyBloc extends Bloc<HomeNewlyEvent, HomeNewlyState> {
       final cachedVideos =
           cached.items.map((e) => e.copyWith(isNew: true)).toList();
       emit(HomeNewlyLoaded(videos: cachedVideos, currentCefr: currentCefr));
-    } else {
-      emit(HomeNewlyLoading(currentCefr: currentCefr));
+      return;
     }
+    emit(HomeNewlyLoading(currentCefr: currentCefr));
 
     final result = await getVideosUseCase(
       page: 1,
       pageSize: _pageSize,
       cefr: currentCefr,
-      forceRefresh: cached != null,
     );
     if (generation != _requestGeneration) return;
 
     result.fold(
-      (failure) {
-        if (state is! HomeNewlyLoaded || state.currentCefr != currentCefr) {
-          emit(HomeNewlyError(failure.message, currentCefr: currentCefr));
-        }
-      },
+      (failure) =>
+          emit(HomeNewlyError(failure.message, currentCefr: currentCefr)),
       (data) {
         final newVideos =
             data.items.map((e) => e.copyWith(isNew: true)).toList();

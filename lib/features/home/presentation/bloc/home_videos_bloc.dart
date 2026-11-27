@@ -59,23 +59,20 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
         totalItems: cached.totalItems,
         currentCefr: event.cefr,
       ));
-    } else {
-      emit(HomeVideosLoading(currentCefr: event.cefr));
+      return;
     }
+    emit(HomeVideosLoading(currentCefr: event.cefr));
+
     final result = await getVideosUseCase(
       page: 1,
       pageSize: _pageSize,
       cefr: event.cefr,
-      forceRefresh: cached != null,
     );
     if (generation != _requestGeneration) return;
 
     result.fold(
-      (failure) {
-        if (state is! HomeVideosLoaded || state.currentCefr != event.cefr) {
-          emit(HomeVideosError(failure.message, currentCefr: event.cefr));
-        }
-      },
+      (failure) =>
+          emit(HomeVideosError(failure.message, currentCefr: event.cefr)),
       (data) => emit(HomeVideosLoaded(
         videos: _mapVideosWithNewFlag(data.items, data.page),
         hasReachedMax: data.hasReachedMax,
@@ -106,22 +103,19 @@ class HomeVideosBloc extends Bloc<HomeVideosEvent, HomeVideosState> {
           totalItems: cached.totalItems,
           currentCefr: currentCefr,
         ));
-      } else {
-        emit(HomeVideosLoading(currentCefr: currentCefr));
+        return;
       }
+      emit(HomeVideosLoading(currentCefr: currentCefr));
+
       final result = await getVideosUseCase(
         page: 1,
         pageSize: _pageSize,
         cefr: currentCefr,
-        forceRefresh: cached != null,
       );
       if (generation != _requestGeneration) return;
       result.fold(
-        (failure) {
-          if (state is! HomeVideosLoaded || state.currentCefr != currentCefr) {
-            emit(HomeVideosError(failure.message, currentCefr: currentCefr));
-          }
-        },
+        (failure) =>
+            emit(HomeVideosError(failure.message, currentCefr: currentCefr)),
         (data) => emit(HomeVideosLoaded(
           videos: _mapVideosWithNewFlag(data.items, data.page),
           hasReachedMax: data.hasReachedMax,

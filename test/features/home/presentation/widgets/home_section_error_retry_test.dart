@@ -94,9 +94,6 @@ class _TestHomeRepo implements HomeRepository {
 
   @override
   DailyPickEntity? getCachedDailyPick() => null;
-
-  @override
-  List<PersonalizedSlotEntity>? getCachedPersonalizedSlots() => null;
 }
 
 class _TestVideoRepo implements SharedVideoRepository {

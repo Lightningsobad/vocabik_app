@@ -151,14 +151,22 @@ class SharedVideoRepositoryImpl implements SharedVideoRepository {
   }) {
     final cefrKey = _cefrKey(_normalizeFilter(cefr));
     final cached = _getOrLoadPageCache(cefrKey);
-    if (cached == null) return null;
+    if (cached == null ||
+        cached.data.pageSize < pageSize ||
+        _now().difference(cached.cachedAt) >= _cacheTtl) {
+      return null;
+    }
     return _slicePage(cached.data, pageSize);
   }
 
   @override
   List<VideoEntity>? getCachedTrendingVideos({String? cefr}) {
     final cefrKey = _cefrKey(_normalizeFilter(cefr));
-    return _getOrLoadTrendingCache(cefrKey)?.data;
+    final cached = _getOrLoadTrendingCache(cefrKey);
+    if (cached == null || _now().difference(cached.cachedAt) >= _cacheTtl) {
+      return null;
+    }
+    return cached.data;
   }
 
   @override

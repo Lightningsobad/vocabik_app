@@ -29,17 +29,14 @@ class HomeDailyPickBloc extends Bloc<HomeDailyPickEvent, HomeDailyPickState> {
     final cached = getDailyPickUseCase.getCached();
     if (cached != null) {
       emit(HomeDailyPickLoaded(cached));
-    } else {
-      emit(HomeDailyPickLoading());
+      return;
     }
 
-    final result = await getDailyPickUseCase(forceRefresh: cached != null);
+    emit(HomeDailyPickLoading());
+
+    final result = await getDailyPickUseCase();
     result.fold(
-      (failure) {
-        if (state is! HomeDailyPickLoaded) {
-          emit(HomeDailyPickError(failure.message));
-        }
-      },
+      (failure) => emit(HomeDailyPickError(failure.message)),
       (dailyPick) => emit(HomeDailyPickLoaded(dailyPick)),
     );
   }

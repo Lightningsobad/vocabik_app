@@ -12,6 +12,5 @@ abstract class HomeRepository {
   });
 
   DailyPickEntity? getCachedDailyPick() => null;
-  List<PersonalizedSlotEntity>? getCachedPersonalizedSlots() => null;
 }
 

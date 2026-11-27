@@ -24,7 +24,6 @@ class HomeRepositoryImpl implements HomeRepository {
   final JsonDiskCache? _diskCache;
   final DateTime Function() _now;
 
-  static const Duration _cacheTtl = Duration(minutes: 3);
   static const String _dailyPickDiskKey =
       '${JsonDiskCache.homeKeyPrefix}daily_pick';
   static const String _personalizedDiskKey =
@@ -55,6 +54,14 @@ class HomeRepositoryImpl implements HomeRepository {
   void _clearMemoryCache() {
     _dailyPickCache = null;
     _personalizedCache = null;
+  }
+
+  bool _isSameCalendarDay(DateTime a, DateTime b) {
+    final localA = a.toLocal();
+    final localB = b.toLocal();
+    return localA.year == localB.year &&
+        localA.month == localB.month &&
+        localA.day == localB.day;
   }
 
   _HomeCacheEntry<DailyPickEntity>? _getOrLoadDailyPick() {
@@ -90,11 +97,13 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  DailyPickEntity? getCachedDailyPick() => _getOrLoadDailyPick()?.data;
-
-  @override
-  List<PersonalizedSlotEntity>? getCachedPersonalizedSlots() =>
-      _getOrLoadPersonalized()?.data;
+  DailyPickEntity? getCachedDailyPick() {
+    final cached = _getOrLoadDailyPick();
+    if (cached == null || !_isSameCalendarDay(cached.cachedAt, _now())) {
+      return null;
+    }
+    return cached.data;
+  }
 
   @override
   Future<Either<Failure, DailyPickEntity>> getDailyPick({
@@ -103,7 +112,7 @@ class HomeRepositoryImpl implements HomeRepository {
     final cached = _getOrLoadDailyPick();
     if (!forceRefresh &&
         cached != null &&
-        _now().difference(cached.cachedAt) < _cacheTtl) {
+        _isSameCalendarDay(cached.cachedAt, _now())) {
       return right(cached.data);
     }
 
@@ -126,13 +135,6 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<Either<Failure, List<PersonalizedSlotEntity>>> getPersonalizedSlots({
     bool forceRefresh = false,
   }) async {
-    final cached = _getOrLoadPersonalized();
-    if (!forceRefresh &&
-        cached != null &&
-        _now().difference(cached.cachedAt) < _cacheTtl) {
-      return right(cached.data);
-    }
-
     try {
       final result = await remoteDataSource.getPersonalizedSlots();
       final now = _now();
@@ -144,10 +146,16 @@ class HomeRepositoryImpl implements HomeRepository {
       );
       return right(result);
     } on ServerException catch (e) {
-      if (!forceRefresh && cached != null) return right(cached.data);
+      if (!forceRefresh) {
+        final cached = _getOrLoadPersonalized();
+        if (cached != null) return right(cached.data);
+      }
       return left(ServerFailure(e.message));
     } catch (e) {
-      if (!forceRefresh && cached != null) return right(cached.data);
+      if (!forceRefresh) {
+        final cached = _getOrLoadPersonalized();
+        if (cached != null) return right(cached.data);
+      }
       return left(ServerFailure(e.toString()));
     }
   }

@@ -28,17 +28,13 @@ class HomeDailyChallengeBloc
     final cached = _getConfigUseCase.getCached();
     if (cached != null) {
       emit(HomeDailyChallengeLoaded(cached));
-    } else {
-      emit(const HomeDailyChallengeLoading());
+      return;
     }
+    emit(const HomeDailyChallengeLoading());
 
-    final result = await _getConfigUseCase(forceRefresh: cached != null);
+    final result = await _getConfigUseCase();
     result.fold(
-      (failure) {
-        if (state is! HomeDailyChallengeLoaded) {
-          emit(HomeDailyChallengeError(failure.message));
-        }
-      },
+      (failure) => emit(HomeDailyChallengeError(failure.message)),
       (response) => emit(HomeDailyChallengeLoaded(response)),
     );
   }

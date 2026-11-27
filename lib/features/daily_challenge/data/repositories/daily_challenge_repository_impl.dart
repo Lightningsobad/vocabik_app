@@ -69,7 +69,13 @@ class DailyChallengeRepositoryImpl implements DailyChallengeRepository {
   }
 
   @override
-  DailyChallengeResponseEntity? getCachedConfig() => _getOrLoadConfig()?.data;
+  DailyChallengeResponseEntity? getCachedConfig() {
+    final cached = _getOrLoadConfig();
+    if (cached == null || _now().difference(cached.cachedAt) >= _cacheTtl) {
+      return null;
+    }
+    return cached.data;
+  }
 
   @override
   Future<Either<Failure, DailyChallengeResponseEntity>> getConfig({
