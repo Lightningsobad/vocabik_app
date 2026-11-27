@@ -80,6 +80,7 @@ void main() {
 
     // Stale fallback vs forceRefresh.
     now = now.add(const Duration(minutes: 5));
+    expect(repo.getCachedConfig(), isNull);
     remote.errorToThrow = NetworkException();
     expect((await repo.getConfig()).isRight(), isTrue);
     expect((await repo.getConfig(forceRefresh: true)).isLeft(), isTrue);

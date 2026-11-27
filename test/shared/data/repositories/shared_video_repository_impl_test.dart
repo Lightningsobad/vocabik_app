@@ -539,6 +539,12 @@ void main() {
     expect(cachedVideos!.items.length, 10);
     expect(cachedTrending, isNotNull);
     expect(cachedTrending!.single.id, 'trend-b1-1');
+
+    // Larger pageSize than cached returns null; expired TTL returns null.
+    expect(repo2.getCachedVideos(pageSize: 25, cefr: 'B1'), isNull);
+    currentTime = currentTime.add(const Duration(minutes: 3));
+    expect(repo2.getCachedVideos(pageSize: 10, cefr: 'B1'), isNull);
+    expect(repo2.getCachedTrendingVideos(cefr: 'B1'), isNull);
   });
 
   test('computes sliced totalPages accurately without clamping to superset totalPages', () async {

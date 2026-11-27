@@ -43,7 +43,7 @@ class _FakeHomeRemoteDataSource implements HomeRemoteDataSource {
 }
 
 void main() {
-  test('persists DailyPick and PersonalizedSlots to disk, respects TTL, and clears both RAM and disk on logout', () async {
+  test('DailyPick caches per calendar day, PersonalizedSlots always fetches when online, and both clear on logout', () async {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
     final diskCache = JsonDiskCache(prefs);
@@ -58,28 +58,41 @@ void main() {
     expect(remote.dailyPickCalls, 1);
     expect(remote.personalizedCalls, 1);
 
-    // Within TTL: hits RAM cache.
+    // Same calendar day: DailyPick hits cache, PersonalizedSlots always fetches fresh.
     now = now.add(const Duration(minutes: 2));
     await repo.getDailyPick();
-    await repo.getPersonalizedSlots();
+    final slots2 = await repo.getPersonalizedSlots();
     expect(remote.dailyPickCalls, 1);
-    expect(remote.personalizedCalls, 1);
+    expect(remote.personalizedCalls, 2);
+    expect(slots2.getOrElse((_) => throw StateError('')).single.videoId, 'slot-2');
 
-    // New repository instance (cold start): reads from disk without remote call.
+    // New repository instance (cold start) on same day: DailyPick reads from disk without remote call.
     final repo2 = HomeRepositoryImpl.withClock(remote, () => now, diskCache);
     expect(repo2.getCachedDailyPick()?.videoId, 'dp-1');
-    expect(repo2.getCachedPersonalizedSlots()?.single.videoId, 'slot-1');
+
+    // Next calendar day: DailyPick cache expires; getCachedDailyPick returns null and getDailyPick fetches remote.
+    now = DateTime(2026, 11, 27, 8, 0);
+    expect(repo.getCachedDailyPick(), isNull);
+    expect(repo2.getCachedDailyPick(), isNull);
+    final dpNextDay = await repo.getDailyPick();
+    expect(dpNextDay.getOrElse((_) => throw StateError('')).videoId, 'dp-2');
+    expect(remote.dailyPickCalls, 2);
 
     // Simulate logout: clears both disk and RAM caches across registered repos.
     await JsonDiskCache.clearPrefixOn(prefs, JsonDiskCache.homeKeyPrefix);
     expect(repo.getCachedDailyPick(), isNull);
-    expect(repo.getCachedPersonalizedSlots(), isNull);
     expect(repo2.getCachedDailyPick(), isNull);
 
-    // After logout within TTL window, must fetch fresh from remote (not stale User A RAM).
-    final dp2 = await repo.getDailyPick();
-    expect(dp2.getOrElse((_) => throw StateError('')).videoId, 'dp-2');
-    expect(remote.dailyPickCalls, 2);
+    // Offline after logout: PersonalizedSlots must not leak User A's RAM or disk cache.
+    remote.errorToThrow = ServerException('Offline');
+    expect((await repo.getPersonalizedSlots()).isLeft(), isTrue);
+    expect((await repo2.getPersonalizedSlots()).isLeft(), isTrue);
+    remote.errorToThrow = null;
+
+    // After logout on same day, must fetch fresh from remote (not stale User A RAM).
+    final dpAfterLogout = await repo.getDailyPick();
+    expect(dpAfterLogout.getOrElse((_) => throw StateError('')).videoId, 'dp-3');
+    expect(remote.dailyPickCalls, 3);
   });
 
   test('falls back to stale cache when remote fails unless forceRefresh is true', () async {
@@ -91,14 +104,21 @@ void main() {
 
     final repo = HomeRepositoryImpl.withClock(remote, () => now, diskCache);
     await repo.getDailyPick();
+    await repo.getPersonalizedSlots();
 
-    now = now.add(const Duration(minutes: 5));
+    now = DateTime(2026, 11, 27, 8, 0);
     remote.errorToThrow = ServerException('Offline');
 
-    final stale = await repo.getDailyPick();
-    expect(stale.isRight(), isTrue);
+    final staleDp = await repo.getDailyPick();
+    expect(staleDp.isRight(), isTrue);
 
-    final forced = await repo.getDailyPick(forceRefresh: true);
-    expect(forced.isLeft(), isTrue);
+    final forcedDp = await repo.getDailyPick(forceRefresh: true);
+    expect(forcedDp.isLeft(), isTrue);
+
+    final staleSlots = await repo.getPersonalizedSlots();
+    expect(staleSlots.isRight(), isTrue);
+
+    final forcedSlots = await repo.getPersonalizedSlots(forceRefresh: true);
+    expect(forcedSlots.isLeft(), isTrue);
   });
 }

@@ -15,7 +15,4 @@ class GetPersonalizedSlotsUseCase {
   }) {
     return repository.getPersonalizedSlots(forceRefresh: forceRefresh);
   }
-
-  List<PersonalizedSlotEntity>? getCached() =>
-      repository.getCachedPersonalizedSlots();
 }

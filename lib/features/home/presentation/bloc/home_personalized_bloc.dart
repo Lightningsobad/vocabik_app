@@ -28,22 +28,11 @@ class HomePersonalizedBloc
     FetchPersonalizedSlots event,
     Emitter<HomePersonalizedState> emit,
   ) async {
-    final cached = getPersonalizedSlotsUseCase.getCached();
-    if (cached != null) {
-      emit(HomePersonalizedLoaded(cached));
-    } else {
-      emit(HomePersonalizedLoading());
-    }
+    emit(HomePersonalizedLoading());
 
-    final result = await getPersonalizedSlotsUseCase(
-      forceRefresh: cached != null,
-    );
+    final result = await getPersonalizedSlotsUseCase();
     result.fold(
-      (failure) {
-        if (state is! HomePersonalizedLoaded) {
-          emit(HomePersonalizedError(failure.message));
-        }
-      },
+      (failure) => emit(HomePersonalizedError(failure.message)),
       (slots) => emit(HomePersonalizedLoaded(slots)),
     );
   }

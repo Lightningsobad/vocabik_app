@@ -40,22 +40,16 @@ class HomeTrendingBloc extends Bloc<HomeTrendingEvent, HomeTrendingState> {
     final cached = getTrendingVideosUseCase.getCached(cefr: event.cefr);
     if (cached != null) {
       emit(HomeTrendingLoaded(videos: cached, currentCefr: event.cefr));
-    } else {
-      emit(HomeTrendingLoading(currentCefr: event.cefr));
+      return;
     }
+    emit(HomeTrendingLoading(currentCefr: event.cefr));
 
-    final result = await getTrendingVideosUseCase(
-      cefr: event.cefr,
-      forceRefresh: cached != null,
-    );
+    final result = await getTrendingVideosUseCase(cefr: event.cefr);
     if (generation != _requestGeneration) return;
 
     result.fold(
-      (failure) {
-        if (state is! HomeTrendingLoaded || state.currentCefr != event.cefr) {
-          emit(HomeTrendingError(failure.message, currentCefr: event.cefr));
-        }
-      },
+      (failure) =>
+          emit(HomeTrendingError(failure.message, currentCefr: event.cefr)),
       (data) => emit(HomeTrendingLoaded(videos: data, currentCefr: event.cefr)),
     );
   }
@@ -70,22 +64,16 @@ class HomeTrendingBloc extends Bloc<HomeTrendingEvent, HomeTrendingState> {
 
     if (cached != null) {
       emit(HomeTrendingLoaded(videos: cached, currentCefr: currentCefr));
-    } else {
-      emit(HomeTrendingLoading(currentCefr: currentCefr));
+      return;
     }
+    emit(HomeTrendingLoading(currentCefr: currentCefr));
 
-    final result = await getTrendingVideosUseCase(
-      cefr: currentCefr,
-      forceRefresh: cached != null,
-    );
+    final result = await getTrendingVideosUseCase(cefr: currentCefr);
     if (generation != _requestGeneration) return;
 
     result.fold(
-      (failure) {
-        if (state is! HomeTrendingLoaded || state.currentCefr != currentCefr) {
-          emit(HomeTrendingError(failure.message, currentCefr: currentCefr));
-        }
-      },
+      (failure) =>
+          emit(HomeTrendingError(failure.message, currentCefr: currentCefr)),
       (data) => emit(HomeTrendingLoaded(videos: data, currentCefr: currentCefr)),
     );
   }

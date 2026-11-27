@@ -35,7 +35,6 @@ import 'package:vocabik_app/shared/domain/usecases/get_trending_videos_usecase.d
 class _FakeHomeRepository implements HomeRepository {
   Failure? failure;
   DailyPickEntity? cachedDailyPick;
-  List<PersonalizedSlotEntity>? cachedSlots;
   int dailyPickCallCount = 0;
   int personalizedCallCount = 0;
 
@@ -66,9 +65,6 @@ class _FakeHomeRepository implements HomeRepository {
 
   @override
   DailyPickEntity? getCachedDailyPick() => cachedDailyPick;
-
-  @override
-  List<PersonalizedSlotEntity>? getCachedPersonalizedSlots() => cachedSlots;
 
   @override
   Future<Either<Failure, DailyPickEntity>> getDailyPick({
@@ -166,12 +162,15 @@ class _FakeSharedVideoRepository implements SharedVideoRepository {
   }) =>
       null;
 
+  List<VideoEntity>? cachedTrending;
+
   @override
-  List<VideoEntity>? getCachedTrendingVideos({String? cefr}) => null;
+  List<VideoEntity>? getCachedTrendingVideos({String? cefr}) => cachedTrending;
 }
 
 class _FakeDailyChallengeRepository implements DailyChallengeRepository {
   Failure? failure;
+  DailyChallengeResponseEntity? cachedConfig;
   int configCallCount = 0;
 
   static const sampleResponse = DailyChallengeResponseEntity(
@@ -189,7 +188,7 @@ class _FakeDailyChallengeRepository implements DailyChallengeRepository {
   }
 
   @override
-  DailyChallengeResponseEntity? getCachedConfig() => null;
+  DailyChallengeResponseEntity? getCachedConfig() => cachedConfig;
 
   @override
   Future<Either<Failure, List<DailyChallengeLeaderboardItemEntity>>>
@@ -406,11 +405,10 @@ void main() {
     );
   });
 
-  group('SWR, generation guard, and refresh completers', () {
-    test('HomeDailyPickBloc emits cached snapshot immediately on cold start (SWR)', () async {
+  group('Cache-first, network-first, generation guard, and refresh completers', () {
+    test('HomeDailyPickBloc emits fresh cached snapshot without calling remote', () async {
       final repo = _FakeHomeRepository()
-        ..cachedDailyPick = _FakeHomeRepository.sampleDailyPick
-        ..failure = const ServerFailure('Offline');
+        ..cachedDailyPick = _FakeHomeRepository.sampleDailyPick;
       final bloc = HomeDailyPickBloc(GetDailyPickUseCase(repo));
       addTearDown(bloc.close);
 
@@ -426,8 +424,91 @@ void main() {
       await expectation;
       await pumpEventQueue();
 
-      expect(repo.dailyPickCallCount, 1);
+      expect(repo.dailyPickCallCount, 0);
       expect(bloc.state, isA<HomeDailyPickLoaded>());
+    });
+
+    test('HomeDailyPickBloc emits loading then loaded on cache miss', () async {
+      final repo = _FakeHomeRepository();
+      final bloc = HomeDailyPickBloc(GetDailyPickUseCase(repo));
+      addTearDown(bloc.close);
+
+      final expectation = expectLater(
+        bloc.stream,
+        emitsInOrder([
+          isA<HomeDailyPickLoading>(),
+          isA<HomeDailyPickLoaded>()
+              .having((s) => s.dailyPick.videoId, 'videoId', 'dp-1'),
+        ]),
+      );
+
+      bloc.add(const FetchDailyPick());
+      await expectation;
+      expect(repo.dailyPickCallCount, 1);
+    });
+
+    test('HomeTrendingBloc emits fresh cached videos without calling remote on fetch and CEFR switch', () async {
+      final repo = _FakeSharedVideoRepository()
+        ..cachedTrending = _FakeSharedVideoRepository.sampleVideos;
+      final bloc = HomeTrendingBloc(GetTrendingVideosUseCase(repo));
+      addTearDown(bloc.close);
+
+      final expectation = expectLater(
+        bloc.stream,
+        emitsInOrder([
+          isA<HomeTrendingLoaded>()
+              .having((s) => s.currentCefr, 'currentCefr', null),
+          isA<HomeTrendingLoaded>()
+              .having((s) => s.currentCefr, 'currentCefr', 'B1'),
+        ]),
+      );
+
+      bloc.add(const FetchTrendingVideos());
+      bloc.add(const ChangeTrendingCefrFilter('B1'));
+      await expectation;
+      await pumpEventQueue();
+
+      expect(repo.trendingCallCount, 0);
+    });
+
+    test('HomeDailyChallengeBloc emits fresh cached config without calling remote', () async {
+      final repo = _FakeDailyChallengeRepository()
+        ..cachedConfig = _FakeDailyChallengeRepository.sampleResponse;
+      final bloc = HomeDailyChallengeBloc(GetDailyChallengeConfigUseCase(repo));
+      addTearDown(bloc.close);
+
+      final expectation = expectLater(
+        bloc.stream,
+        emitsInOrder([
+          isA<HomeDailyChallengeLoaded>()
+              .having((s) => s.response.participantCount, 'participantCount', 42),
+        ]),
+      );
+
+      bloc.add(const FetchHomeDailyChallenge());
+      await expectation;
+      await pumpEventQueue();
+
+      expect(repo.configCallCount, 0);
+    });
+
+    test('HomePersonalizedBloc always shows loading before fetching without emitting pre-fetch cache', () async {
+      final repo = _FakeHomeRepository();
+      final bloc = HomePersonalizedBloc(GetPersonalizedSlotsUseCase(repo));
+      addTearDown(bloc.close);
+
+      final expectation = expectLater(
+        bloc.stream,
+        emitsInOrder([
+          isA<HomePersonalizedLoading>(),
+          isA<HomePersonalizedLoaded>()
+              .having((s) => s.slots.single.videoId, 'videoId', 'slot-1'),
+        ]),
+      );
+
+      bloc.add(const FetchPersonalizedSlots());
+      await expectation;
+      expect(repo.personalizedCallCount, 1);
     });
 
     test('HomeTrendingBloc ignores stale RefreshTrendingVideos after ChangeTrendingCefrFilter and completes completer', () async {
